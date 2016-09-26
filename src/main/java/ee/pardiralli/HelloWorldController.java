@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping("/hello")
 @RestController
-public class HelloSpringController {
+public class HelloWorldController {
     @RequestMapping(method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public String index() {
         return "Hello, Spring";

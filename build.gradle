@@ -10,6 +10,8 @@ buildscript {
 	}
 }
 
+
+
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
@@ -42,4 +44,5 @@ dependencies {
     compile("org.springframework.boot:spring-boot-devtools")
     runtime('org.postgresql:postgresql')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
+	compile 'org.springframework.data:spring-data-jpa:1.10.3.RELEASE'
 }

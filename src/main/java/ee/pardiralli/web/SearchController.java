@@ -1,5 +1,6 @@
-package ee.pardiralli.controller.admin;
+package ee.pardiralli.web;
 
+import ee.pardiralli.domain.Search;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

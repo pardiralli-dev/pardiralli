@@ -17,7 +17,7 @@
     <li><a>Eesmärk </a></li>
     <li><a>Administraatori valikud </a></li>
 </ul>
-<!--/*@thymesVar id="search" type="ee.pardiralli.controller.admin.Search"*/-->
+<!--/*@thymesVar id="search" type="ee.pardiralli.domain.Search"*/-->
 <form th:action="@{/search}" th:object="${search}" method="post">
     <h4>Otsi</h4>
     <label for="search_quick">Otsi omanikku pardi ID järgi</label>
@@ -39,8 +39,8 @@
         <th>Omaniku perenimi</th>
         <th>Omaniku telefoninumber</th>
     </tr>
-    <!--/*@thymesVar id="result" type="java.util.List<ee.pardiralli.controller.admin.Search>"*/-->
-    <!--/*@thymesVar id="search" type="ee.pardiralli.controller.admin.Search"*/-->
+    <!--/*@thymesVar id="result" type="java.util.List<ee.pardiralli.domain.Search>"*/-->
+    <!--/*@thymesVar id="search" type="ee.pardiralli.domain.Search"*/-->
     <tr th:each="res : ${result}">
         <td th:text="${res.getItemId()}"></td>
         <td th:text="${res.getBuyersEmail()}"></td>

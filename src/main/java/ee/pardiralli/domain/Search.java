@@ -1,4 +1,4 @@
-package ee.pardiralli.controller.admin;
+package ee.pardiralli.domain;
 
 public class Search {
 

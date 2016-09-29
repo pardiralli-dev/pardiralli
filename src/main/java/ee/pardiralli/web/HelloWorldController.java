@@ -1,4 +1,4 @@
-package ee.pardiralli.controller;
+package ee.pardiralli.web;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;

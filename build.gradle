@@ -1,13 +1,13 @@
 buildscript {
-	ext {
-		springBootVersion = '1.4.1.RELEASE'
-	}
-	repositories {
-		mavenCentral()
-	}
-	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-	}
+    ext {
+        springBootVersion = '1.4.1.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
 }
 
 
@@ -18,31 +18,32 @@ apply plugin: 'idea'
 apply plugin: 'spring-boot'
 
 jar {
-	baseName = 'pardiralli'
-	version = '0.0.1-SNAPSHOT'
+    baseName = 'pardiralli'
+    version = '0.0.1-SNAPSHOT'
 }
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 
 dependencies {
-	compile('org.springframework.boot:spring-boot-starter-aop')
-	compile('org.springframework.boot:spring-boot-starter-cache')
-	compile('org.projectlombok:lombok')
-	compile('org.springframework.boot:spring-boot-starter-mobile')
-	compile('org.springframework.boot:spring-boot-starter-security')
-	// compile('org.springframework.session:spring-session') // needs conf
-	compile('org.springframework.boot:spring-boot-starter-social-facebook')
-	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
-	compile('org.springframework.boot:spring-boot-starter-web')
-	compile('org.springframework.boot:spring-boot-starter-web-services')
-	compile('org.springframework.boot:spring-boot-starter-websocket')
+    compile('org.springframework.boot:spring-boot-starter-aop')
+    compile('org.springframework.boot:spring-boot-starter-cache')
+    compile('org.springframework.boot:spring-boot-starter-mobile')
+    compile('org.springframework.boot:spring-boot-starter-security')
+    compile('org.springframework.boot:spring-boot-starter-thymeleaf')
+    compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.springframework.boot:spring-boot-starter-web-services')
+    compile('org.springframework.boot:spring-boot-starter-websocket')
+    compile('org.springframework.boot:spring-boot-starter-social-facebook')
     compile("org.springframework.boot:spring-boot-devtools")
+    // compile('org.springframework.session:spring-session') // needs conf
+    compile('org.projectlombok:lombok')
+
     runtime('org.postgresql:postgresql')
-	testCompile('org.springframework.boot:spring-boot-starter-test')
-	compile 'org.springframework.data:spring-data-jpa:1.10.3.RELEASE'
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    compile 'org.springframework.data:spring-data-jpa:1.10.3.RELEASE'
 }

@@ -19,7 +19,7 @@ public class SearchController {
     public String search(Model model) {
         model.addAttribute("search", new Search());
         model.addAttribute("result", Collections.emptyList());
-        return "admin/search";
+        return "search";
     }
 
 
@@ -35,6 +35,6 @@ public class SearchController {
 
         model.addAttribute("search", new Search());
         model.addAttribute("result", result);
-        return "admin/search";
+        return "search";
     }
 }

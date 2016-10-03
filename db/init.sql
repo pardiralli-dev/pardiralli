@@ -76,3 +76,5 @@ REFERENCES public.duck_owner (id)
 ON DELETE CASCADE
 ON UPDATE CASCADE
 NOT DEFERRABLE;
+
+ALTER TABLE public.duck ADD UNIQUE (serial_number, race_id);

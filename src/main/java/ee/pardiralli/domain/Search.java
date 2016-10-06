@@ -2,9 +2,9 @@ package ee.pardiralli.domain;
 
 import lombok.*;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Search {
 
     private String itemId;

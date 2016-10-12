@@ -1,5 +1,140 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
 <html lang="et" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Statistika</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <!--TODO: get rid of inline script-->
+    <script type="text/javascript">
+        google.charts.load('current', {'packages':['line']});
+        google.charts.setOnLoadCallback(drawChart_donations);
+        google.charts.setOnLoadCallback(drawChart_visits);
+
+//       TODO: get data from database, set default values
+        function drawChart_donations() {
+            var jsonData = $.ajax({
+                url: window.location.href, //TODO: sth else
+                dataType: "json",
+                type: 'POST',
+                cache: false,
+                async: false
+            }).responseText;
+
+            var a = JSON.parse(jsonData);
+
+            var data = new google.visualization.DataTable();
+            data.addColumn('number', 'Päev');
+            data.addColumn('number', 'Müüdud parte');
+            data.addColumn('number', 'Kogutud raha');
+            data.addRows(a.rows);
+
+            var options = {
+                chart: {
+                    title: "Annetused"
+                },
+                width: 900,
+                height: 500,
+                series: {
+                    0: {axis: "Parte"},
+                    1: {axis: "Annetusi"}
+                },
+                axes: {
+                    y: {
+                        Parte: {label: "Müüdud parte"},
+                        Annetusi: {label: "Kogutud raha (€)"}
+                    }
+                }
+            };
+
+            var chart = new google.charts.Line(document.getElementById("linechart_donations"));
+            chart.draw(data, google.charts.Line.convertOptions(options));
+        }
+
+        function drawChart_visits(){
+            var data = new google.visualization.DataTable();
+            data.addColumn('number','Päev');
+            data.addColumn('number','Külastatavus');
+            data.addRows([
+                [1,20],
+                [2,30],
+                [3,40],
+                [4,50]
+            ]);
+
+            var options = {
+                chart: {
+                    title: "Lehe külastatavus"
+                },
+                width: 900,
+                height: 500
+            };
+
+            var chart = new google.charts.Line(document.getElementById("linechart_visits"));
+            chart.draw(data, google.charts.Line.convertOptions(options));
+        }
+
+//      TODO: set default values
+        $(document).ready(function(){
+            $("#datepicker_don_start").datepicker();
+        });
+        $(document).ready(function(){
+            $("#datepicker_don_end").datepicker();
+        });
+        $(document).ready(function(){
+            $("#datepicker_vis_start").datepicker();
+        });
+        $(document).ready(function(){
+            $("#datepicker_vis_end").datepicker();
+        });
+
+//       TODO: right format (language) for the calendar
+//        $.datepicker.setDefaults($.datepicker.regional["ee"]);
+//        $.datepicker.formatDate("dd-mm-yy");
+    </script>
+</head>
+
+<body>
+<ul>
+    <li><a>Avaleht </a></li>
+    <li><a>Uudised </a></li>
+    <li><a>Osale </a></li>
+    <li><a>Kava </a></li>
+    <li><a>Auhinnad </a></li>
+    <li><a>Galerii </a></li>
+    <li><a>Eesmärk </a></li>
+    <li><a>Administraatori valikud </a></li>
+</ul>
+<div id="linechart_donations"  style="width: 900px; height: 500px">
+</div>
+<!--TODO: picked time interval to x-axis-->
+<!--TODO: handle wrong input somehow-->
+<div>
+    <form>
+        <label for="datepicker_don_start">Vali alguskuupäev: </label>
+        <input id = "datepicker_don_start" />
+    </form>
+    <form>
+        <label for="datepicker_don_end">Vali lõppkuupäev: </label>
+        <input id = "datepicker_don_end" />
+    </form>
+</div>
+<div id="linechart_visits"  style="width: 900px; height: 500px">
+</div>
+<div>
+    <form>
+        <label for="datepicker_vis_start">Vali alguskuupäev: </label>
+        <input id = "datepicker_vis_start" />
+    </form>
+    <form>
+        <label for="datepicker_vis_end">Vali lõppkuupäev: </label>
+        <input id = "datepicker_vis_end" />
+    </form>
+</div>
+</body>
 
 </html>

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Search {
 
-    private String itemId;
+    private Integer itemId;
 
     private String buyersEmail;
 
@@ -18,4 +18,15 @@ public class Search {
     private String ownersLastName;
 
     private String ownersPhoneNr;
+
+    /**
+     * @return true if {@link Search} has only ID declared
+     */
+    public boolean hasOnlyId() {
+        return buyersEmail == null &&
+                ownersFirstName == null &&
+                ownersLastName == null &&
+                ownersPhoneNr == null &&
+                itemId != null;
+    }
 }

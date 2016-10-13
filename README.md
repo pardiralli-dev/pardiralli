@@ -3,7 +3,7 @@
 
 Requirements:
 * Linux machine
-* JDK 8 (for example on Ubuntu 16.04 install with `sudo apt-get install openjdk-8-jdk`)
+* JDK 8 (on Ubuntu 16.04 install with `sudo apt install openjdk-8-jdk`)
 
 Deployment:
 ```

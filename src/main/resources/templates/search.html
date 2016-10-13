@@ -52,13 +52,6 @@
 <form th:action="@{/search}" th:object="${search}" method="post">
     <h4>Täpsem otsing</h4>
     <div>
-        <label for="duck_number_long">Pardi number</label>
-        <input id="duck_number_long"
-               type="number"
-               th:field="*{itemId}"
-               name="search"/>
-    </div>
-    <div>
         <label for="first_name_long">Omaniku eesnimi</label>
         <input id="first_name_long"
                type="text"

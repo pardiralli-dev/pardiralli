@@ -11,4 +11,4 @@ $ git clone https://github.com/pardiralli-dev/pardiralli.git
 $ cd pardiralli
 $ ./deploy-local.sh
 ```
-This will connect to a dummy database in Heroku. To use a local database, setup the databse locally and modify the database configuration/credentials in `deploy-local.sh` accordingly.
+This will connect to a dummy database in Heroku. To use a local database, setup the database locally and modify the database configuration/credentials in `deploy-local.sh` accordingly.

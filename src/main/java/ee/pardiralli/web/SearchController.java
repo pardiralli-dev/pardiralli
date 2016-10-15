@@ -31,13 +31,14 @@ public class SearchController {
         return "search";
     }
 
-
     @PostMapping("/search")
     public String searchSubmit(@ModelAttribute Search userQuery, Model model) {
-        List<Duck> result;
+        List<Duck> result = Collections.emptyList();
 
-        if (userQuery.hasOnlyId() && duckRepository.exists(userQuery.getItemId())) {
-            result = Collections.singletonList(duckRepository.findById(userQuery.getItemId()));
+        if (userQuery.hasOnlyId()) {
+            Duck duck = duckRepository.findOne(userQuery.getItemId());
+            if (duck != null) result = Collections.singletonList(duck);
+
         } else result = duckRepository.findDuck(
                 userQuery.getOwnersFirstName(),
                 userQuery.getOwnersLastName(),

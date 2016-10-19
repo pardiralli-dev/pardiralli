@@ -23,4 +23,8 @@ public class DuckBuyer {
 
     private String phoneNumber;
 
+    public DuckBuyer(String email, String phoneNumber){
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+    }
 }

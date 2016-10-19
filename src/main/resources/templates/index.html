@@ -36,6 +36,14 @@
     <p th:if="${Index.getIsShopOpen() == false}">Praegu on ostmine kinni, vabandame!</p>
 </div>
 
+<div>
+    <p th:text="${'Hetkeseisuga läheb rallima ' + Index.getNrOfSoldDucks()+ ' parti'}">Hetkeseisuga läheb rallima 3 parti!</p>
+</div>
+
+<div>
+    <p th:text="${'Kogutud on aga ' + Index.getNrOfSoldDucks()+ ' eurot'}">Kogutud on aga 15 eurot.</p>
+</div>
+
 
 
 

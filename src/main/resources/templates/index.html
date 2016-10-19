@@ -1,5 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
 <html lang="et" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Pardiralli</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" type="text/css" href="css/admin.css"/>
+</head>
+<body>
 
+<ul>
+    <li><a>Avaleht </a></li>
+    <li><a>Uudised </a></li>
+    <li><a>Osale </a></li>
+    <li><a>Kava </a></li>
+    <li><a>Auhinnad </a></li>
+    <li><a>Galerii </a></li>
+    <li><a>Eesmärk </a></li>
+    <li><a>Administraatori valikud </a></li>
+</ul>
+
+<div>
+    <h1>Aitäh, et oled otsustanud Pardiralli eesmärki toetada!</h1>
+</div>
+
+<!--/*@thymesVar id="Index" type="ee.pardiralli.domain.Index"*/-->
+<div>
+
+    <form th:if="${Index.getIsShopOpen() == true}" th:action="@{/index}" th:object="${Index}" method="post">
+        <p>Osta parte:</p>
+    </form>
+</div>
+
+<div>
+    <!--/*@thymesVar id="index" type="ee.pardiralli.domain.Index"*/-->
+    <p th:if="${Index.getIsShopOpen() == false}">Praegu on ostmine kinni, vabandame!</p>
+</div>
+
+
+
+
+</body>
 </html>

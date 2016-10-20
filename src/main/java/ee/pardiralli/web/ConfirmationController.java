@@ -1,5 +1,21 @@
 package ee.pardiralli.web;
 
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+
+@Controller
 public class ConfirmationController {
-    // TODO: 26.09.16
+
+
+    public ConfirmationController() {
+        super();
+    }
+
+    @GetMapping("/store_confirmation")
+    public String confirmationController(Model model) {
+
+
+        return "store_confirmation";
+    }
 }

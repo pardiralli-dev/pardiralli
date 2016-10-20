@@ -24,4 +24,10 @@ public class DuckOwner {
     private String lastName;
 
     private String phoneNumber;
+
+    public DuckOwner(String firstName, String lastName, String phoneNumber){
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+    }
 }

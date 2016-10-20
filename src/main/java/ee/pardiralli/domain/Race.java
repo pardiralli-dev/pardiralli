@@ -3,6 +3,7 @@ package ee.pardiralli.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,6 +15,7 @@ import java.sql.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@ToString
 public class Race {
 
     @Id
@@ -23,5 +25,10 @@ public class Race {
     private Date beginning;
 
     private Date finish;
+
+    public Race(Date beginning, Date finish){
+        this.beginning = beginning;
+        this.finish = finish;
+    }
 
 }

@@ -2,4 +2,42 @@
 <!DOCTYPE html>
 <html lang="et" xmlns:th="http://www.thymeleaf.org">
 
+<head>
+    <title>Seaded</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" type="text/css" href="css/admin.css"/>
+</head>
+<body>
+
+<ul>
+    <li><a>Avaleht </a></li>
+    <li><a>Uudised </a></li>
+    <li><a>Osale </a></li>
+    <li><a>Kava </a></li>
+    <li><a>Auhinnad </a></li>
+    <li><a>Galerii </a></li>
+    <li><a>Eesmärk </a></li>
+    <li><a>Administraatori valikud </a></li>
+</ul>
+
+
+<!--/*@thymesVar id="settings" type="ee.pardiralli.domain.Settings"*/--><!--*/-->
+<form th:if="${settings.getIsRaceOpen() == true}" name = "close" th:action="@{/settings}" th:object="${settings}" method="post">
+    <p>Kas tahad pardiralli selleks korraks kinni panna?</p>
+    <div>
+        <input type="submit" value="Sulge" name="action" class="button"/>
+    </div>
+</form>
+
+<form th:if="${settings.getIsRaceOpen() == false}" name = "open" th:action="@{/settings}" th:object="${settings}" method="post">
+    <p>Kas tahad pardiralli avada maksmiseks?</p>
+    <div>
+        <input type="submit" value="Ava" name = "action" class = "button"/>
+    </div>
+</form>
+
+
+
+
+</body>
 </html>

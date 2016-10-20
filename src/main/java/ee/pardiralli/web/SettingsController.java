@@ -2,83 +2,50 @@ package ee.pardiralli.web;
 import ee.pardiralli.db.RaceRepository;
 import ee.pardiralli.domain.Race;
 import ee.pardiralli.domain.Settings;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import java.util.Date;
 import java.util.Calendar;
-
-
 
 @Controller
 public class SettingsController {
 
-    private final RaceRepository raceRepository;
+   private final RaceRepository raceRepository;
 
     @Autowired
     public SettingsController(RaceRepository raceRepository) {
         this.raceRepository = raceRepository;
     }
 
-    @RequestMapping(value="/settings", method= RequestMethod.GET)
+    @GetMapping("/settings")
     public String settings(Model model) {
         Boolean isRaceOpen = false;
 
-        Race currentRace = null;//todo: kas on mõistlik?
         Iterable<Race> races = raceRepository.findAll();
 
+        //We find if there is currently an ongoing race. This is necessary because then we know
+        //whehter the user can open a new race or has to close an ongoing race before that
         for(Race r : races){
-
-            if(r.getFinish() == null){
-
-                isRaceOpen = true;
-                currentRace = r;
-            }
+            //An ongoing race does not have a finish date
+            if(r.getFinish() == null) isRaceOpen = true;
         }
-        model.addAttribute("settings", new Settings(isRaceOpen, currentRace));
+        model.addAttribute("settings", new Settings(isRaceOpen));
         return "settings";
     }
 
-    @RequestMapping(params="action=Sulge")
-    public String settingsSubmitClose(@ModelAttribute Settings userSettings, Model model) {
-        java.sql.Date timestamp = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+    @PostMapping("/settings")
+    public String settingsSubmitClose(@RequestParam(value="action", defaultValue = "null") String param, @ModelAttribute Settings userSettings, Model model) {
 
-
-        Iterable<Race> races = raceRepository.findAll();
-        Race currentRace = null;
-
-        //we look for the ongoing race.
-        for(Race r : races){
-            if(r.getFinish() == null) {
-
-                currentRace = r;
-            }
-        }
-
-        userSettings.setIsRaceOpen(false);
-
-        //This should never happen, but just in case.
-        if(currentRace != null){
-            currentRace.setFinish(timestamp);
-            raceRepository.save(currentRace);
-        }
-        else{
-            //todo: logiks oma vead äkki?
-            System.out.println("Viga: Pooleliolevat rallit ei leitud");
-        }
-        model.addAttribute("settings", userSettings);
-
-        return "settings";
+        //depending on the parameter, we know whether a race was closed or opened
+        if(param.equals("Sulge")) return CloseRace(userSettings, model);
+        else return OpenRace(userSettings, model);
     }
 
-    @RequestMapping(params="action=Ava")
-    public String settingsSubmitOpen(@ModelAttribute Settings userSettings, Model model){
-
+    private String OpenRace(@ModelAttribute Settings userSettings, Model model){
         Iterable<Race> races = raceRepository.findAll();
 
-        //salvestame andmebaasi lõppaja
+        //save the current date as the finish date for the ongoing race to the DB
         java.sql.Date timestamp = new java.sql.Date(Calendar.getInstance().getTime().getTime());
         Race r = new Race(timestamp, null);
         raceRepository.save(r);
@@ -86,6 +53,32 @@ public class SettingsController {
         userSettings.setIsRaceOpen(true);
         model.addAttribute("settings", userSettings);
 
+        return "settings";
+    }
+
+    private String CloseRace(@ModelAttribute Settings userSettings, Model model){
+        java.sql.Date timestamp = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+
+        Iterable<Race> races = raceRepository.findAll();
+        Race currentRace = null;
+
+        //we look for the ongoing race.
+        for(Race r : races){
+            if(r.getFinish() == null) currentRace = r;
+        }
+
+        userSettings.setIsRaceOpen(false);
+
+        //This should never happen (bc there should always be an ongoing race), but just in case.
+        if(currentRace != null){
+            currentRace.setFinish(timestamp);
+            raceRepository.save(currentRace);
+        }
+        else{
+            //todo: i think we should log errors
+            System.out.println("Viga: Pooleliolevat rallit ei leitud");
+        }
+        model.addAttribute("settings", userSettings);
         return "settings";
     }
 }

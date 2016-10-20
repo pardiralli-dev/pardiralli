@@ -24,16 +24,30 @@
 </div>
 
 <!--/*@thymesVar id="Index" type="ee.pardiralli.domain.Index"*/-->
-<div>
+<div th:if="${Index.getIsShopOpen() == true}">
 
-    <form th:if="${Index.getIsShopOpen() == true}" th:action="@{/index}" th:object="${Index}" method="post">
-        <p>Osta parte:</p>
+    <form th:action="@{/Index}" th:object="${Index}" method="post">
+        <h3>Anna oma panus!</h3>
+        <p>Pardirallil osalemine ei ole keeruline: siinsamas lehel saad soetada niimitu parti kui soovid. Ka pardi hinna saad ise valida. Ostu kinnituseks saad enda e-mailile ostetud partide numbrid: nii saad jälgida, kuidas neil pardirallis teiste partide vastu võisteldes läheb.
+            Parte saab osta erinevate inimeste nimele: näiteks oma laste, sõprade või vanemate nimedele, et teha neile vahva üllatus.
+            Iga part osaleb auhindade loosimises!</p>
+        <label for="firstname">Eesnimi</label>
+        <input id="firstname"
+               type="text"
+               th:field="*{firstName}"
+               required="required"
+               name="firstname"/>
+        <div>
+            <input type="submit" value="Osta"/>
+        </div>
+
+
+
     </form>
 </div>
 
-<div>
-    <!--/*@thymesVar id="index" type="ee.pardiralli.domain.Index"*/-->
-    <p th:if="${Index.getIsShopOpen() == false}">Praegu on ostmine kinni, vabandame!</p>
+<div  th:if="${Index.getIsShopOpen() == false}">
+    <p>Praegu on ostmine kinni, vabandame!</p>
 </div>
 
 <div>

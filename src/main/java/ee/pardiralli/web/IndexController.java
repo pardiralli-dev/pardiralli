@@ -2,15 +2,15 @@ package ee.pardiralli.web;
 import ee.pardiralli.db.DuckRepository;
 import ee.pardiralli.db.RaceRepository;
 import ee.pardiralli.domain.*;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.List;
 
 
 @Controller
@@ -46,8 +46,19 @@ public class IndexController {
             sumOfDonatedMoney += d.getPriceCents();
         }
 
-        Index ind = new Index(canBuyRightNow, nrOfBoughtDucks, ((int) Math.rint(sumOfDonatedMoney/100)));
+        Index ind = new Index(canBuyRightNow, nrOfBoughtDucks, ((int) Math.rint(sumOfDonatedMoney/100)), "");
         model.addAttribute("Index", ind);
         return "index";
     }
+
+    @PostMapping("/")
+    public String indexSubmit(@ModelAttribute Index userData, Model model) {
+        System.out.println("Sain kätte selle nime: " + userData.getFirstName());
+        //todo täida sisuga (mida teha pärast seda, kui kasutaja vajutab nuppu "osta")
+
+        model.addAttribute("index", userData);
+        return "store_confirmation";
+    }
+
+
 }

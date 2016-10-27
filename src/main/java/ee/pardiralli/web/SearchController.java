@@ -1,6 +1,7 @@
 package ee.pardiralli.web;
 
 import ee.pardiralli.db.DuckRepository;
+import ee.pardiralli.db.RaceRepository;
 import ee.pardiralli.domain.Duck;
 import ee.pardiralli.domain.Search;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,16 +23,18 @@ import java.util.List;
 @Controller
 public class SearchController {
     private final DuckRepository duckRepository;
+    private final RaceRepository raceRepository;
 
     @Autowired
-    public SearchController(DuckRepository duckRepository) {
+    public SearchController(DuckRepository duckRepository, RaceRepository raceRepository) {
         this.duckRepository = duckRepository;
+        this.raceRepository = raceRepository;
     }
 
 
     @GetMapping("/search")
     public String search(Model model) {
-        model.addAttribute("search", new Search());
+        model.addAttribute("search", new Search(raceRepository.findLastBeginningDate()));
         model.addAttribute("result", Collections.emptyList());
         return "search";
     }
@@ -40,10 +43,8 @@ public class SearchController {
     public String searchSubmit(@ModelAttribute Search userQuery, Model model) {
         List<Duck> result = Collections.emptyList();
 
-        System.out.println(userQuery.getDateFromOnwards());
-
         if (userQuery.hasOnlyIdAndDate()) {
-            Duck duck = duckRepository.findBySerialNumber(userQuery.getSerialNumber(), userQuery.getDateFromOnwards());
+            Duck duck = duckRepository.findBySerialNumber(userQuery.getSerialNumber(), userQuery.getRaceBeginningDate());
             if (duck != null) result = Collections.singletonList(duck);
 
         } else result = duckRepository.findDuck(
@@ -51,11 +52,10 @@ public class SearchController {
                 userQuery.getOwnersLastName(),
                 userQuery.getBuyersEmail(),
                 userQuery.getOwnersPhoneNr(),
-                userQuery.getDateFromOnwards(),
+                userQuery.getRaceBeginningDate(),
                 new PageRequest(0, 30)
         );
-
-        model.addAttribute("search", new Search());
+        model.addAttribute("search", new Search(raceRepository.findLastBeginningDate()));
         model.addAttribute("result", result);
         return "search";
     }

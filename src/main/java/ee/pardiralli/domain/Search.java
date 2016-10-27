@@ -5,8 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import java.util.Date;
 
 @Data
@@ -25,7 +23,11 @@ public class Search {
     private String ownersPhoneNr;
 
     @DateTimeFormat(pattern = "dd-MM-yyyy")
-    private Date dateFromOnwards;
+    private Date raceBeginningDate;
+
+    public Search(java.sql.Date lastBeginningDate) {
+        this.raceBeginningDate = lastBeginningDate;
+    }
 
     /**
      * @return true if {@link Search} has only ID and date declared
@@ -36,6 +38,6 @@ public class Search {
                 ownersLastName == null &&
                 ownersPhoneNr == null &&
                 serialNumber != null &&
-                dateFromOnwards != null;
+                raceBeginningDate != null;
     }
 }

@@ -29,10 +29,10 @@
            th:field="*{serialNumber}"
            required="required"
            name="search_quick_id"/>
-    <label for="search_quick_date">Kuupäevast alates</label>
+    <label for="search_quick_date">Alguskuupäev</label>
     <input id="search_quick_date"
            type="date"
-           th:field="*{dateFromOnwards}"
+           th:field="*{raceBeginningDate}"
            required="required"
            name="search_quick_date"/>
     <div>
@@ -92,10 +92,10 @@
                th:field="*{ownersPhoneNr}"
                name="phone_number_long"/>
     </div>
-    <label for="search_date">Kuupäevast alates</label>
+    <label for="search_date">Alguskuupäev</label>
     <input id="search_date"
            type="date"
-           th:field="*{dateFromOnwards}"
+           th:field="*{raceBeginningDate}"
            required="required"
            name="search_date"/>
     <div>

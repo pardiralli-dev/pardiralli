@@ -5,6 +5,9 @@
     <title>Otsi</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" type="text/css" href="css/admin.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script type="text/javascript" src="javascript/jquery.tablesorter.min.js"></script>
+    <script type="text/javascript" src="javascript/search.js"></script>
 </head>
 <body>
 <ul>
@@ -30,8 +33,8 @@
         <input type="submit" value="Otsi!"/>
     </div>
 </form>
-<table>
-    <tbody>
+<table id="myTable" class="tablesorter">
+    <thead>
     <tr>
         <th>Pardi ID</th>
         <th>Ostja e-mail</th>
@@ -39,6 +42,8 @@
         <th>Omaniku perenimi</th>
         <th>Omaniku telefoninumber</th>
     </tr>
+    </thead>
+    <tbody>
     <!--/*@thymesVar id="result" type="java.util.List<ee.pardiralli.domain.Duck>"*/-->
     <tr th:each="res : ${result}">
         <td th:text="${res.getId()}"></td>

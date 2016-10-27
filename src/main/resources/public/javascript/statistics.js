@@ -35,7 +35,7 @@ google.charts.load('current', {'packages': ['line']});
 var dataFromServer;
 var start = "";
 var end = "";
-callDrawChart(start, end);
+callDrawDonationChart(start, end);
 
 //google.charts.setOnLoadCallback(drawChart_visits);
 
@@ -52,7 +52,7 @@ function getData(start, end) {
     return JSON.parse(jsonData).data;
 }
 
-function callDrawChart(start, end) {
+function callDrawDonationChart(start, end) {
     dataFromServer = getData(start, end);
     google.charts.setOnLoadCallback(drawChart_donations);
 }
@@ -62,7 +62,7 @@ function drawChart_donations() {
     var data = new google.visualization.DataTable();
 
     //TODO: alati ei ole päev.
-    data.addColumn('number', 'Päev');
+    data.addColumn('string', 'Päev');
     data.addColumn('number', 'Müüdud parte');
     data.addColumn('number', 'Kogutud raha');
     data.addRows(dataFromServer);
@@ -119,7 +119,7 @@ $(document).ready(function () {
             dateFormat: 'dd.mm.yy',
             onSelect: function () {
                 start = $(this).datepicker({dateFormat: 'dd.mm.yy'}).val();
-                callDrawChart(start, end)
+                callDrawDonationChart(start, end)
             }
         }
     );
@@ -130,7 +130,7 @@ $(document).ready(function () {
             dateFormat: 'dd.mm.yy',
             onSelect: function () {
                 end = $(this).datepicker({dateFormat: 'dd.mm.yy'}).val();
-                callDrawChart(start, end)
+                callDrawDonationChart(start, end)
             }
         }
     );

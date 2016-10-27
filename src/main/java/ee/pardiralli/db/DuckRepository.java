@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -26,4 +27,10 @@ public interface DuckRepository extends CrudRepository<Duck, Integer> {
                         @Param("email") String email,
                         @Param("phone") String phone,
                         Pageable pageable);
+
+
+    Integer countByDateOfPurchase(Date date);
+
+//    @Query("SELECT SUM(d.priceCents) FROM Duck d WHERE d.dateOfPurchase = :date")
+//    Double donationsByDateOfPurchase(@Param("date") Date date);
 }

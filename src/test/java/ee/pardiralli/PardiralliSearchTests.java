@@ -22,7 +22,6 @@ import javax.persistence.PersistenceContext;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.Random;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
@@ -59,9 +58,8 @@ public class PardiralliSearchTests {
     @Test
     public void exactItemSearchIdsArePresent() throws Exception {
         String page = this.restTemplate.getForObject("http://localhost:" + port + "/search", String.class);
-        assertTrue(page.contains("id=\"search_quick\""));
-        assertTrue(page.contains("type=\"number\""));
-        assertTrue(page.contains("name=\"itemId\""));
+        assertTrue(page.contains("id=\"search_quick_id\""));
+        assertTrue(page.contains("id=\"search_quick_date\""));
     }
 
     @Test
@@ -84,8 +82,8 @@ public class PardiralliSearchTests {
         String lName2 = "Keeraja";
         String lName3 = "Keemik";
 
-
-        Race race = new Race(new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()));
+        Date begginning = new Date(System.currentTimeMillis());
+        Race race = new Race(begginning, new Date(System.currentTimeMillis()));
         this.entityManager.persist(race);
 
         DuckOwner duckOwner1 = new DuckOwner(fName1, lName1, "55764383");
@@ -103,7 +101,7 @@ public class PardiralliSearchTests {
 
         Duck duck1 = new Duck(
                 new Date(System.currentTimeMillis()),
-                new Random().nextInt(),
+                1,
                 new Timestamp(System.currentTimeMillis()),
                 100,
                 race,
@@ -114,7 +112,7 @@ public class PardiralliSearchTests {
 
         Duck duck2 = new Duck(
                 new Date(System.currentTimeMillis()),
-                new Random().nextInt(),
+                2,
                 new Timestamp(System.currentTimeMillis()),
                 100,
                 race,
@@ -125,7 +123,7 @@ public class PardiralliSearchTests {
 
         Duck duck3 = new Duck(
                 new Date(System.currentTimeMillis()),
-                new Random().nextInt(),
+                3,
                 new Timestamp(System.currentTimeMillis()),
                 100,
                 race,
@@ -140,31 +138,31 @@ public class PardiralliSearchTests {
         this.entityManager.flush();
 
         // TEST EXACT SEARCH
-        assertEquals(this.repository.findById(duck1.getId()), duck1);
+        assertEquals(this.repository.findBySerialNumber(duck1.getSerialNumber(), begginning), duck1);
 
 
         // TEST GENERAL SEARCH: by last name start should return all test items
-        List<Duck> similarItems = this.repository.findDuck("", "kee", "", "", new PageRequest(0, 30));
+        List<Duck> similarItems = this.repository.findDuck("", "kee", "", "", begginning, new PageRequest(0, 30));
         assertTrue(similarItems.contains(duck1));
         assertTrue(similarItems.contains(duck2));
         assertTrue(similarItems.contains(duck3));
 
         // TEST GENERAL SEARCH: by last name start that should return 0 test items
-        similarItems = this.repository.findDuck("", "x", "", "", new PageRequest(0, 30));
+        similarItems = this.repository.findDuck("", "x", "", "", begginning, new PageRequest(0, 30));
         assertTrue(!similarItems.contains(duck1));
         assertTrue(!similarItems.contains(duck2));
         assertTrue(!similarItems.contains(duck3));
 
 
         // TEST GENERAL SEARCH: by first name should return one test item
-        similarItems = this.repository.findDuck(fName1, "", "", "", new PageRequest(0, 30));
+        similarItems = this.repository.findDuck(fName1, "", "", "", begginning, new PageRequest(0, 30));
         assertTrue(similarItems.contains(duck1));
         assertTrue(!similarItems.contains(duck2));
         assertTrue(!similarItems.contains(duck3));
 
 
         // TEST GENERAL SEARCH: by phone number and last name start should return all
-        similarItems = this.repository.findDuck("", "kee", "", "55", new PageRequest(0, 30));
+        similarItems = this.repository.findDuck("", "kee", "", "55", begginning, new PageRequest(0, 30));
         assertTrue(similarItems.contains(duck1));
         assertTrue(similarItems.contains(duck2));
         assertTrue(similarItems.contains(duck3));

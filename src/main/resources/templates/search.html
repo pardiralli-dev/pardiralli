@@ -23,12 +23,18 @@
 <!--/*@thymesVar id="search" type="ee.pardiralli.domain.Search"*/-->
 <form th:action="@{/search}" th:object="${search}" method="post">
     <h4>Otsi</h4>
-    <label for="search_quick">Otsi omanikku pardi ID järgi</label>
-    <input id="search_quick"
+    <label for="search_quick_id">Otsi omanikku pardi ID järgi</label>
+    <input id="search_quick_id"
            type="number"
-           th:field="*{itemId}"
+           th:field="*{serialNumber}"
            required="required"
-           name="search_quick"/>
+           name="search_quick_id"/>
+    <label for="search_quick_date">Kuupäevast alates</label>
+    <input id="search_quick_date"
+           type="date"
+           th:field="*{dateFromOnwards}"
+           required="required"
+           name="search_quick_date"/>
     <div>
         <input type="submit" value="Otsi!"/>
     </div>
@@ -41,16 +47,18 @@
         <th>Omaniku eesnimi</th>
         <th>Omaniku perenimi</th>
         <th>Omaniku telefoninumber</th>
+        <th>Üritus</th>
     </tr>
     </thead>
     <tbody>
     <!--/*@thymesVar id="result" type="java.util.List<ee.pardiralli.domain.Duck>"*/-->
     <tr th:each="res : ${result}">
-        <td th:text="${res.getId()}"></td>
+        <td th:text="${res.getSerialNumber()}"></td>
         <td th:text="${res.getDuckBuyer().getEmail()}"></td>
         <td th:text="${res.getDuckOwner().getFirstName()}"></td>
         <td th:text="${res.getDuckOwner().getLastName()}"></td>
         <td th:text="${res.getDuckOwner().getPhoneNumber()}"></td>
+        <td th:text="${res.getRace().getBeginning()}"></td>
     </tr>
     </tbody>
 </table>
@@ -84,6 +92,12 @@
                th:field="*{ownersPhoneNr}"
                name="phone_number_long"/>
     </div>
+    <label for="search_date">Kuupäevast alates</label>
+    <input id="search_date"
+           type="date"
+           th:field="*{dateFromOnwards}"
+           required="required"
+           name="search_date"/>
     <div>
         <input type="submit" value="Otsi!"/>
     </div>

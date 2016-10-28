@@ -28,9 +28,18 @@ public interface DuckRepository extends CrudRepository<Duck, Integer> {
                         @Param("phone") String phone,
                         Pageable pageable);
 
-
+    /**
+     * Count the number of bought ducks given a date.
+     * @param date
+     * @return the number of ducks
+     */
     Integer countByDateOfPurchase(Date date);
 
-//    @Query("SELECT SUM(d.priceCents) FROM Duck d WHERE d.dateOfPurchase = :date")
-//    Double donationsByDateOfPurchase(@Param("date") Date date);
+    /**
+     * Return the amount of donations made during the given day.
+     * @param date
+     * @return the donation sum in cents
+     */
+    @Query("SELECT SUM(d.priceCents) FROM Duck d WHERE d.dateOfPurchase = :date")
+    Double donationsByDateOfPurchase(@Param("date") Date date);
 }

@@ -8,14 +8,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
+/**
+ * Class for holding data, which is sent to the donation chart to display.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class DonationChart {
 
     /**
-     * List containing objects for the donation chart.
+     * A list of lists containing objects for the donation chart.
      * The structure of the inner lists is as follows:
      * [day_of_month (string), number_of_ducks (int), amount_of_donations (double)]
      */

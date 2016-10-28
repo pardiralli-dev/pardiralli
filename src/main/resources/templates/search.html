@@ -21,7 +21,7 @@
     <li><a>Administraatori valikud </a></li>
 </ul>
 <!--/*@thymesVar id="search" type="ee.pardiralli.domain.Search"*/-->
-<form th:action="@{/search}" th:object="${search}" method="post">
+<form id="exact" th:action="@{/search}" th:object="${search}" method="post">
     <h4>Otsi</h4>
     <label for="search_quick_id">Otsi omanikku pardi ID järgi</label>
     <input id="search_quick_id"
@@ -39,7 +39,50 @@
         <input type="submit" value="Otsi!"/>
     </div>
 </form>
-<table id="myTable" class="tablesorter">
+<form id="general" th:action="@{/search}" th:object="${search}" method="post">
+    <h4>Täpsem otsing</h4>
+    <div>
+        <label for="first_name_long">Omaniku eesnimi</label>
+        <input id="first_name_long"
+               type="text"
+               th:field="*{ownersFirstName}"
+               name="first_name_long"/>
+    </div>
+    <div>
+        <label for="last_name_long">Omaniku perenimi</label>
+        <input id="last_name_long"
+               type="text"
+               th:field="*{ownersLastName}"
+               name="last_name_long"/>
+    </div>
+    <div>
+        <label for="email_long">Ostja e-mail</label>
+        <input id="email_long"
+               type="text"
+               th:field="*{buyersEmail}"
+               name="email_long"/>
+    </div>
+    <div>
+        <label for="phone_number_long">Omaniku telefoninumber</label>
+        <input id="phone_number_long"
+               type="text"
+               th:field="*{ownersPhoneNr}"
+               name="phone_number_long"/>
+    </div>
+    <label for="search_date">Alguskuupäev</label>
+    <input id="search_date"
+           type="date"
+           th:field="*{raceBeginningDate}"
+           required="required"
+           name="search_date"/>
+    <div>
+        <input type="submit" value="Otsi!"/>
+    </div>
+</form>
+<noscript>
+    <h4>JavaScript on keelatud, kuvatakse ainult esimesed 30 rida</h4>
+</noscript>
+<table id="results" class="tablesorter">
     <thead>
     <tr>
         <th>Pardi ID</th>
@@ -62,45 +105,5 @@
     </tr>
     </tbody>
 </table>
-<form th:action="@{/search}" th:object="${search}" method="post">
-    <h4>Täpsem otsing</h4>
-    <div>
-        <label for="first_name_long">Omaniku eesnimi</label>
-        <input id="first_name_long"
-               type="text"
-               th:field="*{ownersFirstName}"
-               name="first_name_long"/>
-    </div>
-    <div>
-        <label for="last_name_long">Omaniku perenimi</label>
-        <input id="last_name_long"
-               type="text"
-               th:field="*{ownersLastName}"
-               name="last_name_long"/>
-    </div>
-    <div>
-        <label for="email_long">Ostja e-mail</label>
-        <input id="email_long"
-               type="email"
-               th:field="*{buyersEmail}"
-               name="email_long"/>
-    </div>
-    <div>
-        <label for="phone_number_long">Omaniku telefoninumber</label>
-        <input id="phone_number_long"
-               type="text"
-               th:field="*{ownersPhoneNr}"
-               name="phone_number_long"/>
-    </div>
-    <label for="search_date">Alguskuupäev</label>
-    <input id="search_date"
-           type="date"
-           th:field="*{raceBeginningDate}"
-           required="required"
-           name="search_date"/>
-    <div>
-        <input type="submit" value="Otsi!"/>
-    </div>
-</form>
 </body>
 </html>

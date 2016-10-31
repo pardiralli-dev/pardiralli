@@ -5,6 +5,9 @@
     <title>Otsi</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" type="text/css" href="css/admin.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script type="text/javascript" src="javascript/jquery.tablesorter.min.js"></script>
+    <script type="text/javascript" src="javascript/search.js"></script>
 </head>
 <body>
 <ul>
@@ -18,38 +21,25 @@
     <li><a>Administraatori valikud </a></li>
 </ul>
 <!--/*@thymesVar id="search" type="ee.pardiralli.domain.Search"*/-->
-<form th:action="@{/search}" th:object="${search}" method="post">
+<form id="exact" th:action="@{/search}" th:object="${search}" method="post">
     <h4>Otsi</h4>
-    <label for="search_quick">Otsi omanikku pardi ID järgi</label>
-    <input id="search_quick"
+    <label for="search_quick_id">Otsi omanikku pardi ID järgi</label>
+    <input id="search_quick_id"
            type="number"
-           th:field="*{itemId}"
+           th:field="*{serialNumber}"
            required="required"
-           name="search_quick"/>
+           name="search_quick_id"/>
+    <label for="search_quick_date">Alguskuupäev</label>
+    <input id="search_quick_date"
+           type="date"
+           th:field="*{raceBeginningDate}"
+           required="required"
+           name="search_quick_date"/>
     <div>
         <input type="submit" value="Otsi!"/>
     </div>
 </form>
-<table>
-    <tbody>
-    <tr>
-        <th>Pardi ID</th>
-        <th>Ostja e-mail</th>
-        <th>Omaniku eesnimi</th>
-        <th>Omaniku perenimi</th>
-        <th>Omaniku telefoninumber</th>
-    </tr>
-    <!--/*@thymesVar id="result" type="java.util.List<ee.pardiralli.domain.Duck>"*/-->
-    <tr th:each="res : ${result}">
-        <td th:text="${res.getId()}"></td>
-        <td th:text="${res.getDuckBuyer().getEmail()}"></td>
-        <td th:text="${res.getDuckOwner().getFirstName()}"></td>
-        <td th:text="${res.getDuckOwner().getLastName()}"></td>
-        <td th:text="${res.getDuckOwner().getPhoneNumber()}"></td>
-    </tr>
-    </tbody>
-</table>
-<form th:action="@{/search}" th:object="${search}" method="post">
+<form id="general" th:action="@{/search}" th:object="${search}" method="post">
     <h4>Täpsem otsing</h4>
     <div>
         <label for="first_name_long">Omaniku eesnimi</label>
@@ -68,7 +58,7 @@
     <div>
         <label for="email_long">Ostja e-mail</label>
         <input id="email_long"
-               type="email"
+               type="text"
                th:field="*{buyersEmail}"
                name="email_long"/>
     </div>
@@ -79,9 +69,41 @@
                th:field="*{ownersPhoneNr}"
                name="phone_number_long"/>
     </div>
+    <label for="search_date">Alguskuupäev</label>
+    <input id="search_date"
+           type="date"
+           th:field="*{raceBeginningDate}"
+           required="required"
+           name="search_date"/>
     <div>
         <input type="submit" value="Otsi!"/>
     </div>
 </form>
+<noscript>
+    <h4>JavaScript on keelatud, kuvatakse ainult esimesed 30 rida</h4>
+</noscript>
+<table id="results" class="tablesorter-dropbox">
+    <thead>
+    <tr>
+        <th>Pardi ID</th>
+        <th>Ostja e-mail</th>
+        <th>Omaniku eesnimi</th>
+        <th>Omaniku perenimi</th>
+        <th>Omaniku telefoninumber</th>
+        <th>Üritus</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!--/*@thymesVar id="result" type="java.util.List<ee.pardiralli.domain.Duck>"*/-->
+    <tr th:each="res : ${result}">
+        <td th:text="${res.getSerialNumber()}"></td>
+        <td th:text="${res.getDuckBuyer().getEmail()}"></td>
+        <td th:text="${res.getDuckOwner().getFirstName()}"></td>
+        <td th:text="${res.getDuckOwner().getLastName()}"></td>
+        <td th:text="${res.getDuckOwner().getPhoneNumber()}"></td>
+        <td th:text="${res.getRace().getBeginning()}"></td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>

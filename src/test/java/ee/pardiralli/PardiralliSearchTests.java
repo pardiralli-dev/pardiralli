@@ -142,27 +142,27 @@ public class PardiralliSearchTests {
 
 
         // TEST GENERAL SEARCH: by last name start should return all test items
-        List<Duck> similarItems = this.repository.findDuck("", "kee", "", "", begginning, new PageRequest(0, 30));
+        List<Duck> similarItems = this.repository.findDuck("", "kee", "", "", begginning);
         assertTrue(similarItems.contains(duck1));
         assertTrue(similarItems.contains(duck2));
         assertTrue(similarItems.contains(duck3));
 
         // TEST GENERAL SEARCH: by last name start that should return 0 test items
-        similarItems = this.repository.findDuck("", "x", "", "", begginning, new PageRequest(0, 30));
+        similarItems = this.repository.findDuck("", "x", "", "", begginning);
         assertTrue(!similarItems.contains(duck1));
         assertTrue(!similarItems.contains(duck2));
         assertTrue(!similarItems.contains(duck3));
 
 
         // TEST GENERAL SEARCH: by first name should return one test item
-        similarItems = this.repository.findDuck(fName1, "", "", "", begginning, new PageRequest(0, 30));
+        similarItems = this.repository.findDuck(fName1, "", "", "", begginning);
         assertTrue(similarItems.contains(duck1));
         assertTrue(!similarItems.contains(duck2));
         assertTrue(!similarItems.contains(duck3));
 
 
         // TEST GENERAL SEARCH: by phone number and last name start should return all
-        similarItems = this.repository.findDuck("", "kee", "", "55", begginning, new PageRequest(0, 30));
+        similarItems = this.repository.findDuck("", "kee", "", "55", begginning);
         assertTrue(similarItems.contains(duck1));
         assertTrue(similarItems.contains(duck2));
         assertTrue(similarItems.contains(duck3));

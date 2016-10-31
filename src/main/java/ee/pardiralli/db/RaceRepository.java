@@ -3,11 +3,14 @@ package ee.pardiralli.db;
 import ee.pardiralli.domain.Race;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
 
 import java.util.Date;
 
 public interface RaceRepository extends CrudRepository<Race, Integer> {
+
+    Race findById(Integer id);
+
+    Race findByFinish(Date date);
 
     /**
      * Method for getting the beginning date of the latest race.

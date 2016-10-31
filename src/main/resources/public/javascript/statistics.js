@@ -30,39 +30,41 @@ $.datepicker.regional['et'] = {
 
 $.datepicker.setDefaults($.datepicker.regional['et']);
 
+$(document).ready(function () {
 
 google.charts.load('current', {'packages': ['line']});
 var dataFromServer;
-var start = "";
-var end = "";
-callDrawChart(start, end);
+
+callDrawDonationChart();
 
 //google.charts.setOnLoadCallback(drawChart_visits);
 
 //Send POST request to server
-function getData(start, end) {
-    var jsonData = $.ajax({
+function callDrawDonationChart() {
+
+
+     $.ajax({
         url: window.location.href,
-        dataType: "json",
         type: 'POST',
         cache: false,
-        async: false,
-        data: {"start": start, "end": end}
-    }).responseText;
-    return JSON.parse(jsonData).data;
+        data:  $("#don_chart").serialize(),
+        success: function (data) {
+            dataFromServer = data.data;//JSON.parse(data.responseText).data;
+            console.log(data);
+            google.charts.setOnLoadCallback(drawChart_donations);
+        }
+
+    });
 }
 
-function callDrawChart(start, end) {
-    dataFromServer = getData(start, end);
-    google.charts.setOnLoadCallback(drawChart_donations);
-}
+
+
 
 
 function drawChart_donations() {
     var data = new google.visualization.DataTable();
 
-    //TODO: alati ei ole päev.
-    data.addColumn('number', 'Päev');
+    data.addColumn('string', 'Päev');
     data.addColumn('number', 'Müüdud parte');
     data.addColumn('number', 'Kogutud raha');
     data.addRows(dataFromServer);
@@ -116,10 +118,9 @@ function drawChart_visits() {
 $(document).ready(function () {
     $("#datepicker_don_start").datepicker(
         {
-            dateFormat: 'dd.mm.yy',
+            dateFormat: "dd-mm-yy",
             onSelect: function () {
-                start = $(this).datepicker({dateFormat: 'dd.mm.yy'}).val();
-                callDrawChart(start, end)
+                callDrawDonationChart()
             }
         }
     );
@@ -127,17 +128,20 @@ $(document).ready(function () {
 $(document).ready(function () {
     $("#datepicker_don_end").datepicker(
         {
-            dateFormat: 'dd.mm.yy',
+            dateFormat: "dd-mm-yy",
             onSelect: function () {
-                end = $(this).datepicker({dateFormat: 'dd.mm.yy'}).val();
-                callDrawChart(start, end)
+                callDrawDonationChart()
             }
         }
     );
 });
-$(document).ready(function () {
+/*$(document).ready(function () {
     $("#datepicker_vis_start").datepicker();
 });
 $(document).ready(function () {
     $("#datepicker_vis_end").datepicker();
-});
+});*/
+
+
+    }
+);

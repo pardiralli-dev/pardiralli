@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -35,7 +34,7 @@ public class Search {
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     private Date raceBeginningDate;
 
-    public Search(java.sql.Date lastBeginningDate) {
+    public Search(Date lastBeginningDate) {
         this.raceBeginningDate = lastBeginningDate;
     }
 

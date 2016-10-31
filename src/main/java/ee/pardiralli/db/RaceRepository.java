@@ -3,7 +3,7 @@ package ee.pardiralli.db;
 import ee.pardiralli.domain.Race;
 import org.springframework.data.repository.CrudRepository;
 
-import java.util.List;
+import java.sql.Date;
 
 public interface RaceRepository extends CrudRepository<Race, Integer> {
 
@@ -11,4 +11,5 @@ public interface RaceRepository extends CrudRepository<Race, Integer> {
 
     Race findById(Integer id);
 
+    Race findByFinish(Date date);
 }

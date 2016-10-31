@@ -1,5 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
 <html lang="et" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Kinnita</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" type="text/css" href="css/admin.css"/>
+</head>
+<body>
+<ul>
+    <li><a>Avaleht </a></li>
+    <li><a>Uudised </a></li>
+    <li><a>Osale </a></li>
+    <li><a>Kava </a></li>
+    <li><a>Auhinnad </a></li>
+    <li><a>Galerii </a></li>
+    <li><a>Eesmärk </a></li>
+    <li><a>Administraatori valikud </a></li>
+</ul>
 
+<p>Siin on Sinu pardiostu info</p>
+
+<table>
+    <tbody>
+    <tr>
+        <th>Eesnimi</th>
+        <th>Perekonnanimi</th>
+        <th>E-mail</th>
+        <th>Telefoninumber</th>
+        <th>Partide arv</th>
+        <th>Ühe pardi hind</th>
+
+    </tr>
+    <!--/*@thymesVar id="Index" type="java.util.List<ee.pardiralli.domain.Index>"*/-->
+    <tr th:each="ind : ${Index}">
+        <td th:text="${ind.getFirstName()}"></td>
+        <td th:text="${ind.getLastName()}"></td>
+        <td th:text="${ind.getBuyersEmail()}"></td>
+        <td th:text="${ind.getPhoneNumber()}"></td>
+        <td th:text="${ind.getNrOfDucks()}"></td>
+        <td th:text="${ind.getPricePerDuck()}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<!--/*@thymesVar id="Index" type="java.util.List<ee.pardiralli.domain.Index>"*/-->
+<div>
+    <p th:text="${'Summa: ' + Index.getSum() + ' eurot'}">Summa: 0 eurot</p>
+</div>
+
+<!--/*@thymesVar id="Index" type="java.util.List<ee.pardiralli.domain.Index>"*/-->
+<div>
+    <p>Vali pank:</p>
+
+    <form name="swedBank" th:action="@{/store_confirmation}" th:object="${Index}" method="post">
+        <div>
+            <input type="submit" value="Swedbank" name="action" class="button"/>
+        </div>
+    </form>
+
+    <form name="sebBank" th:action="@{/store_confirmation}" th:object="${Index}" method="post">
+        <div>
+            <input type="submit" value="SEB" name="action" class="button"/>
+        </div>
+    </form>
+
+    <form name="NordeaBank" th:action="@{/store_confirmation}" th:object="${Index}" method="post">
+        <div>
+            <input type="submit" value="Nordea" name="action" class="button"/>
+        </div>
+    </form>
+
+    <form name="LhvBank" th:action="@{/store_confirmation}" th:object="${Index}" method="post">
+        <div>
+            <input type="submit" value="LHV" name="action" class="button"/>
+        </div>
+    </form>
+</div>
+
+</body>
 </html>

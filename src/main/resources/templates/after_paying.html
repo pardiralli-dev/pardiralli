@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html lang="et" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Kinnitus</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" type="text/css" href="css/admin.css"/>
+</head>
+<body>
+
+<ul>
+    <li><a>Avaleht </a></li>
+    <li><a>Uudised </a></li>
+    <li><a>Osale </a></li>
+    <li><a>Kava </a></li>
+    <li><a>Auhinnad </a></li>
+    <li><a>Galerii </a></li>
+    <li><a>Eesmärk </a></li>
+    <li><a>Administraatori valikud </a></li>
+</ul>
+
+<p>
+    Makse edukalt sooritatud!
+</p>
+
+<!--/*@thymesVar id="Index" type="java.util.List<ee.pardiralli.domain.Index>"*/-->
+<p th:text="Saadame kinnituse emailile ${Index.getBuyersEmail()}"></p>
+
+</body>
+</html>

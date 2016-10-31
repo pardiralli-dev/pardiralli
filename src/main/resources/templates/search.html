@@ -22,7 +22,7 @@
     <h4>Otsi</h4>
     <label for="search_quick">Otsi omanikku pardi ID järgi</label>
     <input id="search_quick"
-           type="text"
+           type="number"
            th:field="*{itemId}"
            required="required"
            name="search_quick"/>
@@ -39,26 +39,18 @@
         <th>Omaniku perenimi</th>
         <th>Omaniku telefoninumber</th>
     </tr>
-    <!--/*@thymesVar id="result" type="java.util.List<ee.pardiralli.domain.Search>"*/-->
-    <!--/*@thymesVar id="search" type="ee.pardiralli.domain.Search"*/-->
+    <!--/*@thymesVar id="result" type="java.util.List<ee.pardiralli.domain.Duck>"*/-->
     <tr th:each="res : ${result}">
-        <td th:text="${res.getItemId()}"></td>
-        <td th:text="${res.getBuyersEmail()}"></td>
-        <td th:text="${res.getOwnersFirstName()}"></td>
-        <td th:text="${res.getOwnersLastName()}"></td>
-        <td th:text="${res.getOwnersPhoneNr()}"></td>
+        <td th:text="${res.getId()}"></td>
+        <td th:text="${res.getDuckBuyer().getEmail()}"></td>
+        <td th:text="${res.getDuckOwner().getFirstName()}"></td>
+        <td th:text="${res.getDuckOwner().getLastName()}"></td>
+        <td th:text="${res.getDuckOwner().getPhoneNumber()}"></td>
     </tr>
     </tbody>
 </table>
 <form th:action="@{/search}" th:object="${search}" method="post">
     <h4>Täpsem otsing</h4>
-    <div>
-        <label for="duck_number_long">Pardi number</label>
-        <input id="duck_number_long"
-               type="text"
-               th:field="*{itemId}"
-               name="search"/>
-    </div>
     <div>
         <label for="first_name_long">Omaniku eesnimi</label>
         <input id="first_name_long"

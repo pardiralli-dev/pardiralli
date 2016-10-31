@@ -11,6 +11,7 @@ import java.sql.Timestamp;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+
 @Entity
 public class Duck {
 
@@ -37,4 +38,14 @@ public class Duck {
     @ManyToOne
     @JoinColumn(name = "buyer_id")
     private DuckBuyer duckBuyer;
+
+    public Duck(Date dateOfPurchase, Integer serialNumber, Timestamp timeOfPurchase, Integer priceCents, Race race, DuckOwner duckOwner, DuckBuyer duckBuyer){
+        this.dateOfPurchase = dateOfPurchase;
+        this.serialNumber = serialNumber;
+        this.timeOfPurchase = timeOfPurchase;
+        this.priceCents = priceCents;
+        this.race = race;
+        this.duckOwner = duckOwner;
+        this.duckBuyer = duckBuyer;
+    }
 }

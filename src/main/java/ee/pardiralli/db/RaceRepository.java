@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Date;
+import java.util.List;
 
 public interface RaceRepository extends CrudRepository<Race, Integer> {
 
@@ -12,8 +13,9 @@ public interface RaceRepository extends CrudRepository<Race, Integer> {
 
     Race findById(Integer id);
 
-    Race findByFinish(Date date);
+    List<Race> findByFinish(Date date);
 
+    List<Race> findByBeginning(Date date);
     /**
      * Method for getting the beginning date of the latest race.
      *
@@ -29,4 +31,6 @@ public interface RaceRepository extends CrudRepository<Race, Integer> {
      */
     @Query("SELECT MAX(r.finish) FROM Race r")
     Date findLastFinishDate();
+
+
 }

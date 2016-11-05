@@ -3,6 +3,7 @@ package ee.pardiralli.web;
 import ee.pardiralli.db.DuckRepository;
 import ee.pardiralli.db.RaceRepository;
 import ee.pardiralli.domain.DonationChart;
+import ee.pardiralli.domain.Race;
 import ee.pardiralli.domain.Statistics;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -33,12 +34,14 @@ public class StatisticsController {
 
     @GetMapping("/statistics")
     public String statistics(Model model) {
-        //TODO: check what happens if null
+        List<Object> dates = getDefaultDates();
+        Date startDate = ((Calendar) dates.get(0)).getTime();
+        Date endDate = (Date) dates.get(1);
         model.addAttribute(
                 "statistics",
                 new Statistics(
-                        raceRepository.findLastBeginningDate(),
-                        raceRepository.findLastFinishDate()
+                        startDate,
+                        endDate
                 )
         );
         return "statistics";
@@ -64,16 +67,73 @@ public class StatisticsController {
     }
 
     /**
+     * Checks if start date and end date of the default time period are null and returns a list containing a
+     * Calendar object with a start date set beforehand and an end date.
+     *
+     * @return a list containing a Calendar object and the end date
+     */
+    private List<Object> getDefaultDates() {
+        Calendar calendar = Calendar.getInstance();
+        Date endDate = new Date();
+//      TODO: check when there is no data in the database
+        Date lastBeginningDate = raceRepository.findLastBeginningDate();
+        Date lastFinishDate = raceRepository.findLastFinishDate();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String today = formatter.format(new Date());
+
+        if (lastBeginningDate == null && lastFinishDate == null){
+            calendar.add(Calendar.DAY_OF_YEAR, -7);
+        }
+        else if (lastBeginningDate == null){
+            endDate = lastFinishDate;
+            calendar.setTime(endDate);
+            calendar.add(Calendar.DAY_OF_YEAR, -7);
+        }
+        else if (lastFinishDate == null){
+            if (lastBeginningDate.toString().equals(today) || !lastBeginningDate.before(new Date())) calendar.add(Calendar.DAY_OF_YEAR, -7);
+            else calendar.setTime(lastBeginningDate);
+        }
+        else {
+            List<Race> racesByLastBeginning = raceRepository.findByBeginning(lastBeginningDate);
+            List<Race> racesByLastFinish = raceRepository.findByFinish(lastFinishDate);
+            if (racesByLastBeginning.size() != 1 || racesByLastFinish.size() != 1){
+                calendar.add(Calendar.DAY_OF_YEAR, -7);
+                return Arrays.asList(calendar, endDate);
+            }
+            Race raceByLastBeginning = racesByLastBeginning.get(0);
+            Race raceByLastFinish = racesByLastFinish.get(0);
+            if (raceByLastBeginning.getId().equals(raceByLastFinish.getId())){
+                if (!lastBeginningDate.before(lastFinishDate)){
+                    calendar.add(Calendar.DAY_OF_YEAR, -7);
+                }
+                else {
+                    calendar.setTime(lastBeginningDate);
+                    endDate = lastFinishDate;
+                }
+            }
+            else {
+                if (lastFinishDate.before(lastBeginningDate) || lastFinishDate.equals(lastBeginningDate)){
+                    if (lastBeginningDate.toString().equals(today) || !lastBeginningDate.before(new Date())) calendar.add(Calendar.DAY_OF_YEAR, -7);
+                    else calendar.setTime(lastBeginningDate);
+                }
+                else {
+                    endDate = lastFinishDate;
+                    calendar.setTime(endDate);
+                    calendar.add(Calendar.DAY_OF_YEAR, -7);
+                }
+            }
+        }
+        return Arrays.asList(calendar, endDate);
+    }
+
+    /**
      * Method for getting the default data for the donation chart.
      *
      * @return a list containing data about bought ducks and donations for the last seven days
      */
     private List<List<Object>> getDefaultData() {
-        Calendar calendar = Calendar.getInstance();
-        Date startDate = raceRepository.findLastBeginningDate();
-        Date endDate = raceRepository.findLastFinishDate();
-        calendar.setTime(startDate);
-        return createData(calendar, endDate);
+        List<Object> dates = getDefaultDates();
+        return createData((Calendar) dates.get(0), (Date) dates.get(1));
     }
 
 

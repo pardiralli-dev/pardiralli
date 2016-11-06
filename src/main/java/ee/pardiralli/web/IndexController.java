@@ -48,6 +48,7 @@ public class IndexController {
         }
 
         Index ind = new Index(canBuyRightNow, nrOfBoughtDucks, ((int) Math.rint(sumOfDonatedMoney / 100)), 0, "", "", "", 0, 0, "", "", false, "");
+        this.ind = ind;
         model.addAttribute("Index", ind);
         return "index";
     }
@@ -59,7 +60,8 @@ public class IndexController {
                               Model model) {
 
         if (bindingResult.hasErrors()) {
-            System.err.println("VIGA!");
+
+            return index(model);
         }
         this.ind = userData;
 
@@ -72,6 +74,7 @@ public class IndexController {
     public String indexSubmitFinally(@RequestParam(value = "action", defaultValue = "null") String param,
                                      Model model) {
         model.addAttribute("Index", this.ind);
+
         switch (param) {
             case "SEB":
                 this.ind.setBank("SEB");

@@ -25,7 +25,34 @@
 </p>
 
 <!--/*@thymesVar id="Index" type="java.util.List<ee.pardiralli.domain.Index>"*/-->
-<p th:text="Saadame kinnituse emailile ${Index.getBuyersEmail()}"></p>
+<p>Siin on Sinu pardiostu info</p>
+
+<table>
+    <tbody>
+    <tr>
+        <th>Eesnimi</th>
+        <th>Perekonnanimi</th>
+        <th>E-mail</th>
+        <th>Telefoninumber</th>
+        <th>Partide arv</th>
+        <th>Ühe pardi hind</th>
+        <th>Summa kokku</th>
+
+    </tr>
+    <!--/*@thymesVar id="Index" type="java.util.List<ee.pardiralli.domain.Index>"*/-->
+    <tr th:each="ind : ${Index}">
+        <td th:text="${ind.getFirstName()}"></td>
+        <td th:text="${ind.getLastName()}"></td>
+        <td th:text="${ind.getBuyersEmail()}"></td>
+        <td th:text="${ind.getPhoneNumber()}"></td>
+        <td th:text="${ind.getNrOfDucks()}"></td>
+        <td th:text="${ind.getPricePerDuck()}"></td>
+        <td th:text="${ind.getSum()}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<p>Aitäh Pardirallit toetamast!</p>
 
 </body>
 </html>

@@ -23,4 +23,4 @@ public class DonationChart {
      */
     private List<List<Object>> data = new ArrayList<>();
 
- }
+}

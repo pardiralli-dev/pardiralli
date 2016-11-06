@@ -5,42 +5,11 @@
     <title>Pardiralli</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" type="text/css" href="css/admin.css"/>
+    <script type="text/javascript" src="javascript/index.js"></script>
+    <script type="text/javascript" src="javascript/pageVisits.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
-    <script>
-        function getTotal() {
-            var sum = getNrOfDucks() * getPricePerDuck();
-            //display the result
-            document.getElementById('sum').innerHTML =
-                    "Summa: " + sum;
-        }
 
-        function getNrOfDucks() {
-
-            var theForm = document.forms["mainform"];
-            //Get a reference to the TextBox
-            var quantity = theForm.elements["nrofducks"];
-            var howmany = 0;
-            //If the textbox is not blank
-            if (quantity.value != "") {
-                howmany = parseInt(quantity.value);
-                //howmany = quantity.value;
-            }
-            return howmany;
-        }
-
-        function getPricePerDuck() {
-            var theForm = document.forms["mainform"];
-            //Get a reference to the TextBox
-            var quantity = theForm.elements["priceperduck"];
-            var howmuch = 0;
-            //If the textbox is not blank
-            if (quantity.value != "") {
-                howmuch = parseInt(quantity.value);
-                //howmuch = quantity.value;
-            }
-            return howmuch;
-        }
-    </script>
 </head>
 <body>
 
@@ -62,77 +31,198 @@
 <!--/*@thymesVar id="Index" type="ee.pardiralli.domain.Index"*/-->
 <div th:if="${Index.getIsShopOpen() == true}">
 
-    <form id="mainform" th:action="@{/}" th:object="${Index}" method="post">
-        <h3>Anna oma panus!</h3>
-        <p>Pardirallil osalemine ei ole keeruline: siinsamas lehel saad soetada niimitu parti kui soovid. Ka pardi hinna
-            saad ise valida. Ostu kinnituseks saad enda e-mailile ostetud partide numbrid: nii saad jälgida, kuidas neil
-            pardirallis teiste partide vastu võisteldes läheb.
-            Parte saab osta erinevate inimeste nimele: näiteks oma laste, sõprade või vanemate nimedele, et teha neile
-            vahva üllatus.
-            Iga part osaleb auhindade loosimises!</p>
-        <label for="firstname">Eesnimi</label>
-        <input id="firstname"
-               type="text"
-               th:field="*{firstName}"
-               required="required"
-               name="firstname"/>
-        <label for="lastname">Perekonnanimi</label>
-        <input id="lastname"
-               type="text"
-               th:field="*{lastName}"
-               required="required"
-               name="lastname"/>
-        <label for="phonenumber">Telefoninumber</label>
-        <input id="phonenumber"
-               type="text"
-               th:field="*{phoneNumber}"
-               required="required"
-               name="phonenumber"/>
-        <label for="nrofducks">Mitu parti</label>
-        <input id="nrofducks" type="number" min="1" max="100" step="1" value="1" th:field="*{nrOfDucks}"
-               onclick="getTotal()" onkeyup="getTotal()" onchange="getTotal()" oninput="getTotal()"/>
+    <h3>Anna oma panus!</h3>
 
-        <label for="priceperduck">Ühe pardi hind</label>
-        <input id="priceperduck" type="number" min="5" max="1000" step="5" value="5" th:field="*{pricePerDuck}"
-               onclick="getTotal()" onkeyup="getTotal()" onchange="getTotal()" oninput="getTotal()"/>
+    <p>Pardirallil osalemine ei ole keeruline: siinsamas lehel saad soetada niimitu parti kui soovid. Ka pardi hinna
+        saad ise valida. Ostu kinnituseks saad enda e-mailile ostetud partide numbrid: nii saad jälgida, kuidas neil
+        pardirallis teiste partide vastu võisteldes läheb.
+        Parte saab osta erinevate inimeste nimele: näiteks oma laste, sõprade või vanemate nimedele, et teha neile
+        vahva üllatus.
+        Iga part osaleb auhindade loosimises!</p>
 
-        <hr/>
+    <form id="mainform" name="mainform" th:action="@{/}" th:object="${Index}" method="post">
+        <table cellpadding="0" cellspacing="0" class="noborder">
 
-        <div> <!-- TODO osta part sõbrale sektsioon-->
-        </div>
-
-        <div id="sum"><p>Summa on: 0</p></div>
-
-        <hr/>
-
-        <h4>Ostja andmed:</h4>
-        <label for="buyersemail">E-mail</label>
-        <input id="buyersemail"
-               type="email"
-               th:field="*{buyersEmail}"
-               name="buyersemail"/>
+            <tr>
+                <td>
+                    <label for="firstName">Eesnimi</label>
+                </td>
+                <td>
+                    <input id="firstName"
+                           type="text"
+                           th:field="*{firstName}"
+                           required="required"
+                           name="firstName"
+                           oninput="validateFirstName()"/>
+                </td>
+                <td id="firstNameError"></td>
+            </tr>
 
 
-        <label for="confirmemail">E-mail</label>
-        <input id="confirmemail"
-               type="email"
-               th:field="*{confirmEmail}"
-               name="confirmemail"/>
+            <tr>
+                <td>
+                    <label for="lastName">Perekonnanimi</label>
+                </td>
 
-        <div>
-            <input id="terms" type="checkbox" th:field="*{hasAgreed}"/>
-            <label th:for="terms">Olen lugenud pardiralli <a href="/conditions">tingimusi</a> ja nõustun nendega</label>
+                <td>
+                    <input id="lastName"
+                           type="text"
+                           th:field="*{lastName}"
+                           required="required"
+                           name="lastName"
+                           oninput="validateLastName()"/>
+                </td>
 
-        </div>
-        <div>
-            <input type="submit" value="Osta" name="action" class="button"/>
-        </div>
+                <td id="lastNameError"></td>
+
+            </tr>
+
+            <tr>
+                <td>
+                    <label for="phoneNumber">Telefoninumber</label>
+                </td>
+
+                <td>
+                    <input id="phoneNumber"
+                           type="text"
+                           th:field="*{phoneNumber}"
+                           required="required"
+                           name="phoneNumber"
+                           oninput="validatePhoneNumber()" onkeyup="validatePhoneNumber()"
+                           onchange="validatePhoneNumber()"/>
+                </td>
+
+                <td id="phoneNumberError"></td>
+            </tr>
+
+            <tr>
+                <td>
+                    <label for="nrOfDucks">Mitu parti</label>
+                </td>
+
+                <td>
+                    <input id="nrOfDucks" type="number" min="1" max="100" step="1" value="1" th:field="*{nrOfDucks}"
+                           onclick="getTotal()" onkeyup="getTotal()" onchange="getTotal()"
+                           oninput="getTotal();validateNrOfDucks()"/>
+                </td>
+
+                <td id="nrOfDucksError"></td>
+
+            </tr>
+
+
+            <tr>
+                <td>
+                    <label for="pricePerDuck">Ühe pardi hind</label>
+                </td>
+
+                <td>
+                    <input id="pricePerDuck" type="number" min="5" max="1000" step="5" value="5"
+                           th:field="*{pricePerDuck}"
+                           onclick="getTotal()" onkeyup="getTotal()" onchange="getTotal()"
+                           oninput="getTotal();validatePricePerDuck()"/>
+                </td>
+
+                <td id="pricePerDuckError"></td>
+
+            </tr>
+
+
+            <tr>
+                <td colspan="10">
+                    <hr/>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td colspan="2">
+                    <div><p id="sum">Summa on: 0</p></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td colspan="10">
+                    <hr/>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td colspan="2">
+                    <h4>Ostja andmed:</h4>
+                </td>
+
+            </tr>
+
+
+            <tr>
+                <td>
+                    <label for="buyersEmail">E-mail</label>
+                </td>
+
+                <td>
+                    <input id="buyersEmail"
+                           type="email"
+                           th:field="*{buyersEmail}"
+                           name="buyersEmail"
+                           oninput="validateEmails()"/>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td>
+                    <label for="confirmEmail">Kinnita e-maili</label>
+                </td>
+
+                <td>
+                    <input id="confirmEmail"
+                           type="email"
+                           th:field="*{confirmEmail}"
+                           name="confirmEmail"
+                           oninput="validateEmails()"/>
+                </td>
+
+                <td id="emailError"></td>
+            </tr>
+
+
+            <tr>
+                <td colspan="2">
+                    <input id="hasAgreed" type="checkbox" th:field="*{hasAgreed}"
+                           onclick="validateHasAgreed()"/>
+                    <label th:for="hasAgreed">Olen lugenud pardiralli <a href="/conditions">tingimusi</a> ja nõustun
+                        nendega
+                    </label>
+                </td>
+
+
+                <td id="hasAgreedError" class="error" onclick="validateHasAgreed()">Pardirallil ei saa osaleda, kui
+                    tingimustega ei nõustuta
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="2">
+                    <input type="submit" value="Osta"
+                           onclick="validatePhoneNumber();validateFirstName();validateLastName();validateHasAgreed();validateNrOfDucks();validatePricePerDuck();validateEmails()"
+                           onmouseover="validatePhoneNumber();validateFirstName();validateLastName();validateHasAgreed();validateNrOfDucks();validatePricePerDuck();validateEmails()"
+                           name="action" class="button" id="submit"
+                    />
+                </td>
+            </tr>
+
+        </table>
     </form>
 </div>
 
 <div th:if="${Index.getIsShopOpen() == false}">
     <p>Praegu on ostmine kinni, vabandame!</p>
 </div>
+
+<hr/>
 
 <div>
     <p th:text="${'Hetkeseisuga läheb rallima ' + Index.getNrOfSoldDucks()+ ' parti'}">Hetkeseisuga läheb rallima 3

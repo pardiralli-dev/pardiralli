@@ -27,7 +27,7 @@ public class Index {
     @NotBlank
     private String lastName;
 
-    @NotBlank
+    @NotBlank(message = "Palun sisesta ome telefoninumber")
     private String phoneNumber;
 
     @Range(min = 1, max = 500)
@@ -49,8 +49,4 @@ public class Index {
 
     private String bank;
 
-    @AssertTrue(message = "Emailid peaksid samad olema")
-    private boolean isValid() {
-        return this.buyersEmail.equals(this.confirmEmail);
-    }
 }

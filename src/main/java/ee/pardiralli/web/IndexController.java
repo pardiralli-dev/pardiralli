@@ -59,7 +59,8 @@ public class IndexController {
                               Model model) {
 
         if (bindingResult.hasErrors()) {
-            System.err.println("VIGA!");
+
+            return index(model);
         }
         this.ind = userData;
 

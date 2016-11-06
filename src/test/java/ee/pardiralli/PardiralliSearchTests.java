@@ -1,5 +1,6 @@
 package ee.pardiralli;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
@@ -50,7 +51,7 @@ public class PardiralliSearchTests {
         assertTrue(page.contains("id=\"search_date_long\""));
     }
 
-
+    @Ignore
     @Test
     public void checkAjaxQuerySending() {
         WebDriver driver = new FirefoxDriver();

@@ -139,6 +139,22 @@ $(document).ready(function () {
          $("#datepicker_vis_end").datepicker();
          });*/
 
+        $(document).ready(function () {
+            $("#datepicker_exp_start").datepicker(
+                {
+                    dateFormat: "dd-mm-yy"
+                }
+            );
+        });
+
+        $(document).ready(function () {
+            $("#datepicker_exp_end").datepicker(
+                {
+                    dateFormat: "dd-mm-yy"
+                }
+            );
+        });
+
 
     }
 );

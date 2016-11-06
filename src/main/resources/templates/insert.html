@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html lang="et" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Otsi</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" type="text/css" href="css/admin.css"/>
+</head>
+<body>
+<ul>
+    <li><a>Avaleht </a></li>
+    <li><a>Uudised </a></li>
+    <li><a>Osale </a></li>
+    <li><a>Kava </a></li>
+    <li><a>Auhinnad </a></li>
+    <li><a>Galerii </a></li>
+    <li><a>Eesmärk </a></li>
+    <li><a>Administraatori valikud </a></li>
+</ul>
+<!--/*@thymesVar id="manualAdd" type="ee.pardiralli.domain.ManualAdd"*/-->
+<form id="owner" th:action="@{/owner}" th:object="${manualAdd}" method="post">
+    <h4>Lisa andmeid süsteemi</h4>
+    <label th:classappend="${#fields.hasErrors('ownerFirstName')}?'invalid'">
+        Pardi omaniku eesnimi
+        <input id="ownerFirstName"
+               type="text"
+               th:field="*{ownerFirstName}"
+               required="required"/>
+    </label>
+    <label th:classappend="${#fields.hasErrors('ownerLastName')}?'invalid'">
+        Pardi omaniku perenimi
+        <input id="ownerLastName"
+               type="text"
+               th:field="*{ownerLastName}"
+               required="required"/>
+    </label>
+    <label th:classappend="${#fields.hasErrors('buyerEmail')}?'invalid'">
+        Maksja e-post
+        <input id="email"
+               type="email"
+               th:field="*{buyerEmail}"
+               required="required"/>
+    </label>
+    <label th:classappend="${#fields.hasErrors('ownerPhoneNumber')}?'invalid'">
+        Pardi omaniku telefoninumber
+        <input id="ownerPhoneNumber"
+               type="text"
+               th:field="*{ownerPhoneNumber}"
+               required="required"/>
+    </label>
+    <label th:classappend="${#fields.hasErrors('numberOfDucks')}?'invalid'">
+        Partide arv
+        <input id="numberOfDucks"
+               type="number"
+               th:field="*{numberOfDucks}"
+               required="required"/>
+    </label>
+    <label th:classappend="${#fields.hasErrors('priceOfOneDuck')}?'invalid'">
+        Ühe pardi hind
+        <input id="priceOfOneDuck"
+               type="number"
+               th:field="*{priceOfOneDuck}"
+               required="required"/>
+    </label>
+    <div>
+        <input id="insert" type="submit" value="Lisa"/>
+    </div>
+</form>
+</body>
+</html>

@@ -14,7 +14,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Timed;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -193,6 +192,7 @@ public class SearchControllerTest {
     /**
      * Test that some elements are present after using general search (no scrolling is tested)
      */
+    @Ignore
     @Test
     public void testAjaxGeneralSearch() {
         loadSearchPage();

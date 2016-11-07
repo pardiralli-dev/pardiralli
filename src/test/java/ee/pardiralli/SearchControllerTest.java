@@ -171,13 +171,13 @@ public class SearchControllerTest {
         WebElement search = driver.findElement(By.id("search_long"));
         search.click();
 
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 
         // All elements should be present - this tests also scrolling
         for (int i = 0; i < duckList.size(); i++) {
             if (i % 20 == 0) {
                 scrollDown();
-                driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+                driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
             }
             Assert.assertFalse("Serial not found!", driver.findElements(By.xpath("//*[contains(text(),'" + i + "')]")).isEmpty());
         }
@@ -192,7 +192,6 @@ public class SearchControllerTest {
     /**
      * Test that some elements are present after using general search (no scrolling is tested)
      */
-    @Ignore
     @Test
     public void testAjaxGeneralSearch() {
         loadSearchPage();
@@ -204,7 +203,7 @@ public class SearchControllerTest {
         WebElement search = driver.findElement(By.id("search_long"));
         search.click();
 
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
         // Some should be present - this tests also scrolling
         for (int i = 0; i < 5; i++)
             Assert.assertFalse("Serial not found!", driver.findElements(By.xpath("//*[contains(text(),'" + i + "')]")).isEmpty());
@@ -237,7 +236,7 @@ public class SearchControllerTest {
         search.click();
 
         //Note: findByElements has no retries
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 
         Assert.assertFalse("Serial not found!", driver.findElements(By.xpath("//*[contains(text(),'" + expectedDuck.getDuckOwner().getFirstName() + "')]")).isEmpty());
         assertResultsTableIsEmpty(dateSelect, search);

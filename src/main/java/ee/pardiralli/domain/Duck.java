@@ -61,14 +61,4 @@ public class Duck {
         this.transaction = transaction;
     }
 
-    public Duck(Date dateOfPurchase, Integer serialNumber, Timestamp timeOfPurchase, Integer priceCents, Race race, DuckOwner duckOwner, DuckBuyer duckBuyer, Transaction transaction){
-        this.dateOfPurchase = dateOfPurchase;
-        this.serialNumber = serialNumber;
-        this.timeOfPurchase = timeOfPurchase;
-        this.priceCents = priceCents;
-        this.race = race;
-        this.duckOwner = duckOwner;
-        this.duckBuyer = duckBuyer;
-        this.transaction = transaction;
-    }
 }

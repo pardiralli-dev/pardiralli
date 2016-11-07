@@ -2,17 +2,17 @@ package ee.pardiralli.web;
 
 import ee.pardiralli.db.DuckRepository;
 import ee.pardiralli.db.RaceRepository;
-import ee.pardiralli.domain.DonationChart;
-import ee.pardiralli.domain.Duck;
-import ee.pardiralli.domain.ExportFile;
-import ee.pardiralli.domain.Statistics;
+import ee.pardiralli.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -37,18 +37,20 @@ public class StatisticsController {
 
     @GetMapping("/statistics")
     public String statistics(Model model) {
-        //TODO: check what happens if null
+        List<Object> dates = getDefaultDates();
+        Date startDate = ((Calendar) dates.get(0)).getTime();
+        Date endDate = (Date) dates.get(1);
         model.addAttribute(
                 "statistics",
                 new Statistics(
-                        raceRepository.findLastBeginningDate(),
-                        raceRepository.findLastFinishDate()
+                        startDate,
+                        endDate
                 )
         );
 
-        Date startDate = new Date();
-        Date endDate = new Date();
-        model.addAttribute("exportFile", new ExportFile(false, false, startDate, endDate));
+        Date startDateExp = new Date();
+        Date endDateExp = new Date();
+        model.addAttribute("exportFile", new ExportFile(false, false, startDateExp, endDateExp));
 
         return "statistics";
     }
@@ -58,8 +60,6 @@ public class StatisticsController {
     public
     @ResponseBody
     DonationChart setSoldItemsAndDonations(@Valid Statistics statistics, BindingResult bindingResult) {
-
-
         if (!bindingResult.hasErrors() && statistics.getStartDate().before(statistics.getEndDate())) {
             return new DonationChart(getAdminData(statistics.getStartDate(), statistics.getEndDate()));
         } else {
@@ -114,16 +114,73 @@ public class StatisticsController {
     }
 
     /**
+     * Checks if start date and end date of the default time period are null and returns a list containing a
+     * Calendar object with a start date set beforehand and an end date.
+     *
+     * @return a list containing a Calendar object and the end date
+     */
+    public List<Object> getDefaultDates() {
+        Calendar calendar = Calendar.getInstance();
+        Date endDate = new Date();
+//      TODO: check when there is no data in the database
+        Date lastBeginningDate = raceRepository.findLastBeginningDate();
+        Date lastFinishDate = raceRepository.findLastFinishDate();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String today = formatter.format(new Date());
+
+        if (lastBeginningDate == null && lastFinishDate == null){
+            calendar.add(Calendar.DAY_OF_YEAR, -7);
+        }
+        else if (lastBeginningDate == null){
+            endDate = lastFinishDate;
+            calendar.setTime(endDate);
+            calendar.add(Calendar.DAY_OF_YEAR, -7);
+        }
+        else if (lastFinishDate == null){
+            if (lastBeginningDate.toString().equals(today) || !lastBeginningDate.before(new Date())) calendar.add(Calendar.DAY_OF_YEAR, -7);
+            else calendar.setTime(lastBeginningDate);
+        }
+        else {
+            List<Race> racesByLastBeginning = raceRepository.findByBeginning(lastBeginningDate);
+            List<Race> racesByLastFinish = raceRepository.findByFinish(lastFinishDate);
+            if (racesByLastBeginning.size() != 1 || racesByLastFinish.size() != 1){
+                calendar.add(Calendar.DAY_OF_YEAR, -7);
+                return Arrays.asList(calendar, endDate);
+            }
+            Race raceByLastBeginning = racesByLastBeginning.get(0);
+            Race raceByLastFinish = racesByLastFinish.get(0);
+            if (raceByLastBeginning.getId().equals(raceByLastFinish.getId())){
+                if (!lastBeginningDate.before(lastFinishDate)){
+                    calendar.add(Calendar.DAY_OF_YEAR, -7);
+                }
+                else {
+                    calendar.setTime(lastBeginningDate);
+                    endDate = lastFinishDate;
+                }
+            }
+            else {
+                if (lastFinishDate.before(lastBeginningDate) || lastFinishDate.equals(lastBeginningDate)){
+                    if (lastBeginningDate.toString().equals(today) || !lastBeginningDate.before(new Date())) calendar.add(Calendar.DAY_OF_YEAR, -7);
+                    else calendar.setTime(lastBeginningDate);
+                }
+                else {
+                    endDate = lastFinishDate;
+                    calendar.setTime(endDate);
+                    calendar.add(Calendar.DAY_OF_YEAR, -7);
+                }
+            }
+        }
+        return Arrays.asList(calendar, endDate);
+    }
+
+    /**
      * Method for getting the default data for the donation chart.
      *
      * @return a list containing data about bought ducks and donations for the last seven days
      */
     private List<List<Object>> getDefaultData() {
-        Calendar calendar = Calendar.getInstance();
-        Date startDate = raceRepository.findLastBeginningDate();
-        Date endDate = raceRepository.findLastFinishDate();
-        calendar.setTime(startDate);
-        return createData(calendar, endDate);
+        List<Object> dates = getDefaultDates();
+        return createData((Calendar) dates.get(0), (Date) dates.get(1));
     }
 
     /**
@@ -179,7 +236,7 @@ public class StatisticsController {
      * @param endDate   the end date for the data we want to have
      * @return how many ducks were sold in that period of time
      */
-
+//TODO: use countByDateOfPurchase instead
     private int getNrOfSoldDucks(Date startDate, Date endDate) {
         int nrOfSoldDucks = 0;
         Iterable<Duck> ducks = duckRepository.findAll();
@@ -206,7 +263,7 @@ public class StatisticsController {
      * @param endDate   end of said time period
      * @return int - how much money in euros was donated in that period of time
      */
-
+//TODO: use donationsByDateOfPurchase instead
     private int getAmountOfDonatedMoney(Date startDate, Date endDate) {
         int sum = 0;
 

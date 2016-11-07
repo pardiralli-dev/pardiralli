@@ -60,4 +60,5 @@ public class Duck {
         this.duckBuyer = duckBuyer;
         this.transaction = transaction;
     }
+
 }

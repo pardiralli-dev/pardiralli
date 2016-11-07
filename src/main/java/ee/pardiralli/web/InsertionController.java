@@ -17,6 +17,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 @Controller
 public class InsertionController {
@@ -63,7 +64,7 @@ public class InsertionController {
             model.addAttribute("manualAdd", manualAdd);
             return "insert";
         } else {
-            Race race = raceRepository.findByFinish(raceRepository.findLastFinishDate());
+            List<Race> races = raceRepository.findByFinish(raceRepository.findLastFinishDate());
 
             DuckBuyer duckBuyer = new DuckBuyer();
             duckBuyer.setEmail(manualAdd.getBuyerEmail());
@@ -97,7 +98,7 @@ public class InsertionController {
                 duck.setPriceCents(manualAdd.getPriceOfOneDuck());
                 duck.setTimeOfPurchase(new Timestamp(ZonedDateTime.now(ZoneId.of("Europe/Helsinki"))
                         .truncatedTo(ChronoUnit.MINUTES).toInstant().getEpochSecond() * 1000L));
-                duck.setRace(race);
+                duck.setRace(races.get(0));
                 //TODO: assign serial
                 System.err.println("Implementation not ready!!!");
                 //TODO return serial to user

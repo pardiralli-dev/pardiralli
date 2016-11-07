@@ -1,10 +1,8 @@
 package ee.pardiralli;
 
 import ee.pardiralli.db.DuckRepository;
-import ee.pardiralli.domain.Duck;
-import ee.pardiralli.domain.DuckBuyer;
-import ee.pardiralli.domain.DuckOwner;
-import ee.pardiralli.domain.Race;
+import ee.pardiralli.db.TransactionRepository;
+import ee.pardiralli.domain.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -46,6 +44,9 @@ public class DuckRepoTests {
     @Autowired
     private DuckRepository duckRepository;
 
+    @Autowired
+    private TransactionRepository transactionRepository;
+
     @Before
     public void setup() throws Exception {
         fName1 = "Anu";
@@ -73,6 +74,9 @@ public class DuckRepoTests {
         this.entityManager.persist(duckBuyer1);
         this.entityManager.persist(duckBuyer2);
 
+        Transaction transaction1 = new Transaction(false);
+        transaction1 = transactionRepository.save(transaction1);
+
         duck1 = new Duck(
                 new Date(System.currentTimeMillis()),
                 1,
@@ -80,7 +84,8 @@ public class DuckRepoTests {
                 100,
                 race,
                 duckOwner1,
-                duckBuyer1
+                duckBuyer1,
+                transaction1
         );
 
 
@@ -91,7 +96,8 @@ public class DuckRepoTests {
                 100,
                 race,
                 duckOwner2,
-                duckBuyer2
+                duckBuyer2,
+                transaction1
         );
 
 
@@ -102,7 +108,8 @@ public class DuckRepoTests {
                 100,
                 race,
                 duckOwner3,
-                duckBuyer1
+                duckBuyer1,
+                transaction1
         );
 
         purchaseDate2 = new java.sql.Date(formatter.parse("12-12-2400").getTime());
@@ -114,7 +121,8 @@ public class DuckRepoTests {
                 1001,
                 race,
                 duckOwner1,
-                duckBuyer1
+                duckBuyer1,
+                transaction1
         );
 
         duck5 = new Duck(
@@ -124,7 +132,8 @@ public class DuckRepoTests {
                 1002,
                 race,
                 duckOwner2,
-                duckBuyer2
+                duckBuyer2,
+                transaction1
         );
 
         this.entityManager.persist(duck1);

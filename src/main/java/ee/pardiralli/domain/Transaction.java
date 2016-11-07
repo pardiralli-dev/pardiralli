@@ -18,7 +18,7 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Boolean is_paid;
+    private Boolean isPaid;
 
-    private Timestamp time_of_payment;
+    private Timestamp timeOfPayment;
 }

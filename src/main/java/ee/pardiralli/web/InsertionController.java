@@ -1,10 +1,7 @@
 package ee.pardiralli.web;
 
 
-import ee.pardiralli.db.BuyerRepository;
-import ee.pardiralli.db.DuckRepository;
-import ee.pardiralli.db.OwnerRepository;
-import ee.pardiralli.db.RaceRepository;
+import ee.pardiralli.db.*;
 import ee.pardiralli.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,16 +26,19 @@ public class InsertionController {
     private final RaceRepository raceRepository;
     private final OwnerRepository ownerRepository;
     private final BuyerRepository buyerRepository;
+    private final TransactionRepository transactionRepository;
 
     @Autowired
     public InsertionController(DuckRepository duckRepository,
                                RaceRepository raceRepository,
                                OwnerRepository ownerRepository,
-                               BuyerRepository buyerRepository) {
+                               BuyerRepository buyerRepository,
+                               TransactionRepository transactionRepository) {
         this.duckRepository = duckRepository;
         this.raceRepository = raceRepository;
         this.ownerRepository = ownerRepository;
         this.buyerRepository = buyerRepository;
+        this.transactionRepository = transactionRepository;
     }
 
     public static String currentDatetime() {
@@ -77,9 +77,12 @@ public class InsertionController {
             duckOwner = ownerRepository.save(duckOwner);
 
             Transaction transaction = new Transaction();
-            transaction.setIs_paid(true);
-            transaction.setTime_of_payment(new Timestamp(ZonedDateTime.now(ZoneId.of("Europe/Helsinki"))
+            transaction.setIsPaid(true);
+            transaction.setTimeOfPayment(new Timestamp(ZonedDateTime.now(ZoneId.of("Europe/Helsinki"))
                     .truncatedTo(ChronoUnit.MINUTES).toInstant().getEpochSecond() * 1000L));
+            transaction = transactionRepository.save(transaction);
+
+
 
             //System.err.println(duckBuyer);
             System.err.println(duckOwner);

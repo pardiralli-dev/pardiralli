@@ -159,7 +159,6 @@ public class SearchControllerTest {
      * Test that general search shows results and updates table dynamically on scroll
      */
     @Test
-    @Timed(millis = 90000)
     public void testAjaxScrollAndDataLoadingGeneralSearch() {
         loadSearchPage();
 
@@ -173,10 +172,14 @@ public class SearchControllerTest {
         WebElement search = driver.findElement(By.id("search_long"));
         search.click();
 
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 
         // All elements should be present - this tests also scrolling
         for (int i = 0; i < duckList.size(); i++) {
-            if (i % 20 == 0) scrollDown();
+            if (i % 20 == 0) {
+                scrollDown();
+                driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+            }
             Assert.assertFalse("Serial not found!", driver.findElements(By.xpath("//*[contains(text(),'" + i + "')]")).isEmpty());
         }
 
@@ -191,7 +194,6 @@ public class SearchControllerTest {
      * Test that some elements are present after using general search (no scrolling is tested)
      */
     @Test
-    @Timed(millis = 90000)
     public void testAjaxGeneralSearch() {
         loadSearchPage();
 
@@ -202,6 +204,7 @@ public class SearchControllerTest {
         WebElement search = driver.findElement(By.id("search_long"));
         search.click();
 
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         // Some should be present - this tests also scrolling
         for (int i = 0; i < 5; i++)
             Assert.assertFalse("Serial not found!", driver.findElements(By.xpath("//*[contains(text(),'" + i + "')]")).isEmpty());
@@ -216,7 +219,6 @@ public class SearchControllerTest {
      * Test that exact search returns results
      */
     @Test
-    @Timed(millis = 90000)
     public void testAjaxDataLoadingExactSearch() throws Exception {
         //Save race to test database
         driver = new ChromeDriver();

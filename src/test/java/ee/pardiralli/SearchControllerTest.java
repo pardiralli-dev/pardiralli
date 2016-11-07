@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-@Ignore
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(locations = "classpath:test.properties")
 @RunWith(SpringRunner.class)
@@ -32,7 +31,7 @@ public class SearchControllerTest {
     // MAX_PRICE equals with item count
     private static final Integer MAX_PRICE = 60;
     private static final Integer LOW_PRICE = 1;
-    private final Integer WAIT_TIME = 15;
+    private final Integer WAIT_TIME = 30;
     private final Date today = new Date(System.currentTimeMillis());
 
     private JavascriptExecutor js;

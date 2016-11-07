@@ -72,7 +72,7 @@ public class StatisticsController {
      *
      * @return a list containing a Calendar object and the end date
      */
-    private List<Object> getDefaultDates() {
+    public List<Object> getDefaultDates() {
         Calendar calendar = Calendar.getInstance();
         Date endDate = new Date();
 //      TODO: check when there is no data in the database

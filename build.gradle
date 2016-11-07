@@ -47,4 +47,6 @@ dependencies {
     runtime('org.postgresql:postgresql')
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('org.seleniumhq.selenium:selenium-java:3.0.1')
+    testCompile('io.github.bonigarcia:webdrivermanager:version:1.4.10')
+
 }

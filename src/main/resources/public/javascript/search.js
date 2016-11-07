@@ -54,7 +54,7 @@ $(document).ready(function () {
 
         $("#search_date_long").datepicker(
             {
-                dateFormat: "dd-mm-yy",
+                dateFormat: "dd-mm-yy"
             }
         );
 

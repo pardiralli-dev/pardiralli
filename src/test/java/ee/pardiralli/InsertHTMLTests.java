@@ -24,7 +24,7 @@ public class InsertHTMLTests {
 
     @Test
     public void formInputIdsArePresent() throws Exception {
-        String page = this.restTemplate.getForObject("http://localhost:" + port + "/", String.class);
+        String page = this.restTemplate.getForObject("http://localhost:" + port + "/insert", String.class);
         assertTrue(page.contains("id=\"ownerFirstName\""));
         assertTrue(page.contains("id=\"ownerLastName\""));
         assertTrue(page.contains("id=\"email\""));

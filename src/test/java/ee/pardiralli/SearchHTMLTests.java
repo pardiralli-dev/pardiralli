@@ -41,4 +41,11 @@ public class SearchHTMLTests {
         assertTrue(page.contains("id=\"phone_number_long\""));
         assertTrue(page.contains("id=\"search_date_long\""));
     }
+
+    @Test
+    public void resultsTableIdIsPresent() throws Exception {
+        String page = this.restTemplate.getForObject("http://localhost:" + port + "/search", String.class);
+        assertTrue(page.contains("id=\"results\""));
+    }
+
 }

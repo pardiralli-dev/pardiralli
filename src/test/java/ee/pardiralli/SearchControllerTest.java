@@ -28,6 +28,7 @@ import java.util.concurrent.TimeUnit;
 @TestPropertySource(locations = "classpath:test.properties")
 @RunWith(SpringRunner.class)
 public class SearchControllerTest {
+    private final Integer WAIT_TIME = 40;
 
     // MAX_PRICE equals with item count
     private static final Integer MAX_PRICE = 60;
@@ -171,13 +172,13 @@ public class SearchControllerTest {
         WebElement search = driver.findElement(By.id("search_long"));
         search.click();
 
-        driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(WAIT_TIME, TimeUnit.SECONDS);
 
         // All elements should be present - this tests also scrolling
         for (int i = 0; i < duckList.size(); i++) {
             if (i % 20 == 0) {
                 scrollDown();
-                driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+                driver.manage().timeouts().implicitlyWait(WAIT_TIME, TimeUnit.SECONDS);
             }
             Assert.assertFalse("Serial not found!", driver.findElements(By.xpath("//*[contains(text(),'" + i + "')]")).isEmpty());
         }
@@ -203,7 +204,7 @@ public class SearchControllerTest {
         WebElement search = driver.findElement(By.id("search_long"));
         search.click();
 
-        driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(WAIT_TIME, TimeUnit.SECONDS);
         // Some should be present - this tests also scrolling
         for (int i = 0; i < 5; i++)
             Assert.assertFalse("Serial not found!", driver.findElements(By.xpath("//*[contains(text(),'" + i + "')]")).isEmpty());
@@ -236,7 +237,7 @@ public class SearchControllerTest {
         search.click();
 
         //Note: findByElements has no retries
-        driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(WAIT_TIME, TimeUnit.SECONDS);
 
         Assert.assertFalse("Serial not found!", driver.findElements(By.xpath("//*[contains(text(),'" + expectedDuck.getDuckOwner().getFirstName() + "')]")).isEmpty());
         assertResultsTableIsEmpty(dateSelect, search);

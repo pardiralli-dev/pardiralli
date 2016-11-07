@@ -4,7 +4,6 @@ package ee.pardiralli;
 import ee.pardiralli.db.*;
 import ee.pardiralli.domain.*;
 import io.github.bonigarcia.wdm.ChromeDriverManager;
-import io.github.bonigarcia.wdm.PhantomJsDriverManager;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
@@ -12,7 +11,6 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,16 +24,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+@Ignore
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(locations = "classpath:test.properties")
 @RunWith(SpringRunner.class)
 public class SearchControllerTest {
-    private final Integer WAIT_TIME = 15;
-
     // MAX_PRICE equals with item count
     private static final Integer MAX_PRICE = 60;
     private static final Integer LOW_PRICE = 1;
-
+    private final Integer WAIT_TIME = 15;
     private final Date today = new Date(System.currentTimeMillis());
 
     private JavascriptExecutor js;
@@ -74,8 +71,7 @@ public class SearchControllerTest {
      */
     @BeforeClass
     public static void setupClass() {
-        //ChromeDriverManager.getInstance().setup();
-        PhantomJsDriverManager.getInstance().setup();
+        ChromeDriverManager.getInstance().setup();
     }
 
     /**
@@ -131,7 +127,7 @@ public class SearchControllerTest {
      * Open search page in Google Chrome
      */
     private void loadSearchPage() {
-        driver = new PhantomJSDriver();// new ChromeDriver();
+        driver = new ChromeDriver();
         driver.get(url);
     }
 

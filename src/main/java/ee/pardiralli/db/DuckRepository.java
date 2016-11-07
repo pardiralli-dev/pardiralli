@@ -16,7 +16,6 @@ public interface DuckRepository extends CrudRepository<Duck, Integer> {
     Duck findBySerialNumber(@Param("serial") Integer serialNumber, @Param("date") Date date);
 
 
-
     @Query("SELECT d FROM Duck d WHERE " +
             "LOWER(d.duckOwner.firstName)   LIKE LOWER(CONCAT(:ownerFirstName,'%')) AND " +
             "LOWER(d.duckOwner.lastName)    LIKE LOWER(CONCAT(:ownerLastName,'%'))  AND " +
@@ -32,6 +31,7 @@ public interface DuckRepository extends CrudRepository<Duck, Integer> {
 
     /**
      * Count the number of bought ducks given a date.
+     *
      * @param date
      * @return the number of ducks
      */
@@ -39,6 +39,7 @@ public interface DuckRepository extends CrudRepository<Duck, Integer> {
 
     /**
      * Return the amount of donations made during the given day.
+     *
      * @param date
      * @return the donation sum in cents
      */

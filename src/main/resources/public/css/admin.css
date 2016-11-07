@@ -2,6 +2,27 @@ html {
     font-family: sans-serif;
 }
 
+.invalid {
+    background-color: red;
+}
+
+.noborder {
+    border: none;
+}
+
+table.noborder td {
+    border: none;
+}
+
+table.noborder tr {
+    border: none;
+}
+
+.error {
+    background-color: #ad3e34;
+    color: darkred;
+}
+
 input[type=text], input[type=number], input[type=email], input[type=password], select {
     width: 100%;
     padding: 12px 20px;

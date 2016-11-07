@@ -37,6 +37,7 @@ var dataFromServer;
 
 callDrawDonationChart();
 
+//google.charts.setOnLoadCallback(drawChart_visits);
 
 //Send POST request to server
 function callDrawDonationChart() {

@@ -39,6 +39,10 @@ public class Duck {
     @JoinColumn(name = "buyer_id")
     private DuckBuyer duckBuyer;
 
+    @ManyToOne
+    @JoinColumn(name = "transaction_id")
+    private Transaction transaction;
+
     public Duck(Date dateOfPurchase, Integer serialNumber, Timestamp timeOfPurchase, Integer priceCents, Race race, DuckOwner duckOwner, DuckBuyer duckBuyer){
         this.dateOfPurchase = dateOfPurchase;
         this.serialNumber = serialNumber;

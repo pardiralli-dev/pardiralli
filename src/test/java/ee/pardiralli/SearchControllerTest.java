@@ -191,6 +191,7 @@ public class SearchControllerTest {
     /**
      * Test that some elements are present after using general search (no scrolling is tested)
      */
+    @Ignore
     @Test
     public void testAjaxGeneralSearch() {
         loadSearchPage();

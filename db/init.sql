@@ -1,3 +1,6 @@
+DROP SCHEMA IF EXISTS public CASCADE;
+CREATE SCHEMA public;
+
 CREATE SEQUENCE public.transaction_id_seq;
 
 CREATE TABLE public.transaction (

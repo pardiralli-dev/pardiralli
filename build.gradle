@@ -47,4 +47,7 @@ dependencies {
     runtime('org.postgresql:postgresql')
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('org.seleniumhq.selenium:selenium-java:3.0.1')
+    // https://mvnrepository.com/artifact/io.github.bonigarcia/webdrivermanager
+    compile group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '1.4.10'
+
 }

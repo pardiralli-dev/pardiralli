@@ -76,6 +76,11 @@ public class InsertionController {
             duckOwner.setPhoneNumber(manualAdd.getOwnerPhoneNumber());
             duckOwner = ownerRepository.save(duckOwner);
 
+            Transaction transaction = new Transaction();
+            transaction.setIs_paid(true);
+            transaction.setTime_of_payment(new Timestamp(ZonedDateTime.now(ZoneId.of("Europe/Helsinki"))
+                    .truncatedTo(ChronoUnit.MINUTES).toInstant().getEpochSecond() * 1000L));
+
             //System.err.println(duckBuyer);
             System.err.println(duckOwner);
 
@@ -85,6 +90,7 @@ public class InsertionController {
                 duck.setDateOfPurchase(new java.sql.Date(Date.from(ZonedDateTime.now(ZoneId.of("Europe/Helsinki")).toInstant()).getTime()));
                 duck.setDuckBuyer(duckBuyer);
                 duck.setDuckOwner(duckOwner);
+                duck.setTransaction(transaction);
                 duck.setPriceCents(manualAdd.getPriceOfOneDuck());
                 duck.setTimeOfPurchase(new Timestamp(ZonedDateTime.now(ZoneId.of("Europe/Helsinki"))
                         .truncatedTo(ChronoUnit.MINUTES).toInstant().getEpochSecond() * 1000L));

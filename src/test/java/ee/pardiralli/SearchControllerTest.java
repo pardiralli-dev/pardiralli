@@ -4,6 +4,7 @@ package ee.pardiralli;
 import ee.pardiralli.db.*;
 import ee.pardiralli.domain.*;
 import io.github.bonigarcia.wdm.ChromeDriverManager;
+import io.github.bonigarcia.wdm.PhantomJsDriverManager;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
@@ -11,6 +12,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -72,7 +74,8 @@ public class SearchControllerTest {
      */
     @BeforeClass
     public static void setupClass() {
-        ChromeDriverManager.getInstance().setup();
+        //ChromeDriverManager.getInstance().setup();
+        PhantomJsDriverManager.getInstance().setup();
     }
 
     /**
@@ -128,7 +131,7 @@ public class SearchControllerTest {
      * Open search page in Google Chrome
      */
     private void loadSearchPage() {
-        driver = new ChromeDriver();
+        driver = new PhantomJSDriver();// new ChromeDriver();
         driver.get(url);
     }
 
@@ -220,8 +223,7 @@ public class SearchControllerTest {
      */
     @Test
     public void testAjaxDataLoadingExactSearch() throws Exception {
-        //Save race to test database
-        driver = new ChromeDriver();
+        loadSearchPage();
 
         Duck expectedDuck = duckList.get(MAX_PRICE - 1);
 

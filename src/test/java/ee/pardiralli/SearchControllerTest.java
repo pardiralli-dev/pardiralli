@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit;
 @TestPropertySource(locations = "classpath:test.properties")
 @RunWith(SpringRunner.class)
 public class SearchControllerTest {
-    private final Integer WAIT_TIME = 80;
+    private final Integer WAIT_TIME = 15;
 
     // MAX_PRICE equals with item count
     private static final Integer MAX_PRICE = 60;

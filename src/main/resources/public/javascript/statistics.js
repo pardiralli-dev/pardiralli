@@ -104,5 +104,21 @@ $(document).ready(function () {
     );
 });
 
+        $(document).ready(function () {
+            $("#datepicker_exp_start").datepicker(
+                {
+                    dateFormat: "dd-mm-yy"
+                }
+            );
+        });
+
+        $(document).ready(function () {
+            $("#datepicker_exp_end").datepicker(
+                {
+                    dateFormat: "dd-mm-yy"
+                }
+            );
+        });
+
     }
 );

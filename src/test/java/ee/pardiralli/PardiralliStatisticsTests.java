@@ -1,9 +1,7 @@
 package ee.pardiralli;
 
-import ee.pardiralli.domain.Duck;
-import ee.pardiralli.domain.DuckBuyer;
-import ee.pardiralli.domain.DuckOwner;
-import ee.pardiralli.domain.Race;
+import ee.pardiralli.db.TransactionRepository;
+import ee.pardiralli.domain.*;
 import ee.pardiralli.web.StatisticsController;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,6 +36,9 @@ public class PardiralliStatisticsTests {
 
     @Autowired
     private StatisticsController controller;
+
+    @Autowired
+    private TransactionRepository repository;
 
     @LocalServerPort
     private int port;
@@ -106,6 +107,9 @@ public class PardiralliStatisticsTests {
         this.entityManager.persist(duckBuyer1);
         this.entityManager.persist(duckBuyer2);
 
+        Transaction transaction1 = new Transaction(false);
+        transaction1 = repository.save(transaction1);
+
         Duck duck1 = new Duck(
                 date1,
                 1,
@@ -113,7 +117,8 @@ public class PardiralliStatisticsTests {
                 100,
                 race,
                 duckOwner1,
-                duckBuyer1
+                duckBuyer1,
+                transaction1
         );
 
 
@@ -124,7 +129,8 @@ public class PardiralliStatisticsTests {
                 100,
                 race,
                 duckOwner2,
-                duckBuyer2
+                duckBuyer2,
+                transaction1
         );
 
 
@@ -135,7 +141,8 @@ public class PardiralliStatisticsTests {
                 100,
                 race,
                 duckOwner3,
-                duckBuyer1
+                duckBuyer1,
+                transaction1
         );
 
 
@@ -149,7 +156,6 @@ public class PardiralliStatisticsTests {
         List<Object> defaultDates = controller.getDefaultDates();
         assertTrue(defaultDates.get(0) instanceof Calendar);
         assertTrue(defaultDates.get(1) instanceof java.util.Date);
-
     }
 
     @Test

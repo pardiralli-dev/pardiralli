@@ -2,8 +2,7 @@ package ee.pardiralli.web;
 
 import ee.pardiralli.db.DuckRepository;
 import ee.pardiralli.db.RaceRepository;
-import ee.pardiralli.domain.DonationChart;
-import ee.pardiralli.domain.Statistics;
+import ee.pardiralli.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -49,9 +48,9 @@ public class StatisticsController {
                 )
         );
 
-        Date startDate = new Date();
-        Date endDate = new Date();
-        model.addAttribute("exportFile", new ExportFile(false, false, startDate, endDate));
+        Date startDateExp = new Date();
+        Date endDateExp = new Date();
+        model.addAttribute("exportFile", new ExportFile(false, false, startDateExp, endDateExp));
 
         return "statistics";
     }
@@ -61,8 +60,6 @@ public class StatisticsController {
     public
     @ResponseBody
     DonationChart setSoldItemsAndDonations(@Valid Statistics statistics, BindingResult bindingResult) {
-
-
         if (!bindingResult.hasErrors() && statistics.getStartDate().before(statistics.getEndDate())) {
             return new DonationChart(getAdminData(statistics.getStartDate(), statistics.getEndDate()));
         } else {
@@ -239,7 +236,7 @@ public class StatisticsController {
      * @param endDate   the end date for the data we want to have
      * @return how many ducks were sold in that period of time
      */
-
+//TODO: use countByDateOfPurchase instead
     private int getNrOfSoldDucks(Date startDate, Date endDate) {
         int nrOfSoldDucks = 0;
         Iterable<Duck> ducks = duckRepository.findAll();
@@ -266,7 +263,7 @@ public class StatisticsController {
      * @param endDate   end of said time period
      * @return int - how much money in euros was donated in that period of time
      */
-
+//TODO: use donationsByDateOfPurchase instead
     private int getAmountOfDonatedMoney(Date startDate, Date endDate) {
         int sum = 0;
 

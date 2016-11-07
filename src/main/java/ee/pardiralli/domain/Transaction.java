@@ -21,4 +21,8 @@ public class Transaction {
     private Boolean isPaid;
 
     private Timestamp timeOfPayment;
+
+    public Transaction(Boolean bool){
+        this.isPaid=bool;
+    }
 }

@@ -15,8 +15,8 @@ public class SwedbankRequestModel {
     private final String VK_STAMP = "";
     private final String VK_AMOUNT = "";
     private final String VK_CURR = "EUR";
-    private final String VK_ACC = "EE162200221062611517"; // TODO: 7.11.16
-    private final String VK_NAME = "PRIIT PALUOJA";
+    private final String VK_ACC = "EE382200221001116031";
+    private final String VK_NAME = "EESTI VÄHIHAIGETE LASTE VANEMATE LIIT";
     private final String VK_REF = "";
     private final String VK_MSG = "";
     private final String VK_RETURN = "https://pardiralli.herokuapp.com/banklink/swedbank/success";

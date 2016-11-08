@@ -1,13 +1,12 @@
 package ee.pardiralli.util;
 
-import ee.pardiralli.banklink.NordeaRequestModel;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
 
+import java.io.IOException;
 import java.io.InputStream;
-import java.security.KeyFactory;
-import java.security.PrivateKey;
-import java.security.Signature;
+import java.security.*;
+import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -28,16 +27,16 @@ public class BanklinkUtils {
 
     public static String getMAC(String privateKeyFilename, List<String> params) {
         String dataRow = params.stream().map(p -> len(p) + p).collect(Collectors.joining());
-        byte[] signature = null;
         try {
             Signature sig = Signature.getInstance("SHA1withRSA");
-            sig.initSign(getPrivateKey(NordeaRequestModel.class.getClassLoader().getResourceAsStream(privateKeyFilename)));
+            sig.initSign(getPrivateKey(privateKeyFilename));
             sig.update(dataRow.getBytes("UTF-8"));
-            signature = sig.sign();
-        } catch (Exception ex) {
-            ex.printStackTrace();
+            byte[] sigBytes = sig.sign();
+            return Base64.encodeBase64String(sigBytes);
+        } catch (NoSuchAlgorithmException | SignatureException | InvalidKeyException | InvalidKeySpecException | IOException e) {
+            // TODO: 8.11.16 error handling
+            throw new AssertionError(e);
         }
-        return Base64.encodeBase64String(signature);
     }
 
     private static String len(String param) {
@@ -48,14 +47,12 @@ public class BanklinkUtils {
         return String.format("%1$" + 3 + "s", s).replace(" ", "0");
     }
 
-    private static PrivateKey getPrivateKey(InputStream keyStream) throws Exception {
-        try {
+    private static PrivateKey getPrivateKey(String filename) throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
+        try (InputStream keyStream = BanklinkUtils.class.getClassLoader().getResourceAsStream(filename)) {
             byte[] keyBytes = IOUtils.toByteArray(keyStream);
             PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(keyBytes);
             KeyFactory kf = KeyFactory.getInstance("RSA");
             return kf.generatePrivate(spec);
-        } finally {
-            keyStream.close();
         }
     }
 }

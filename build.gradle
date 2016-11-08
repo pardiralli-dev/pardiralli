@@ -49,4 +49,7 @@ dependencies {
     testCompile('org.seleniumhq.selenium:selenium-java:3.0.1')
     compile('org.apache.commons:commons-io:1.3.2')
     compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.2'
+    // https://mvnrepository.com/artifact/io.github.bonigarcia/webdrivermanager
+    compile group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '1.4.10'
+
 }

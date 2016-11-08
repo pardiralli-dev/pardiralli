@@ -11,7 +11,6 @@ import java.sql.Timestamp;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-
 @Entity
 public class Duck {
 
@@ -39,7 +38,19 @@ public class Duck {
     @JoinColumn(name = "buyer_id")
     private DuckBuyer duckBuyer;
 
-    public Duck(Date dateOfPurchase, Integer serialNumber, Timestamp timeOfPurchase, Integer priceCents, Race race, DuckOwner duckOwner, DuckBuyer duckBuyer){
+    @ManyToOne
+    @JoinColumn(name = "transaction_id")
+    private Transaction transaction;
+
+    public Duck(Date dateOfPurchase,
+                Integer serialNumber,
+                Timestamp timeOfPurchase,
+                Integer priceCents,
+                Race race,
+                DuckOwner duckOwner,
+                DuckBuyer duckBuyer,
+                Transaction transaction) {
+
         this.dateOfPurchase = dateOfPurchase;
         this.serialNumber = serialNumber;
         this.timeOfPurchase = timeOfPurchase;
@@ -47,5 +58,7 @@ public class Duck {
         this.race = race;
         this.duckOwner = duckOwner;
         this.duckBuyer = duckBuyer;
+        this.transaction = transaction;
     }
+
 }

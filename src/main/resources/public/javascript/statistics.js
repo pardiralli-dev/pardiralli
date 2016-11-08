@@ -32,112 +32,77 @@ $.datepicker.setDefaults($.datepicker.regional['et']);
 
 $(document).ready(function () {
 
-        google.charts.load('current', {'packages': ['line']});
-        var dataFromServer;
+google.charts.load('current', {'packages': ['line']});
+var dataFromServer;
 
-        callDrawDonationChart();
+callDrawDonationChart();
 
 //google.charts.setOnLoadCallback(drawChart_visits);
 
 //Send POST request to server
-        function callDrawDonationChart() {
-
-
-            $.ajax({
-                url: window.location.href,
-                type: 'POST',
-                cache: false,
-                data: $("#don_chart").serialize(),
-                success: function (data) {
-                    dataFromServer = data.data;//JSON.parse(data.responseText).data;
-                    console.log(data);
-                    google.charts.setOnLoadCallback(drawChart_donations);
-                }
-
-            });
+function callDrawDonationChart() {
+     $.ajax({
+        url: window.location.href,
+        type: 'POST',
+        cache: false,
+        data:  $("#don_chart").serialize(),
+        success: function (data) {
+            dataFromServer = data.data;//JSON.parse(data.responseText).data;
+            google.charts.setOnLoadCallback(drawChart_donations);
         }
 
+    });
+}
+function drawChart_donations() {
+    var data = new google.visualization.DataTable();
 
-        function drawChart_donations() {
-            var data = new google.visualization.DataTable();
+    data.addColumn('string', 'Päev');
+    data.addColumn('number', 'Müüdud parte');
+    data.addColumn('number', 'Kogutud raha');
+    data.addRows(dataFromServer);
 
-            data.addColumn('string', 'Päev');
-            data.addColumn('number', 'Müüdud parte');
-            data.addColumn('number', 'Kogutud raha');
-            data.addRows(dataFromServer);
-
-            var options = {
-                chart: {
-                    title: "Annetused"
-                },
-                width: 900,
-                height: 500,
-                series: {
-                    0: {axis: "Parte"},
-                    1: {axis: "Annetusi"}
-                },
-                axes: {
-                    y: {
-                        Parte: {label: "Müüdud parte"},
-                        Annetusi: {label: "Kogutud raha (€)"}
-                    }
-                }
-            };
-
-            var chart = new google.charts.Line(document.getElementById("linechart_donations"));
-            chart.draw(data, google.charts.Line.convertOptions(options));
+    var options = {
+        chart: {
+            title: "Annetused ja müüdud pardid"
+        },
+        width: 900,
+        height: 500,
+        series: {
+            0: {axis: "Parte"},
+            1: {axis: "Annetusi"}
+        },
+        axes: {
+            y: {
+                Parte: {label: "Müüdud parte"},
+                Annetusi: {label: "Kogutud raha (€)"}
+            }
         }
+    };
 
-        function drawChart_visits() {
-            var data = new google.visualization.DataTable();
-            data.addColumn('number', 'Päev');
-            data.addColumn('number', 'Külastatavus');
-            data.addRows([
-                [1, 20],
-                [2, 30],
-                [3, 40],
-                [4, 50]
-            ]);
+    var chart = new google.charts.Line(document.getElementById("linechart_donations"));
+    chart.draw(data, google.charts.Line.convertOptions(options));
+}
 
-            var options = {
-                chart: {
-                    title: "Veebipoe külastatavus"
-                },
-                width: 900,
-                height: 500
-            };
-
-            var chart = new google.charts.Line(document.getElementById("linechart_visits"));
-            chart.draw(data, google.charts.Line.convertOptions(options));
+$(document).ready(function () {
+    $("#datepicker_don_start").datepicker(
+        {
+            dateFormat: "dd-mm-yy",
+            onSelect: function () {
+                callDrawDonationChart()
+            }
         }
-
-
-        $(document).ready(function () {
-            $("#datepicker_don_start").datepicker(
-                {
-                    dateFormat: "dd-mm-yy",
-                    onSelect: function () {
-                        callDrawDonationChart()
-                    }
-                }
-            );
-        });
-        $(document).ready(function () {
-            $("#datepicker_don_end").datepicker(
-                {
-                    dateFormat: "dd-mm-yy",
-                    onSelect: function () {
-                        callDrawDonationChart()
-                    }
-                }
-            );
-        });
-        /*$(document).ready(function () {
-         $("#datepicker_vis_start").datepicker();
-         });
-         $(document).ready(function () {
-         $("#datepicker_vis_end").datepicker();
-         });*/
+    );
+});
+$(document).ready(function () {
+    $("#datepicker_don_end").datepicker(
+        {
+            dateFormat: "dd-mm-yy",
+            onSelect: function () {
+                callDrawDonationChart()
+            }
+        }
+    );
+});
 
         $(document).ready(function () {
             $("#datepicker_exp_start").datepicker(
@@ -154,7 +119,6 @@ $(document).ready(function () {
                 }
             );
         });
-
 
     }
 );

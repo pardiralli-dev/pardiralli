@@ -1,10 +1,7 @@
 package ee.pardiralli.web;
 
 
-import ee.pardiralli.db.BuyerRepository;
-import ee.pardiralli.db.DuckRepository;
-import ee.pardiralli.db.OwnerRepository;
-import ee.pardiralli.db.RaceRepository;
+import ee.pardiralli.db.*;
 import ee.pardiralli.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +17,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 @Controller
 public class InsertionController {
@@ -29,16 +27,19 @@ public class InsertionController {
     private final RaceRepository raceRepository;
     private final OwnerRepository ownerRepository;
     private final BuyerRepository buyerRepository;
+    private final TransactionRepository transactionRepository;
 
     @Autowired
     public InsertionController(DuckRepository duckRepository,
                                RaceRepository raceRepository,
                                OwnerRepository ownerRepository,
-                               BuyerRepository buyerRepository) {
+                               BuyerRepository buyerRepository,
+                               TransactionRepository transactionRepository) {
         this.duckRepository = duckRepository;
         this.raceRepository = raceRepository;
         this.ownerRepository = ownerRepository;
         this.buyerRepository = buyerRepository;
+        this.transactionRepository = transactionRepository;
     }
 
     public static String currentDatetime() {
@@ -63,7 +64,7 @@ public class InsertionController {
             model.addAttribute("manualAdd", manualAdd);
             return "insert";
         } else {
-            Race race = raceRepository.findByFinish(raceRepository.findLastFinishDate());
+            List<Race> races = raceRepository.findByFinish(raceRepository.findLastFinishDate());
 
             DuckBuyer duckBuyer = new DuckBuyer();
             duckBuyer.setEmail(manualAdd.getBuyerEmail());
@@ -76,6 +77,14 @@ public class InsertionController {
             duckOwner.setPhoneNumber(manualAdd.getOwnerPhoneNumber());
             duckOwner = ownerRepository.save(duckOwner);
 
+            Transaction transaction = new Transaction();
+            transaction.setIsPaid(true);
+            transaction.setTimeOfPayment(new Timestamp(ZonedDateTime.now(ZoneId.of("Europe/Helsinki"))
+                    .truncatedTo(ChronoUnit.MINUTES).toInstant().getEpochSecond() * 1000L));
+            transaction = transactionRepository.save(transaction);
+
+
+
             //System.err.println(duckBuyer);
             System.err.println(duckOwner);
 
@@ -85,10 +94,11 @@ public class InsertionController {
                 duck.setDateOfPurchase(new java.sql.Date(Date.from(ZonedDateTime.now(ZoneId.of("Europe/Helsinki")).toInstant()).getTime()));
                 duck.setDuckBuyer(duckBuyer);
                 duck.setDuckOwner(duckOwner);
+                duck.setTransaction(transaction);
                 duck.setPriceCents(manualAdd.getPriceOfOneDuck());
                 duck.setTimeOfPurchase(new Timestamp(ZonedDateTime.now(ZoneId.of("Europe/Helsinki"))
                         .truncatedTo(ChronoUnit.MINUTES).toInstant().getEpochSecond() * 1000L));
-                duck.setRace(race);
+                duck.setRace(races.get(0));
                 //TODO: assign serial
                 System.err.println("Implementation not ready!!!");
                 //TODO return serial to user

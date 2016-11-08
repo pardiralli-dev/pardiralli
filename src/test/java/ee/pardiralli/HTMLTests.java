@@ -11,17 +11,28 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import static junit.framework.TestCase.assertTrue;
 
-
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(locations = "classpath:test.properties")
 @RunWith(SpringRunner.class)
-public class SearchHTMLTests {
+public class HTMLTests {
 
     @LocalServerPort
     private int port;
 
     @Autowired
     private TestRestTemplate restTemplate;
+
+    @Test
+    public void formInputIdsArePresent() throws Exception {
+        String page = this.restTemplate.getForObject("http://localhost:" + port + "/insert", String.class);
+        assertTrue(page.contains("id=\"ownerFirstName\""));
+        assertTrue(page.contains("id=\"ownerLastName\""));
+        assertTrue(page.contains("id=\"email\""));
+        assertTrue(page.contains("id=\"ownerPhoneNumber\""));
+        assertTrue(page.contains("id=\"numberOfDucks\""));
+        assertTrue(page.contains("id=\"priceOfOneDuck\""));
+        assertTrue(page.contains("id=\"insert\""));
+    }
 
     @Test
     public void exactItemSearchIdsArePresent() throws Exception {
@@ -47,5 +58,4 @@ public class SearchHTMLTests {
         String page = this.restTemplate.getForObject("http://localhost:" + port + "/search", String.class);
         assertTrue(page.contains("id=\"results\""));
     }
-
 }

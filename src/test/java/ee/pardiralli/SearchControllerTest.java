@@ -31,7 +31,7 @@ public class SearchControllerTest {
     // MAX_PRICE equals with item count
     private static final Integer MAX_PRICE = 60;
     private static final Integer LOW_PRICE = 1;
-    private final Integer WAIT_TIME = 30;
+    private final Integer WAIT_TIME = 60;
     private final Date today = new Date(System.currentTimeMillis());
 
     private JavascriptExecutor js;

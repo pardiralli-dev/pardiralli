@@ -78,13 +78,6 @@ public class SearchControllerTest {
      */
     @Before
     public void setup() {
-        duckRepository.deleteAll();
-        raceRepository.deleteAll();
-        buyerRepository.deleteAll();
-        ownerRepository.deleteAll();
-        transactionRepository.deleteAll();
-
-
         url = "http:localhost:" + port + "/search";
         // Prepare data
         // Note that method save returns object that has assigned ID.

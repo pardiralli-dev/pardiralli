@@ -58,7 +58,6 @@ public class SettingsController {
 
     private String CloseRace(@ModelAttribute Settings userSettings, Model model) {
         java.sql.Date timestamp = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-
         Iterable<Race> races = raceRepository.findAll();
         Race currentRace = null;
 
@@ -75,7 +74,7 @@ public class SettingsController {
             raceRepository.save(currentRace);
         } else {
             //todo: i think we should log errors
-            System.out.println("Viga: Pooleliolevat rallit ei leitud");
+            System.err.println("Viga: Pooleliolevat rallit ei leitud");
         }
         model.addAttribute("settings", userSettings);
         return "settings";

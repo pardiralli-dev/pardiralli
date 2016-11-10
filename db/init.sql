@@ -16,9 +16,12 @@ ALTER SEQUENCE public.transaction_id_seq OWNED BY public.transaction.id;
 CREATE SEQUENCE public.race_id_seq;
 
 CREATE TABLE public.race (
-  id        INTEGER NOT NULL DEFAULT nextval('public.race_id_seq'),
-  beginning DATE    NOT NULL,
-  finish    DATE,
+  id          INTEGER NOT NULL DEFAULT nextval('public.race_id_seq'),
+  beginning   DATE    NOT NULL,
+  finish      DATE,
+  is_open     BOOLEAN,
+  race_name   VARCHAR(50),
+  description VARCHAR(2000),
   CONSTRAINT id PRIMARY KEY (id)
 );
 

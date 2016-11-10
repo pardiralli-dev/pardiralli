@@ -33,4 +33,7 @@ public interface RaceRepository extends CrudRepository<Race, Integer> {
     Date findLastFinishDate();
 
 
+    @Query("SELECT COUNT (r) FROM Race r WHERE r.isOpen = true")
+    Integer countOpenedRaces();
+
 }

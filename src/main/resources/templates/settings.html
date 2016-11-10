@@ -8,14 +8,10 @@
 </head>
 <body>
 <ul>
-    <li><a>Avaleht </a></li>
-    <li><a>Uudised </a></li>
-    <li><a>Osale </a></li>
-    <li><a>Kava </a></li>
-    <li><a>Auhinnad </a></li>
-    <li><a>Galerii </a></li>
-    <li><a>Eesmärk </a></li>
-    <li><a>Administraatori valikud </a></li>
+    <li><a th:href="@{/}">Avaleht </a></li>
+    <li><a th:href="@{/statistics}">Statistika </a></li>
+    <li><a th:href="@{/search}">Otsing </a></li>
+    <li><a th:href="@{/settings}">Võistlused </a></li>
 </ul>
 <!--/*@thymesVar id="info" type="java.lang.String"*/-->
 <h2 th:text="${info}"></h2>
@@ -27,13 +23,44 @@
 <!--/*@thymesVar id="races" type="java.util.List<ee.pardiralli.domain.Race>"*/-->
 <!--/*@thymesVar id="race" type="ee.pardiralli.domain.Race"*/-->
 <form th:each="raceFromLst : ${races}" th:action="@{/settings}" th:object="${race}" method="post">
-    <div th:text="${raceFromLst.getName()}"></div>
+    <div th:text="${raceFromLst.getRaceName()}"></div>
     <div th:text="${raceFromLst.getBeginning()}"></div>
     <div th:text="${raceFromLst.getFinish()}"></div>
     <div th:text="${raceFromLst.getDescription()}"></div>
     <input type="hidden" name="id" th:value="${raceFromLst.getId()}"/>
     <input type="hidden" name="isOpen" th:value="${!raceFromLst.getIsOpen()}"/>
     <input type="submit" th:value="${raceFromLst.getIsOpen()} ? 'Sulge' : 'Ava'"/>
+</form>
+<div>-------------------------------------------------------------</div>
+<form th:action="@{/open}" th:object="${race}" method="post">
+    <label> Alguskuupäev
+        <input th:field="*{beginning}"
+               type="date"
+               required="required"/>
+    </label>
+    <label> Lõppkuupäev
+        <input th:field="*{finish}"
+               type="date"
+               required="required"/>
+    </label>
+    <div>
+        <label> Nimi
+            <input th:field="*{raceName}"
+                   type="text"
+                   placeholder="Võistluse nimi"
+                   required="required"/>
+        </label>
+    </div>
+    <div>
+        <label> Kirjeldus
+            <input th:field="*{description}"
+                   type="text"
+                   placeholder="Võistluse kirjeldus"
+                   required="required"/>
+        </label>
+    </div>
+    <input type="hidden" name="isOpen" th:value="true"/>
+    <input type="submit" value="Sisesta uus võistlus!"/>
 </form>
 </body>
 </html>

@@ -2,6 +2,7 @@ package ee.pardiralli;
 
 import ee.pardiralli.db.RaceRepository;
 import ee.pardiralli.domain.Race;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -45,18 +46,22 @@ public class RaceRepoTests {
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
         beginning1 = formatter.parse("12-02-2399");
         finish1 = formatter.parse("19-12-2400");
-        race1 = new Race(new java.sql.Date(beginning1.getTime()), new java.sql.Date(finish1.getTime()));
+        race1 = new Race(new java.sql.Date(beginning1.getTime()), new java.sql.Date(finish1.getTime()), "s", "s", true);
         this.entityManager.persist(race1);
 
         beginning2 = formatter.parse("13-02-2399");
         finish2 = formatter.parse("18-12-2400");
-        race2 = new Race(new java.sql.Date(beginning2.getTime()), new java.sql.Date(finish2.getTime()));
+        race2 = new Race(new java.sql.Date(beginning2.getTime()), new java.sql.Date(finish2.getTime()), "s", "s", true);
         this.entityManager.persist(race2);
 
-        race3 = new Race(new java.sql.Date(beginning1.getTime()), new java.sql.Date(finish2.getTime()));
+        race3 = new Race(new java.sql.Date(beginning1.getTime()), new java.sql.Date(finish2.getTime()), "s", "s", true);
         this.entityManager.persist(race3);
         this.entityManager.flush();
+    }
 
+    @After
+    public void tearDown() throws Exception {
+        raceRepository.deleteAll();
     }
 
     @Test

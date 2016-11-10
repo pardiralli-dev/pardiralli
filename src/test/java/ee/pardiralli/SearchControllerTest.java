@@ -81,7 +81,7 @@ public class SearchControllerTest {
         url = "http:localhost:" + port + "/search";
         // Prepare data
         // Note that method save returns object that has assigned ID.
-        race = raceRepository.save(new Race(today, today));
+        race = raceRepository.save(new Race(today,today, "s", "some", true));
         duckBuyer = buyerRepository.save(new DuckBuyer("test@gmail.com", "7656238"));
         duckOwner = ownerRepository.save(new DuckOwner("Vinge", "Viis", "56378534"));
 

@@ -106,7 +106,7 @@ public class StatisticsControllerTests {
             calendar.add(Calendar.DAY_OF_YEAR, 1);
         }
 
-        race = raceRepository.save(new Race(dateList.get(0), dateList.get(dateList.size() - 1)));
+        race = raceRepository.save(new Race(dateList.get(0), dateList.get(dateList.size() - 1), "s", "s", true));
         duckOwner = ownerRepository.save(new DuckOwner("owner", "lastName", "55764383"));
         duckBuyer = buyerRepository.save(new DuckBuyer("test@gmail.com", "5514501"));
 

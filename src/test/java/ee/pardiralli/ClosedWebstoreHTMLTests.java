@@ -79,11 +79,4 @@ public class ClosedWebstoreHTMLTests {
         }
     }
 
-    @Test
-    public void potentialWebstoreInputIdsArePresent() throws Exception {
-        String page = this.restTemplate.getForObject("/", String.class);
-
-
-        assertTrue(page.contains("id=\"webstoreIsClosed\""));
-    }
 }

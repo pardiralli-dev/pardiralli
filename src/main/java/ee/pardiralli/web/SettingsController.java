@@ -26,28 +26,53 @@ public class SettingsController {
 
     @GetMapping("/settings")
     public String getTemplate(Race race, Model model) {
-        List<Race> races = IteratorUtils.toList(raceRepository.findAll().iterator());
-        Collections.sort(races);
-        model.addAttribute("races", races);
-        model.addAttribute("info","");
+        model.addAttribute("races", getRaces());
+        model.addAttribute("info", "");
         return "settings";
     }
 
     @PostMapping("/settings")
-    public String openClose(@Valid Race race, BindingResult results, Model model) {
-        if (!results.hasFieldErrors() &&
-                raceRepository.exists(race.getId()) &&
-                (raceRepository.countOpenedRaces() == 0 && race.getIsOpen() || !race.getIsOpen())) {
+    public String updateExisting(Race race, Model model) {
+        if (canManipulateRaces(race)) {
             Race fromDb = raceRepository.findOne(race.getId());
             fromDb.setIsOpen(race.getIsOpen());
             raceRepository.save(fromDb);
             return "redirect:/settings";
         }
-        List<Race> races = IteratorUtils.toList(raceRepository.findAll().iterator());
-        Collections.sort(races);
-        model.addAttribute("races", races);
-        model.addAttribute("info","Korraga saab olla avatud ainult üks Pardiralli!");
+
+        model.addAttribute("races", getRaces());
+        model.addAttribute("info", "Korraga saab olla avatud ainult üks Pardiralli!");
         return "settings";
     }
 
+
+    @PostMapping("/open")
+    public String openRace(@Valid Race race, BindingResult results, Model model) {
+        if (!results.hasFieldErrors() &&
+                raceRepository.countOpenedRaces() == 0 &&
+                race.getBeginning().compareTo(race.getFinish()) <= 0) {
+
+            raceRepository.save(race);
+            model.addAttribute("races", getRaces());
+            model.addAttribute("info", "Uus võistlus avatud!");
+            return "redirect:/settings";
+        }
+        model.addAttribute("info", "Viga sisendis!");
+        return "settings";
+    }
+
+
+    private Boolean canManipulateRaces(Race race) {
+        return race.getId() != null &&
+                race.getIsOpen() != null &&
+                raceRepository.exists(race.getId()) &&
+                (raceRepository.countOpenedRaces() == 0 && race.getIsOpen() || !race.getIsOpen());
+    }
+
+
+    private List<Race> getRaces() {
+        List<Race> races = IteratorUtils.toList(raceRepository.findAll().iterator());
+        Collections.sort(races);
+        return races;
+    }
 }

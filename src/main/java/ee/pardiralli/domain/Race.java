@@ -3,7 +3,6 @@ package ee.pardiralli.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -34,7 +33,7 @@ public class Race implements Comparable<Race> {
     @NotNull
     private Boolean isOpen;
 
-    public Race(Date beginning, Date finish){
+    public Race(Date beginning, Date finish) {
         this.beginning = beginning;
         this.finish = finish;
     }

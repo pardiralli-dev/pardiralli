@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
 <html lang="et" xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <title>Seaded</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" type="text/css" href="css/admin.css"/>
 </head>
 <body>
-
 <ul>
     <li><a>Avaleht </a></li>
     <li><a>Uudised </a></li>
@@ -19,25 +17,23 @@
     <li><a>Eesmärk </a></li>
     <li><a>Administraatori valikud </a></li>
 </ul>
-
-
-<!--/*@thymesVar id="settings" type="ee.pardiralli.domain.Settings"*/--><!--*/-->
-<form th:if="${settings.getIsRaceOpen() == true}" name = "close" th:action="@{/settings}" th:object="${settings}" method="post">
-    <p>Kas tahad pardiralli selleks korraks kinni panna?</p>
-    <div>
-        <input type="submit" value="Sulge" name="action" class="button"/>
-    </div>
+<!--/*@thymesVar id="info" type="java.lang.String"*/-->
+<h2 th:text="${info}"></h2>
+<div>Nimi</div>
+<div>Alguskuupäev</div>
+<div>Lõppkuupäev</div>
+<div>Info</div>
+<div>On avatud</div>
+<!--/*@thymesVar id="races" type="java.util.List<ee.pardiralli.domain.Race>"*/-->
+<!--/*@thymesVar id="race" type="ee.pardiralli.domain.Race"*/-->
+<form th:each="raceFromLst : ${races}" th:action="@{/settings}" th:object="${race}" method="post">
+    <div th:text="${raceFromLst.getName()}"></div>
+    <div th:text="${raceFromLst.getBeginning()}"></div>
+    <div th:text="${raceFromLst.getFinish()}"></div>
+    <div th:text="${raceFromLst.getDescription()}"></div>
+    <input type="hidden" name="id" th:value="${raceFromLst.getId()}"/>
+    <input type="hidden" name="isOpen" th:value="${!raceFromLst.getIsOpen()}"/>
+    <input type="submit" th:value="${raceFromLst.getIsOpen()} ? 'Sulge' : 'Ava'"/>
 </form>
-
-<form th:if="${settings.getIsRaceOpen() == false}" name = "open" th:action="@{/settings}" th:object="${settings}" method="post">
-    <p>Kas tahad pardiralli avada maksmiseks?</p>
-    <div>
-        <input type="submit" value="Ava" name = "action" class = "button"/>
-    </div>
-</form>
-
-
-
-
 </body>
 </html>

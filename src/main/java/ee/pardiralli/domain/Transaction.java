@@ -25,4 +25,9 @@ public class Transaction {
     public Transaction(Boolean bool){
         this.isPaid=bool;
     }
+
+    public Transaction(Boolean bool, Timestamp timestamp){
+        this.isPaid = bool;
+        this.timeOfPayment = timestamp;
+    }
 }

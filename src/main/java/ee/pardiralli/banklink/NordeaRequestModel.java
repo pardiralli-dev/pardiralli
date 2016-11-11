@@ -7,25 +7,30 @@ import java.util.Arrays;
 
 @Data
 public class NordeaRequestModel {
-    // NB! These names and their order must not be changed
+    private String VK_SERVICE = "1011";
+    private String VK_VERSION = "008";
+    private String VK_SND_ID = "80096899";
+    private String VK_STAMP;
+    private String VK_AMOUNT;
+    private String VK_CURR = "EUR";
+    private String VK_ACC = "EE471700017003582602";
+    private String VK_NAME = "EESTI VÄHIHAIGETE LASTE VANEMATE LIIT";
+    private String VK_REF;
+    private String VK_MSG;
+    private String VK_RETURN = "https://pardiralli.herokuapp.com/banklink/nordea/success";
+    private String VK_CANCEL = "https://pardiralli.herokuapp.com/banklink/nordea/fail";
+    private String VK_DATETIME = BanklinkUtils.currentDatetime();
+    private String VK_MAC;
+    private String VK_ENCODING = "UTF-8";
+    private String VK_LANG = "EST";
 
-    private final String VK_SERVICE = "1011";
-    private final String VK_VERSION = "008";
-    private final String VK_SND_ID = "80096899";
-    private final String VK_STAMP = "";
-    private final String VK_AMOUNT = "";
-    private final String VK_CURR = "EUR";
-    private final String VK_ACC = "EE471700017003582602";
-    private final String VK_NAME = "EESTI VÄHIHAIGETE LASTE VANEMATE LIIT";
-    private final String VK_REF = "";
-    private final String VK_MSG = "";
-    private final String VK_RETURN = "https://pardiralli.herokuapp.com/banklink/nordea/success";
-    private final String VK_CANCEL = "https://pardiralli.herokuapp.com/banklink/nordea/fail";
-    private final String VK_DATETIME = BanklinkUtils.currentDatetime();
-    private final String VK_MAC = BanklinkUtils.getMAC("nordea-private.der",
-            Arrays.asList(VK_SERVICE, VK_VERSION, VK_SND_ID, VK_STAMP, VK_AMOUNT, VK_CURR, VK_ACC, VK_NAME,
-                    VK_REF, VK_MSG, VK_RETURN, VK_CANCEL, VK_DATETIME));
-
-    private final String VK_ENCODING = "UTF-8";
-    private final String VK_LANG = "EST";
+    public NordeaRequestModel(String amount, String stamp, String referenceNumber, String paymentDescription) {
+        this.VK_AMOUNT = amount;
+        this.VK_STAMP = stamp;
+        this.VK_REF = referenceNumber;
+        this.VK_MSG = paymentDescription;
+        this.VK_MAC = BanklinkUtils.getMAC("nordea-private.der",
+                Arrays.asList(VK_SERVICE, VK_VERSION, VK_SND_ID, VK_STAMP, VK_AMOUNT, VK_CURR, VK_ACC, VK_NAME,
+                        VK_REF, VK_MSG, VK_RETURN, VK_CANCEL, VK_DATETIME));
+    }
 }

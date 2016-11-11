@@ -45,4 +45,6 @@ public interface DuckRepository extends CrudRepository<Duck, Integer> {
      */
     @Query("SELECT SUM(d.priceCents) FROM Duck d WHERE d.dateOfPurchase = :date")
     Double donationsByDateOfPurchase(@Param("date") Date date);
+
+    List<Duck> findByTransactionId(Integer transactionId);
 }

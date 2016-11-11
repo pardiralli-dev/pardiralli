@@ -3,6 +3,7 @@ package ee.pardiralli.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,11 +30,11 @@ public class Race implements Comparable<Race> {
     private Date finish;
 
     @Size(max=50)
-    @NotNull
+    @NotBlank
     private String raceName;
 
     @Size(max=2000)
-    @NotNull
+    @NotBlank
     private String description;
 
     @NotNull

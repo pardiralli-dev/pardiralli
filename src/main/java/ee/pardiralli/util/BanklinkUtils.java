@@ -58,10 +58,8 @@ public class BanklinkUtils {
         return dateTime.substring(0, dateTime.lastIndexOf(":")) + dateTime.substring(dateTime.lastIndexOf(":") + 1, dateTime.length());
     }
 
-
-
     public static String getMAC(String privateKeyFilename, List<String> params) {
-        String dataRow = params.stream().map(p -> len(p) + p).collect(Collectors.joining());
+        String dataRow = concParamsToDataRow(params);
         try {
             Signature sig = Signature.getInstance("SHA1withRSA");
             sig.initSign(getPrivateKey(privateKeyFilename));
@@ -72,6 +70,10 @@ public class BanklinkUtils {
             // TODO: 8.11.16 error handling
             throw new AssertionError(e);
         }
+    }
+
+    private static String concParamsToDataRow(List<String> params) {
+        return params.stream().map(p -> len(p) + p).collect(Collectors.joining());
     }
 
     private static String len(String param) {

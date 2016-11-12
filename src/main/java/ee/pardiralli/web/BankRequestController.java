@@ -28,20 +28,20 @@ public class BankRequestController {
     @GetMapping("/banklink/{bank}/pay")
     @ResponseStatus(value = HttpStatus.OK)
     public String paymentForm(Model model, HttpServletRequest req, @PathVariable Bank bank) {
-        Object tidObj = 3;//req.getSession().getAttribute(Transaction.TRANSACTION_ID_NAME);
+        Object tidObj = req.getSession().getAttribute(Transaction.TRANSACTION_ID_NAME);
         if (tidObj == null) {
             return "general_error";
         }
         try {
             RequestModel requestModel = createRequestModel((Integer) tidObj, bank);
             model.addAttribute("request_model", requestModel);
-            return paymentFormByBank(bank);
+            return getPaymentFormByBank(bank);
         } catch (IllegalTransactionException e) {
             return "general_error";
         }
     }
 
-    private String paymentFormByBank(Bank bank) {
+    private String getPaymentFormByBank(Bank bank) {
         switch (bank) {
             case lhv:
                 return "lhv_payment_form";
@@ -57,7 +57,7 @@ public class BankRequestController {
     }
 
     private RequestModel createRequestModel(Integer tid, Bank bank) throws IllegalTransactionException {
-        String amount = "0.01";//paymentService.transactionAmount(tid);
+        String amount = paymentService.transactionAmount(tid);
         String stamp = tid.toString();
         String ref = BanklinkUtils.genPaymentReferenceNumber();
         String description = BanklinkUtils.genPaymentDescription(tid);

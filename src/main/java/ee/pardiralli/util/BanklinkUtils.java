@@ -9,6 +9,8 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.security.*;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.time.ZoneId;
@@ -56,6 +58,8 @@ public class BanklinkUtils {
         return dateTime.substring(0, dateTime.lastIndexOf(":")) + dateTime.substring(dateTime.lastIndexOf(":") + 1, dateTime.length());
     }
 
+
+
     public static String getMAC(String privateKeyFilename, List<String> params) {
         String dataRow = params.stream().map(p -> len(p) + p).collect(Collectors.joining());
         try {
@@ -84,6 +88,12 @@ public class BanklinkUtils {
             PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(keyBytes);
             KeyFactory kf = KeyFactory.getInstance("RSA");
             return kf.generatePrivate(spec);
+        }
+    }
+
+    private static PublicKey getPublicKey(String filename) throws IOException, CertificateException {
+        try (InputStream keyStream = BanklinkUtils.class.getClassLoader().getResourceAsStream(filename)) {
+            return CertificateFactory.getInstance("X.509").generateCertificate(keyStream).getPublicKey();
         }
     }
 

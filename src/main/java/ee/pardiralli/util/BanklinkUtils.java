@@ -58,14 +58,10 @@ public class BanklinkUtils {
      */
     public static String currentDatetime() {
         String dateTime = ZonedDateTime.now(ZoneId.of("Europe/Helsinki"))
-                .truncatedTo(ChronoUnit.MINUTES)
+                .truncatedTo(ChronoUnit.SECONDS)
                 .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
 
         return dateTime.substring(0, dateTime.lastIndexOf(":")) + dateTime.substring(dateTime.lastIndexOf(":") + 1, dateTime.length());
-    }
-
-    public static void main(String[] args) {
-        System.out.println(currentDatetime());
     }
 
     /**

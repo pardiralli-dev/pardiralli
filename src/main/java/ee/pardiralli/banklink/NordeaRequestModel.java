@@ -2,11 +2,14 @@ package ee.pardiralli.banklink;
 
 import ee.pardiralli.util.BanklinkUtils;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Arrays;
 
-@Data
-public class NordeaRequestModel {
+@Getter
+@Setter
+public class NordeaRequestModel extends RequestModel {
     private String VK_SERVICE = "1011";
     private String VK_VERSION = "008";
     private String VK_SND_ID = "80096899";

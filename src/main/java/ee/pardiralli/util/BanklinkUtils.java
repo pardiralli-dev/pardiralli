@@ -42,7 +42,6 @@ public class BanklinkUtils {
     }
 
     /**
-     * @param transactionId
      * @return bank payment description
      */
     public static String genPaymentDescription(Integer transactionId) {
@@ -50,6 +49,13 @@ public class BanklinkUtils {
     }
 
 
+    /**
+     * @return timestamp in the format
+     * <pre>yyyy-MM-ddThh:mm:ss+ZONE</pre>
+     * Example:
+     * <pre>2016-11-24T16:50:00+0200</pre>
+     * Note that there is no colon in the time zone.
+     */
     public static String currentDatetime() {
         String dateTime = ZonedDateTime.now(ZoneId.of("Europe/Helsinki"))
                 .truncatedTo(ChronoUnit.MINUTES)
@@ -58,6 +64,26 @@ public class BanklinkUtils {
         return dateTime.substring(0, dateTime.lastIndexOf(":")) + dateTime.substring(dateTime.lastIndexOf(":") + 1, dateTime.length());
     }
 
+    public static void main(String[] args) {
+        System.out.println(currentDatetime());
+    }
+
+    /**
+     * Generate base64-encoded MAC008 signature using provided parameters as data.
+     * <pre>
+     * MAC008(x1, x2, ..., xn) := RSA(SHA-1(p(x1)||x1||p(x2)||x2||...||p(xn)||xn), d, m)
+     *
+     * ||              - string concat
+     * x1, x2, ..., xn - query parameters
+     * p               - length of parameter in symbols left-padded with 0's to form a three digit string
+     * d               - RSA secret exponent
+     * m               - RSA modulus
+     * </pre>
+     *
+     * @param privateKeyFilename filename of the private key used to generate the signature
+     * @param params             list of data parameters included in the signature
+     * @return base64-encoded MAC008 signature
+     */
     public static String getMAC(String privateKeyFilename, List<String> params) {
         String dataRow = concParamsToDataRow(params);
         try {

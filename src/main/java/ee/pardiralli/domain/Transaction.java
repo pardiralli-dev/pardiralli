@@ -10,9 +10,9 @@ import java.sql.Timestamp;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-
 @Entity
 public class Transaction {
+    public static final String TRANSACTION_ID_NAME = "tid";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

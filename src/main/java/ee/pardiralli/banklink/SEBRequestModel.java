@@ -20,8 +20,8 @@ public class SEBRequestModel extends RequestModel {
     private String VK_NAME = "EESTI VÄHIHAIGETE LASTE VANEMATE LIIT";
     private String VK_REF;
     private String VK_MSG;
-    private String VK_RETURN = "https://pardiralli.herokuapp.com/banklink/seb/success";
-    private String VK_CANCEL = "https://pardiralli.herokuapp.com/banklink/seb/fail";
+    private String VK_RETURN = String.format("https://pardiralli.herokuapp.com/banklink/%s/success", Bank.seb);
+    private String VK_CANCEL = String.format("https://pardiralli.herokuapp.com/banklink/%s/fail", Bank.seb);
     private String VK_DATETIME = BanklinkUtils.currentDatetime();
     private String VK_MAC;
     private String VK_ENCODING = "UTF-8";

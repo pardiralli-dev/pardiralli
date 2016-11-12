@@ -20,8 +20,8 @@ public class SwedbankRequestModel extends RequestModel {
     private String VK_NAME = "EESTI VÄHIHAIGETE LASTE VANEMATE LIIT";
     private String VK_REF;
     private String VK_MSG;
-    private String VK_RETURN = "https://pardiralli.herokuapp.com/banklink/swedbank/success";
-    private String VK_CANCEL = "https://pardiralli.herokuapp.com/banklink/swedbank/fail";
+    private String VK_RETURN = String.format("https://pardiralli.herokuapp.com/banklink/%s/success", Bank.swedbank);
+    private String VK_CANCEL = String.format("https://pardiralli.herokuapp.com/banklink/%s/fail", Bank.swedbank);
     private String VK_DATETIME = BanklinkUtils.currentDatetime();
     private String VK_MAC;
     private String VK_ENCODING = "UTF-8";

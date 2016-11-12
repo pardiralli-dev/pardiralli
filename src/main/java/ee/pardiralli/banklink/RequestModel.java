@@ -1,24 +1,27 @@
 package ee.pardiralli.banklink;
 
-public class RequestModel {
-    /*
-    ALL SUBCLASSES MUST CONTAIN THE FOLLOWING FIELDS
 
-    private String VK_SERVICE;
-    private String VK_VERSION;
-    private String VK_SND_ID;
-    private String VK_STAMP;
-    private String VK_AMOUNT;
-    private String VK_CURR;
-    private String VK_ACC;
-    private String VK_NAME;
-    private String VK_REF;
-    private String VK_MSG;
-    private String VK_RETURN;
-    private String VK_CANCEL;
-    private String VK_DATETIME;
-    private String VK_MAC;
-    private String VK_ENCODING;
-    private String VK_LANG;
-     */
+/**
+ * ALL SUBCLASSES MUST CONTAIN THE FOLLOWING FIELDS:
+ * <ul>
+ * <li>private String VK_SERVICE;
+ * <li>private String VK_VERSION;
+ * <li>private String VK_SND_ID;
+ * <li>private String VK_STAMP;
+ * <li>private String VK_AMOUNT;
+ * <li>private String VK_CURR;
+ * <li>private String VK_ACC;
+ * <li>private String VK_NAME;
+ * <li>private String VK_REF;
+ * <li>private String VK_MSG;
+ * <li>private String VK_RETURN;
+ * <li>private String VK_CANCEL;
+ * <li>private String VK_DATETIME;
+ * <li>private String VK_MAC;
+ * <li>private String VK_ENCODING;
+ * <li>private String VK_LANG;
+ * </ul>
+ */
+public abstract class RequestModel {
+
 }

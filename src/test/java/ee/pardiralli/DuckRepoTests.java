@@ -3,6 +3,7 @@ package ee.pardiralli;
 import ee.pardiralli.db.DuckRepository;
 import ee.pardiralli.db.TransactionRepository;
 import ee.pardiralli.domain.*;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -58,7 +59,7 @@ public class DuckRepoTests {
         String lName3 = "Keemik";
 
         purchaseDate1 = new Date(System.currentTimeMillis());
-        Race race = new Race(purchaseDate1, new Date(System.currentTimeMillis()));
+        Race race = new Race(purchaseDate1,new Date(System.currentTimeMillis()), "s", "some", true);
         this.entityManager.persist(race);
 
         DuckOwner duckOwner1 = new DuckOwner(fName1, lName1, "55764383");
@@ -143,6 +144,12 @@ public class DuckRepoTests {
         this.entityManager.persist(duck5);
         this.entityManager.flush();
 
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        transactionRepository.deleteAll();
+        entityManager.clear();
     }
 
     /**

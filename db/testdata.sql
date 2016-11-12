@@ -2,8 +2,10 @@ INSERT INTO duck_owner (first_name, last_name, phone_number) VALUES ('Volde', 'T
 INSERT INTO duck_owner (first_name, last_name, phone_number) VALUES ('Marilyn', 'Monroe', '23123123');
 INSERT INTO duck_buyer (email, phone_number) VALUES ('garripotter@gogwarts.ru', '696969');
 INSERT INTO duck_buyer (email, phone_number) VALUES ('jetfuel@cantmelt.stealbeams', '+37218888');
-INSERT INTO race (beginning, finish) VALUES ('2016-09-28T11:18:06+00:00', '2016-09-29T10:55:08+00:00');
-INSERT INTO race (beginning, finish) VALUES ('2015-10-28T10:33:06+00:00', '2016-12-01T12:44:08+00:00');
+INSERT INTO race (beginning, finish, is_open, race_name, description)
+VALUES ('2016-09-28T11:18:06+00:00', '2016-09-29T10:55:08+00:00', FALSE, 'Nimi1', 'Kirjeldus1');
+INSERT INTO race (beginning, finish, is_open, race_name, description)
+VALUES ('2015-10-28T10:33:06+00:00', '2016-12-01T12:44:08+00:00', TRUE, 'Nimi2', 'Kirjeldus2');
 INSERT INTO transaction (is_paid, time_of_payment) VALUES (TRUE, TIMESTAMP '2009-04-04 09:01:32');
 INSERT INTO transaction (is_paid, time_of_payment) VALUES (FALSE, TIMESTAMP '2011-07-05 12:34:22');
 INSERT INTO duck (date_of_purchase, owner_id, buyer_id, race_id, serial_number, time_of_purchase, price_cents, transaction_id)

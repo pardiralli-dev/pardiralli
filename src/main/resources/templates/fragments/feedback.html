@@ -9,7 +9,7 @@
 <body>
 
 <div th:fragment="feedback-messages (feedbackList)" th:each="feedback : ${feedbackList}">
-    <div class="alert" th:text="${feedback.getMessage()}" th:classappend="${feedback.getCssClass()}"></div>
+    <div class="alert" th:text="${feedback.message}" th:classappend="${feedback.cssClass}"></div>
 </div>
 
 </body>

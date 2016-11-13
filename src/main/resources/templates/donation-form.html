@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html lang="et" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Pardiralli</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+</head>
+<body>
+
+
+<div th:replace="fragments/feedback :: feedback-messages (feedbackList='feedbackList')"></div>
+
+<form action="#" th:action="@{/}" th:object="${}" method="post">
+
+</form>
+
+
+</body>
+</html>

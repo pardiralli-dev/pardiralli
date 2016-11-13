@@ -13,6 +13,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @Entity
 public class Duck {
+    public static final Integer MINIMUM_PRICE = 5;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

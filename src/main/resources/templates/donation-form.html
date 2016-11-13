@@ -8,13 +8,40 @@
 </head>
 <body>
 
+<div class="container">
 
-<div th:replace="fragments/feedback :: feedback-messages (feedbackList='feedbackList')"></div>
 
-<form action="#" th:action="@{/}" th:object="${}" method="post">
+    <!--/*@thymesVar id="feedbackList" type="java.util.List<ee.pardiralli.domain.Feedback>"*/-->
+    <div th:replace="fragments/feedback :: feedback-messages (feedbackList=${feedbackList})"></div>
 
-</form>
 
+    <!--/*@thymesVar id="donation" type="ee.pardiralli.dto.DonationFormDTO"*/-->
+    <form action="#" th:action="@{/idx}" th:object="${donation}" method="post">
+
+        <!-- donation box -->
+        <div th:each="box, boxStat : *{boxes}" class="row">
+            <div class="col-sm-6">
+                <div th:text="${boxStat.count}">1</div>
+                <div class="form-group">
+                    <input th:field="*{boxes[__${boxStat.index}__].ownerPhone}" class="form-control" type="text"/>
+                    <input th:field="*{boxes[__${boxStat.index}__].duckQuantity}" class="form-control" type="number"
+                           min="1" max="1000"/>
+                    <input th:field="*{boxes[__${boxStat.index}__].duckPrice}" class="form-control" type="number"
+                           min="5" max="1000" step="5"/>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" name="addBox">Lisa kast</button>
+
+        <!-- buyer info -->
+        <div>
+            <input th:field="${donation.buyerEmail}"/>
+        </div>
+
+    </form>
+
+</div>
 
 </body>
 </html>

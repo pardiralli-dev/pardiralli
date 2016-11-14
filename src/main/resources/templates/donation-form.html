@@ -24,6 +24,41 @@
         <div th:each="box, boxStat : *{boxes}">
 
             <!--/* left-floating box */-->
+            <div th:if="${boxStat.index} % 2 == 0">
+                <div class="row">
+                    <div class="col-sm-6 well">
+                        <div>
+                            <div class="col-sm-6 text-left"><p th:text="${boxStat.count}">...</p></div>
+                            <div class="col-sm-6 text-right">
+                                <button type="submit" name="removeBox" th:value="${boxStat.index}"
+                                        class="btn btn-xs btn-danger glyphicon glyphicon-remove"></button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <input th:field="*{boxes[__${boxStat.index}__].ownerPhone}" class="form-control"
+                                   type="text"/>
+                        </div>
+                        <div class="row">
+                            <input th:field="*{boxes[__${boxStat.index}__].duckQuantity}" class="form-control"
+                                   type="number"
+                                   min="1" max="1000"/>
+                        </div>
+                        <div class="row">
+                            <input th:field="*{boxes[__${boxStat.index}__].duckPrice}" class="form-control"
+                                   type="number"
+                                   min="5" max="1000" step="5"/>
+                        </div>
+                    </div>
+                    <div class="col-sm-6"></div>
+                </div>
+                <div th:if="${boxStat.last}" class="row">
+                    <div class="col-sm-6">
+                        <button type="submit" name="addBox" class="btn btn-success">Lisa kast</button>
+                    </div>
+                </div>
+            </div>
+
+            <!--/* right-floating box */-->
             <div th:if="${boxStat.index} % 2 == 1">
                 <div class="row">
                     <div class="col-sm-5"></div>
@@ -59,43 +94,8 @@
                 </div>
             </div>
 
-            <!--/* right-floating box */-->
-            <div th:if="${boxStat.index} % 2 == 0">
-                <div class="row">
-                    <div class="col-sm-6 well">
-                        <div>
-                            <div class="col-sm-6 text-left"><p th:text="${boxStat.count}">...</p></div>
-                            <div class="col-sm-6 text-right">
-                                <button type="submit" name="removeBox" th:value="${boxStat.index}"
-                                        class="btn btn-xs btn-danger glyphicon glyphicon-remove"></button>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <input th:field="*{boxes[__${boxStat.index}__].ownerPhone}" class="form-control"
-                                   type="text"/>
-                        </div>
-                        <div class="row">
-                            <input th:field="*{boxes[__${boxStat.index}__].duckQuantity}" class="form-control"
-                                   type="number"
-                                   min="1" max="1000"/>
-                        </div>
-                        <div class="row">
-                            <input th:field="*{boxes[__${boxStat.index}__].duckPrice}" class="form-control"
-                                   type="number"
-                                   min="5" max="1000" step="5"/>
-                        </div>
-                    </div>
-                    <div class="col-sm-6"></div>
-                </div>
-                <div th:if="${boxStat.last}" class="row">
-                    <div class="col-sm-6">
-                        <button type="submit" name="addBox" class="btn btn-success">Lisa kast</button>
-                    </div>
-                </div>
-            </div>
 
         </div>
-
 
         <!--/* buyer info */-->
         <hr/>

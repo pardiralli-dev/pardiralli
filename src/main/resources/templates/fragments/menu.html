@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html lang="et" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Võistlused</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" type="text/css"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="css/main.css"/>
+</head>
+<body>
+<div class="container">
+
+    <!-- FRAGMENT -->
+    <nav class="navbar navbar-inverse" th:fragment="main-menu">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Pardiralli</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li><a th:href="@{/}">Avaleht</a></li>
+                <li><a th:href="@{/statistics}">Statistika</a></li>
+                <li><a th:href="@{/search}">Otsing</a></li>
+                <li class="active"><a th:href="@{/settings}">Võistlused</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            </ul>
+        </div>
+    </nav>
+
+</div>
+</body>
+</html>

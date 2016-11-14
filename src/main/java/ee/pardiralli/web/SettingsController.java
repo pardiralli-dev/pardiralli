@@ -1,14 +1,20 @@
 package ee.pardiralli.web;
 
 import ee.pardiralli.db.RaceRepository;
+import ee.pardiralli.domain.FeedbackType;
 import ee.pardiralli.domain.Race;
-import ee.pardiralli.domain.Settings;
-import org.springframework.stereotype.Controller;
+import ee.pardiralli.util.ControllerUtil;
+import org.apache.commons.collections4.IteratorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
-import java.util.Calendar;
+import javax.validation.Valid;
+import java.util.Collections;
+import java.util.List;
 
 @Controller
 public class SettingsController {
@@ -21,62 +27,54 @@ public class SettingsController {
     }
 
     @GetMapping("/settings")
-    public String settings(Model model) {
-        Boolean isRaceOpen = false;
-
-        Iterable<Race> races = raceRepository.findAll();
-
-        //We find if there is currently an ongoing race. This is necessary because then we know
-        //whehter the user can open a new race or has to close an ongoing race before that
-        for (Race r : races) {
-            //An ongoing race does not have a finish date
-            if (r.getFinish() == null) isRaceOpen = true;
-        }
-        model.addAttribute("settings", new Settings(isRaceOpen));
+    public String getTemplate(Race race, Model model) {
+        model.addAttribute("races", getRaces());
         return "settings";
     }
 
     @PostMapping("/settings")
-    public String settingsSubmitClose(@RequestParam(value = "action", defaultValue = "null") String param, @ModelAttribute Settings userSettings, Model model) {
+    public String updateExisting(Race race, Model model) {
+        model.addAttribute("races", getRaces());
 
-        //depending on the parameter, we know whether a race was closed or opened
-        if (param.equals("Sulge")) return CloseRace(userSettings, model);
-        else return OpenRace(userSettings, model);
-    }
-
-    private String OpenRace(@ModelAttribute Settings userSettings, Model model) {
-        //save the current date as the finish date for the ongoing race to the DB
-        java.sql.Date timestamp = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-        Race r = new Race(timestamp, null);
-        raceRepository.save(r);
-
-        userSettings.setIsRaceOpen(true);
-        model.addAttribute("settings", userSettings);
-
-        return "settings";
-    }
-
-    private String CloseRace(@ModelAttribute Settings userSettings, Model model) {
-        java.sql.Date timestamp = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-        Iterable<Race> races = raceRepository.findAll();
-        Race currentRace = null;
-
-        //we look for the ongoing race.
-        for (Race r : races) {
-            if (r.getFinish() == null) currentRace = r;
-        }
-
-        userSettings.setIsRaceOpen(false);
-
-        //This should never happen (bc there should always be an ongoing race), but just in case.
-        if (currentRace != null) {
-            currentRace.setFinish(timestamp);
-            raceRepository.save(currentRace);
+        if (canManipulateRaces(race)) {
+            Race fromDb = raceRepository.findOne(race.getId());
+            fromDb.setIsOpen(race.getIsOpen());
+            raceRepository.save(fromDb);
+            ControllerUtil.setFeedback(model, FeedbackType.INFO,
+                    race.getIsOpen() ? "Pardiralli edukalt avatud" : "Pardiralli edukalt suletud!");
         } else {
-            //todo: i think we should log errors
-            System.err.println("Viga: Pooleliolevat rallit ei leitud");
+            ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Korraga saab olla avatud ainult üks Pardiralli!");
         }
-        model.addAttribute("settings", userSettings);
         return "settings";
+    }
+
+
+    @PostMapping("/open")
+    public String openRace(@Valid Race race, BindingResult results, Model model) {
+        model.addAttribute("races", getRaces());
+        if (!results.hasFieldErrors() &&
+                raceRepository.countOpenedRaces() == 0 &&
+                race.getBeginning().compareTo(race.getFinish()) <= 0) {
+            raceRepository.save(race);
+            ControllerUtil.setFeedback(model, FeedbackType.SUCCESS, "Uus võistlus avatud!");
+        } else {
+            ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Viga sisendis!");
+        }
+        return "settings";
+    }
+
+
+    private Boolean canManipulateRaces(Race race) {
+        return race.getId() != null &&
+                race.getIsOpen() != null &&
+                raceRepository.exists(race.getId()) &&
+                (raceRepository.countOpenedRaces() == 0 && race.getIsOpen() || !race.getIsOpen());
+    }
+
+
+    private List<Race> getRaces() {
+        List<Race> races = IteratorUtils.toList(raceRepository.findAll().iterator());
+        Collections.sort(races);
+        return races;
     }
 }

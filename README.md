@@ -13,5 +13,5 @@ $ ./deploy-local.sh
 ```
 This will connect to a dummy database in Heroku. To use a local database, setup the database locally and modify the database configuration/credentials in `deploy-local.sh` accordingly.
 
-**Note.** As of now, only the search page and partially the statistics page are implemented and therefore, after deploying locally, pages http://localhost:8080/search and http://localhost:8080/statistics can be viewed without errors. 
-The link to our web application is http://pardiralli.herokuapp.com/ but for the previously stated reasons, only pages http://pardiralli.herokuapp.com/search and http://pardiralli.herokuapp.com/statistics are currently viewable without errors.
+**Note.** When deploying locally, the base url is localhost:8080/ and the current subpages are localhost:8080/search, localhost:8080/statistics, localhost:8080/settings and localhost:8080/insert.
+The link to our web application is http://pardiralli.herokuapp.com/.

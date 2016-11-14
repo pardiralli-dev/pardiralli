@@ -22,16 +22,45 @@
 
         <!-- donation box -->
         <div th:each="box, boxStat : *{boxes}" class="row">
-            <div class="col-sm-6">
-                <div th:text="${boxStat.count}">1</div>
-                <div class="form-group">
-                    <input th:field="*{boxes[__${boxStat.index}__].ownerPhone}" class="form-control" type="text"/>
-                    <input th:field="*{boxes[__${boxStat.index}__].duckQuantity}" class="form-control" type="number"
-                           min="1" max="1000"/>
-                    <input th:field="*{boxes[__${boxStat.index}__].duckPrice}" class="form-control" type="number"
-                           min="5" max="1000" step="5"/>
+
+            <!-- left-floating box -->
+            <div th:if="${boxStat.count} % 2 == 0">
+                <div class="col-sm-5">
+                </div>
+                <div class="col-sm-7">
+                    <div th:text="${boxStat.count}">1</div>
+                    <div class="form-group">
+                        <input th:field="*{boxes[__${boxStat.index}__].ownerPhone}" class="row form-control"
+                               type="text"/>
+                        <input th:field="*{boxes[__${boxStat.index}__].duckQuantity}" class="row form-control"
+                               type="number"
+                               min="1" max="1000"/>
+                        <input th:field="*{boxes[__${boxStat.index}__].duckPrice}" class="row form-control"
+                               type="number"
+                               min="5" max="1000" step="5"/>
+                    </div>
                 </div>
             </div>
+
+            <!-- right-floating box -->
+            <div th:if="${boxStat.count} % 2 == 1">
+                <div class="col-sm-5">
+                    <div th:text="${boxStat.count}">1</div>
+                    <div class="form-group">
+                        <input th:field="*{boxes[__${boxStat.index}__].ownerPhone}" class="row form-control"
+                               type="text"/>
+                        <input th:field="*{boxes[__${boxStat.index}__].duckQuantity}" class="row form-control"
+                               type="number"
+                               min="1" max="1000"/>
+                        <input th:field="*{boxes[__${boxStat.index}__].duckPrice}" class="row form-control"
+                               type="number"
+                               min="5" max="1000" step="5"/>
+                    </div>
+                </div>
+                <div class="col-sm-7">
+                </div>
+            </div>
+
         </div>
 
         <button type="submit" name="addBox">Lisa kast</button>

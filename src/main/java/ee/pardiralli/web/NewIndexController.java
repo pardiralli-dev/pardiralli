@@ -29,8 +29,10 @@ public class NewIndexController {
     }
 
     @PostMapping(value = "/idx", params = {"removeBox"})
-    public String donationFormRemoveBox(DonationFormDTO donation, BindingResult result) {
-        // TODO: 13.11.16
+    public String donationFormRemoveBox(@ModelAttribute(DonationFormDTO.DONATION_VARIABLE_NAME) DonationFormDTO donation,
+                                        HttpServletRequest req) {
+        int boxId = Integer.parseInt(req.getParameter("removeBox"));
+        donation.getBoxes().remove(boxId);
         return "donation-form";
     }
 

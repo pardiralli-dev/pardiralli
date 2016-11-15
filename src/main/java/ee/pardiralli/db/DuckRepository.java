@@ -12,7 +12,9 @@ import java.util.List;
 public interface DuckRepository extends CrudRepository<Duck, Integer> {
 
 
-    /**
+/*
+    */
+/**
      * inserts into DB duck and its corresponding owner and buyer
      *
      * @param dateOfPurchase date when duck was bought
@@ -26,7 +28,8 @@ public interface DuckRepository extends CrudRepository<Duck, Integer> {
      * @param priceCents     price of duck in cents
      * @param transaction    id of transaction
      * @return serial nr of freshly added duck
-     */
+     *//*
+
     @Query("SELECT fun_add_duck(:dateOfPurchase, :ownerFname, :ownerLname, :ownerPhone, :buyerEmail, :buyerPhone, :race, :timeOfPurchase, :priceCents, :transaction)")
     Integer addDuckReturnId(@Param("dateOfPurchase") Date dateOfPurchase,
                             @Param("ownerFname") String ownerFname,
@@ -39,6 +42,7 @@ public interface DuckRepository extends CrudRepository<Duck, Integer> {
                             @Param("priceCents") Integer priceCents,
                             @Param("transaction") Integer transaction);
 
+*/
 
     @Query("SELECT d FROM Duck d WHERE d.serialNumber = :serial AND d.race.beginning = :date")
     Duck findBySerialNumber(@Param("serial") Integer serialNumber, @Param("date") Date date);

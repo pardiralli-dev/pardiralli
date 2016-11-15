@@ -1,8 +1,5 @@
 package ee.pardiralli;
 
-import ee.pardiralli.db.RaceRepository;
-import ee.pardiralli.domain.Race;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +8,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.Calendar;
 
 import static junit.framework.TestCase.assertTrue;
 
@@ -26,9 +21,6 @@ public class HTMLTests {
 
     @Autowired
     private TestRestTemplate restTemplate;
-
-    @Autowired
-    private RaceRepository raceRepository;
 
 
     @Test
@@ -47,7 +39,6 @@ public class HTMLTests {
     @Test
     public void constantWebstoreInputIdsArePresent() throws Exception {
         String page = this.restTemplate.getForObject("/", String.class);
-
         assertTrue(page.contains("id=\"soldDucksCounter\""));
         assertTrue(page.contains("id=\"donatedMoneyCounter\""));
     }

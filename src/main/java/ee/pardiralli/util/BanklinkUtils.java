@@ -1,6 +1,7 @@
 package ee.pardiralli.util;
 
 import ee.pardiralli.domain.Duck;
+import ee.pardiralli.exceptions.IllegalResponseException;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
 
@@ -17,7 +18,9 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class BanklinkUtils {
@@ -64,6 +67,9 @@ public class BanklinkUtils {
         return dateTime.substring(0, dateTime.lastIndexOf(":")) + dateTime.substring(dateTime.lastIndexOf(":") + 1, dateTime.length());
     }
 
+    public static ZonedDateTime getDateTime(String datetimeAsString) {
+        return ZonedDateTime.parse(datetimeAsString); //not working
+    }
     /**
      * Generate base64-encoded MAC008 signature using provided parameters as data.
      * <pre>
@@ -92,6 +98,52 @@ public class BanklinkUtils {
             // TODO: 8.11.16 error handling
             throw new AssertionError(e);
         }
+    }
+
+    private static List<String> getMACParams(Map<String, String> params, boolean isSuccess) {
+        List<String> keyList;
+        if (isSuccess) {
+            keyList = Arrays.asList("VK_SERVICE", "VK_VERSION", "VK_SND_ID", "VK_REC_ID", "VK_STAMP", "VK_T_NO", "VK_AMOUNT", "VK_CURR", "VK_REC_ACC", "VK_REC_NAME",
+                    "VK_SND_ACC", "VK_SND_NAME", "VK_REF", "VK_MSG", "VK_T_DATETIME");
+        } else
+            keyList = Arrays.asList("VK_SERVICE", "VK_VERSION", "VK_SND_ID", "VK_REC_ID", "VK_STAMP", "VK_REF", "VK_MSG");
+        return keyList.stream().map(params::get).collect(Collectors.toList());
+    }
+
+    public static boolean isValidMAC(String publicKeyFilename, Map<String, String> params, boolean isSuccess) {
+        String dataRow = concParamsToDataRow(getMACParams(params, isSuccess));
+        try {
+            PublicKey publicKey = getPublicKey(publicKeyFilename);
+            Signature sig = Signature.getInstance("SHA1withRSA");
+            sig.initVerify(publicKey);
+            sig.update(dataRow.getBytes("UTF-8"));
+            byte[] sigToVerify = params.get("VK_MAC").getBytes();
+            return sig.verify(sigToVerify);
+        } catch (NoSuchAlgorithmException | SignatureException | InvalidKeyException | CertificateException | IOException e) {
+            // TODO: 15.11.16 error handling
+            throw new AssertionError(e);
+        }
+    }
+
+    public static boolean isCorrectResponse(Map<String, String> params, boolean isSuccess, String VK_AMOUNT) throws IllegalResponseException {
+        if (isSuccess) {
+            try {
+                assert (params.get("VK_REC_ID").equals("EVLVL"));
+                assert (params.get("VK_AMOUNT").equals(VK_AMOUNT));
+                ZonedDateTime responseTime = getDateTime(params.get("VK_T_DATETIME"));
+//                assert (responseTime...)); // TODO: time comparison
+            } catch (AssertionError e) {
+                throw new IllegalResponseException(e.getMessage());
+            }
+        } else {
+            try {
+                assert (params.get("VK_REC_ID").equals("EVLVL"));
+            }
+            catch (AssertionError e) {
+                throw new IllegalResponseException(e.getMessage());
+            }
+        }
+        return true;
     }
 
     private static String concParamsToDataRow(List<String> params) {

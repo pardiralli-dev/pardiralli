@@ -4,10 +4,12 @@ import ee.pardiralli.banklink.Bank;
 import ee.pardiralli.exceptions.IllegalResponseException;
 import ee.pardiralli.util.BanklinkUtils;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
+@Controller
 public class BankResponseController {
 
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST}, value = "/banklink/{bank}/success")

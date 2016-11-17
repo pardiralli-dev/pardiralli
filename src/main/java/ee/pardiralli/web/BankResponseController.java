@@ -14,36 +14,16 @@ public class BankResponseController {
     @ResponseStatus(value = HttpStatus.OK)
     public void successResponse(@RequestParam Map<String, String> params, @PathVariable Bank bank) {
         // TODO: 7.11.16
-        System.out.println(params);
-        boolean isValidMAC = BanklinkUtils.isValidMAC(String.format("%s-cert.pem", bank.toString()), params, true);
-        if (isValidMAC) {
-            try {
-                String VK_AMOUNT = "sth"; // TODO
-                boolean isCorrectResponse = BanklinkUtils.isCorrectResponse(params, true, VK_AMOUNT);
-
-            } catch (IllegalResponseException e) {
-                e.printStackTrace();
-            }
-        } else {
-        }
+        System.err.println(params);
+        System.err.println(BanklinkUtils.currentDatetime());
     }
 
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST}, value = "/banklink/{bank}/fail")
     @ResponseStatus(value = HttpStatus.OK)
     public void failResponse(@RequestParam Map<String, String> params, @PathVariable Bank bank) {
         // TODO: 7.11.16
-        System.out.println(params);
-        boolean isValidMAC = BanklinkUtils.isValidMAC(String.format("%s-cert.pem", bank.toString()), params, false);
-        if (isValidMAC) {
-            try {
-                String VK_AMOUNT = "";
-                boolean isCorrectResponse = BanklinkUtils.isCorrectResponse(params, false, VK_AMOUNT);
-
-            } catch (IllegalResponseException e) {
-                e.printStackTrace();
-            }
-        } else {
-        }
+        System.err.println(params);
+        System.err.println(BanklinkUtils.currentDatetime());
     }
 
 }

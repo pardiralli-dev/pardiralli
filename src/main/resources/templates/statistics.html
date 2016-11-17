@@ -4,6 +4,8 @@
 <head>
     <title>Statistika</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="_csrf" th:content="${_csrf != null ? _csrf.token : 'testing'}"/>
+    <meta name="_csrf_header" th:content="${_csrf != null ?_csrf.headerName:'testing'}"/>
     <link rel="stylesheet"
           href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -11,102 +13,91 @@
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript" src="javascript/statistics.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css" href="css/admin.css"/>
+    <link rel="stylesheet" type="text/css" href="css/main.css"/>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-<ul>
-    <li><a>Avaleht </a></li>
-    <li><a>Uudised </a></li>
-    <li><a>Osale </a></li>
-    <li><a>Kava </a></li>
-    <li><a>Auhinnad </a></li>
-    <li><a>Galerii </a></li>
-    <li><a>Eesmärk </a></li>
-    <li><a>Administraatori valikud </a></li>
-</ul>
-<div id="linechart_donations" style="width: 900px; height: 500px">
-</div>
-<div>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Pardiralli</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li><a th:href="@{/}">Avaleht</a></li>
+            <li class="active"><a th:href="@{/statistics}">Statistika</a></li>
+            <li><a th:href="@{/search}">Otsing</a></li>
+            <li><a th:href="@{/settings}">Võistlused</a></li>
+            <li><a th:href="@{/insert}">Sisestus</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a th:href="@{/logout}"><span class="glyphicon glyphicon-log-in"></span>Logi välja</a></li>
+        </ul>
+    </div>
+</nav>
+<div class="container">
+    <div id="linechart_donations" style="width: 900px; height: 500px">
+    </div>
     <!--/*@thymesVar id="statistics" type="ee.pardiralli.domain.Statistics"*/-->
-    <form id="don_chart" th:object="${statistics}" method="post">
-        <label for="datepicker_don_start">Vali alguskuupäev: </label>
-        <input
-                th:field="*{startDate}"
-                id="datepicker_don_start"
-        />
-        <label for="datepicker_don_end">Vali lõppkuupäev: </label>
-        <input
-                th:field="*{endDate}"
-                id="datepicker_don_end"
-        />
+    <form id="don_chart" class="form-horizontal" th:object="${statistics}" method="post">
+        <div class="form-group">
+            <label class="col-form-label col-sm-2" for="datepicker_don_start">Vali alguskuupäev: </label>
+            <div class="col-sm-10">
+                <input class="form-control" th:field="*{startDate}" id="datepicker_don_start"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-form-label col-sm-2" for="datepicker_don_end">Vali lõppkuupäev: </label>
+            <div class="col-sm-10">
+                <input class="form-control" th:field="*{endDate}" id="datepicker_don_end"/>
+            </div>
+        </div>
+    </form>
+    <div id="linechart_visits">
+    </div>
+    <div>
+    </div>
+    <h3>Lehe külastatavuse statistikat saab praegu näha Google Analyticsi lehelt järgneva Google konto alt:</h3>
+    <p><b>Kasutaja:</b>pardirallistatistika@gmail.com</p>
+    <p><b>Parool:</b>pardiralli123</p>
+    <p>Teha uus inkognito internetibrauseri aken ja logida eelmainitud kasutaja ja parooliga GMaili sisse. Postkastis on
+        täpselt üks kiri Google Anlyticsilt. Vajutada selles olevale lingile: saabki näha lehe külastatavuse
+        andmeid!</p>
+    <!--/*@thymesVar id="exportFile" type="ee.pardiralli.domain.ExportFile"*/-->
+    <form id="exportform" name="exportform" class="form-horizontal" th:action="@{/export}" th:object="${exportFile}"
+          method="get">
+        <fieldset>
+            <legend>Lae raport alla</legend>
+            <div class="form-group">
+                <label class="col-form-label col-sm-2" th:for="wantsSoldDucks">Müüdud parte</label>
+                <div class="col-sm-10">
+                    <input id="wantsSoldDucks" type="checkbox" class="checkbox-inline" th:field="*{wantsSoldDucks}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-form-label col-sm-2" th:for="wantsDonatedMoney">Kogutud raha</label>
+                <div class="col-sm-10">
+                    <input id="wantsDonatedMoney" type="checkbox" th:field="*{wantsDonatedMoney}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-form-label col-sm-2" for="datepicker_exp_start">Vali alguskuupäev: </label>
+                <div class="col-sm-10">
+                    <input class="form-control" th:field="*{startDate}" id="datepicker_exp_start"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-form-label col-sm-2" for="datepicker_exp_end">Vali lõppkuupäev: </label>
+                <div class="col-sm-10">
+                    <input class="form-control" th:field="*{endDate}" id="datepicker_exp_end"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <input id="submit" name="action" type="submit" class="btn btn-default" value="Ekspordi"/>
+                </div>
+            </div>
+        </fieldset>
     </form>
 </div>
-<div id="linechart_visits">
-</div>
-<div>
-
-</div>
-
-<p>Lehe külastatavuse statistikat saab praegu näha Google Analyticsi lehelt järgneva Google konto alt:</p>
-<p><b>Kasutaja:</b> pardirallistatistika@gmail.com</p>
-<p><b>Parool:</b> pardiralli123</p>
-<p>Teha uus inkognito internetibrauseri aken ja logida eelmainitud kasutaja ja parooliga GMaili sisse. Postkastis on
-    täpselt üks kiri Google Anlyticsilt. Vajutada selles olevale lingile: saabki näha lehe külastatavuse andmeid!</p>
-
-
-<h2>Ekspordi andmeid</h2>
-<!--/*@thymesVar id="exportFile" type="ee.pardiralli.domain.ExportFile"*/-->
-<form id="exportform" name="exportform" th:action="@{/export}" th:object="${exportFile}" method="get">
-    <table cellpadding="0" cellspacing="0" class="noborder">
-        <tr>
-            <td>
-                <p>
-                    Milliseid andmeid soovid eksportida?
-                </p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <input id="wantsSoldDucks" type="checkbox" th:field="*{wantsSoldDucks}"/>
-                <label th:for="wantsSoldDucks">Müüdud parte</label>
-
-                <input id="wantsDonatedMoney" type="checkbox" th:field="*{wantsDonatedMoney}"/>
-                <label th:for="wantsDonatedMoney">Kogutud raha</label>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label for="datepicker_exp_start">Vali alguskuupäev: </label>
-                <input
-                        th:field="*{startDate}"
-                        id="datepicker_exp_start"
-                />
-            </td>
-        </tr>
-
-        <tr>
-            <td>
-                <label for="datepicker_exp_end">Vali lõppkuupäev: </label>
-                <input
-                        th:field="*{endDate}"
-                        id="datepicker_exp_end"
-                />
-            </td>
-        </tr>
-
-        <tr>
-            <td>
-                <input type="submit" value="Ekspordi"
-                       name="action" class="button" id="submit"
-                />
-            </td>
-        </tr>
-
-    </table>
-
-</form>
-
-
 </body>
 </html>

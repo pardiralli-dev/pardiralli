@@ -27,6 +27,7 @@ import java.util.concurrent.TimeUnit;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(locations = "classpath:test.properties")
 @RunWith(SpringRunner.class)
+@Ignore
 public class SearchControllerTest {
     // MAX_PRICE equals with item count
     private static final Integer MAX_PRICE = 60;
@@ -192,7 +193,6 @@ public class SearchControllerTest {
      * Test that some elements are present after using general search (no scrolling is tested)
      */
     @Test
-    @Ignore
     public void testAjaxGeneralSearch() {
         loadSearchPage();
 

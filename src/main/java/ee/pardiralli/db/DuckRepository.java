@@ -1,7 +1,6 @@
 package ee.pardiralli.db;
 
 import ee.pardiralli.domain.Duck;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -11,6 +10,39 @@ import java.util.List;
 
 
 public interface DuckRepository extends CrudRepository<Duck, Integer> {
+
+
+/*
+    */
+/**
+     * inserts into DB duck and its corresponding owner and buyer
+     *
+     * @param dateOfPurchase date when duck was bought
+     * @param ownerFname     first name of owner
+     * @param ownerLname     last name of owner
+     * @param ownerPhone     phone nr of owner
+     * @param buyerEmail     email of buyer
+     * @param buyerPhone     phone nr of buyer
+     * @param race           id of race
+     * @param timeOfPurchase time of purchase
+     * @param priceCents     price of duck in cents
+     * @param transaction    id of transaction
+     * @return serial nr of freshly added duck
+     *//*
+
+    @Query("SELECT fun_add_duck(:dateOfPurchase, :ownerFname, :ownerLname, :ownerPhone, :buyerEmail, :buyerPhone, :race, :timeOfPurchase, :priceCents, :transaction)")
+    Integer addDuckReturnId(@Param("dateOfPurchase") Date dateOfPurchase,
+                            @Param("ownerFname") String ownerFname,
+                            @Param("ownerLname") String ownerLname,
+                            @Param("ownerPhone") String ownerPhone,
+                            @Param("buyerEmail") String buyerEmail,
+                            @Param("buyerPhone") String buyerPhone,
+                            @Param("race") Integer race,
+                            @Param("timeOfPurchase") Date timeOfPurchase,
+                            @Param("priceCents") Integer priceCents,
+                            @Param("transaction") Integer transaction);
+
+*/
 
     @Query("SELECT d FROM Duck d WHERE d.serialNumber = :serial AND d.race.beginning = :date")
     Duck findBySerialNumber(@Param("serial") Integer serialNumber, @Param("date") Date date);

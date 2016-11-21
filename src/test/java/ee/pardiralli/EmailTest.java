@@ -5,6 +5,7 @@ import ee.pardiralli.domain.*;
 import ee.pardiralli.service.MailService;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import java.util.List;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(locations = "classpath:test.properties")
 @RunWith(SpringRunner.class)
+@Ignore
 public class EmailTest {
 
     private static final Integer MAX_PRICE = 10;

@@ -52,6 +52,10 @@ public class BanklinkUtils {
     }
 
 
+    public static ZonedDateTime currentDateTime() {
+        return ZonedDateTime.now(ZoneId.of("Europe/Helsinki")).truncatedTo(ChronoUnit.SECONDS);
+    }
+
     /**
      * @return timestamp in the format
      * <pre>yyyy-MM-ddThh:mm:ss+ZONE</pre>
@@ -59,17 +63,17 @@ public class BanklinkUtils {
      * <pre>2016-11-24T16:50:00+0200</pre>
      * Note that there is no colon in the time zone.
      */
-    public static String currentDatetime() {
-        String dateTime = ZonedDateTime.now(ZoneId.of("Europe/Helsinki"))
-                .truncatedTo(ChronoUnit.SECONDS)
-                .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+    public static String currentDateTimeAsString() {
+        String dateTime = currentDateTime().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
 
         return dateTime.substring(0, dateTime.lastIndexOf(":")) + dateTime.substring(dateTime.lastIndexOf(":") + 1, dateTime.length());
     }
 
-    public static ZonedDateTime getDateTime(String datetimeAsString) {
-        return ZonedDateTime.parse(datetimeAsString); //not working
+    public static ZonedDateTime dateTimeFromString(String datetimeAsString) {
+        datetimeAsString = new StringBuilder(datetimeAsString).insert(datetimeAsString.length() - 2, ":").toString();
+        return ZonedDateTime.parse(datetimeAsString);
     }
+
     /**
      * Generate base64-encoded MAC008 signature using provided parameters as data.
      * <pre>
@@ -110,7 +114,7 @@ public class BanklinkUtils {
         return keyList.stream().map(params::get).collect(Collectors.toList());
     }
 
-    public static boolean isValidMAC(String publicKeyFilename, Map<String, String> params, boolean isSuccess) {
+    public static boolean isValidMAC(String publicKeyFilename, Map<String, String> params, boolean isSuccess) throws IllegalResponseException {
         String dataRow = concParamsToDataRow(getMACParams(params, isSuccess));
         try {
             PublicKey publicKey = getPublicKey(publicKeyFilename);
@@ -121,29 +125,8 @@ public class BanklinkUtils {
             return sig.verify(sigToVerify);
         } catch (NoSuchAlgorithmException | SignatureException | InvalidKeyException | CertificateException | IOException e) {
             // TODO: 15.11.16 error handling
-            throw new AssertionError(e);
+            throw new IllegalResponseException(e.getMessage());
         }
-    }
-
-    public static boolean isCorrectResponse(Map<String, String> params, boolean isSuccess, String VK_AMOUNT) throws IllegalResponseException {
-        if (isSuccess) {
-            try {
-                assert (params.get("VK_REC_ID").equals("EVLVL"));
-                assert (params.get("VK_AMOUNT").equals(VK_AMOUNT));
-                ZonedDateTime responseTime = getDateTime(params.get("VK_T_DATETIME"));
-//                assert (responseTime...)); // TODO: time comparison
-            } catch (AssertionError e) {
-                throw new IllegalResponseException(e.getMessage());
-            }
-        } else {
-            try {
-                assert (params.get("VK_REC_ID").equals("EVLVL"));
-            }
-            catch (AssertionError e) {
-                throw new IllegalResponseException(e.getMessage());
-            }
-        }
-        return true;
     }
 
     private static String concParamsToDataRow(List<String> params) {

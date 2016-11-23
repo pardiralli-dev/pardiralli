@@ -1,6 +1,8 @@
 package ee.pardiralli.service;
 
+import ee.pardiralli.banklink.ResponseModel;
 import ee.pardiralli.domain.Transaction;
+import ee.pardiralli.exceptions.IllegalResponseException;
 import ee.pardiralli.exceptions.IllegalTransactionException;
 
 
@@ -15,4 +17,5 @@ public interface PaymentService {
      */
     String transactionAmount(Integer tid) throws IllegalTransactionException;
 
+    void checkLegalResponse(ResponseModel model, PaymentService paymentService, boolean isSuccess) throws IllegalResponseException, IllegalTransactionException;
 }

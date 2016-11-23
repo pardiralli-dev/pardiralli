@@ -1,7 +1,6 @@
 package ee.pardiralli.banklink;
 
 import ee.pardiralli.util.BanklinkUtils;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,7 +21,7 @@ public class NordeaRequestModel extends RequestModel {
     private String VK_MSG;
     private String VK_RETURN = String.format("https://pardiralli.herokuapp.com/banklink/%s/success", Bank.nordea);
     private String VK_CANCEL = String.format("https://pardiralli.herokuapp.com/banklink/%s/fail", Bank.nordea);
-    private String VK_DATETIME = BanklinkUtils.currentDatetime();
+    private String VK_DATETIME = BanklinkUtils.currentDateTimeAsString();
     private String VK_MAC;
     private String VK_ENCODING = "UTF-8";
     private String VK_LANG = "EST";

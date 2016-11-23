@@ -4,15 +4,18 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.sql.Timestamp;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-
 @Entity
 public class Transaction {
+    public static final String TRANSACTION_ID_NAME = "tid";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,11 +25,11 @@ public class Transaction {
 
     private Timestamp timeOfPayment;
 
-    public Transaction(Boolean bool){
-        this.isPaid=bool;
+    public Transaction(Boolean bool) {
+        this.isPaid = bool;
     }
 
-    public Transaction(Boolean bool, Timestamp timestamp){
+    public Transaction(Boolean bool, Timestamp timestamp) {
         this.isPaid = bool;
         this.timeOfPayment = timestamp;
     }

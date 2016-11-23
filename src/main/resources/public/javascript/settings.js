@@ -22,8 +22,8 @@ $.datepicker.regional['et'] = {
     dayNamesShort: ["Pühap", "Esmasp", "Teisip", "Kolmap", "Neljap", "Reede", "Laup"],
     dayNamesMin: ["P", "E", "T", "K", "N", "R", "L"],
     weekHeader: "näd",
-    dateFormat: "dd.mm.yy",
     firstDay: 1,
+    dateFormat: "dd-mm-yy",
     isRTL: false,
     showMonthAfterYear: false,
     yearSuffix: ""
@@ -32,19 +32,8 @@ $.datepicker.regional['et'] = {
 $.datepicker.setDefaults($.datepicker.regional['et']);
 
 $(document).ready(function () {
-
-    $("#start_date").datepicker(
-        {
-            dateFormat: "dd-mm-yy"
-        }
-    );
-
-    $("#end_date").datepicker(
-        {
-            dateFormat: "dd-mm-yy"
-        }
-    );
-
+    $("#start_date").datepicker();
+    $("#end_date").datepicker();
 
     var current_start;
     var current_end;
@@ -55,8 +44,8 @@ $(document).ready(function () {
     // Remove spinner
     $(document).ajaxStop(function () {
         $(".loadingDiv").remove();
+        $(".btn").removeAttr("disabled");
     });
-
 
     $('.race').click(function () {
         current_row_id = $(this).data('selector');
@@ -79,6 +68,7 @@ $(document).ready(function () {
 
     //Send POST request to server
     function callDrawDonationChart() {
+        $(".btn").attr("disabled", "disabled");
         $.ajax({
             url: window.location.href + 'chart',
             type: 'POST',

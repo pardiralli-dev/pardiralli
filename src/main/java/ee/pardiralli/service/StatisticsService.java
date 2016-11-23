@@ -11,15 +11,15 @@ import java.util.List;
 
 public interface StatisticsService {
 
-    public List<Object> getDefaultDates();
+    List<Object> getDefaultDates();
 
-    public List<List<Object>> createDataByDates(Calendar calendar, Date endDate);
+    List<List<Object>> createDataByDates(Calendar calendar, Date endDate);
 
-    public File createCSVFile(String name, ExportFile exportFile) throws FileNotFoundException;
+    File createCSVFile(String name, ExportFile exportFile) throws FileNotFoundException;
 
-    public int getNoOfSoldDucks(Date startDate, Date endDate);
+    int getNoOfSoldDucks(Date startDate, Date endDate);
 
-    public int getAmountOfDonatedMoney(Date startDate, Date endDate);
+    int getAmountOfDonatedMoney(Date startDate, Date endDate);
 
-    public List<List<Object>> createDataByRace(RaceDTO race);
+    List<List<Object>> createDataByRace(Date startDate, Date endDate);
 }

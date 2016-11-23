@@ -162,12 +162,13 @@ public class StatisticsServiceImpl implements StatisticsService {
     /**
      * Creates data for the donation chart.
      *
-     * @param race domain transfer object of a race
      * @return a list of lists, each of which contains the following: a date, number of ducks sold on that day,
      * amount of donations made on that day
      */
     @Override
-    public List<List<Object>> createDataByRace(RaceDTO race) {
-        return null;
+    public List<List<Object>> createDataByRace(Date startDate, Date endDate) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(startDate);
+        return createDataByDates(calendar, endDate);
     }
 }

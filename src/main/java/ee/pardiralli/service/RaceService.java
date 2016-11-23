@@ -1,6 +1,5 @@
 package ee.pardiralli.service;
 
-import ee.pardiralli.domain.Race;
 import ee.pardiralli.dto.RaceDTO;
 
 import java.util.List;
@@ -21,5 +20,5 @@ public interface RaceService {
 
     boolean raceExists(RaceDTO raceDTO);
 
-    List<Race> getAllRaces();
+    List<RaceDTO> getAllRacesAsDtos();
 }

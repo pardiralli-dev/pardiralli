@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class RaceServiceImpl implements RaceService {
@@ -48,8 +49,20 @@ public class RaceServiceImpl implements RaceService {
     }
 
     @Override
-    public List<Race> getAllRaces() {
-        List<Race> races = IteratorUtils.toList(raceRepository.findAll().iterator());
+    public List<RaceDTO> getAllRacesAsDtos() {
+        List<RaceDTO> races = IteratorUtils.toList(
+                raceRepository.findAll().iterator())
+                .stream()
+                .map(r ->
+                        new RaceDTO(
+                                r.getId(),
+                                r.getBeginning(),
+                                r.getFinish(),
+                                r.getRaceName(),
+                                r.getDescription(),
+                                r.getIsOpen(),
+                                false)
+                ).collect(Collectors.toList());
         Collections.sort(races);
         return races;
     }

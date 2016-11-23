@@ -41,6 +41,7 @@ public class StatisticsControllerTests {
 
     private List<Duck> duckList;
     private List<Transaction> transactions;
+    private List<Date> dateList;
 
 
     private WebDriver driver;
@@ -98,7 +99,7 @@ public class StatisticsControllerTests {
         transactions = new ArrayList<>();
         duckList = new ArrayList<>();
 
-        List<Date> dateList = new ArrayList<>();
+        dateList = new ArrayList<>();
 
         Calendar calendar = Calendar.getInstance();
         for (int i = 0; i < 10; i++) {
@@ -143,7 +144,7 @@ public class StatisticsControllerTests {
 
 
     @Test
-    public void getDataTest() throws Exception {
+    public void getDefaultDataTest() throws Exception {
         assertTrue(statisticsController.getDefaultDates() != null);
         assertTrue(statisticsController.getDefaultDates().size() == 2);
         List<Object> defaultDates = statisticsController.getDefaultDates();
@@ -159,4 +160,51 @@ public class StatisticsControllerTests {
         assertTrue(elements != null);
         driver.quit();
     }
+
+    @Test
+    public void defaultGraphIsPresent() throws MalformedURLException, InterruptedException {
+        loadStatisticsPage();
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        List<WebElement> elements = driver.findElements(By.tagName("circle"));
+        assertTrue(elements != null);
+
+        List<Object> defaultDates = statisticsController.getDefaultDates();
+        assertTrue(defaultDates != null);
+        assertTrue(defaultDates.size() == 2);
+        assertTrue(defaultDates.get(0) instanceof Calendar);
+        assertTrue(defaultDates.get(1) instanceof java.util.Date);
+
+        Calendar calendar = (Calendar) defaultDates.get(0);
+        java.util.Date endDate = (java.util.Date) defaultDates.get(1);
+        long numberOfDays = TimeUnit.DAYS.convert(endDate.getTime() - calendar.getTimeInMillis(), TimeUnit.MILLISECONDS);
+        assertTrue(elements.size() == (numberOfDays + 1) * 2);
+        driver.quit();
+    }
+
+//    @Test
+//    public void adminDataTest() throws MalformedURLException, InterruptedException {
+//        loadStatisticsPage();
+//
+//        WebElement startDateSelect = driver.findElement(By.id("datepicker_don_start"));
+//        startDateSelect.clear();
+//        Date startDate = dateList.get(0);
+//        startDateSelect.sendKeys(new SimpleDateFormat("dd-MM-yyyy").format(startDate));
+//
+//        WebElement endDateSelect = driver.findElement(By.id("datepicker_don_end"));
+//        endDateSelect.clear();
+//        Date endDate = dateList.get(dateList.size() - 1);
+//        endDateSelect.sendKeys(new SimpleDateFormat("dd-MM-yyyy").format(endDate));
+//
+//        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+//        List<WebElement> elements = driver.findElements(By.tagName("circle"));
+//        assertTrue(elements != null);
+//
+//        long numberOfDays = TimeUnit.DAYS.convert(endDate.getTime() - startDate.getTime(), TimeUnit.MILLISECONDS);
+////        assertTrue(elements.size() == (numberOfDays + 1) * 2);
+//        Assert.assertEquals(elements.size(), numberOfDays);
+//
+//        driver.quit();
+//    }
+
+
 }

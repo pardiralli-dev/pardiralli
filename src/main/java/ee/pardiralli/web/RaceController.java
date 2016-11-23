@@ -4,6 +4,7 @@ import ee.pardiralli.domain.DonationChart;
 import ee.pardiralli.domain.FeedbackType;
 import ee.pardiralli.dto.RaceDTO;
 import ee.pardiralli.service.RaceService;
+import ee.pardiralli.service.StatisticsService;
 import ee.pardiralli.util.ControllerUtil;
 import ee.pardiralli.util.RaceUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,22 +15,26 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 @Controller
 public class RaceController {
 
     private final RaceService raceService;
+    private final StatisticsService statisticsService;
 
     @Autowired
-    public RaceController(RaceService raceService) {
+    public RaceController(RaceService raceService, StatisticsService statisticsService) {
         this.raceService = raceService;
+        this.statisticsService = statisticsService;
     }
 
     @GetMapping("/settings")
     public String getTemplate(RaceDTO raceDTO, Model model) {
-        model.addAttribute("races", raceService.getAllRaces());
+        model.addAttribute("races", raceService.getAllRacesAsDtos());
         return "settings";
     }
 
@@ -39,8 +44,14 @@ public class RaceController {
     @ResponseBody
     DonationChart setSoldItemsAndDonations(@RequestParam("beginning") String start,
                                            @RequestParam("finish") String end) {
-        System.out.println(start + "->" + end);
-        return null;//new DonationChart(getDefaultData());
+        try {
+            return new DonationChart(statisticsService.createDataByRace(
+                    new SimpleDateFormat("yyyy-MM-dd").parse(start),
+                    new SimpleDateFormat("yyyy-MM-dd").parse(end))
+            );
+        } catch (ParseException e) {
+            return new DonationChart(new ArrayList<>());
+        }
     }
 
 
@@ -68,7 +79,7 @@ public class RaceController {
                 ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Korraga saab olla avatud ainult üks Pardiralli!");
             }
         }
-        model.addAttribute("races", raceService.getAllRaces());
+        model.addAttribute("races", raceService.getAllRacesAsDtos());
         return "settings";
     }
 

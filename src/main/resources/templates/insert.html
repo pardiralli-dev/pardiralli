@@ -27,7 +27,11 @@
     </div>
 </nav>
 <div class="container">
-    <!--/*@thymesVar id="manualAdd" type="ee.pardiralli.domain.ManualAdd"*/-->
+    <!--/*@thymesVar id="feedbackList" type="java.util.List<ee.pardiralli.domain.Feedback>"*/-->
+    <div th:each="feedback : ${feedbackList}">
+        <div class="alert" th:text="${feedback.getMessage()}" th:classappend="${feedback.getCssClass()}"></div>
+    </div>
+    <!--/*@thymesVar id="manualAdd" type="ee.pardiralli.dto.InsertionDTO"*/-->
     <form id="owner" class="form-horizontal" th:action="@{/owner}" th:object="${manualAdd}" method="post">
         <h4>Lisa andmeid süsteemi</h4>
         <div class="form-group">

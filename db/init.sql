@@ -103,12 +103,12 @@ ON DELETE CASCADE
 ON UPDATE CASCADE
 NOT DEFERRABLE;
 
-CREATE OR REPLACE FUNCTION fun_add_duck(dateof     TIMESTAMP, ownerfname VARCHAR, ownerlname VARCHAR,
+CREATE OR REPLACE FUNCTION fun_add_duck(dateof     DATE, ownerfname VARCHAR, ownerlname VARCHAR,
                                         ownerphone VARCHAR, buyeremail VARCHAR,
                                         buyerphone VARCHAR, raceid INT, timeof TIMESTAMP, price INT,
                                         transid    INT)
   RETURNS INT AS $counter$
-DECLARE   counter INT;
+  DECLARE counter INT;
   DECLARE max     INT;
   DECLARE ownerid INT;
   DECLARE buyerid INT;

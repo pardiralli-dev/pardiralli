@@ -108,7 +108,7 @@ CREATE OR REPLACE FUNCTION fun_add_duck(dateof     DATE, ownerfname VARCHAR, own
                                         buyerphone VARCHAR, raceid INT, timeof TIMESTAMP, price INT,
                                         transid    INT)
   RETURNS INT AS $counter$
-  DECLARE counter INT;
+DECLARE   counter INT;
   DECLARE max     INT;
   DECLARE ownerid INT;
   DECLARE buyerid INT;
@@ -116,17 +116,17 @@ CREATE OR REPLACE FUNCTION fun_add_duck(dateof     DATE, ownerfname VARCHAR, own
 BEGIN
   counter := 0;
   max := (SELECT max(serial_number)
-          FROM duck);
+          FROM duck
+          WHERE race_id = raceid);
 
   WHILE counter <= max LOOP
     counter := counter + 1;
     EXIT WHEN (NOT EXISTS(SELECT serial_number
                           FROM duck
-                          WHERE serial_number = counter));
+                          WHERE serial_number = counter AND race_id = raceid));
   END LOOP;
 
-  INSERT INTO duck_owner (first_name, last_name, phone_number) VALUES (ownerfname, ownerlname,
-                                                                       ownerphone)
+  INSERT INTO duck_owner (first_name, last_name, phone_number) VALUES (ownerfname, ownerlname, ownerphone)
   RETURNING id
     INTO ownerid;
   INSERT INTO duck_buyer (email, phone_number) VALUES (buyeremail, buyerphone)

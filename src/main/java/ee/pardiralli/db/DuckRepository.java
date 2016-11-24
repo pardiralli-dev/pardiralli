@@ -31,7 +31,7 @@ public interface DuckRepository extends CrudRepository<Duck, Integer> {
      */
 
     @Procedure(procedureName = "fun_add_duck", outputParameterName = "count")
-    Integer addDuckReturnId(Timestamp dateOfPurchase,
+    Integer addDuckReturnId(java.sql.Date dateOfPurchase,
                             String ownerFname,
                             String ownerLname,
                             String ownerPhone,

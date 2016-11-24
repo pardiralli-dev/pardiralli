@@ -9,9 +9,11 @@ import java.util.Arrays;
 @Getter
 @Setter
 public class SwedbankRequestModel extends RequestModel {
+    public static final String senderID = "EVLVL";
+
     private String VK_SERVICE = "1011";
     private String VK_VERSION = "008";
-    private String VK_SND_ID = "EVLVL";
+    private String VK_SND_ID = senderID;
     private String VK_STAMP;
     private String VK_AMOUNT;
     private String VK_CURR = "EUR";

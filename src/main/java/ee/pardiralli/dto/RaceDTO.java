@@ -46,6 +46,6 @@ public class RaceDTO implements Comparable<RaceDTO>  {
 
     @Override
     public int compareTo(RaceDTO o) {
-        return this.beginning.compareTo(o.getBeginning());
+        return o.getBeginning().compareTo(this.beginning);
     }
 }

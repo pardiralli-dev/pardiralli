@@ -1,7 +1,6 @@
 package ee.pardiralli.banklink;
 
 import ee.pardiralli.util.BanklinkUtils;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,9 +9,12 @@ import java.util.Arrays;
 @Getter
 @Setter
 public class LHVRequestModel extends RequestModel {
+    public static final String senderID = "PARDIRALLI";
+
+
     private String VK_SERVICE = "1011";
     private String VK_VERSION = "008";
-    private String VK_SND_ID = "PARDIRALLI";
+    private String VK_SND_ID = senderID;
     private String VK_STAMP;
     private String VK_AMOUNT;
     private String VK_CURR = "EUR";
@@ -22,7 +24,7 @@ public class LHVRequestModel extends RequestModel {
     private String VK_MSG;
     private String VK_RETURN = String.format("https://pardiralli.herokuapp.com/banklink/%s/success", Bank.lhv);
     private String VK_CANCEL = String.format("https://pardiralli.herokuapp.com/banklink/%s/fail", Bank.lhv);
-    private String VK_DATETIME = BanklinkUtils.currentDatetime();
+    private String VK_DATETIME = BanklinkUtils.currentDateTimeAsString();
     private String VK_MAC;
     private String VK_ENCODING = "UTF-8";
     private String VK_LANG = "EST";

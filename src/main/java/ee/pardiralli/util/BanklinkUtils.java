@@ -52,6 +52,9 @@ public class BanklinkUtils {
     }
 
 
+    /**
+     * @return current datetime
+     */
     public static ZonedDateTime currentDateTime() {
         return ZonedDateTime.now(ZoneId.of("Europe/Helsinki")).truncatedTo(ChronoUnit.SECONDS);
     }
@@ -65,10 +68,15 @@ public class BanklinkUtils {
      */
     public static String currentDateTimeAsString() {
         String dateTime = currentDateTime().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
-
         return dateTime.substring(0, dateTime.lastIndexOf(":")) + dateTime.substring(dateTime.lastIndexOf(":") + 1, dateTime.length());
     }
 
+    /**
+     *
+     * @param datetimeAsString timestamp in the format
+     * <pre>yyyy-MM-ddThh:mmss+ZONE</pre>
+     * @return corresponding datetime
+     */
     public static ZonedDateTime dateTimeFromString(String datetimeAsString) {
         datetimeAsString = new StringBuilder(datetimeAsString).insert(datetimeAsString.length() - 2, ":").toString();
         return ZonedDateTime.parse(datetimeAsString);
@@ -104,18 +112,32 @@ public class BanklinkUtils {
         }
     }
 
-    private static List<String> getMACParams(Map<String, String> params, boolean isSuccess) {
+    /**
+     * @param params a map containing parameters received from the bank's response
+     * @param isSuccessfulResponse true if bank's response is successful, otherwise false
+     * @return the list of parameter values to be concatenated for the MAC signature
+     */
+    private static List<String> getMACParams(Map<String, String> params, boolean isSuccessfulResponse) {
         List<String> keyList;
-        if (isSuccess) {
-            keyList = Arrays.asList("VK_SERVICE", "VK_VERSION", "VK_SND_ID", "VK_REC_ID", "VK_STAMP", "VK_T_NO", "VK_AMOUNT", "VK_CURR", "VK_REC_ACC", "VK_REC_NAME",
-                    "VK_SND_ACC", "VK_SND_NAME", "VK_REF", "VK_MSG", "VK_T_DATETIME");
+        if (isSuccessfulResponse) {
+            keyList = Arrays.asList("VK_SERVICE", "VK_VERSION", "VK_SND_ID", "VK_REC_ID", "VK_STAMP", "VK_T_NO", "VK_AMOUNT",
+                    "VK_CURR", "VK_REC_ACC", "VK_REC_NAME", "VK_SND_ACC", "VK_SND_NAME", "VK_REF", "VK_MSG", "VK_T_DATETIME");
         } else
             keyList = Arrays.asList("VK_SERVICE", "VK_VERSION", "VK_SND_ID", "VK_REC_ID", "VK_STAMP", "VK_REF", "VK_MSG");
         return keyList.stream().map(params::get).collect(Collectors.toList());
     }
 
-    public static boolean isValidMAC(String publicKeyFilename, Map<String, String> params, boolean isSuccess) throws IllegalResponseException {
-        String dataRow = concParamsToDataRow(getMACParams(params, isSuccess));
+    /**
+     * Checks if the bank's response's MAC signature is valid.
+     *
+     * @param publicKeyFilename
+     * @param params a map containing parameters received from the bank's response
+     * @param isSuccessfulResponse true if bank's response is successful, otherwise false
+     * @return true, if the MAC signature is valid, otherwise false
+     * @throws IllegalResponseException if something goes wrong
+     */
+    public static boolean isValidMAC(String publicKeyFilename, Map<String, String> params, boolean isSuccessfulResponse) throws IllegalResponseException {
+        String dataRow = concParamsToDataRow(getMACParams(params, isSuccessfulResponse));
         try {
             PublicKey publicKey = getPublicKey(publicKeyFilename);
             Signature sig = Signature.getInstance("SHA1withRSA");

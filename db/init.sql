@@ -18,11 +18,12 @@ CREATE SEQUENCE public.race_id_seq;
 CREATE TABLE public.race (
   id          INTEGER NOT NULL DEFAULT nextval('public.race_id_seq'),
   beginning   DATE    NOT NULL,
-  finish      DATE,
+  finish      DATE NOT NULL,
   is_open     BOOLEAN,
   race_name   VARCHAR(50),
   description VARCHAR(2000),
-  CONSTRAINT id PRIMARY KEY (id)
+  CONSTRAINT id PRIMARY KEY (id),
+  CONSTRAINT check_dates check (beginning < finish)
 );
 
 

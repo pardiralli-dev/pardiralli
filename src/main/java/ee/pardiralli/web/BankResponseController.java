@@ -5,6 +5,7 @@ import ee.pardiralli.exceptions.IllegalResponseException;
 import ee.pardiralli.exceptions.IllegalTransactionException;
 import ee.pardiralli.service.PaymentService;
 import ee.pardiralli.util.BanklinkUtils;
+import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @Controller
+@Log4j
 public class BankResponseController {
 
     private final PaymentService paymentService;
@@ -31,9 +33,11 @@ public class BankResponseController {
             ResponseModel responseModel = getModelByBank(bank, params);
             paymentService.checkConsistency(params, responseModel, true);
             paymentService.checkSuccessfulResponseMAC(params, bank);
+
             return "success_page";
         }
         catch(IllegalResponseException | IllegalTransactionException e){
+            log.error("successResponse unsuccessful", e);
             return "general_error";
         }
     }
@@ -50,6 +54,7 @@ public class BankResponseController {
             return "fail_page";
         }
         catch(IllegalResponseException | IllegalTransactionException e){
+            log.error("fail unsuccessful", e);
             return "general_error";
         }
     }

@@ -22,54 +22,55 @@ public class BankResponseController {
 
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST}, value = "/banklink/{bank}/success")
     @ResponseStatus(value = HttpStatus.OK)
-    public void successResponse(@RequestParam Map<String, String> params, @PathVariable Bank bank) {
+    public String successResponse(@RequestParam Map<String, String> params, @PathVariable Bank bank) {
         System.err.println(params);
         System.err.println(BanklinkUtils.currentDateTimeAsString());
-        ResponseModel model;
-        switch (bank) {
-            case lhv:
-                model = new LHVResponseModel(params);
-            case seb:
-                model = new SEBResponseModel(params);
-            case swedbank:
-                model = new SwedbankResponseModel(params);
-            default: //maybe not the best option, but hey, it works
-                model = new NordeaResponseModel(params);
-        }
         try {
-            paymentService.checkLegalResponse(model, paymentService, true);
-            String filename = model.getBank().toString() + "-cert.pem";
-            BanklinkUtils.isValidMAC(filename, params, true);
+            ResponseModel responseModel = getModelByBank(bank, params);
+            paymentService.checkConsistency(params, responseModel, true);
+            paymentService.checkSuccessfulResponseMAC(params, bank);
+            return "success_page";
         }
         catch(IllegalResponseException | IllegalTransactionException e){
-            // TODO
+            return "general_error";
         }
     }
 
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST}, value = "/banklink/{bank}/fail")
     @ResponseStatus(value = HttpStatus.OK)
-    public void failResponse(@RequestParam Map<String, String> params, @PathVariable Bank bank) {
+    public String failResponse(@RequestParam Map<String, String> params, @PathVariable Bank bank) {
         System.err.println(params);
         System.err.println(BanklinkUtils.currentDateTimeAsString());
+        try {
+            ResponseModel responseModel = getModelByBank(bank, params);
+            paymentService.checkConsistency(params, responseModel, false);
+            paymentService.checkUnsuccessfulResponseMAC(params, bank);
+            return "fail_page";
+        }
+        catch(IllegalResponseException | IllegalTransactionException e){
+            return "general_error";
+        }
+    }
+
+    private ResponseModel getModelByBank(Bank bank, Map<String, String> params) {
         ResponseModel model;
         switch (bank) {
             case lhv:
                 model = new LHVResponseModel(params);
+                break;
             case seb:
                 model = new SEBResponseModel(params);
+                break;
             case swedbank:
                 model = new SwedbankResponseModel(params);
-            default:
+                break;
+            case nordea:
                 model = new NordeaResponseModel(params);
+                break;
+            default:
+                throw new AssertionError("Illegal bank value");
         }
-        try {
-            paymentService.checkLegalResponse(model, paymentService, false);
-            String filename = model.getBank().toString() + "-cert.pem";
-            BanklinkUtils.isValidMAC(filename, params, false);
-        }
-        catch(IllegalResponseException | IllegalTransactionException e){
-            // TODO
-        }
+        return model;
     }
 
 }

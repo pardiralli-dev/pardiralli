@@ -79,23 +79,65 @@ ON DELETE CASCADE
 ON UPDATE CASCADE
 NOT DEFERRABLE;
 
-ALTER TABLE public.duck ADD CONSTRAINT race_duck_fk
+ALTER TABLE public.duck
+  ADD CONSTRAINT race_duck_fk
 FOREIGN KEY (race_id)
 REFERENCES public.race (id)
 ON DELETE CASCADE
 ON UPDATE CASCADE
 NOT DEFERRABLE;
 
-ALTER TABLE public.duck ADD CONSTRAINT buyer_duck_fk
+ALTER TABLE public.duck
+  ADD CONSTRAINT buyer_duck_fk
 FOREIGN KEY (buyer_id)
 REFERENCES public.duck_buyer (id)
 ON DELETE CASCADE
 ON UPDATE CASCADE
 NOT DEFERRABLE;
 
-ALTER TABLE public.duck ADD CONSTRAINT owner_duck_fk
+ALTER TABLE public.duck
+  ADD CONSTRAINT owner_duck_fk
 FOREIGN KEY (owner_id)
 REFERENCES public.duck_owner (id)
 ON DELETE CASCADE
 ON UPDATE CASCADE
 NOT DEFERRABLE;
+
+CREATE OR REPLACE FUNCTION fun_add_duck(dateof     TIMESTAMP, ownerfname VARCHAR, ownerlname VARCHAR,
+                                        ownerphone VARCHAR, buyeremail VARCHAR,
+                                        buyerphone VARCHAR, raceid INT, timeof TIMESTAMP, price INT,
+                                        transid    INT)
+  RETURNS INT AS $counter$
+DECLARE   counter INT;
+  DECLARE max     INT;
+  DECLARE ownerid INT;
+  DECLARE buyerid INT;
+
+BEGIN
+  counter := 0;
+  max := (SELECT max(serial_number)
+          FROM duck);
+
+  WHILE counter <= max LOOP
+    counter := counter + 1;
+    EXIT WHEN (NOT EXISTS(SELECT serial_number
+                          FROM duck
+                          WHERE serial_number = counter));
+  END LOOP;
+
+  INSERT INTO duck_owner (first_name, last_name, phone_number) VALUES (ownerfname, ownerlname,
+                                                                       ownerphone)
+  RETURNING id
+    INTO ownerid;
+  INSERT INTO duck_buyer (email, phone_number) VALUES (buyeremail, buyerphone)
+  RETURNING id
+    INTO
+      buyerid;
+
+  INSERT INTO duck (date_of_purchase, owner_id, buyer_id, race_id, serial_number, time_of_purchase,
+                    price_cents, transaction_id)
+  VALUES (dateof, ownerid, buyerid, raceid, counter, timeof, price, transid);
+  RETURN counter;
+END;
+$counter$ LANGUAGE plpgsql;
+

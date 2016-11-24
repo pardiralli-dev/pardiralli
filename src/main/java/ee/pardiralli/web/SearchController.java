@@ -3,7 +3,9 @@ package ee.pardiralli.web;
 import ee.pardiralli.db.DuckRepository;
 import ee.pardiralli.db.RaceRepository;
 import ee.pardiralli.domain.Duck;
+import ee.pardiralli.domain.FeedbackType;
 import ee.pardiralli.domain.Search;
+import ee.pardiralli.util.ControllerUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -42,7 +44,10 @@ public class SearchController {
     @PostMapping("/search")
     public String searchSubmit(@Valid Search userQuery, BindingResult bindingResult, Model model) {
         model.addAttribute("search", bindingResult.hasErrors() ? new Search() : new Search(raceRepository.findLastBeginningDate()));
-        model.addAttribute("result", getResultsSubLst(getResults(userQuery), 0, 30));
+        List<Duck> results = getResultsSubLst(getResults(userQuery), 0, 30);
+        model.addAttribute("result", results);
+        if (results.isEmpty())
+            ControllerUtil.setFeedback(model, FeedbackType.INFO, "Päringule vastavaid parte ei leitud");
         return "search";
     }
 
@@ -79,6 +84,18 @@ public class SearchController {
                 to = 30;
 
                 dbResults = getResults(search);
+
+                if (dbResults.isEmpty()) {
+                    return Collections.singletonList("<tr>" +
+                            "<td class=\"alert alert-info\">Päringule vastavaid parte ei leitud</td>" +
+                            "<td>" + "</td>" +
+                            "<td></td>" +
+                            "<td></td>" +
+                            "<td></td>" +
+                            "<td></td>" +
+                            "</tr>");
+                }
+
                 // Save result into the session to access later.
                 req.getSession().setAttribute("results", dbResults);
         }
@@ -86,6 +103,7 @@ public class SearchController {
         // Update session info
         req.getSession().setAttribute("from", from);
         req.getSession().setAttribute("to", to);
+
 
         // Return table rows as list
         return getResultsSubLst(dbResults, from, to)

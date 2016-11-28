@@ -86,13 +86,19 @@ public class StatisticsController {
                                HttpServletResponse response) throws IOException {
 
         int BUFFER_SIZE = 4096;
+        String FILENAME = "pardiralli_statistika.csv";
 
         // get absolute path of the application
         ServletContext context = request.getServletContext();
 
         // construct the complete absolute path of the file
 
-        File downloadFile = statisticsService.createCSVFile("eksporditud_statistika.csv", exportFile);
+        Date startDate = exportFile.getStartDate();
+        Date endDate = exportFile.getEndDate();
+        SimpleDateFormat formatter = new SimpleDateFormat();
+        formatter.applyPattern("dd-MM-yyyy");
+        String filenameWithDate = new StringBuilder(FILENAME).insert(FILENAME.length() - 4, formatter.format(startDate) + "_" + formatter.format(endDate)).toString();
+        File downloadFile = statisticsService.createCSVFile(filenameWithDate, exportFile);
         FileInputStream inputStream = new FileInputStream(downloadFile);
 
         response.setContentLength((int) downloadFile.length());

@@ -13,6 +13,8 @@ public interface RaceRepository extends CrudRepository<Race, Integer> {
 
     Race findById(Integer id);
 
+    Race findRaceByIsOpen(Boolean isOpen);
+
     List<Race> findByFinish(Date date);
 
     List<Race> findByBeginning(Date date);

@@ -3,14 +3,16 @@ package ee.pardiralli.service;
 import ee.pardiralli.db.DuckRepository;
 import ee.pardiralli.db.RaceRepository;
 import ee.pardiralli.domain.ExportFile;
-import ee.pardiralli.dto.RaceDTO;
+import ee.pardiralli.dto.DuckDTO;
 import ee.pardiralli.util.StatisticsUtil;
+import org.apache.commons.collections4.IteratorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class StatisticsServiceImpl implements StatisticsService {
@@ -50,7 +52,7 @@ public class StatisticsServiceImpl implements StatisticsService {
      * Creates data for the donation chart.
      *
      * @param calendar a Calendar object with the beginning date set to the start date of the chart
-     * @param endDate end date of the chart
+     * @param endDate  end date of the chart
      * @return a list of lists, each of which contains the following: a date, number of ducks sold on that day,
      * amount of donations made on that day
      */
@@ -89,30 +91,22 @@ public class StatisticsServiceImpl implements StatisticsService {
         Date startDate = exportFile.getStartDate();
         Date endDate = exportFile.getEndDate();
         String niceDate = StatisticsUtil.getNiceDate(startDate, endDate);
+        List<DuckDTO> ducks = this.getDuckDTOsByTimePeriod(startDate, endDate);
 
-        if (wantsDonatedMoney && wantsSoldDucks) {
-            sb.append("Müüdud parte ajavahemikus ").append(niceDate);
-            sb.append(',');
-            sb.append("Kogutud raha ajavahemikus ").append(niceDate);
-            sb.append('\n');
-
-            sb.append(Integer.toString(getNoOfSoldDucks(startDate, endDate)));
-            sb.append(',');
-            sb.append(Integer.toString(getAmountOfDonatedMoney(startDate, endDate)));
-            sb.append('\n');
-        } else if (wantsSoldDucks) {
-            sb.append("Müüdud parte ajavahemikus ").append(niceDate);
-            sb.append('\n');
-
-            sb.append(Integer.toString(getNoOfSoldDucks(startDate, endDate)));
-            sb.append('\n');
-        } else if (wantsDonatedMoney) {
-            sb.append("Kogutud raha ajavahemikus ").append(niceDate);
-            sb.append('\n');
-
-            sb.append(Integer.toString(getAmountOfDonatedMoney(startDate, endDate)));
-            sb.append('\n');
+        sb.append("Müüdud pardid ajavahemikus ").append(niceDate).append("\n");
+        sb.append("Ostmise kuupäev;Omaniku eesnimi;Omaniku perenimi;Omaniku telefoninumber;Ostja e-mail;Ostja telefoninumber;Ralli nimi;Pardi number;Pardi hind\n");
+        for (DuckDTO duck : ducks){
+            sb.append(duck.getPurchaseDate().toString()).append(";");
+            sb.append(duck.getOwnerFirstName()).append(";");
+            sb.append(duck.getOwnerLastName()).append(";");
+            sb.append(duck.getOwnerPhoneNo()).append(";");
+            sb.append(duck.getBuyerEmail()).append(";");
+            sb.append(duck.getBuyerPhoneNo()).append(";");
+            sb.append(duck.getRaceName()).append(";");
+            sb.append(Integer.toString(duck.getSerialNumber())).append(";");
+            sb.append(Double.toString(duck.getPriceInCents()/100)).append("\n");
         }
+
 
         pw.write(sb.toString());
         pw.close();
@@ -131,7 +125,9 @@ public class StatisticsServiceImpl implements StatisticsService {
         calendar.setTime(startDate);
         while (true) {
             Date date = calendar.getTime();
-            if (date.after(endDate)) return sum;
+            if (date.after(endDate)) {
+                return sum;
+            }
             Integer ducks = duckRepository.countByDateOfPurchase(date);
             sum += ducks;
             calendar.add(Calendar.DAY_OF_YEAR, 1);
@@ -144,9 +140,10 @@ public class StatisticsServiceImpl implements StatisticsService {
      * @return sum of donations (in euros) made during this period of time
      */
     @Override
-    public int getAmountOfDonatedMoney(Date startDate, Date endDate) {
-        int sum = 0;
+    public double getAmountOfDonatedMoney(Date startDate, Date endDate) {
+        double sum = 0;
         Calendar calendar = Calendar.getInstance();
+        calendar.setTime(startDate);
         while (true) {
             Date date = calendar.getTime();
             if (date.after(endDate)) {
@@ -159,6 +156,7 @@ public class StatisticsServiceImpl implements StatisticsService {
         }
     }
 
+
     /**
      * Creates data for the donation chart.
      *
@@ -170,5 +168,27 @@ public class StatisticsServiceImpl implements StatisticsService {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(startDate);
         return createDataByDates(calendar, endDate);
+    }
+
+    @Override
+    public List<DuckDTO> getDuckDTOsByTimePeriod(Date startDate, Date endDate) {
+        return IteratorUtils.toList(
+                duckRepository.findAll().iterator())
+                .stream()
+                .filter(d -> d.getDateOfPurchase().after(startDate) && d.getDateOfPurchase().before(endDate) ||
+                        d.getDateOfPurchase().equals(startDate) || d.getDateOfPurchase().equals(endDate))
+                .map(d ->
+                        new DuckDTO(
+                                d.getId(),
+                                d.getDateOfPurchase(),
+                                d.getDuckOwner().getFirstName(),
+                                d.getDuckOwner().getLastName(),
+                                d.getDuckOwner().getPhoneNumber(),
+                                d.getDuckBuyer().getEmail(),
+                                d.getDuckBuyer().getPhoneNumber(),
+                                d.getRace().getRaceName(),
+                                d.getSerialNumber(),
+                                d.getPriceCents().doubleValue())
+                ).collect(Collectors.toList());
     }
 }

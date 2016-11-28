@@ -142,3 +142,36 @@ BEGIN
 END;
 $counter$ LANGUAGE plpgsql;
 
+CREATE OR REPLACE FUNCTION prevent_overlapping_races_fun () RETURNS OPAQUE AS '
+DECLARE
+    myrec RECORD;
+BEGIN
+
+    IF TG_OP = ''INSERT'' THEN
+        SELECT * INTO myrec FROM race WHERE
+            beginning < NEW.finish AND
+            finish > NEW.beginning;
+        IF FOUND THEN
+            RAISE EXCEPTION ''INSERT failed:
+            intersection with record % at (%,%)'',
+            myrec.id, myrec.beginning, myrec.finish;
+        END IF;
+    END IF;
+
+IF TG_OP = ''UPDATE'' THEN
+SELECT * INTO myrec FROM race WHERE
+  beginning < NEW.finish AND
+  finish > NEW.beginning AND
+  id <> OLD.id;
+IF FOUND THEN
+RAISE EXCEPTION ''UPDATE failed:
+intersection with record % at (%,%)'',
+                                   myrec.id, myrec.beginning, myrec.finish;
+END IF;
+END IF;
+RETURN NEW;
+END;
+' LANGUAGE 'plpgsql';
+
+CREATE TRIGGER add_race_tri BEFORE INSERT OR UPDATE ON race
+FOR EACH ROW EXECUTE PROCEDURE prevent_overlapping_races_fun();

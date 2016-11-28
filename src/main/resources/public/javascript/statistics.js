@@ -1,5 +1,4 @@
-/* Estonian initialisation for the jQuery UI date picker plugin. */
-/* Written by Mart Sõmermaa (mrts.pydev at gmail com). */
+/* Estonian initialisation for the jQuery UI date picker plugin. Written by Mart Sõmermaa (mrts.pydev at gmail com). */
 $.datepicker.regional['et'] = {
     closeText: "Sulge",
     prevText: "Eelnev",
@@ -39,6 +38,12 @@ $(document).ready(function () {
         callDrawDonationChart();
 
 //google.charts.setOnLoadCallback(drawChart_visits);
+        var gifDiv = $("#loadingGif");
+
+
+        $(document).ajaxStop(function () {
+            $(".loadingDiv").remove();
+        });
 
 //Send POST request to server
         function callDrawDonationChart() {
@@ -92,6 +97,7 @@ $(document).ready(function () {
                 {
                     dateFormat: "dd-mm-yy",
                     onSelect: function () {
+                        gifDiv.append('<div class="loader loadingDiv container-fluid"></div>');
                         callDrawDonationChart()
                     }
                 }
@@ -102,6 +108,7 @@ $(document).ready(function () {
                 {
                     dateFormat: "dd-mm-yy",
                     onSelect: function () {
+                        gifDiv.append('<div class="loader loadingDiv container-fluid"></div>');
                         callDrawDonationChart()
                     }
                 }

@@ -1,58 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
 <html lang="et" xmlns:th="http://www.thymeleaf.org">
-
 <head>
-    <title>Kinnitus</title>
+    <title>Makse sooritatud</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" type="text/css"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="css/admin.css"/>
 </head>
 <body>
-
-<ul>
-    <li><a>Avaleht </a></li>
-    <li><a>Uudised </a></li>
-    <li><a>Osale </a></li>
-    <li><a>Kava </a></li>
-    <li><a>Auhinnad </a></li>
-    <li><a>Galerii </a></li>
-    <li><a>Eesmärk </a></li>
-    <li><a>Administraatori valikud </a></li>
-</ul>
-
-<p>
-    Makse edukalt sooritatud!
-</p>
-
-<!--/*@thymesVar id="Index" type="java.util.List<ee.pardiralli.domain.Index>"*/-->
-<p>Siin on Sinu pardiostu info</p>
-
-<table>
-    <tbody>
-    <tr>
-        <th>Eesnimi</th>
-        <th>Perekonnanimi</th>
-        <th>E-mail</th>
-        <th>Telefoninumber</th>
-        <th>Partide arv</th>
-        <th>Ühe pardi hind</th>
-        <th>Summa kokku</th>
-
-    </tr>
-    <!--/*@thymesVar id="Index" type="java.util.List<ee.pardiralli.domain.Index>"*/-->
-    <tr th:each="ind : ${Index}">
-        <td th:text="${ind.getFirstName()}"></td>
-        <td th:text="${ind.getLastName()}"></td>
-        <td th:text="${ind.getBuyersEmail()}"></td>
-        <td th:text="${ind.getPhoneNumber()}"></td>
-        <td th:text="${ind.getNrOfDucks()}"></td>
-        <td th:text="${ind.getPricePerDuck()}"></td>
-        <td th:text="${ind.getSum()}"></td>
-    </tr>
-    </tbody>
-</table>
-
-<p>Aitäh Pardirallit toetamast!</p>
-
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Pardiralli</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li><a th:href="@{/}">Avaleht</a></li>
+            <li><a th:href="@{/statistics}">Statistika</a></li>
+            <li><a th:href="@{/search}">Otsing</a></li>
+            <li><a th:href="@{/settings}">Võistlused</a></li>
+            <li class="active"><a th:href="@{/insert}">Sisestus</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a th:href="@{/logout}"><span class="glyphicon glyphicon-log-in"></span>Logi välja</a></li>
+        </ul>
+    </div>
+</nav>
+<div class="container">
+    <h3>Makse edukalt sooritatud!</h3>
+    <br>
+    <div>
+        <h4>Teie pardiostu info</h4>
+        <br>
+        <div>
+            <!--/*@thymesVar id="transactionID" type="java.lang.String"*/-->
+            <div th:text="'Tehingu nr: ' + ${transactionID}"></div>
+            <br>
+            <!--/*@thymesVar id="buyerEmail" type="java.lang.String"*/-->
+            <div th:text="'E-mail: ' + ${buyerEmail}"></div>
+        </div>
+        <br>
+        <table id="information" class="table">
+            <thead>
+            <tr>
+                <th>Pardi nr</th>
+                <th>Omaniku eesnimi</th>
+                <th>Omaniku perekonnanimi</th>
+                <th>Omaniku telefoninumber</th>
+                <th>Hind</th>
+            </tr>
+            </thead>
+            <!--/*@thymesVar id="purchasedItems" type="java.util.List<ee.pardiralli.dto.DuckDTO>"*/-->
+            <tr th:each="duckDTO : ${purchasedItems}">
+                <td th:text=""></td>
+                <td th:text="${duckDTO.getSerialNumber().toString()}"></td>
+                <td th:text="${duckDTO.getOwnerFirstName()}"></td>
+                <td th:text="${duckDTO.getOwnerLastName()}"></td>
+                <td th:text="${duckDTO.getOwnerPhoneNo()}"></td>
+                <td th:text="${duckDTO.getPrice()}"></td>
+            </tr>
+        </table>
+        <br>
+        <!--/*@thymesVar id="totalSum" type="java.lang.String"*/-->
+        <div th:text="'Summa: ' + ${totalSum} + '€'"></div>
+    </div>
+    <br>
+    <h3>Aitäh Pardirallit toetamast!</h3>
+</div>
 </body>
+
 </html>

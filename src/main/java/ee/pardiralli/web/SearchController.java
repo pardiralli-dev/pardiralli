@@ -1,11 +1,11 @@
 package ee.pardiralli.web;
 
-import ee.pardiralli.db.DuckRepository;
-import ee.pardiralli.db.RaceRepository;
 import ee.pardiralli.domain.Duck;
 import ee.pardiralli.domain.FeedbackType;
 import ee.pardiralli.domain.Search;
+import ee.pardiralli.service.SearchService;
 import ee.pardiralli.util.ControllerUtil;
+import ee.pardiralli.util.SearchUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -20,31 +20,29 @@ import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 public class SearchController {
-    private final DuckRepository duckRepository;
-    private final RaceRepository raceRepository;
+
+    private final SearchService searchService;
 
     @Autowired
-    public SearchController(DuckRepository duckRepository, RaceRepository raceRepository) {
-        this.duckRepository = duckRepository;
-        this.raceRepository = raceRepository;
+    public SearchController(SearchService searchService) {
+        this.searchService = searchService;
     }
 
 
     @GetMapping("/search")
     public String search(Model model) {
-        model.addAttribute("search", new Search(raceRepository.findLastBeginningDate()));
+        model.addAttribute("search", searchService.getLatestRaceSearchModel());
         model.addAttribute("result", Collections.emptyList());
         return "search";
     }
 
     @PostMapping("/search")
     public String searchSubmit(@Valid Search userQuery, BindingResult bindingResult, Model model) {
-        model.addAttribute("search", bindingResult.hasErrors() ? new Search() : new Search(raceRepository.findLastBeginningDate()));
-        List<Duck> results = getResultsSubLst(getResults(userQuery), 0, 30);
+        model.addAttribute("search", bindingResult.hasErrors() ? new Search() : searchService.getLatestRaceSearchModel());
+        List<Duck> results = SearchUtil.getResultsSubLst(searchService.getResults(userQuery), 0, 30);
         model.addAttribute("result", results);
         if (results.isEmpty())
             ControllerUtil.setFeedback(model, FeedbackType.INFO, "Päringule vastavaid parte ei leitud");
@@ -76,24 +74,17 @@ public class SearchController {
                 Object resultsObject = req.getSession().getAttribute("results");
                 from = fromObject == null ? 0 : (Integer) fromObject + 30;
                 to = toObject == null ? 30 : (Integer) toObject + 30;
-                dbResults = resultsObject != null ? (List) req.getSession().getAttribute("results") : getResults(search);
+                dbResults = resultsObject != null ? (List) req.getSession().getAttribute("results") : searchService.getResults(search);
                 break;
 
             default:
                 from = 0;
                 to = 30;
 
-                dbResults = getResults(search);
+                dbResults = searchService.getResults(search);
 
                 if (dbResults.isEmpty()) {
-                    return Collections.singletonList("<tr>" +
-                            "<td class=\"alert alert-info\">Päringule vastavaid parte ei leitud</td>" +
-                            "<td>" + "</td>" +
-                            "<td></td>" +
-                            "<td></td>" +
-                            "<td></td>" +
-                            "<td></td>" +
-                            "</tr>");
+                    return SearchUtil.getNoItemsFoundTableRow();
                 }
 
                 // Save result into the session to access later.
@@ -106,18 +97,7 @@ public class SearchController {
 
 
         // Return table rows as list
-        return getResultsSubLst(dbResults, from, to)
-                .stream()
-                .map(duck ->
-                        "<tr>" +
-                                "<td>" + duck.getSerialNumber() + "</td>" +
-                                "<td>" + duck.getDuckBuyer().getEmail() + "</td>" +
-                                "<td>" + duck.getDuckOwner().getFirstName() + "</td>" +
-                                "<td>" + duck.getDuckOwner().getLastName() + "</td>" +
-                                "<td>" + duck.getDuckOwner().getPhoneNumber() + "</td>" +
-                                "<td>" + duck.getRace().getBeginning() + "</td>" +
-                                "</tr>"
-                ).collect(Collectors.toList());
+        return SearchUtil.convertToResultsTable(SearchUtil.getResultsSubLst(dbResults, from, to));
     }
 
 
@@ -127,26 +107,4 @@ public class SearchController {
         binder.registerCustomEditor(Date.class, editor);
     }
 
-    private List<Duck> getResults(Search userQuery) {
-        List<Duck> result;
-
-        if (userQuery.hasOnlyIdAndDate()) {
-            Duck duck = duckRepository.findBySerialNumber(userQuery.getSerialNumber(), userQuery.getRaceBeginningDate());
-            result = duck != null ? Collections.singletonList(duck) : Collections.emptyList();
-
-        } else result = duckRepository.findDuck(
-                userQuery.getOwnersFirstName(),
-                userQuery.getOwnersLastName(),
-                userQuery.getBuyersEmail(),
-                userQuery.getOwnersPhoneNr(),
-                userQuery.getRaceBeginningDate()
-        );
-        return result;
-    }
-
-    private List<Duck> getResultsSubLst(List<Duck> lst, Integer from, Integer to) {
-        Integer size = lst.size();
-        if (from > size) return Collections.emptyList();
-        return size >= to ? lst.subList(from, to) : lst.subList(from, size);
-    }
 }

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<h2>Täname, et toetate Pardirallit!</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Pardi ID</th>
+        <th>Omaniku eesnimi</th>
+        <th>Omaniku perenimi</th>
+        <th>Omaniku telefoninumber</th>
+        <th>Hind</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!--/*@thymesVar id="result" type="java.util.List<ee.pardiralli.domain.Duck>"*/-->
+    <tr th:each="duck : ${ducks}">
+        <td th:text="${duck.getSerialNumber()}"></td>
+        <td th:text="${duck.getDuckOwner().getFirstName()}"></td>
+        <td th:text="${duck.getDuckOwner().getLastName()}"></td>
+        <td th:text="${duck.getDuckOwner().getPhoneNumber()}"></td>
+        <td th:text="${duck.getPriceCents()}"></td>
+    </tr>
+    </tbody>
+</table>
+<div th:text="'Summa kokku:' + ${total}"></div>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Makse ebaõnnestus</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" type="text/css"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="css/admin.css"/>
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Pardiralli</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li><a th:href="@{/}">Avaleht</a></li>
+            <li><a th:href="@{/statistics}">Statistika</a></li>
+            <li><a th:href="@{/search}">Otsing</a></li>
+            <li><a th:href="@{/settings}">Võistlused</a></li>
+            <li class="active"><a th:href="@{/insert}">Sisestus</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a th:href="@{/logout}"><span class="glyphicon glyphicon-log-in"></span>Logi välja</a></li>
+        </ul>
+    </div>
+</nav>
+<div class="container">
+    <h3>Makse ebaõnnestus!</h3>
+    <!--<div>-->
+        <!--<a th:href="@{/}">Tagasi pealehele</a>-->
+    <!--</div>-->
+</div>
+</body>
+</html>

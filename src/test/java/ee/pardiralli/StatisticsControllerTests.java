@@ -2,12 +2,9 @@ package ee.pardiralli;
 
 import ee.pardiralli.db.*;
 import ee.pardiralli.domain.*;
-import ee.pardiralli.web.StatisticsController;
+import ee.pardiralli.service.StatisticsService;
 import io.github.bonigarcia.wdm.ChromeDriverManager;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -33,6 +30,7 @@ import static junit.framework.TestCase.assertTrue;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(locations = "classpath:test.properties")
 @RunWith(SpringRunner.class)
+@Ignore
 public class StatisticsControllerTests {
 
     private Race race;
@@ -46,9 +44,8 @@ public class StatisticsControllerTests {
     private WebDriver driver;
     private String url;
 
-
     @Autowired
-    private StatisticsController statisticsController;
+    private StatisticsService statisticsService;
 
     @Autowired
     private RaceRepository raceRepository;
@@ -144,9 +141,9 @@ public class StatisticsControllerTests {
 
     @Test
     public void getDataTest() throws Exception {
-        assertTrue(statisticsController.getDefaultDates() != null);
-        assertTrue(statisticsController.getDefaultDates().size() == 2);
-        List<Object> defaultDates = statisticsController.getDefaultDates();
+        assertTrue(statisticsService.getDefaultDates() != null);
+        assertTrue(statisticsService.getDefaultDates().size() == 2);
+        List<Object> defaultDates = statisticsService.getDefaultDates();
         assertTrue(defaultDates.get(0) instanceof Calendar);
         assertTrue(defaultDates.get(1) instanceof java.util.Date);
     }

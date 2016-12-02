@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html lang="et" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Pardiralli</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+</head>
+<body onload="document.getElementById('requestform').submit()">
+
+
+<p>POSTing sumthin' to dat bank...</p>
+
+<form id="requestform" action="#" th:action="@{https://netbank.nordea.com/pnbepay/epayp.jsp}"
+      th:object="${request_model}" method="post" style="display: none">
+
+    <input type="text" th:field="*{VK_SERVICE}" />
+    <input type="text" th:field="*{VK_VERSION}" />
+    <input type="text" th:field="*{VK_SND_ID}" />
+    <input type="text" th:field="*{VK_STAMP}" />
+    <input type="text" th:field="*{VK_AMOUNT}" />
+    <input type="text" th:field="*{VK_CURR}" />
+    <input type="text" th:field="*{VK_ACC}" />
+    <input type="text" th:field="*{VK_NAME}" />
+    <input type="text" th:field="*{VK_REF}" />
+    <input type="text" th:field="*{VK_MSG}" />
+    <input type="text" th:field="*{VK_RETURN}" />
+    <input type="text" th:field="*{VK_CANCEL}" />
+    <input type="text" th:field="*{VK_DATETIME}" />
+    <input type="text" th:field="*{VK_MAC}" />
+    <input type="text" th:field="*{VK_ENCODING}" />
+    <input type="text" th:field="*{VK_LANG}" />
+</form>
+
+
+</body>
+</html>

@@ -104,7 +104,7 @@ public class StatisticsServiceImpl implements StatisticsService {
             sb.append(duck.getBuyerPhoneNo()).append(";");
             sb.append(duck.getRaceName()).append(";");
             sb.append(Integer.toString(duck.getSerialNumber())).append(";");
-            sb.append(Double.toString(duck.getPriceInCents()/100)).append("\n");
+            sb.append(duck.getPrice()).append("\n");
         }
 
 
@@ -188,7 +188,9 @@ public class StatisticsServiceImpl implements StatisticsService {
                                 d.getDuckBuyer().getPhoneNumber(),
                                 d.getRace().getRaceName(),
                                 d.getSerialNumber(),
-                                d.getPriceCents().doubleValue())
+                                d.getPriceCents().doubleValue(),
+                                Double.toString(d.getPriceCents() / 100),
+                                d.getTransaction().getId())
                 ).collect(Collectors.toList());
     }
 }

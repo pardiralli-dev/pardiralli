@@ -1,10 +1,10 @@
 package ee.pardiralli.service;
 
 import ee.pardiralli.banklink.*;
-import ee.pardiralli.db.DuckRepository;
-import ee.pardiralli.db.TransactionRepository;
-import ee.pardiralli.domain.Duck;
-import ee.pardiralli.domain.Transaction;
+import ee.pardiralli.db.*;
+import ee.pardiralli.domain.*;
+import ee.pardiralli.dto.DonationBoxDTO;
+import ee.pardiralli.dto.DonationFormDTO;
 import ee.pardiralli.dto.DuckDTO;
 import ee.pardiralli.exceptions.IllegalResponseException;
 import ee.pardiralli.exceptions.IllegalTransactionException;
@@ -24,11 +24,18 @@ public class PaymentServiceImpl implements PaymentService {
 
     private final DuckRepository duckRepository;
     private final TransactionRepository transactionRepository;
+    private final OwnerRepository ownerRepository;
+    private final BuyerRepository buyerRepository;
+    private final RaceRepository raceRepository;
+
 
     @Autowired
-    public PaymentServiceImpl(DuckRepository duckRepository, TransactionRepository transactionRepository) {
+    public PaymentServiceImpl(DuckRepository duckRepository, TransactionRepository transactionRepository, OwnerRepository ownerRepository, BuyerRepository buyerRepository, RaceRepository raceRepository) {
         this.duckRepository = duckRepository;
         this.transactionRepository = transactionRepository;
+        this.ownerRepository = ownerRepository;
+        this.buyerRepository = buyerRepository;
+        this.raceRepository = raceRepository;
     }
 
     @Override
@@ -187,4 +194,40 @@ public class PaymentServiceImpl implements PaymentService {
         }
         return duckDTOs;
     }
+
+    @Override
+    public void saveDonation(DonationFormDTO donation) {
+        DuckBuyer duckBuyer = new DuckBuyer();
+        duckBuyer.setEmail(donation.getBuyerEmail());
+        duckBuyer = buyerRepository.save(duckBuyer);
+        Race race = raceRepository.findRaceByIsOpen(true);
+
+        Transaction transaction = new Transaction();
+        transaction.setIsPaid(false);
+        transaction = transactionRepository.save(transaction);
+
+
+        for(DonationBoxDTO box: donation.getBoxes()){
+            DuckOwner duckOwner = new DuckOwner();
+            duckOwner.setFirstName(box.getOwnerFirstName());
+            duckOwner.setLastName(box.getOwnerLastName());
+            duckOwner.setPhoneNumber(box.getOwnerPhone());
+            duckOwner = ownerRepository.save(duckOwner);
+
+            // Save duck without serial
+            for(int i = 0; i<box.getDuckQuantity();i++){
+                Duck duck = new Duck();
+                duck.setPriceCents(box.getDuckPrice() * 100);
+                duck.setDuckBuyer(duckBuyer);
+                duck.setDuckOwner(duckOwner);
+                duck.setRace(race);
+                duck.setDateOfPurchase(BanklinkUtils.getCurrentDate());
+                duck.setTimeOfPurchase(BanklinkUtils.getCurrentTimeStamp());
+                duck.setTransaction(transaction);
+                duckRepository.save(duck);
+            }
+
+        }
+    }
+
 }

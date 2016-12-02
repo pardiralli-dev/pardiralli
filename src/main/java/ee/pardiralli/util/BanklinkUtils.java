@@ -14,6 +14,8 @@ import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
+import java.sql.*;
+import java.sql.Timestamp;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -149,6 +151,15 @@ public class BanklinkUtils {
             // TODO: 15.11.16 error handling
             throw new IllegalResponseException(e.getMessage());
         }
+    }
+
+    public static java.sql.Timestamp getCurrentTimeStamp(){
+        return new Timestamp(ZonedDateTime.now(ZoneId.of("Europe/Helsinki"))
+                .truncatedTo(ChronoUnit.MINUTES).toInstant().getEpochSecond() * 1000L);
+    }
+
+    public static Date getCurrentDate(){
+        return new java.sql.Date(Date.from(ZonedDateTime.now(ZoneId.of("Europe/Helsinki")).toInstant()).getTime());
     }
 
     private static String concParamsToDataRow(List<String> params) {

@@ -3,6 +3,7 @@ package ee.pardiralli.service;
 import ee.pardiralli.banklink.Bank;
 import ee.pardiralli.banklink.ResponseModel;
 import ee.pardiralli.domain.Transaction;
+import ee.pardiralli.dto.DonationFormDTO;
 import ee.pardiralli.dto.DuckDTO;
 import ee.pardiralli.exceptions.IllegalResponseException;
 import ee.pardiralli.exceptions.IllegalTransactionException;
@@ -62,4 +63,6 @@ public interface PaymentService {
      */
     List<DuckDTO> setSerialNumberAndIsPaid(String tid);
 
+
+    void saveDonation(DonationFormDTO donation);
 }

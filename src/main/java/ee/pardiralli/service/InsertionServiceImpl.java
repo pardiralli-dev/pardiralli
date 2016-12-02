@@ -3,6 +3,7 @@ package ee.pardiralli.service;
 import ee.pardiralli.db.*;
 import ee.pardiralli.domain.*;
 import ee.pardiralli.dto.InsertionDTO;
+import ee.pardiralli.util.BanklinkUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -61,20 +62,18 @@ public class InsertionServiceImpl implements InsertionService {
 
         Transaction transaction = new Transaction();
         transaction.setIsPaid(true);
-        transaction.setTimeOfPayment(new Timestamp(ZonedDateTime.now(ZoneId.of("Europe/Helsinki"))
-                .truncatedTo(ChronoUnit.MINUTES).toInstant().getEpochSecond() * 1000L));
+        transaction.setTimeOfPayment(BanklinkUtils.getCurrentTimeStamp());
         transaction = transactionRepository.save(transaction);
 
 
         for (int i = 0; i < insertionDTO.getNumberOfDucks(); i++) {
             Duck duck = new Duck();
-            duck.setDateOfPurchase(new java.sql.Date(Date.from(ZonedDateTime.now(ZoneId.of("Europe/Helsinki")).toInstant()).getTime()));
+            duck.setDateOfPurchase(BanklinkUtils.getCurrentDate());
             duck.setDuckBuyer(duckBuyer);
             duck.setDuckOwner(duckOwner);
             duck.setTransaction(transaction);
             duck.setPriceCents(insertionDTO.getPriceOfOneDuck());
-            duck.setTimeOfPurchase(new Timestamp(ZonedDateTime.now(ZoneId.of("Europe/Helsinki"))
-                    .truncatedTo(ChronoUnit.MINUTES).toInstant().getEpochSecond() * 1000L));
+            duck.setTimeOfPurchase(BanklinkUtils.getCurrentTimeStamp());
 
 
             duck.setSerialNumber(duckRepository.addDuckReturnId(

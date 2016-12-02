@@ -5,6 +5,7 @@ import ee.pardiralli.db.DuckRepository;
 import ee.pardiralli.db.TransactionRepository;
 import ee.pardiralli.domain.Duck;
 import ee.pardiralli.domain.Transaction;
+import ee.pardiralli.dto.DuckDTO;
 import ee.pardiralli.exceptions.IllegalResponseException;
 import ee.pardiralli.exceptions.IllegalTransactionException;
 import ee.pardiralli.util.BanklinkUtils;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -150,5 +152,39 @@ public class PaymentServiceImpl implements PaymentService {
         }
     }
 
+    @Override
+    public List<DuckDTO> setSerialNumberAndIsPaid(String tid) {
+        Integer transactionID = Integer.parseInt(tid); // TODO: should throw ParseException?
+        transactionRepository.findById(transactionID).setIsPaid(true);
 
+        List<Duck> purchasedItems = duckRepository.findByTransactionId(transactionID);
+        List<DuckDTO> duckDTOs = new ArrayList<>();
+        for (Duck duck: purchasedItems){
+            Integer serialNumber = duckRepository.addDuckReturnId(
+                    duck.getDateOfPurchase(),
+                    duck.getDuckOwner().getFirstName(),
+                    duck.getDuckOwner().getLastName(),
+                    duck.getDuckOwner().getPhoneNumber(),
+                    duck.getDuckBuyer().getEmail(),
+                    duck.getDuckOwner().getPhoneNumber(),
+                    duck.getRace().getId(),
+                    duck.getTimeOfPurchase(),
+                    duck.getPriceCents(),
+                    duck.getTransaction().getId());
+            duckDTOs.add(new DuckDTO(
+                    duck.getId(),
+                    duck.getDateOfPurchase(),
+                    duck.getDuckOwner().getFirstName(),
+                    duck.getDuckOwner().getLastName(),
+                    duck.getDuckOwner().getPhoneNumber(),
+                    duck.getDuckBuyer().getEmail(),
+                    duck.getDuckBuyer().getPhoneNumber(),
+                    duck.getRace().getRaceName(),
+                    serialNumber,
+                    Double.valueOf(duck.getPriceCents()),
+                    Double.toString(duck.getPriceCents() / 100),
+                    duck.getTransaction().getId()));
+        }
+        return duckDTOs;
+    }
 }

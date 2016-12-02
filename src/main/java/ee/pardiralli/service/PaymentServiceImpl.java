@@ -5,7 +5,6 @@ import ee.pardiralli.db.*;
 import ee.pardiralli.domain.*;
 import ee.pardiralli.dto.DonationBoxDTO;
 import ee.pardiralli.dto.DonationFormDTO;
-import ee.pardiralli.dto.DuckDTO;
 import ee.pardiralli.exceptions.IllegalResponseException;
 import ee.pardiralli.exceptions.IllegalTransactionException;
 import ee.pardiralli.util.BanklinkUtils;
@@ -14,10 +13,10 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class PaymentServiceImpl implements PaymentService {
@@ -27,15 +26,17 @@ public class PaymentServiceImpl implements PaymentService {
     private final OwnerRepository ownerRepository;
     private final BuyerRepository buyerRepository;
     private final RaceRepository raceRepository;
+    private final SerialNumberService numberService;
 
 
     @Autowired
-    public PaymentServiceImpl(DuckRepository duckRepository, TransactionRepository transactionRepository, OwnerRepository ownerRepository, BuyerRepository buyerRepository, RaceRepository raceRepository) {
+    public PaymentServiceImpl(DuckRepository duckRepository, TransactionRepository transactionRepository, OwnerRepository ownerRepository, BuyerRepository buyerRepository, RaceRepository raceRepository, SerialNumberService numberService) {
         this.duckRepository = duckRepository;
         this.transactionRepository = transactionRepository;
         this.ownerRepository = ownerRepository;
         this.buyerRepository = buyerRepository;
         this.raceRepository = raceRepository;
+        this.numberService = numberService;
     }
 
     @Override
@@ -54,11 +55,11 @@ public class PaymentServiceImpl implements PaymentService {
             throw new IllegalTransactionException("No ducks associated with this transaction id: " + tid);
         }
 
-        return BanklinkUtils.calculatePaymentAmount(ducks);
+        return "1";//BanklinkUtils.calculatePaymentAmount(ducks);
     }
 
     private void checkRecipientID(ResponseModel responseModel, String expectedID) throws IllegalResponseException {
-        if (!responseModel.getRecipientID().equals(expectedID)){
+        if (!responseModel.getRecipientID().equals(expectedID)) {
             throw new IllegalResponseException("Recipient ID is incorrect");
         }
     }
@@ -80,7 +81,7 @@ public class PaymentServiceImpl implements PaymentService {
             throw new IllegalResponseException("Some parameters are missing");
         }
 
-        switch (responseModel.getBank()){
+        switch (responseModel.getBank()) {
             case lhv:
                 checkRecipientID(responseModel, LHVRequestModel.senderID);
                 break;
@@ -99,7 +100,7 @@ public class PaymentServiceImpl implements PaymentService {
 
         int transactionID = Integer.parseInt(responseModel.getResponseID());
         Transaction tr = transactionRepository.findById(transactionID);
-        if (tr == null){
+        if (tr == null) {
             throw new IllegalTransactionException("Transaction with ID " + String.valueOf(transactionID) + " is null");
         }
 
@@ -126,15 +127,14 @@ public class PaymentServiceImpl implements PaymentService {
             ZonedDateTime responseTime = BanklinkUtils.dateTimeFromString(responseModel.getPaymentOrderDateTime());
             ZonedDateTime currentTime = BanklinkUtils.currentDateTime();
             Duration duration = Duration.ofMinutes(5);
-            if (!responseTime.isBefore(currentTime.plus(duration)) && responseTime.isAfter(currentTime.minus(duration))){
+            if (!responseTime.isBefore(currentTime.plus(duration)) && responseTime.isAfter(currentTime.minus(duration))) {
                 throw new IllegalResponseException("Response time out of limits");
             }
 
             if (!tr.getIsPaid()) {
                 throw new IllegalTransactionException("Transaction " + String.valueOf(tr) + " has an invalid isPaid value");
             }
-        }
-        else {
+        } else {
             if (tr.getIsPaid()) {
                 throw new IllegalTransactionException("Transaction " + String.valueOf(tr) + " has an invalid isPaid value");
             }
@@ -145,7 +145,7 @@ public class PaymentServiceImpl implements PaymentService {
     public void checkSuccessfulResponseMAC(Map<String, String> params, Bank bank) throws IllegalResponseException {
         String filename = bank.toString() + "-cert.pem";
         boolean isValidMAC = BanklinkUtils.isValidMAC(filename, params, true);
-        if (!isValidMAC){
+        if (!isValidMAC) {
             throw new IllegalResponseException("MAC signature is invalid");
         }
     }
@@ -154,49 +154,13 @@ public class PaymentServiceImpl implements PaymentService {
     public void checkUnsuccessfulResponseMAC(Map<String, String> params, Bank bank) throws IllegalResponseException {
         String filename = bank.toString() + "-cert.pem";
         boolean isValidMAC = BanklinkUtils.isValidMAC(filename, params, false);
-        if (!isValidMAC){
+        if (!isValidMAC) {
             throw new IllegalResponseException("MAC signature is invalid");
         }
     }
 
     @Override
-    public List<DuckDTO> setSerialNumberAndIsPaid(String tid) {
-        Integer transactionID = Integer.parseInt(tid); // TODO: should throw ParseException?
-        transactionRepository.findById(transactionID).setIsPaid(true);
-
-        List<Duck> purchasedItems = duckRepository.findByTransactionId(transactionID);
-        List<DuckDTO> duckDTOs = new ArrayList<>();
-        for (Duck duck: purchasedItems){
-            Integer serialNumber = duckRepository.addDuckReturnId(
-                    duck.getDateOfPurchase(),
-                    duck.getDuckOwner().getFirstName(),
-                    duck.getDuckOwner().getLastName(),
-                    duck.getDuckOwner().getPhoneNumber(),
-                    duck.getDuckBuyer().getEmail(),
-                    duck.getDuckOwner().getPhoneNumber(),
-                    duck.getRace().getId(),
-                    duck.getTimeOfPurchase(),
-                    duck.getPriceCents(),
-                    duck.getTransaction().getId());
-            duckDTOs.add(new DuckDTO(
-                    duck.getId(),
-                    duck.getDateOfPurchase(),
-                    duck.getDuckOwner().getFirstName(),
-                    duck.getDuckOwner().getLastName(),
-                    duck.getDuckOwner().getPhoneNumber(),
-                    duck.getDuckBuyer().getEmail(),
-                    duck.getDuckBuyer().getPhoneNumber(),
-                    duck.getRace().getRaceName(),
-                    serialNumber,
-                    Double.valueOf(duck.getPriceCents()),
-                    Double.toString(duck.getPriceCents() / 100),
-                    duck.getTransaction().getId()));
-        }
-        return duckDTOs;
-    }
-
-    @Override
-    public void saveDonation(DonationFormDTO donation) {
+    public int saveDonation(DonationFormDTO donation) {
         DuckBuyer duckBuyer = new DuckBuyer();
         duckBuyer.setEmail(donation.getBuyerEmail());
         duckBuyer = buyerRepository.save(duckBuyer);
@@ -206,8 +170,7 @@ public class PaymentServiceImpl implements PaymentService {
         transaction.setIsPaid(false);
         transaction = transactionRepository.save(transaction);
 
-
-        for(DonationBoxDTO box: donation.getBoxes()){
+        for (DonationBoxDTO box : donation.getBoxes()) {
             DuckOwner duckOwner = new DuckOwner();
             duckOwner.setFirstName(box.getOwnerFirstName());
             duckOwner.setLastName(box.getOwnerLastName());
@@ -215,7 +178,7 @@ public class PaymentServiceImpl implements PaymentService {
             duckOwner = ownerRepository.save(duckOwner);
 
             // Save duck without serial
-            for(int i = 0; i<box.getDuckQuantity();i++){
+            for (int i = 0; i < box.getDuckQuantity(); i++) {
                 Duck duck = new Duck();
                 duck.setPriceCents(box.getDuckPrice() * 100);
                 duck.setDuckBuyer(duckBuyer);
@@ -226,8 +189,29 @@ public class PaymentServiceImpl implements PaymentService {
                 duck.setTransaction(transaction);
                 duckRepository.save(duck);
             }
-
         }
+
+        return transaction.getId();
+    }
+
+    @Override
+    public List<Duck> setSerialNumbers(Transaction transaction) {
+        return duckRepository.findByTransactionId(transaction.getId()).stream()
+                .map(this::setSerialNumber)
+                .map(duckRepository::save)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Transaction setTransactionPaid(Integer tid) {
+        Transaction transaction = transactionRepository.findById(tid);
+        transaction.setIsPaid(true);
+        return transactionRepository.save(transaction);
+    }
+
+    private Duck setSerialNumber(Duck duck) {
+        duck.setSerialNumber(numberService.getSerial());
+        return duck;
     }
 
 }

@@ -1,10 +1,15 @@
 package ee.pardiralli.web;
 
 import ee.pardiralli.banklink.*;
+import ee.pardiralli.domain.Duck;
+import ee.pardiralli.domain.DuckBuyer;
+import ee.pardiralli.domain.Transaction;
 import ee.pardiralli.dto.DuckDTO;
 import ee.pardiralli.exceptions.IllegalResponseException;
 import ee.pardiralli.exceptions.IllegalTransactionException;
+import ee.pardiralli.service.MailService;
 import ee.pardiralli.service.PaymentService;
+import ee.pardiralli.service.SerialNumberService;
 import ee.pardiralli.util.BanklinkUtils;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,27 +26,37 @@ import java.util.Map;
 public class BankResponseController {
 
     private final PaymentService paymentService;
+    private final SerialNumberService numberService;
+    private final MailService mailService;
 
     @Autowired
-    public BankResponseController(PaymentService paymentService) {
+    public BankResponseController(PaymentService paymentService, SerialNumberService numberService, MailService mailService) {
         this.paymentService = paymentService;
+        this.numberService = numberService;
+        this.mailService = mailService;
     }
 
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST}, value = "/banklink/{bank}/success")
     @ResponseStatus(value = HttpStatus.OK)
     public String successResponse(Model model, @RequestParam Map<String, String> params, @PathVariable Bank bank) {
-        System.err.println(params);
-        System.err.println(BanklinkUtils.currentDateTimeAsString());
         try {
             ResponseModel responseModel = getModelByBank(bank, params);
             paymentService.checkConsistency(params, responseModel, true);
             paymentService.checkSuccessfulResponseMAC(params, bank);
-            List<DuckDTO> purchasedItems = paymentService.setSerialNumberAndIsPaid(responseModel.getResponseID());
-            model.addAttribute("purchasedItems", purchasedItems);
-            model.addAttribute("buyerEmail", purchasedItems.get(0).getBuyerEmail());
-            String totalSum = paymentService.transactionAmount(Integer.valueOf(responseModel.getResponseID()));
+            Integer tid = Integer.valueOf(responseModel.getResponseID()); // TODO: 2.12.16 refactor responseID name
+
+            Transaction transaction = paymentService.setTransactionPaid(tid);
+            List<Duck> ducks = paymentService.setSerialNumbers(transaction);
+            List<DuckDTO> duckDTOs = BanklinkUtils.ducksToDTO(ducks);
+            DuckBuyer buyer = BanklinkUtils.buyerFromDucks(ducks);
+            String totalSum = paymentService.transactionAmount(tid);
+
+            mailService.sendConfirmationEmail(buyer, ducks);
+
+            model.addAttribute("purchasedItems", duckDTOs);
+            model.addAttribute("buyerEmail", buyer.getEmail());
             model.addAttribute("totalSum", totalSum);
-            model.addAttribute("transactionID", responseModel.getResponseID());
+            model.addAttribute("transactionID", tid);
             return "after_paying";
         }
         catch(IllegalResponseException | IllegalTransactionException e){
@@ -53,8 +68,6 @@ public class BankResponseController {
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST}, value = "/banklink/{bank}/fail")
     @ResponseStatus(value = HttpStatus.OK)
     public String failResponse(@RequestParam Map<String, String> params, @PathVariable Bank bank) {
-        System.err.println(params);
-        System.err.println(BanklinkUtils.currentDateTimeAsString());
         try {
             ResponseModel responseModel = getModelByBank(bank, params);
             paymentService.checkConsistency(params, responseModel, false);

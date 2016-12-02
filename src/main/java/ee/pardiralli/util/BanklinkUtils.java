@@ -1,6 +1,8 @@
 package ee.pardiralli.util;
 
 import ee.pardiralli.domain.Duck;
+import ee.pardiralli.domain.DuckBuyer;
+import ee.pardiralli.dto.DuckDTO;
 import ee.pardiralli.exceptions.IllegalResponseException;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
@@ -24,6 +26,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class BanklinkUtils {
 
@@ -187,6 +190,25 @@ public class BanklinkUtils {
         try (InputStream keyStream = BanklinkUtils.class.getClassLoader().getResourceAsStream(filename)) {
             return CertificateFactory.getInstance("X.509").generateCertificate(keyStream).getPublicKey();
         }
+    }
+
+    public static DuckBuyer buyerFromDucks(List<Duck> ducks) {
+        if (ducks.stream().map(Duck::getDuckBuyer).distinct().count() == 1) {
+            return ducks.get(0).getDuckBuyer();
+        } else {
+            throw new AssertionError("list of ducks has several different buyers, ducks: " + ducks.toString());
+        }
+    }
+
+    public static List<DuckDTO> ducksToDTO(List<Duck> ducks) {
+        return ducks.stream()
+                .map(d -> new DuckDTO(
+                        d.getDuckOwner().getFirstName(),
+                        d.getDuckOwner().getLastName(),
+                        d.getDuckOwner().getPhoneNumber(),
+                        d.getSerialNumber().toString(),
+                        new BigDecimal(d.getPriceCents()).divide(new BigDecimal("100"), RoundingMode.UNNECESSARY).toPlainString()
+                )).collect(Collectors.toList());
     }
 
 }

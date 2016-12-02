@@ -1,7 +1,7 @@
 package ee.pardiralli.service;
 
+import ee.pardiralli.domain.Duck;
 import ee.pardiralli.domain.ExportFile;
-import ee.pardiralli.dto.DuckDTO;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -23,5 +23,5 @@ public interface StatisticsService {
 
     List<List<Object>> createDataByRace(Date startDate, Date endDate);
 
-    List<DuckDTO> getDuckDTOsByTimePeriod(Date startDate, Date endDate);
+    List<Duck> getDuckDTOsByTimePeriod(Date startDate, Date endDate);
 }

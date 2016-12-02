@@ -52,8 +52,7 @@
             </thead>
             <!--/*@thymesVar id="purchasedItems" type="java.util.List<ee.pardiralli.dto.DuckDTO>"*/-->
             <tr th:each="duckDTO : ${purchasedItems}">
-                <td th:text=""></td>
-                <td th:text="${duckDTO.getSerialNumber().toString()}"></td>
+                <td th:text="${duckDTO.getSerialNumber()}"></td>
                 <td th:text="${duckDTO.getOwnerFirstName()}"></td>
                 <td th:text="${duckDTO.getOwnerLastName()}"></td>
                 <td th:text="${duckDTO.getOwnerPhoneNo()}"></td>

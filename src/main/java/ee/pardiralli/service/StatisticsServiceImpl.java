@@ -2,6 +2,7 @@ package ee.pardiralli.service;
 
 import ee.pardiralli.db.DuckRepository;
 import ee.pardiralli.db.RaceRepository;
+import ee.pardiralli.domain.Duck;
 import ee.pardiralli.domain.ExportFile;
 import ee.pardiralli.dto.DuckDTO;
 import ee.pardiralli.util.StatisticsUtil;
@@ -10,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -91,22 +94,20 @@ public class StatisticsServiceImpl implements StatisticsService {
         Date startDate = exportFile.getStartDate();
         Date endDate = exportFile.getEndDate();
         String niceDate = StatisticsUtil.getNiceDate(startDate, endDate);
-        List<DuckDTO> ducks = this.getDuckDTOsByTimePeriod(startDate, endDate);
+        List<Duck> ducks = this.getDuckDTOsByTimePeriod(startDate, endDate);
 
         sb.append("Müüdud pardid ajavahemikus ").append(niceDate).append("\n");
-        sb.append("Ostmise kuupäev;Omaniku eesnimi;Omaniku perenimi;Omaniku telefoninumber;Ostja e-mail;Ostja telefoninumber;Ralli nimi;Pardi number;Pardi hind\n");
-        for (DuckDTO duck : ducks){
-            sb.append(duck.getPurchaseDate().toString()).append(";");
-            sb.append(duck.getOwnerFirstName()).append(";");
-            sb.append(duck.getOwnerLastName()).append(";");
-            sb.append(duck.getOwnerPhoneNo()).append(";");
-            sb.append(duck.getBuyerEmail()).append(";");
-            sb.append(duck.getBuyerPhoneNo()).append(";");
-            sb.append(duck.getRaceName()).append(";");
+        sb.append("Ostmise kuupäev;Omaniku eesnimi;Omaniku perenimi;Omaniku telefoninumber;Maksja e-mail;Ralli nimi;Pardi number;Pardi hind\n");
+        for (Duck duck : ducks){
+            sb.append(duck.getDateOfPurchase().toString()).append(";");
+            sb.append(duck.getDuckOwner().getFirstName()).append(";");
+            sb.append(duck.getDuckOwner().getLastName()).append(";");
+            sb.append(duck.getDuckOwner().getPhoneNumber()).append(";");
+            sb.append(duck.getDuckBuyer().getEmail()).append(";");
+            sb.append(duck.getRace().getRaceName()).append(";");
             sb.append(Integer.toString(duck.getSerialNumber())).append(";");
-            sb.append(duck.getPrice()).append("\n");
+            sb.append(new BigDecimal(duck.getPriceCents()).divide(new BigDecimal("100"), RoundingMode.UNNECESSARY).toPlainString()).append("\n");
         }
-
 
         pw.write(sb.toString());
         pw.close();
@@ -171,26 +172,12 @@ public class StatisticsServiceImpl implements StatisticsService {
     }
 
     @Override
-    public List<DuckDTO> getDuckDTOsByTimePeriod(Date startDate, Date endDate) {
+    public List<Duck> getDuckDTOsByTimePeriod(Date startDate, Date endDate) {
         return IteratorUtils.toList(
                 duckRepository.findAll().iterator())
                 .stream()
                 .filter(d -> d.getDateOfPurchase().after(startDate) && d.getDateOfPurchase().before(endDate) ||
                         d.getDateOfPurchase().equals(startDate) || d.getDateOfPurchase().equals(endDate))
-                .map(d ->
-                        new DuckDTO(
-                                d.getId(),
-                                d.getDateOfPurchase(),
-                                d.getDuckOwner().getFirstName(),
-                                d.getDuckOwner().getLastName(),
-                                d.getDuckOwner().getPhoneNumber(),
-                                d.getDuckBuyer().getEmail(),
-                                d.getDuckBuyer().getPhoneNumber(),
-                                d.getRace().getRaceName(),
-                                d.getSerialNumber(),
-                                d.getPriceCents().doubleValue(),
-                                Double.toString(d.getPriceCents() / 100),
-                                d.getTransaction().getId())
-                ).collect(Collectors.toList());
+                .collect(Collectors.toList());
     }
 }

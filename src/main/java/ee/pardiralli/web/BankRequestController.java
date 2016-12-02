@@ -38,17 +38,10 @@ public class BankRequestController {
         }
 
         DonationFormDTO donation = (DonationFormDTO) donationObj;
+        int tid = paymentService.saveDonation(donation);
 
-        paymentService.saveDonation(donation);
-
-
-        Object tidObj = 3;//req.getSession().getAttribute(Transaction.TRANSACTION_ID_NAME);
-        if (tidObj == null) {
-            log.error("tidObj is null");
-            return "general_error";
-        }
         try {
-            RequestModel requestModel = createRequestModel((Integer) tidObj, bank);
+            RequestModel requestModel = createRequestModel(tid, bank);
             model.addAttribute("request_model", requestModel);
             return getPaymentFormByBank(bank);
         } catch (IllegalTransactionException e) {
@@ -74,7 +67,7 @@ public class BankRequestController {
     }
 
     private RequestModel createRequestModel(Integer tid, Bank bank) throws IllegalTransactionException {
-        String amount = "0.01";//paymentService.transactionAmount(tid);
+        String amount = paymentService.transactionAmount(tid);
         String stamp = tid.toString();
         String ref = BanklinkUtils.genPaymentReferenceNumber();
         String description = BanklinkUtils.genPaymentDescription(tid);

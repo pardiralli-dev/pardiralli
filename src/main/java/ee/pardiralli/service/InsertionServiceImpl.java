@@ -7,11 +7,6 @@ import ee.pardiralli.util.BanklinkUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +19,7 @@ public class InsertionServiceImpl implements InsertionService {
     private final BuyerRepository buyerRepository;
     private final TransactionRepository transactionRepository;
     private final MailService mailService;
+    private final SerialNumberService numberService;
 
     @Autowired
     public InsertionServiceImpl(DuckRepository duckRepository,
@@ -31,7 +27,7 @@ public class InsertionServiceImpl implements InsertionService {
                                 OwnerRepository ownerRepository,
                                 BuyerRepository buyerRepository,
                                 TransactionRepository transactionRepository,
-                                MailService mailService) {
+                                MailService mailService, SerialNumberService numberService) {
 
         this.duckRepository = duckRepository;
         this.raceRepository = raceRepository;
@@ -39,6 +35,7 @@ public class InsertionServiceImpl implements InsertionService {
         this.buyerRepository = buyerRepository;
         this.transactionRepository = transactionRepository;
         this.mailService = mailService;
+        this.numberService = numberService;
     }
 
 
@@ -49,10 +46,8 @@ public class InsertionServiceImpl implements InsertionService {
         Race race = raceRepository.findRaceByIsOpen(true);
 
         DuckBuyer duckBuyer = new DuckBuyer();
-
         duckBuyer.setEmail(insertionDTO.getBuyerEmail());
         duckBuyer = buyerRepository.save(duckBuyer);
-
 
         DuckOwner duckOwner = new DuckOwner();
         duckOwner.setFirstName(insertionDTO.getOwnerFirstName());
@@ -65,32 +60,20 @@ public class InsertionServiceImpl implements InsertionService {
         transaction.setTimeOfPayment(BanklinkUtils.getCurrentTimeStamp());
         transaction = transactionRepository.save(transaction);
 
-
         for (int i = 0; i < insertionDTO.getNumberOfDucks(); i++) {
             Duck duck = new Duck();
             duck.setDateOfPurchase(BanklinkUtils.getCurrentDate());
             duck.setDuckBuyer(duckBuyer);
             duck.setDuckOwner(duckOwner);
+            duck.setRace(race);
             duck.setTransaction(transaction);
-            duck.setPriceCents(insertionDTO.getPriceOfOneDuck());
+            duck.setPriceCents(insertionDTO.getPriceOfOneDuck() * 100);
             duck.setTimeOfPurchase(BanklinkUtils.getCurrentTimeStamp());
+            duck.setSerialNumber(numberService.getSerial());
 
-
-            duck.setSerialNumber(duckRepository.addDuckReturnId(
-                    duck.getDateOfPurchase(),
-                    duckOwner.getFirstName(),
-                    duckOwner.getLastName(),
-                    duckOwner.getPhoneNumber(),
-                    duckBuyer.getEmail(),
-                    duckOwner.getPhoneNumber(),
-                    race.getId(),
-                    duck.getTimeOfPurchase(),
-                    duck.getPriceCents(),
-                    duck.getTransaction().getId()));
-
-            duckList.add(duck);
+            duckList.add(duckRepository.save(duck));
         }
-        return mailService.sendConfirmationEmail(duckBuyer,duckList);
+        return mailService.sendConfirmationEmail(duckBuyer, duckList);
     }
 
     @Override

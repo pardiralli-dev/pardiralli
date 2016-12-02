@@ -13,36 +13,6 @@ import java.util.List;
 
 public interface DuckRepository extends CrudRepository<Duck, Integer> {
 
-
-    /**
-     * inserts into DB duck and its corresponding owner and buyer
-     *
-     * @param dateOfPurchase date when duck was bought
-     * @param ownerFname     first name of owner
-     * @param ownerLname     last name of owner
-     * @param ownerPhone     phone nr of owner
-     * @param buyerEmail     email of buyer
-     * @param buyerPhone     phone nr of buyer
-     * @param race           id of race
-     * @param timeOfPurchase time of purchase
-     * @param priceCents     price of duck in cents
-     * @param transaction    id of transaction
-     * @return serial nr of freshly added duck
-     */
-
-    @Procedure(procedureName = "fun_add_duck", outputParameterName = "count")
-    Integer addDuckReturnId(java.sql.Date dateOfPurchase,
-                            String ownerFname,
-                            String ownerLname,
-                            String ownerPhone,
-                            String buyerEmail,
-                            String buyerPhone,
-                            Integer race,
-                            Timestamp timeOfPurchase,
-                            Integer priceCents,
-                            Integer transaction);
-
-
     @Query("SELECT d FROM Duck d WHERE d.serialNumber = :serial AND d.race.beginning = :date")
     Duck findBySerialNumber(@Param("serial") Integer serialNumber, @Param("date") Date date);
 
@@ -79,6 +49,10 @@ public interface DuckRepository extends CrudRepository<Duck, Integer> {
 
     List<Duck> findByTransactionId(Integer transactionId);
 
+    /**
+     * @param raceId
+     * @return highest serial of duck found in database
+     */
     @Query("SELECT MAX(d.serialNumber) FROM Duck d WHERE d.race.id = :raceId")
     Integer findMaxSerial(@Param("raceId") Integer raceId);
 }

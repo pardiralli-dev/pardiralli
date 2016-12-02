@@ -2,6 +2,7 @@ package ee.pardiralli.service;
 
 import ee.pardiralli.banklink.Bank;
 import ee.pardiralli.banklink.ResponseModel;
+import ee.pardiralli.domain.Duck;
 import ee.pardiralli.domain.Transaction;
 import ee.pardiralli.dto.DonationFormDTO;
 import ee.pardiralli.dto.DuckDTO;
@@ -55,14 +56,18 @@ public interface PaymentService {
     void checkUnsuccessfulResponseMAC(Map<String, String> params, Bank bank) throws IllegalResponseException;
 
     /**
-     * After a successful payment assigns serial numbers to the purchased items and sets the
-     * isPaid value to true
-     *
-     * @param tid the transaction ID of the purchase
-     * @return list of purchased items as DuckDTOs
+     * @param donation
+     * @return transaction ID
      */
-    List<DuckDTO> setSerialNumberAndIsPaid(String tid);
+    int saveDonation(DonationFormDTO donation);
 
+    /**
+     * Set serial numbers of ducks that are related with given Transaction.
+     *
+     * @param transction
+     * @return list of ducks whose serial numbers were set
+     */
+    List<Duck> setSerialNumbers(Transaction transction);
 
-    void saveDonation(DonationFormDTO donation);
+    Transaction setTransactionPaid(Integer tid);
 }

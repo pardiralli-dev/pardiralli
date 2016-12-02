@@ -55,7 +55,7 @@ public class PaymentServiceImpl implements PaymentService {
             throw new IllegalTransactionException("No ducks associated with this transaction id: " + tid);
         }
 
-        return "1";//BanklinkUtils.calculatePaymentAmount(ducks);
+        return BanklinkUtils.calculatePaymentAmount(ducks);
     }
 
     private void checkRecipientID(ResponseModel responseModel, String expectedID) throws IllegalResponseException {

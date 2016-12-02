@@ -23,7 +23,7 @@
     <div th:replace="fragments/feedback :: feedback-messages (feedbackList=${feedbackList})"></div>
 
     <!--/*@thymesVar id="donation" type="ee.pardiralli.dto.DonationFormDTO"*/-->
-    <form action="#" th:action="@{/idx}" th:object="${donation}" method="post" class="form-horizontal">
+    <form action="#" th:action="@{/}" th:object="${donation}" method="post" class="form-horizontal">
 
         <!--/* donation box */-->
         <div th:each="box, boxStat : *{boxes}">
@@ -241,7 +241,7 @@
 
     <hr/>
     <footer>
-        other things here
+        TMPK16
     </footer>
 
 </div>

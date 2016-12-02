@@ -1,96 +1,69 @@
 package ee.pardiralli.web;
 
-import ee.pardiralli.db.DuckRepository;
-import ee.pardiralli.db.RaceRepository;
-import ee.pardiralli.domain.*;
+import ee.pardiralli.domain.FeedbackType;
+import ee.pardiralli.dto.DonationBoxDTO;
+import ee.pardiralli.dto.DonationFormDTO;
+import ee.pardiralli.util.ControllerUtil;
 import org.springframework.stereotype.Controller;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-
 
 @Controller
 public class IndexController {
-    // we need this in oder to know whether it is possible to pay at the moment
-    private final RaceRepository raceRepository;
-    private final DuckRepository duckRepository;
-    private Index ind;
-
-    @Autowired
-    public IndexController(RaceRepository raceRepository, DuckRepository duckRepository) {
-        this.raceRepository = raceRepository;
-        this.duckRepository = duckRepository;
-        this.ind = new Index(true, 0, 0, 0, "", "", "", 0, 0, "", "", false, "");
-    }
 
     @GetMapping("/")
-    public String index(Model model) {
-        Iterable<Race> races = raceRepository.findAll();
-        Iterable<Duck> ducks = duckRepository.findAll();
-        Boolean canBuyRightNow = false; //necessary to know whether the webstore is closed at the moment or not
-        int nrOfBoughtDucks = 0; //necessary to display the counters on the main page
-        int sumOfDonatedMoney = 0; //necessary to display the counters on the main page
-
-        //Are there any ongoing races? Note: the ongoing race doesn't have a finish date
-        for (Race r : races) {
-            if (r.getFinish() == null) {
-                canBuyRightNow = true;
-            }
-        }
-
-        //to count the numbers necessary for the counters
-        for (Duck d : ducks) {
-            nrOfBoughtDucks += 1;
-            sumOfDonatedMoney += d.getPriceCents();
-        }
-
-        Index ind = new Index(canBuyRightNow, nrOfBoughtDucks, ((int) Math.rint(sumOfDonatedMoney / 100)), 0, "", "", "", 0, 0, "", "", false, "");
-        this.ind = ind;
-        model.addAttribute("Index", ind);
-        return "index";
+    public String donationForm(Model model) {
+        model.addAttribute(DonationFormDTO.DONATION_VARIABLE_NAME, new DonationFormDTO());
+        return "donation-form";
     }
+
+    @PostMapping(value = "/", params = {"addBox"})
+    public String donationFormAddBox(@ModelAttribute(DonationFormDTO.DONATION_VARIABLE_NAME) DonationFormDTO donation) {
+        donation.getBoxes().add(new DonationBoxDTO());
+        return "donation-form";
+    }
+
+    @PostMapping(value = "/", params = {"removeBox"})
+    public String donationFormRemoveBox(@ModelAttribute(DonationFormDTO.DONATION_VARIABLE_NAME) DonationFormDTO donation,
+                                        HttpServletRequest req) {
+        int boxId = Integer.parseInt(req.getParameter("removeBox"));
+        donation.getBoxes().remove(boxId);
+        return "donation-form";
+    }
+
 
     @PostMapping("/")
-    public String indexSubmit(@RequestParam(value = "action", defaultValue = "null") String param,
-                              @ModelAttribute @Valid Index userData,
-                              BindingResult bindingResult,
-                              Model model) {
+    public String donationFormSubmit(Model model, HttpServletRequest req,
+                                     HttpSession session,
+                                     @Valid @ModelAttribute DonationFormDTO donation,
+                                     BindingResult result) {
 
-        if (bindingResult.hasErrors()) {
-
-            return index(model);
+        if (result.hasErrors()) {
+            ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Vigased andmed!");
+            model.addAttribute(DonationFormDTO.DONATION_VARIABLE_NAME, donation);
+            return "donation-form";
         }
-        this.ind = userData;
 
-        userData.setSum(userData.getNrOfDucks() * userData.getPricePerDuck());
-        model.addAttribute("Index", userData);
-        return "store_confirmation";
+        Integer totalSum = donation.getBoxes().stream()
+                .map(box -> box.getDuckPrice() * box.getDuckQuantity())
+                .mapToInt(Integer::intValue)
+                .sum();
+
+
+        session.setAttribute("donation", donation);
+
+        model.addAttribute("donation", donation);
+        model.addAttribute("totalSum", totalSum);
+
+        return "donation-form-confirmation";
     }
 
-    @PostMapping("/store_confirmation")
-    public String indexSubmitFinally(@RequestParam(value = "action", defaultValue = "null") String param,
-                                     Model model) {
-        model.addAttribute("Index", this.ind);
 
-        switch (param) {
-            case "SEB":
-                this.ind.setBank("SEB");
-                System.out.println(ind);
-                return "after_paying";
-            case "Nordea":
-                this.ind.setBank("Nordea");
-                return "after_paying";
-            case "Swedbank":
-                this.ind.setBank("Swed");
-                return "after_paying";
-            case "LHV":
-                this.ind.setBank("LHV");
-                return "after_paying";
-            default:
-                return "store_confirmation";
-        }
-    }
 }

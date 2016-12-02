@@ -11,6 +11,12 @@ import javax.validation.constraints.NotNull;
 public class DonationBoxDTO {
 
     @NotBlank
+    private String ownerFirstName;
+
+    @NotBlank
+    private String ownerLastName;
+
+    @NotBlank
     private String ownerPhone;
 
     @NotNull

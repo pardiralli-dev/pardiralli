@@ -7,10 +7,15 @@
     <link rel="stylesheet" type="text/css"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="css/main.css"/>
+    <link href="https://fonts.googleapis.com/css?family=Sniglet" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Cabin+Sketch" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Enriqueta" rel="stylesheet"/>
 </head>
 <body>
 
-<div class="container">
+
+
+<div class="container container-mainform">
 
     <div th:replace="fragments/menu :: main-menu"></div>
 
@@ -18,94 +23,229 @@
     <div th:replace="fragments/feedback :: feedback-messages (feedbackList=${feedbackList})"></div>
 
     <!--/*@thymesVar id="donation" type="ee.pardiralli.dto.DonationFormDTO"*/-->
-    <form action="#" th:action="@{/idx}" th:object="${donation}" method="post">
+    <form action="#" th:action="@{/idx}" th:object="${donation}" method="post" class="form-horizontal">
 
         <!--/* donation box */-->
         <div th:each="box, boxStat : *{boxes}">
 
             <!--/* left-floating box */-->
-            <div th:if="${boxStat.index} % 2 == 0">
-                <div class="row">
-                    <div class="col-sm-6 well">
-                        <div>
-                            <div class="col-sm-6 text-left"><p th:text="${boxStat.count}">...</p></div>
-                            <div class="col-sm-6 text-right">
-                                <button type="submit" name="removeBox" th:value="${boxStat.index}"
-                                        class="btn btn-xs btn-danger glyphicon glyphicon-remove"></button>
+            <div th:if="${boxStat.index} % 2 == 0" class="row main-row">
+
+                <div class="col-sm-6 main-box-wrapper">
+                    <!--<div>
+                        <div class="col-sm-6 text-right">
+                            <button type="submit" name="removeBox" th:value="${boxStat.index}"
+                                    class="btn btn-xs btn-danger glyphicon glyphicon-remove"></button>
+                        </div>
+                    </div>-->
+                    <div class="main-box left-box">
+                        <div class="box-content-stretch">
+                            <div class="box-content">
+                                <h3 class="duck-owner-heading">Pardiomanik</h3>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                    <input th:field="*{boxes[__${boxStat.index}__].ownerFirstName}"
+                                           class="form-control box-input"
+                                           type="text"
+                                           placeholder="Eesnimi"/>
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                    <input th:field="*{boxes[__${boxStat.index}__].ownerLastName}"
+                                           class="form-control box-input"
+                                           type="text"
+                                           placeholder="Perekonnanimi"/>
+                                </div>
+
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+                                    <input th:field="*{boxes[__${boxStat.index}__].ownerPhone}"
+                                           class="form-control box-input"
+                                           type="text"
+                                           placeholder="Telefoninumber"/>
+                                </div>
+
+                                <div class="input-group">
+                                    <label class="col-sm-8 control-label main-box-form-label">Partide arv:</label>
+                                    <div class="col-sm-4 zero-right-padding">
+                                        <input th:field="*{boxes[__${boxStat.index}__].duckQuantity}"
+                                               class="form-control box-input"
+                                               type="number"
+                                               min="1" max="1000"
+                                               placeholder="1"/>
+                                    </div>
+                                </div>
+
+                                <div class="input-group">
+                                    <label class="col-sm-8 control-label main-box-form-label" style="color:#193a80;">Ühe
+                                        pardi hind:</label>
+                                    <div class="col-sm-4 zero-right-padding">
+                                        <input th:field="*{boxes[__${boxStat.index}__].duckPrice}"
+                                               class="form-control box-input"
+                                               type="number"
+                                               min="5" max="1000" step="5"
+                                               placeholder="5"/>
+                                    </div>
+                                </div>
+
+
                             </div>
                         </div>
-                        <div class="row">
-                            <input th:field="*{boxes[__${boxStat.index}__].ownerPhone}" class="form-control"
-                                   type="text"/>
-                        </div>
-                        <div class="row">
-                            <input th:field="*{boxes[__${boxStat.index}__].duckQuantity}" class="form-control"
-                                   type="number"
-                                   min="1" max="1000"/>
-                        </div>
-                        <div class="row">
-                            <input th:field="*{boxes[__${boxStat.index}__].duckPrice}" class="form-control"
-                                   type="number"
-                                   min="5" max="1000" step="5"/>
-                        </div>
                     </div>
-                    <div class="col-sm-6"></div>
                 </div>
-                <div th:if="${boxStat.last}" class="row">
-                    <div class="col-sm-6">
-                        <button type="submit" name="addBox" class="btn btn-success">Lisa kast</button>
+                <div class="col-sm-6 new-box-btn-col">
+                    <div th:if="${boxStat.first}" class="new-box-btn-wrapper">
+                        <button type="submit" name="addBox" class="btn btn-remove circle btn-lg btn-new-box">
+                            Lisa<br/>omanik<br/>
+                            <span class="new-box-plus-sign">+</span>
+                        </button>
                     </div>
                 </div>
             </div>
 
             <!--/* right-floating box */-->
-            <div th:if="${boxStat.index} % 2 == 1">
-                <div class="row">
-                    <div class="col-sm-5"></div>
-                    <div class="col-sm-7 well">
-                        <div>
-                            <div class="col-sm-6 text-left"><p th:text="${boxStat.count}">...</p></div>
-                            <div class="col-sm-6 text-right">
-                                <button type="submit" name="removeBox" th:value="${boxStat.index}"
-                                        class="btn btn-xs btn-danger glyphicon glyphicon-remove"></button>
+            <div th:if="${boxStat.index} % 2 == 1" class="row main-row">
+                <div class="col-sm-5"></div>
+                <div class="col-sm-7 main-box-wrapper">
+                    <div class="main-box right-box">
+                        <div class="box-content-stretch">
+                            <div class="box-content">
+                                <h3 class="duck-owner-heading">Pardiomanik</h3>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                    <input th:field="*{boxes[__${boxStat.index}__].ownerFirstName}"
+                                           class="form-control box-input"
+                                           type="text"
+                                           placeholder="Eesnimi"/>
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                    <input th:field="*{boxes[__${boxStat.index}__].ownerLastName}"
+                                           class="form-control box-input"
+                                           type="text"
+                                           placeholder="Perekonnanimi"/>
+                                </div>
+
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+                                    <input th:field="*{boxes[__${boxStat.index}__].ownerPhone}"
+                                           class="form-control box-input"
+                                           type="text"
+                                           placeholder="Telefoninumber"/>
+                                </div>
+
+                                <div class="input-group">
+                                    <label class="col-sm-8 control-label main-box-form-label">Partide arv:</label>
+                                    <div class="col-sm-4 zero-right-padding">
+                                        <input th:field="*{boxes[__${boxStat.index}__].duckQuantity}"
+                                               class="form-control box-input"
+                                               type="number"
+                                               min="1" max="1000"
+                                               placeholder="1"/>
+                                    </div>
+                                </div>
+
+                                <div class="input-group">
+                                    <label class="col-sm-8 control-label main-box-form-label">Ühe pardi hind:</label>
+                                    <div class="col-sm-4 zero-right-padding">
+                                        <input th:field="*{boxes[__${boxStat.index}__].duckPrice}"
+                                               class="form-control box-input"
+                                               type="number"
+                                               min="5" max="1000" step="5"
+                                               placeholder="5"/>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <input th:field="*{boxes[__${boxStat.index}__].ownerPhone}" class="form-control"
-                                   type="text"/>
-                        </div>
-                        <div class="row">
-                            <input th:field="*{boxes[__${boxStat.index}__].duckQuantity}" class="form-control"
-                                   type="number"
-                                   min="1" max="1000"/>
-                        </div>
-                        <div class="row">
-                            <input th:field="*{boxes[__${boxStat.index}__].duckPrice}" class="form-control"
-                                   type="number"
-                                   min="5" max="1000" step="5"/>
-                        </div>
-                    </div>
-                </div>
-                <div th:if="${boxStat.last}" class="row">
-                    <div class="col-sm-5"></div>
-                    <div class="col-sm-7">
-                        <button type="submit" name="addBox" class="btn btn-success">Lisa kast</button>
                     </div>
                 </div>
             </div>
-
-
         </div>
 
         <!--/* buyer info */-->
-        <hr/>
-        <div>
-            <input th:field="${donation.buyerEmail}"/>
+        <div th:if="${donation.boxes.size() % 2 == 0}" class="row buyer-row">
+            <!--/* left-floating */-->
+            <div class="col-sm-5 buyer-info-col">
+                <div class="main-box buyer-info-box">
+                    <div class="box-content-stretch">
+                        <div class="box-content">
+                            <h3 class="duck-owner-heading">Maksja andmed</h3>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                                <input th:field="${donation.buyerEmail}"
+                                       class="form-control box-input"
+                                       type="text"
+                                       placeholder="E-mail"/>
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input class="terms-check" type="checkbox" value=""/>
+                                    Nõustun kasutustingimustega
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4 total-info-col">
+                <div class="buy-btn-wrapper-left">
+                    <button type="submit" class="btn btn-danger circle btn-lg btn-buy">Anneta</button>
+                </div>
+                <div class="total-sum-wrapper circle">
+                    <span>Summa</span>
+                    <span class="total-sum-amount">5.00</span>
+                </div>
+            </div>
+            <div class="col-sm-3"></div>
+        </div>
+
+        <div th:if="${donation.boxes.size() % 2 == 1}" class="row buyer-row">
+            <!--/* right-floating */-->
+            <div class="col-sm-3"></div>
+            <div class="col-sm-4 total-info-col">
+                <div class="buy-btn-wrapper-right">
+                    <button type="submit" class="btn btn-danger circle btn-lg btn-buy">ANNETA</button>
+                </div>
+                <div class="total-sum-wrapper circle">
+                    <span>Summa</span>
+                    <span class="total-sum-amount">5.00</span>
+                </div>
+            </div>
+            <div class="col-sm-5 buyer-info-col">
+                <div class="main-box buyer-info-box">
+                    <div class="box-content-stretch">
+                        <div class="box-content">
+                            <h3 class="duck-owner-heading">Maksja andmed</h3>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                                <input th:field="${donation.buyerEmail}"
+                                       class="form-control box-input"
+                                       type="text"
+                                       placeholder="E-mail"
+                                />
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input class="terms-check" type="checkbox" value=""/>
+                                    Nõustun kasutustingimustega
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
     </form>
 
+
+    <hr/>
+    <footer>
+        other things here
+    </footer>
+
 </div>
 
 </body>
+
 </html>

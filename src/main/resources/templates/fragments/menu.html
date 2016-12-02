@@ -12,10 +12,10 @@
 <div class="container">
 
     <!-- FRAGMENT -->
-    <nav class="navbar navbar-inverse" th:fragment="main-menu">
-        <div class="container-fluid">
+    <nav class="navbar" th:fragment="main-menu">
+        <div class="container-fluid menu-container">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">Pardiralli</a>
+                <a class="navbar-left" href="#"><img class="menu-logo pull-left" src="css/images/main-logo.png"/><span class="menu-site-name">Pardiralli</span></a>
             </div>
             <ul class="nav navbar-nav">
                 <li><a th:href="@{/}">Avaleht</a></li>

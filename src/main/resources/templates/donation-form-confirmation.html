@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="et" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Kinnitus</title>
+    <link rel="stylesheet" type="text/css"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/main.css"/>
+</head>
+<body>
+<div class="container container-general">
+    <div th:replace="fragments/menu :: main-menu"></div>
+    <!--/*@thymesVar id="donation" type="ee.pardiralli.dto.DonationFormDTO"*/-->
+    <!--/*@thymesVar id="totalSum" type="java.lang.Integer"*/-->
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <h2>Makse kinnitamine</h2>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <table class="lead table table-hover">
+                <tr>
+                    <th>Omaniku eesnimi</th>
+                    <th>Omaniku perenimi</th>
+                    <th>Partide arv</th>
+                    <th>Pardi hind</th>
+                </tr>
+                <tr th:each="box : ${donation.getBoxes()}">
+                    <td th:text="${box.getOwnerFirstName()}"></td>
+                    <td th:text="${box.getOwnerLastName()}"></td>
+                    <td th:text="${box.getDuckQuantity()}"></td>
+                    <td th:text="${box.getDuckPrice()}"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="lead">Summa kokku:</div>
+                </div>
+                <div class="col-md-1">
+                    <div class="lead" th:text="${totalSum}"></div>
+                </div>
+                <div class="col-md-9"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="lead">Ostja e-post:</div>
+                </div>
+                <div class="col-md-1">
+                    <div class="lead" th:text="${donation.getBuyerEmail()}"></div>
+                </div>
+                <div class="col-md-9"></div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-1"></div>
+
+                <div class="col-md-2 text-center">
+                    <a class="btn center-block btn-banklink" href="/banklink/swedbank/pay">
+                        <img class="banklink-logo" src="../css/images/swedbank-logo.png" alt="Swedbank"/>
+                    </a>
+                </div>
+                <div class="col-md-2 text-center">
+                    <a class="btn center-block btn-banklink" href="/banklink/nordea/pay">
+                        <img class="banklink-logo" src="../css/images/nordea-logo.png" alt="Nordea"/>
+                    </a>
+                </div>
+                <div class="col-md-2 text-center">
+                    <a class="btn center-block btn-banklink" href="/banklink/lhv/pay">
+                        <img class="banklink-logo" src="../css/images/lhv-logo.png" alt="LHV"/>
+                    </a>
+                </div>
+                <div class="col-md-2 text-center">
+                    <a class="btn center-block btn-banklink" href="/banklink/seb/pay">
+                        <img class="banklink-logo" src="../css/images/seb-logo.png" alt="SEB"/>
+                    </a>
+                </div>
+                <div class="col-md-1 text-center"></div>
+                <div class="col-md-1 text-center"></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+</body>
+</html>

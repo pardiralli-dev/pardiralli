@@ -78,4 +78,7 @@ public interface DuckRepository extends CrudRepository<Duck, Integer> {
     Double donationsByDateOfPurchase(@Param("date") Date date);
 
     List<Duck> findByTransactionId(Integer transactionId);
+
+    @Query("SELECT MAX(d.serialNumber) FROM Duck d WHERE d.race.id = :raceId")
+    Integer findMaxSerial(@Param("raceId") Integer raceId);
 }

@@ -1,6 +1,7 @@
 package ee.pardiralli.web;
 
 import ee.pardiralli.banklink.*;
+import ee.pardiralli.dto.DonationFormDTO;
 import ee.pardiralli.exceptions.IllegalTransactionException;
 import ee.pardiralli.service.PaymentService;
 import ee.pardiralli.util.BanklinkUtils;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @Controller
 @Log4j
@@ -28,7 +30,18 @@ public class BankRequestController {
 
     @GetMapping("/banklink/{bank}/pay")
     @ResponseStatus(value = HttpStatus.OK)
-    public String paymentForm(Model model, HttpServletRequest req, @PathVariable Bank bank) {
+    public String paymentForm(Model model, HttpServletRequest req, @PathVariable Bank bank, HttpSession session) {
+        Object donationObj = session.getAttribute("donation");
+        if(donationObj == null){
+            log.error("donationObj is null");
+            return "general_error";
+        }
+
+        DonationFormDTO donation = (DonationFormDTO) donationObj;
+
+        paymentService.saveDonation(donation);
+
+
         Object tidObj = 3;//req.getSession().getAttribute(Transaction.TRANSACTION_ID_NAME);
         if (tidObj == null) {
             log.error("tidObj is null");

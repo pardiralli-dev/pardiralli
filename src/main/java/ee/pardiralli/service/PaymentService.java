@@ -3,9 +3,12 @@ package ee.pardiralli.service;
 import ee.pardiralli.banklink.Bank;
 import ee.pardiralli.banklink.ResponseModel;
 import ee.pardiralli.domain.Transaction;
+import ee.pardiralli.dto.DonationFormDTO;
+import ee.pardiralli.dto.DuckDTO;
 import ee.pardiralli.exceptions.IllegalResponseException;
 import ee.pardiralli.exceptions.IllegalTransactionException;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -50,4 +53,16 @@ public interface PaymentService {
      * @throws IllegalResponseException if the response's MAC signature is incorrect
      */
     void checkUnsuccessfulResponseMAC(Map<String, String> params, Bank bank) throws IllegalResponseException;
+
+    /**
+     * After a successful payment assigns serial numbers to the purchased items and sets the
+     * isPaid value to true
+     *
+     * @param tid the transaction ID of the purchase
+     * @return list of purchased items as DuckDTOs
+     */
+    List<DuckDTO> setSerialNumberAndIsPaid(String tid);
+
+
+    void saveDonation(DonationFormDTO donation);
 }

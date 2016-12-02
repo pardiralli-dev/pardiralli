@@ -1,12 +1,238 @@
-.row {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display:         flex;
+
+html {
+    height:100%;
 }
-.row > [class*='col-'] {
+
+body {
+    height:100%;
+    background: url("images/background.png") no-repeat fixed center center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.nav.navbar-nav {
+    font-family: 'Enriqueta', serif;
+    font-size: 2rem;
+}
+
+img.menu-logo {
+    height: 50px;
+}
+
+.menu-site-name {
+    font-family: 'Enriqueta', serif;
+    font-size: 3rem;
+    font-weight: 500;
+    padding: 10px;
+    margin-right: 10px;
+}
+
+div.menu-container {
+    padding: 10px 15px;
+}
+
+.container.container-mainform {
+    font-family: 'Noto Sans', sans-serif;
+    color: #142e64;
+    background-color: rgba(240, 240, 240, 0.6);
+}
+
+.container.container-general {
+    font-family: 'Noto Sans', sans-serif;
+    color: #142e64;
+    background-color: rgba(240, 240, 240, 0.8);
+    min-height: 90%;
+    margin-bottom: 10%;
+}
+
+.navbar {
+    background-color: rgba(255, 255, 255, 0.8);
+
+}
+
+div.row.main-row {
+
+}
+
+div.main-box-wrapper {
+
+}
+
+div.main-box {
     display: flex;
     flex-direction: column;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    background-size: contain;
+    width: 100%;
+    /* make sure height == width, uses padding, because padding is determined as a % of width */
+    padding-bottom: 100%;
+}
+
+.btn{
+
+}
+
+div.left-box {
+    background: #ff66b8;
+}
+
+div.right-box {
+    background: #6cc3f9;
+}
+
+.duck-owner-heading {
+    padding-bottom: 2rem;
+    color: #193a80;
+    font-weight: bold;
+    font-family: 'Cabin Sketch', cursive;
+    font-size: 4rem;
+}
+
+div.buyer-info-box {
+    background: #ff8c1a;
+}
+
+button.btn-banklink{
+    padding: 0;
+}
+
+div.box-content-stretch {
+    /* stretch to fit parent because parent has 0 height, its height comes only from padding */
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    /* center contents */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+div.box-content {
+    display: flex;
+    flex-direction: column;
+    width: 58%;
+}
+
+div.new-box-btn-col {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+div.new-box-btn-wrapper {
+
+}
+
+.circle {
+    border-radius: 50%;
+    /* elements using this must also set width == height */
+}
+
+button.btn-new-box {
+    width: 15rem;
+    height: 15rem;
+    padding-top: 20px;
+    padding-bottom: 15px;
+    background-color: #ffd63a;
+    border: none;
+    line-height: 1;
+}
+
+button.btn-new-box:hover {
+    background-color: #ffc638;
+}
+
+span.new-box-plus-sign {
+    font-size: 5rem;
+}
+
+div.row.buyer-row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+div.buyer-info-col {
+    display: flex;
+    flex-direction: column;
+}
+
+div.total-info-col {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+
+}
+
+div.total-sum-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 15rem;
+    height: 15rem;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: #b8dc6f;
+    font-family: 'Sniglet', cursive;
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+.total-sum-amount {
+    font-size: 3.5rem;
+    font-weight: bolder;
+}
+
+div.buy-btn-wrapper-left {
+    align-self: flex-start;
+}
+
+div.buy-btn-wrapper-right {
+    align-self: flex-end;
+}
+
+button.btn-buy {
+    width: 10rem;
+    height: 10rem;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: #f33f3f;
+    border: none;
+    line-height: 1;
+    font-family: 'Sniglet', cursive;
+    font-size: 1.7rem;
+    font-weight: bold;
+}
+
+div.input-group {
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.zero-right-padding {
+    padding-right: 0;
+}
+
+label.main-box-form-label {
+    color: #193a80;
+}
+
+input.terms-check {
+    margin-top: 3rem;
+}
+
+.banklink-logo{
+    width: 126px;
+    /*width: 84px;*/
+    height: 47px;
+    /*height: 31px;*/
 }
 
 .loader,

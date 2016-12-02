@@ -33,4 +33,10 @@ public class DuckDTO {
     private Integer serialNumber;
 
     private Double priceInCents;
+
+    private String price;
+
+    private Integer transactionID;
+
+
 }

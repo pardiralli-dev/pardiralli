@@ -1,6 +1,7 @@
 package ee.pardiralli.web;
 
 import ee.pardiralli.banklink.*;
+import ee.pardiralli.dto.DuckDTO;
 import ee.pardiralli.exceptions.IllegalResponseException;
 import ee.pardiralli.exceptions.IllegalTransactionException;
 import ee.pardiralli.service.PaymentService;
@@ -9,8 +10,10 @@ import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -26,15 +29,20 @@ public class BankResponseController {
 
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST}, value = "/banklink/{bank}/success")
     @ResponseStatus(value = HttpStatus.OK)
-    public String successResponse(@RequestParam Map<String, String> params, @PathVariable Bank bank) {
+    public String successResponse(Model model, @RequestParam Map<String, String> params, @PathVariable Bank bank) {
         System.err.println(params);
         System.err.println(BanklinkUtils.currentDateTimeAsString());
         try {
             ResponseModel responseModel = getModelByBank(bank, params);
             paymentService.checkConsistency(params, responseModel, true);
             paymentService.checkSuccessfulResponseMAC(params, bank);
-
-            return "success_page";
+            List<DuckDTO> purchasedItems = paymentService.setSerialNumberAndIsPaid(responseModel.getResponseID());
+            model.addAttribute("purchasedItems", purchasedItems);
+            model.addAttribute("buyerEmail", purchasedItems.get(0).getBuyerEmail());
+            String totalSum = paymentService.transactionAmount(Integer.valueOf(responseModel.getResponseID()));
+            model.addAttribute("totalSum", totalSum);
+            model.addAttribute("transactionID", responseModel.getResponseID());
+            return "after_paying";
         }
         catch(IllegalResponseException | IllegalTransactionException e){
             log.error("successResponse unsuccessful", e);
@@ -51,7 +59,7 @@ public class BankResponseController {
             ResponseModel responseModel = getModelByBank(bank, params);
             paymentService.checkConsistency(params, responseModel, false);
             paymentService.checkUnsuccessfulResponseMAC(params, bank);
-            return "fail_page";
+            return "unsuccessful_payment";
         }
         catch(IllegalResponseException | IllegalTransactionException e){
             log.error("fail unsuccessful", e);
@@ -79,5 +87,6 @@ public class BankResponseController {
         }
         return model;
     }
+
 
 }

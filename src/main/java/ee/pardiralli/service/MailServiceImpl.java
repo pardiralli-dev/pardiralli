@@ -45,11 +45,11 @@ public class MailServiceImpl implements MailService {
             helper.setTo(duckBuyer.getEmail());
             helper.setText(htmlContent, true);
             helper.setSubject("Pardiralli kinnitus");
+            sender.send(message);
         } catch (MessagingException e) {
             return false;
         }
 
-        sender.send(message);
         return true;
     }
 }

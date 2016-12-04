@@ -211,4 +211,12 @@ public class BanklinkUtils {
                 )).collect(Collectors.toList());
     }
 
+    /**
+     * @param cents number of cents i.e. 142
+     * @return string representing {@code cents / 100} i.e. {@code 1.42}
+     */
+    public static String centsToEuros(Integer cents) {
+        return new BigDecimal(cents).divide(new BigDecimal("100"), 2, RoundingMode.UNNECESSARY).toPlainString();
+    }
+
 }

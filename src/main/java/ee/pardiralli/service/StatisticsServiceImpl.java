@@ -4,7 +4,6 @@ import ee.pardiralli.db.DuckRepository;
 import ee.pardiralli.db.RaceRepository;
 import ee.pardiralli.domain.Duck;
 import ee.pardiralli.domain.ExportFile;
-import ee.pardiralli.dto.DuckDTO;
 import ee.pardiralli.util.StatisticsUtil;
 import org.apache.commons.collections4.IteratorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,12 +88,10 @@ public class StatisticsServiceImpl implements StatisticsService {
         PrintWriter pw = new PrintWriter(new OutputStreamWriter(new FileOutputStream(name), StandardCharsets.ISO_8859_1), true);
 
         StringBuilder sb = new StringBuilder();
-        Boolean wantsSoldDucks = exportFile.getWantsSoldDucks();
-        Boolean wantsDonatedMoney = exportFile.getWantsDonatedMoney();
         Date startDate = exportFile.getStartDate();
         Date endDate = exportFile.getEndDate();
         String niceDate = StatisticsUtil.getNiceDate(startDate, endDate);
-        List<Duck> ducks = this.getDuckDTOsByTimePeriod(startDate, endDate);
+        List<Duck> ducks = this.getDucksByTimePeriod(startDate, endDate);
 
         sb.append("Müüdud pardid ajavahemikus ").append(niceDate).append("\n");
         sb.append("Ostmise kuupäev;Omaniku eesnimi;Omaniku perenimi;Omaniku telefoninumber;Maksja e-mail;Ralli nimi;Pardi number;Pardi hind\n");
@@ -172,7 +169,7 @@ public class StatisticsServiceImpl implements StatisticsService {
     }
 
     @Override
-    public List<Duck> getDuckDTOsByTimePeriod(Date startDate, Date endDate) {
+    public List<Duck> getDucksByTimePeriod(Date startDate, Date endDate) {
         return IteratorUtils.toList(
                 duckRepository.findAll().iterator())
                 .stream()

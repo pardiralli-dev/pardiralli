@@ -23,5 +23,5 @@ public interface StatisticsService {
 
     List<List<Object>> createDataByRace(Date startDate, Date endDate);
 
-    List<Duck> getDuckDTOsByTimePeriod(Date startDate, Date endDate);
+    List<Duck> getDucksByTimePeriod(Date startDate, Date endDate);
 }

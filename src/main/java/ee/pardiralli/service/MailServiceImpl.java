@@ -4,6 +4,7 @@ package ee.pardiralli.service;
 import ee.pardiralli.configuration.MailConfiguration;
 import ee.pardiralli.domain.Duck;
 import ee.pardiralli.domain.DuckBuyer;
+import ee.pardiralli.util.BanklinkUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -32,7 +33,7 @@ public class MailServiceImpl implements MailService {
     public Boolean sendConfirmationEmail(DuckBuyer duckBuyer, List<Duck> ducks) {
         final Context ctx = new Context();
         ctx.setVariable("ducks", ducks);
-        ctx.setVariable("total", ducks.stream().map(Duck::getPriceCents).mapToInt(Integer::intValue).sum());
+        ctx.setVariable("total", BanklinkUtils.centsToEuros(ducks.stream().map(Duck::getPriceCents).mapToInt(Integer::intValue).sum()));
 
         final String htmlContent = templateEngine.process("email", ctx);
         JavaMailSender sender = mailConfiguration.getJavaMailSender();

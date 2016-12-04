@@ -16,7 +16,7 @@ import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
-import java.sql.*;
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -26,7 +26,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class BanklinkUtils {
 
@@ -36,9 +35,7 @@ public class BanklinkUtils {
      */
     public static String calculatePaymentAmount(List<Duck> unpaidDucks) {
         String amountCents = unpaidDucks.stream().map(Duck::getPriceCents).reduce((d1, d2) -> d1 + d2).toString();
-        // cents -> decimal, should never require rounding
-        BigDecimal amountDecimal = new BigDecimal(amountCents).divide(new BigDecimal("100"), RoundingMode.UNNECESSARY);
-        return amountDecimal.toPlainString();
+        return centsToEuros(amountCents);
     }
 
     /**
@@ -77,9 +74,8 @@ public class BanklinkUtils {
     }
 
     /**
-     *
      * @param datetimeAsString timestamp in the format
-     * <pre>yyyy-MM-ddThh:mmss+ZONE</pre>
+     *                         <pre>yyyy-MM-ddThh:mmss+ZONE</pre>
      * @return corresponding datetime
      */
     public static ZonedDateTime dateTimeFromString(String datetimeAsString) {
@@ -118,7 +114,7 @@ public class BanklinkUtils {
     }
 
     /**
-     * @param params a map containing parameters received from the bank's response
+     * @param params               a map containing parameters received from the bank's response
      * @param isSuccessfulResponse true if bank's response is successful, otherwise false
      * @return the list of parameter values to be concatenated for the MAC signature
      */
@@ -136,7 +132,7 @@ public class BanklinkUtils {
      * Checks if the bank's response's MAC signature is valid.
      *
      * @param publicKeyFilename
-     * @param params a map containing parameters received from the bank's response
+     * @param params               a map containing parameters received from the bank's response
      * @param isSuccessfulResponse true if bank's response is successful, otherwise false
      * @return true, if the MAC signature is valid, otherwise false
      * @throws IllegalResponseException if something goes wrong
@@ -156,12 +152,12 @@ public class BanklinkUtils {
         }
     }
 
-    public static java.sql.Timestamp getCurrentTimeStamp(){
+    public static java.sql.Timestamp getCurrentTimeStamp() {
         return new Timestamp(ZonedDateTime.now(ZoneId.of("Europe/Helsinki"))
                 .truncatedTo(ChronoUnit.MINUTES).toInstant().getEpochSecond() * 1000L);
     }
 
-    public static Date getCurrentDate(){
+    public static Date getCurrentDate() {
         return new java.sql.Date(Date.from(ZonedDateTime.now(ZoneId.of("Europe/Helsinki")).toInstant()).getTime());
     }
 
@@ -207,7 +203,7 @@ public class BanklinkUtils {
                         d.getDuckOwner().getLastName(),
                         d.getDuckOwner().getPhoneNumber(),
                         d.getSerialNumber().toString(),
-                        new BigDecimal(d.getPriceCents()).divide(new BigDecimal("100"), RoundingMode.UNNECESSARY).toPlainString()
+                        centsToEuros(d.getPriceCents())
                 )).collect(Collectors.toList());
     }
 
@@ -216,6 +212,14 @@ public class BanklinkUtils {
      * @return string representing {@code cents / 100} i.e. {@code 1.42}
      */
     public static String centsToEuros(Integer cents) {
+        return new BigDecimal(cents).divide(new BigDecimal("100"), 2, RoundingMode.UNNECESSARY).toPlainString();
+    }
+
+    /**
+     * @param cents string representing the number of cents i.e. 142
+     * @return string representing {@code cents / 100} i.e. {@code 1.42}
+     */
+    public static String centsToEuros(String cents) {
         return new BigDecimal(cents).divide(new BigDecimal("100"), 2, RoundingMode.UNNECESSARY).toPlainString();
     }
 

@@ -10,9 +10,10 @@
     <link href="https://fonts.googleapis.com/css?family=Sniglet" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css?family=Cabin+Sketch" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css?family=Enriqueta" rel="stylesheet"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script type="text/javascript" src="js/form-control.js"></script>
 </head>
 <body>
-
 
 
 <div class="container container-mainform">
@@ -69,7 +70,8 @@
                                     <label class="col-sm-8 control-label main-box-form-label">Partide arv:</label>
                                     <div class="col-sm-4 zero-right-padding">
                                         <input th:field="*{boxes[__${boxStat.index}__].duckQuantity}"
-                                               class="form-control box-input"
+                                               th:id="'qty' + ${boxStat.count}"
+                                               class="form-control box-input qty"
                                                type="number"
                                                min="1" max="1000"
                                                placeholder="1"/>
@@ -81,7 +83,8 @@
                                         pardi hind:</label>
                                     <div class="col-sm-4 zero-right-padding">
                                         <input th:field="*{boxes[__${boxStat.index}__].duckPrice}"
-                                               class="form-control box-input"
+                                               th:id="'prc' + ${boxStat.count}"
+                                               class="form-control box-input prc"
                                                type="number"
                                                min="5" max="1000" step="5"
                                                placeholder="5"/>
@@ -138,7 +141,8 @@
                                     <label class="col-sm-8 control-label main-box-form-label">Partide arv:</label>
                                     <div class="col-sm-4 zero-right-padding">
                                         <input th:field="*{boxes[__${boxStat.index}__].duckQuantity}"
-                                               class="form-control box-input"
+                                               th:id="'qty' + ${boxStat.count}"
+                                               class="form-control box-input qty"
                                                type="number"
                                                min="1" max="1000"
                                                placeholder="1"/>
@@ -149,7 +153,8 @@
                                     <label class="col-sm-8 control-label main-box-form-label">Ühe pardi hind:</label>
                                     <div class="col-sm-4 zero-right-padding">
                                         <input th:field="*{boxes[__${boxStat.index}__].duckPrice}"
-                                               class="form-control box-input"
+                                               th:id="'prc' + ${boxStat.count}"
+                                               class="form-control box-input prc"
                                                type="number"
                                                min="5" max="1000" step="5"
                                                placeholder="5"/>

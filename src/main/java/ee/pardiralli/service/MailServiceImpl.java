@@ -6,6 +6,8 @@ import ee.pardiralli.domain.Duck;
 import ee.pardiralli.domain.DuckBuyer;
 import ee.pardiralli.util.BanklinkUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailAuthenticationException;
+import org.springframework.mail.MailSendException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -46,7 +48,7 @@ public class MailServiceImpl implements MailService {
             helper.setText(htmlContent, true);
             helper.setSubject("Pardiralli kinnitus");
             sender.send(message);
-        } catch (MessagingException e) {
+        } catch (MessagingException | MailAuthenticationException | MailSendException e) {
             return false;
         }
 

@@ -37,6 +37,7 @@
 <div class="container">
     <div id="linechart_donations" style="width: 900px; height: 500px">
     </div>
+    <!--/*@thymesVar id="statistics" type="ee.pardiralli.domain.Statistics"*/-->
     <div id="loadingGif"></div>
     <form id="don_chart" class="form-horizontal" th:object="${statistics}" method="post">
         <div class="form-group">
@@ -62,22 +63,23 @@
     <p>Teha uus inkognito internetibrauseri aken ja logida eelmainitud kasutaja ja parooliga GMaili sisse. Postkastis on
         täpselt üks kiri Google Anlyticsilt. Vajutada selles olevale lingile: saabki näha lehe külastatavuse
         andmeid!</p>
+    <!--/*@thymesVar id="exportFile" type="ee.pardiralli.domain.ExportFile"*/-->
     <form id="exportform" name="exportform" class="form-horizontal" th:action="@{/export}" th:object="${exportFile}"
           method="get">
         <fieldset>
             <legend>Lae raport alla</legend>
-            <div class="form-group">
-                <label class="col-form-label col-sm-2" th:for="wantsSoldDucks">Müüdud parte</label>
-                <div class="col-sm-10">
-                    <input id="wantsSoldDucks" type="checkbox" class="checkbox-inline" th:field="*{wantsSoldDucks}"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-form-label col-sm-2" th:for="wantsDonatedMoney">Kogutud raha</label>
-                <div class="col-sm-10">
-                    <input id="wantsDonatedMoney" type="checkbox" th:field="*{wantsDonatedMoney}"/>
-                </div>
-            </div>
+            <!--<div class="form-group">-->
+                <!--<label class="col-form-label col-sm-2" th:for="wantsSoldDucks">Müüdud parte</label>-->
+                <!--<div class="col-sm-10">-->
+                    <!--<input id="wantsSoldDucks" type="checkbox" class="checkbox-inline" th:field="*{wantsSoldDucks}"/>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="form-group">-->
+                <!--<label class="col-form-label col-sm-2" th:for="wantsDonatedMoney">Kogutud raha</label>-->
+                <!--<div class="col-sm-10">-->
+                    <!--<input id="wantsDonatedMoney" type="checkbox" th:field="*{wantsDonatedMoney}"/>-->
+                <!--</div>-->
+            <!--</div>-->
             <div class="form-group">
                 <label class="col-form-label col-sm-2" for="datepicker_exp_start">Vali alguskuupäev: </label>
                 <div class="col-sm-10">

@@ -21,12 +21,12 @@
 <body>
 <div class="container container-general">
     <div th:replace="fragments/menu :: admin-menu"></div>
-    <!--/*@thymesVar id="feedbackList" type="java.util.List<ee.pardiralli.domain.Feedback>"*/-->
-    <div th:each="feedback : ${feedbackList}">
-        <div class="alert" th:text="${feedback.getMessage()}" th:classappend="${feedback.getCssClass()}"></div>
-    </div>
     <div class="panel panel-default">
         <div class="panel-body">
+            <!--/*@thymesVar id="feedbackList" type="java.util.List<ee.pardiralli.domain.Feedback>"*/-->
+            <div th:each="feedback : ${feedbackList}">
+                <div class="alert" th:text="${feedback.getMessage()}" th:classappend="${feedback.getCssClass()}"></div>
+            </div>
             <!--/*@thymesVar id="raceDTO" type="ee.pardiralli.dto.RaceDTO"*/-->
             <form id="insert" class="form-horizontal" th:action="@{/settings}" th:object="${raceDTO}" method="post">
                 <div class="form-group">
@@ -68,10 +68,10 @@
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="row">
-                <div class="col-md-6">Nimi</div>
-                <div class="col-md-2">Alguskuupäev</div>
-                <div class="col-md-2">Lõppkuupäev</div>
-                <div class="col-md-2">-</div>
+                <div class="col-md-6 lead">Nimi</div>
+                <div class="col-md-2 lead">Alguskuupäev</div>
+                <div class="col-md-2 lead">Lõppkuupäev</div>
+                <div class="col-md-2"></div>
             </div>
             <form th:each="raceFromLst : ${races}" th:action="@{/settings}" th:object="${race}" method="post">
                 <div class="row">
@@ -94,7 +94,7 @@
                 </div>
                 <div th:id="'info'+${raceFromLst.getId()}" class="row"></div>
                 <div th:id="'info2'+${raceFromLst.getId()}" class="row"></div>
-                <div th:id="'info3'+${raceFromLst.getId()}" class="row"></div>
+                <div th:id="'info3'+${raceFromLst.getId()}" class="row lead"></div>
             </form>
         </div>
     </div>

@@ -46,8 +46,8 @@ public class PaymentServiceImpl implements PaymentService {
         }
 
         Transaction tr = transactionRepository.findById(tid);
-        if (tr == null || tr.getIsPaid()) {
-            throw new IllegalTransactionException("transaction: " + String.valueOf(tr));
+        if (tr == null) {
+            throw new IllegalTransactionException("transaction == null");
         }
 
         List<Duck> ducks = duckRepository.findByTransactionId(tid);
@@ -131,13 +131,6 @@ public class PaymentServiceImpl implements PaymentService {
                 throw new IllegalResponseException("Response time out of limits");
             }
 
-            if (!tr.getIsPaid()) {
-                throw new IllegalTransactionException("Transaction " + String.valueOf(tr) + " has an invalid isPaid value");
-            }
-        } else {
-            if (tr.getIsPaid()) {
-                throw new IllegalTransactionException("Transaction " + String.valueOf(tr) + " has an invalid isPaid value");
-            }
         }
     }
 

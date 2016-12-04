@@ -148,7 +148,7 @@ public class BanklinkUtils {
             return sig.verify(sigToVerify);
         } catch (NoSuchAlgorithmException | SignatureException | InvalidKeyException | CertificateException | IOException e) {
             // TODO: 15.11.16 error handling
-            throw new IllegalResponseException(e.getMessage());
+            throw new AssertionError(e);
         }
     }
 

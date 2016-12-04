@@ -14,142 +14,138 @@
     <script type="text/javascript" src="javascript/search.js"></script>
 </head>
 <body>
-<nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">Pardiralli</a>
+<!--/*@thymesVar id="search" type="ee.pardiralli.domain.Search"*/-->
+<div class="container container-general">
+    <div th:replace="fragments/menu :: admin-menu"></div>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <form id="exact" class="form-horizontal" th:action="@{/search}" th:object="${search}" method="post">
+                <h4>Otsi</h4>
+                <div class="form-group">
+                    <label class="col-form-label col-sm-2" for="search_quick_id">Otsi omanikku pardi ID järgi:</label>
+                    <div class="col-sm-10">
+                        <input id="search_quick_id"
+                               type="number"
+                               class="form-control"
+                               th:field="*{serialNumber}"
+                               required="required"
+                               name="search_quick_id"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label col-sm-2" for="search_quick_date">Alguskuupäev:</label>
+                    <div class="col-sm-10">
+                        <input id="search_quick_date"
+                               class="form-control"
+                               th:field="*{raceBeginningDate}"
+                               required="required"
+                               name="search_quick_date"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <input id="search" type="submit" class="btn btn-default" value="Otsi!"/>
+                    </div>
+                </div>
+            </form>
         </div>
-        <ul class="nav navbar-nav">
-            <li><a th:href="@{/}">Avaleht</a></li>
-            <li><a th:href="@{/statistics}">Statistika</a></li>
-            <li class="active"><a th:href="@{/search}">Otsing</a></li>
-            <li><a th:href="@{/settings}">Võistlused</a></li>
-            <li><a th:href="@{/insert}">Sisestus</a></li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-            <li><a th:href="@{/logout}"><span class="glyphicon glyphicon-log-in"></span>Logi välja</a></li>
-        </ul>
     </div>
-</nav>
-<div class="container">
-    <!--/*@thymesVar id="search" type="ee.pardiralli.domain.Search"*/-->
-    <form id="exact" class="form-horizontal" th:action="@{/search}" th:object="${search}" method="post">
-        <h4>Otsi</h4>
-        <div class="form-group">
-            <label class="col-form-label col-sm-2" for="search_quick_id">Otsi omanikku pardi ID järgi:</label>
-            <div class="col-sm-10">
-                <input id="search_quick_id"
-                       type="number"
-                       class="form-control"
-                       th:field="*{serialNumber}"
-                       required="required"
-                       name="search_quick_id"/>
-            </div>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <form id="general" class="form-horizontal" th:action="@{/search}" th:object="${search}" method="post">
+                <h4>Täpsem otsing</h4>
+                <div class="form-group">
+                    <label class="col-form-label col-sm-2" for="first_name_long">Omaniku eesnimi:</label>
+                    <div class="col-sm-10">
+                        <input id="first_name_long"
+                               type="text"
+                               class="form-control"
+                               th:field="*{ownersFirstName}"
+                               name="first_name_long"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label col-sm-2" for="last_name_long">Omaniku perenimi:</label>
+                    <div class="col-sm-10">
+                        <input id="last_name_long"
+                               type="text"
+                               class="form-control"
+                               th:field="*{ownersLastName}"
+                               name="last_name_long"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label col-sm-2" for="email_long">Ostja e-mail:</label>
+                    <div class="col-sm-10">
+                        <input id="email_long"
+                               type="text"
+                               class="form-control"
+                               th:field="*{buyersEmail}"
+                               name="email_long"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label col-sm-2" for="phone_number_long">Omaniku telefoninumber:</label>
+                    <div class="col-sm-10">
+                        <input id="phone_number_long"
+                               type="text"
+                               class="form-control"
+                               th:field="*{ownersPhoneNr}"
+                               name="phone_number_long"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label col-sm-2" for="search_date_long">Alguskuupäev:</label>
+                    <div class="col-sm-10">
+                        <input id="search_date_long"
+                               th:field="*{raceBeginningDate}"
+                               class="form-control"
+                               required="required"
+                               name="search_date"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <input id="search_long" type="submit" class="btn btn-default" value="Otsi!"/>
+                    </div>
+                </div>
+            </form>
         </div>
-        <div class="form-group">
-            <label class="col-form-label col-sm-2" for="search_quick_date">Alguskuupäev:</label>
-            <div class="col-sm-10">
-                <input id="search_quick_date"
-                       class="form-control"
-                       th:field="*{raceBeginningDate}"
-                       required="required"
-                       name="search_quick_date"/>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <input id="search" type="submit" class="btn btn-default" value="Otsi!"/>
-            </div>
-        </div>
-    </form>
-    <form id="general" class="form-horizontal" th:action="@{/search}" th:object="${search}" method="post">
-        <h4>Täpsem otsing</h4>
-        <div class="form-group">
-            <label class="col-form-label col-sm-2" for="first_name_long">Omaniku eesnimi:</label>
-            <div class="col-sm-10">
-                <input id="first_name_long"
-                       type="text"
-                       class="form-control"
-                       th:field="*{ownersFirstName}"
-                       name="first_name_long"/>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-form-label col-sm-2" for="last_name_long">Omaniku perenimi:</label>
-            <div class="col-sm-10">
-                <input id="last_name_long"
-                       type="text"
-                       class="form-control"
-                       th:field="*{ownersLastName}"
-                       name="last_name_long"/>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-form-label col-sm-2" for="email_long">Ostja e-mail:</label>
-            <div class="col-sm-10">
-                <input id="email_long"
-                       type="text"
-                       class="form-control"
-                       th:field="*{buyersEmail}"
-                       name="email_long"/>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-form-label col-sm-2" for="phone_number_long">Omaniku telefoninumber:</label>
-            <div class="col-sm-10">
-                <input id="phone_number_long"
-                       type="text"
-                       class="form-control"
-                       th:field="*{ownersPhoneNr}"
-                       name="phone_number_long"/>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-form-label col-sm-2" for="search_date_long">Alguskuupäev:</label>
-            <div class="col-sm-10">
-                <input id="search_date_long"
-                       th:field="*{raceBeginningDate}"
-                       class="form-control"
-                       required="required"
-                       name="search_date"/>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <input id="search_long" type="submit" class="btn btn-default" value="Otsi!"/>
-            </div>
-        </div>
-    </form>
-    <noscript>
-        <h4>JavaScript on keelatud, kuvatakse ainult esimesed 30 rida</h4>
-    </noscript>
-    <!--/*@thymesVar id="feedbackList" type="java.util.List<ee.pardiralli.domain.Feedback>"*/-->
-    <div th:each="feedback : ${feedbackList}">
-        <div class="alert" th:text="${feedback.getMessage()}" th:classappend="${feedback.getCssClass()}"></div>
     </div>
-    <table id="results" class="table">
-        <thead>
-        <tr>
-            <th>Pardi ID</th>
-            <th>Ostja e-mail</th>
-            <th>Omaniku eesnimi</th>
-            <th>Omaniku perenimi</th>
-            <th>Omaniku telefoninumber</th>
-            <th>Üritus</th>
-        </tr>
-        </thead>
-        <tbody>
-        <!--/*@thymesVar id="result" type="java.util.List<ee.pardiralli.domain.Duck>"*/-->
-        <tr th:each="res : ${result}">
-            <td th:text="${res.getSerialNumber()}"></td>
-            <td th:text="${res.getDuckBuyer().getEmail()}"></td>
-            <td th:text="${res.getDuckOwner().getFirstName()}"></td>
-            <td th:text="${res.getDuckOwner().getLastName()}"></td>
-            <td th:text="${res.getDuckOwner().getPhoneNumber()}"></td>
-            <td th:text="${res.getRace().getBeginning()}"></td>
-        </tr>
-        </tbody>
-    </table>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <noscript>
+                <div class="alert alert-warning">JavaScript on keelatud, kuvatakse ainult esimesed 30 rida</div>
+            </noscript>
+            <!--/*@thymesVar id="feedbackList" type="java.util.List<ee.pardiralli.domain.Feedback>"*/-->
+            <div th:each="feedback : ${feedbackList}">
+                <div class="alert" th:text="${feedback.getMessage()}" th:classappend="${feedback.getCssClass()}"></div>
+            </div>
+            <table id="results" class="table">
+                <thead>
+                <tr>
+                    <th>Pardi ID</th>
+                    <th>Ostja e-mail</th>
+                    <th>Omaniku eesnimi</th>
+                    <th>Omaniku perenimi</th>
+                    <th>Omaniku telefoninumber</th>
+                    <th>Üritus</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!--/*@thymesVar id="result" type="java.util.List<ee.pardiralli.domain.Duck>"*/-->
+                <tr th:each="res : ${result}">
+                    <td th:text="${res.getSerialNumber()}"></td>
+                    <td th:text="${res.getDuckBuyer().getEmail()}"></td>
+                    <td th:text="${res.getDuckOwner().getFirstName()}"></td>
+                    <td th:text="${res.getDuckOwner().getLastName()}"></td>
+                    <td th:text="${res.getDuckOwner().getPhoneNumber()}"></td>
+                    <td th:text="${res.getRace().getBeginning()}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 </body>
 </html>

@@ -21,10 +21,31 @@
                 <li><a th:href="@{/}">Avaleht</a></li>
                 <li><a th:href="@{/statistics}">Statistika</a></li>
                 <li><a th:href="@{/search}">Otsing</a></li>
-                <li class="active"><a th:href="@{/settings}">Võistlused</a></li>
+                <li><a th:href="@{/settings}">Võistlused</a></li>
+                <li><a th:href="@{/insert}">Sisestus</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            </ul>
+        </div>
+    </nav>
+
+
+    <!-- FRAGMENT -->
+    <nav class="navbar" th:fragment="admin-menu">
+        <div class="container-fluid menu-container">
+            <div class="navbar-header">
+                <a class="navbar-left" href="#"><img class="menu-logo pull-left" src="css/images/main-logo.png"/><span class="menu-site-name">Pardiralli</span></a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li><a th:href="@{/}">Avaleht</a></li>
+                <li><a th:href="@{/statistics}">Statistika</a></li>
+                <li><a th:href="@{/search}">Otsing</a></li>
+                <li><a th:href="@{/settings}">Võistlused</a></li>
+                <li><a th:href="@{/insert}">Sisestus</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a th:href="@{/logout}"><span class="glyphicon glyphicon-log-in"></span>Logi välja</a></li>
             </ul>
         </div>
     </nav>

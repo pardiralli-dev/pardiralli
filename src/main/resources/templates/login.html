@@ -7,20 +7,24 @@
 </head>
 <body>
 <div class="container">
-    <p th:if="${param.logout}" class="alert alert-info">Olete välja loginud!</p>
-    <p th:if="${param.error}" class="alert alert-danger">Proovige uuesti!</p>
-    <form name="form" th:action="@{/login}" action="/login" method="POST">
-        <fieldset>
-            <legend>Logi sisse</legend>
-            <div class="form-group">
-                <input type="text" name="username" class="form-control" placeholder="Kasutajanimi"/>
-            </div>
-            <div class="form-group">
-                <input type="password" name="password" class="form-control" placeholder="Parool"/>
-            </div>
-        </fieldset>
-        <input type="submit" id="login" value="Login" class="btn btn-default"/>
-    </form>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <p th:if="${param.logout}" class="alert alert-info">Olete välja loginud!</p>
+            <p th:if="${param.error}" class="alert alert-danger">Proovige uuesti!</p>
+            <form name="form" th:action="@{/login}" action="/login" method="POST">
+                <fieldset>
+                    <legend>Logi sisse</legend>
+                    <div class="form-group">
+                        <input type="text" name="username" class="form-control" placeholder="Kasutajanimi"/>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" name="password" class="form-control" placeholder="Parool"/>
+                    </div>
+                </fieldset>
+                <input type="submit" id="login" value="Login" class="btn btn-default"/>
+            </form>
+        </div>
+    </div>
 </div>
 </body>
 </html>

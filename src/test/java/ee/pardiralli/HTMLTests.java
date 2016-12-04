@@ -37,14 +37,6 @@ public class HTMLTests {
 
 
     @Test
-    public void constantWebstoreInputIdsArePresent() throws Exception {
-        String page = this.restTemplate.getForObject("/", String.class);
-        assertTrue(page.contains("id=\"soldDucksCounter\""));
-        assertTrue(page.contains("id=\"donatedMoneyCounter\""));
-    }
-
-
-    @Test
     public void exactItemSearchIdsArePresent() throws Exception {
         String page = this.restTemplate.getForObject("http://localhost:" + port + "/search", String.class);
         assertTrue(page.contains("id=\"search_quick_id\""));

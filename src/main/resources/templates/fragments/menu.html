@@ -15,7 +15,7 @@
     <nav class="navbar" th:fragment="main-menu">
         <div class="container-fluid menu-container">
             <div class="navbar-header">
-                <a class="navbar-left" href="#"><img class="menu-logo pull-left" src="css/images/main-logo.png"/><span class="menu-site-name">Pardiralli</span></a>
+                <a class="navbar-left" th:href="@{/}"><img class="menu-logo pull-left" src="css/images/main-logo.png"/><span class="menu-site-name">Pardiralli</span></a>
             </div>
             <ul class="nav navbar-nav">
                 <li><a th:href="@{/}">Avaleht</a></li>
@@ -25,7 +25,7 @@
                 <li><a th:href="@{/insert}">Sisestus</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                <li><a th:href="@{/login}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
             </ul>
         </div>
     </nav>
@@ -35,7 +35,7 @@
     <nav class="navbar" th:fragment="admin-menu">
         <div class="container-fluid menu-container">
             <div class="navbar-header">
-                <a class="navbar-left" href="#"><img class="menu-logo pull-left" src="css/images/main-logo.png"/><span class="menu-site-name">Pardiralli</span></a>
+                <a class="navbar-left" th:href="@{/}"><img class="menu-logo pull-left" src="css/images/main-logo.png"/><span class="menu-site-name">Pardiralli</span></a>
             </div>
             <ul class="nav navbar-nav">
                 <li><a th:href="@{/}">Avaleht</a></li>

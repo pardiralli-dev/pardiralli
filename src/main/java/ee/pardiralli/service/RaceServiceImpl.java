@@ -3,6 +3,7 @@ package ee.pardiralli.service;
 import ee.pardiralli.db.RaceRepository;
 import ee.pardiralli.domain.Race;
 import ee.pardiralli.dto.RaceDTO;
+import lombok.extern.log4j.Log4j;
 import org.apache.commons.collections4.IteratorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Log4j
 public class RaceServiceImpl implements RaceService {
 
     private final RaceRepository raceRepository;
@@ -22,15 +24,15 @@ public class RaceServiceImpl implements RaceService {
     }
 
     @Override
-    public void updateRace(RaceDTO raceDTO) {
+    public Race updateRace(RaceDTO raceDTO) {
         Race fromDb = raceRepository.findOne(raceDTO.getId());
         fromDb.setIsOpen(raceDTO.getIsOpen());
-        raceRepository.save(fromDb);
+        return raceRepository.save(fromDb);
     }
 
     @Override
-    public void saveNewRace(RaceDTO raceDTO) {
-        raceRepository.save(
+    public Race saveNewRace(RaceDTO raceDTO) {
+        return raceRepository.save(
                 new Race(new java.sql.Date(raceDTO.getBeginning().getTime()),
                         new java.sql.Date(raceDTO.getFinish().getTime()),
                         raceDTO.getRaceName(),
@@ -51,18 +53,16 @@ public class RaceServiceImpl implements RaceService {
     @Override
     public List<RaceDTO> getAllRacesAsDtos() {
         List<RaceDTO> races = IteratorUtils.toList(
-                raceRepository.findAll().iterator())
-                .stream()
-                .map(r ->
-                        new RaceDTO(
+                raceRepository.findAll().iterator()).stream()
+                .map(r -> new RaceDTO(
                                 r.getId(),
                                 r.getBeginning(),
                                 r.getFinish(),
                                 r.getRaceName(),
                                 r.getDescription(),
                                 r.getIsOpen(),
-                                false)
-                ).collect(Collectors.toList());
+                                false))
+                .collect(Collectors.toList());
         Collections.sort(races);
         return races;
     }

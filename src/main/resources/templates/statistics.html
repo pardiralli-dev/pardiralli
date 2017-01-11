@@ -25,7 +25,7 @@
             </div>
         </div>
     </div>
-    <!--/*@thymesVar id="statistics" type="ee.pardiralli.domain.Statistics"*/-->
+    <!--/*@thymesVar id="statistics" type="ee.pardiralli.statistics.Statistics"*/-->
     <div id="loadingGif"></div>
     <div class="panel panel-default">
         <div class="panel-body">
@@ -59,7 +59,7 @@
     */ -->
     <div class="panel panel-default">
         <div class="panel-body">
-            <!--/*@thymesVar id="exportFile" type="ee.pardiralli.domain.ExportFile"*/-->
+            <!--/*@thymesVar id="exportFile" type="ee.pardiralli.statistics.ExportFile"*/-->
             <form id="exportform" name="exportform" class="form-horizontal" th:action="@{/export}" th:object="${exportFile}"
                   method="get">
                 <fieldset>

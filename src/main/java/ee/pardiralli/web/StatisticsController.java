@@ -1,8 +1,8 @@
 package ee.pardiralli.web;
 
-import ee.pardiralli.domain.DonationChart;
-import ee.pardiralli.domain.ExportFile;
-import ee.pardiralli.domain.Statistics;
+import ee.pardiralli.statistics.DonationChart;
+import ee.pardiralli.statistics.ExportFile;
+import ee.pardiralli.statistics.Statistics;
 import ee.pardiralli.service.StatisticsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;

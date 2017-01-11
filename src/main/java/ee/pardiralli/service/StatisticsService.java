@@ -1,7 +1,7 @@
 package ee.pardiralli.service;
 
 import ee.pardiralli.domain.Duck;
-import ee.pardiralli.domain.ExportFile;
+import ee.pardiralli.statistics.ExportFile;
 
 import java.io.File;
 import java.io.FileNotFoundException;

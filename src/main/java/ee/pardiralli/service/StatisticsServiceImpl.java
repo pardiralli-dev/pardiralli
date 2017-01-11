@@ -3,7 +3,7 @@ package ee.pardiralli.service;
 import ee.pardiralli.db.DuckRepository;
 import ee.pardiralli.db.RaceRepository;
 import ee.pardiralli.domain.Duck;
-import ee.pardiralli.domain.ExportFile;
+import ee.pardiralli.statistics.ExportFile;
 import ee.pardiralli.util.StatisticsUtil;
 import org.apache.commons.collections4.IteratorUtils;
 import org.springframework.beans.factory.annotation.Autowired;

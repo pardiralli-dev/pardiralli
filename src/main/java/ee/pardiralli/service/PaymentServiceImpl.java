@@ -70,7 +70,7 @@ public class PaymentServiceImpl implements PaymentService {
             Objects.requireNonNull(responseModel.getCryptoAlgorithm());
             Objects.requireNonNull(responseModel.getSenderID());
             Objects.requireNonNull(responseModel.getRecipientID());
-            Objects.requireNonNull(responseModel.getResponseID());
+            Objects.requireNonNull(responseModel.getStamp());
             Objects.requireNonNull(responseModel.getPaymentOrderReferenceNo());
             Objects.requireNonNull(responseModel.getPaymentOrderMessage());
             Objects.requireNonNull(responseModel.getSignature());
@@ -98,7 +98,7 @@ public class PaymentServiceImpl implements PaymentService {
                 throw new AssertionError("Illegal bank value");
         }
 
-        int transactionID = Integer.parseInt(responseModel.getResponseID());
+        int transactionID = Integer.parseInt(responseModel.getStamp());
         Transaction tr = transactionRepository.findById(transactionID);
         if (tr == null) {
             throw new IllegalTransactionException("Transaction with ID " + String.valueOf(transactionID) + " is null");

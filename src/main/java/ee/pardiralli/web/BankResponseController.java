@@ -43,7 +43,7 @@ public class BankResponseController {
             ResponseModel responseModel = getModelByBank(bank, params);
             paymentService.checkConsistency(params, responseModel, true);
             paymentService.checkSuccessfulResponseMAC(params, bank);
-            Integer tid = Integer.valueOf(responseModel.getResponseID()); // TODO: 2.12.16 refactor responseID name
+            Integer tid = Integer.valueOf(responseModel.getStamp());
 
             Transaction transaction = paymentService.setTransactionPaid(tid);
             List<Duck> ducks = paymentService.setSerialNumbers(transaction);

@@ -8,7 +8,7 @@ package ee.pardiralli.banklink;
  * <li>private String cryptoAlgorithm;
  * <li>private String senderID;
  * <li>private String recipientID;
- * <li>private String responseID;
+ * <li>private String stamp;
  * <li>private String paymentOrderNo;
  * <li>private String paymentAmount;
  * <li>private String currency;
@@ -39,7 +39,7 @@ public abstract class ResponseModel {
 
     public abstract String getRecipientID();
 
-    public abstract String getResponseID();
+    public abstract String getStamp();
 
     public abstract String getPaymentOrderNo();
 

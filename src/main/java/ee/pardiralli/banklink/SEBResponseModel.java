@@ -13,7 +13,7 @@ public class SEBResponseModel extends ResponseModel {
     private String cryptoAlgorithm;
     private String senderID;
     private String recipientID;
-    private String responseID;
+    private String stamp;
     private String paymentOrderNo;
     private String paymentAmount;
     private String currency;
@@ -42,7 +42,7 @@ public class SEBResponseModel extends ResponseModel {
         this.cryptoAlgorithm = params.get("VK_VERSION");
         this.senderID = params.get("VK_SND_ID");
         this.recipientID = params.get("VK_REC_ID");
-        this.responseID = params.get("VK_STAMP");
+        this.stamp = params.get("VK_STAMP");
         this.paymentOrderReferenceNo = params.get("VK_REF");
         this.paymentOrderMessage = params.get("VK_MSG");
         this.signature = params.get("VK_MAC");

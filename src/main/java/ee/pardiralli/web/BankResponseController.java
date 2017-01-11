@@ -51,7 +51,7 @@ public class BankResponseController {
             DuckBuyer buyer = BanklinkUtils.buyerFromDucks(ducks);
             String totalSum = paymentService.transactionAmount(tid);
 
-            mailService.sendConfirmationEmail(buyer, ducks);
+            mailService.sendConfirmationEmail(buyer, ducks); // TODO: 11/01/2017 check if email succeeded & notify if it didn't
 
             model.addAttribute("purchasedItems", duckDTOs);
             model.addAttribute("buyerEmail", buyer.getEmail());

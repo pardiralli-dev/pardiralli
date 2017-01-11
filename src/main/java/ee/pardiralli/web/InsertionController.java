@@ -45,10 +45,10 @@ public class InsertionController {
             return "insert";
         } else {
             Boolean success = insertionService.saveInsertion(insertionDTO);
-            if (success) {
-                ControllerUtil.setFeedback(model, FeedbackType.SUCCESS, "Andmed edukalt sisestatud");
-            } else
+            ControllerUtil.setFeedback(model, FeedbackType.SUCCESS, "Andmed edukalt sisestatud");
+            if (!success) {
                 ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Kinnitusmeili saatmine ebaõnnestus");
+            }
             model.addAttribute("manualAdd", new InsertionDTO());
         }
         return "insert";

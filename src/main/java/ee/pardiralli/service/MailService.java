@@ -9,12 +9,13 @@ public interface MailService {
 
 
     /**
-     * Send email to duck buyer
+     * Send confirmation email to duck buyer about the transaction
      *
-     * @param duckBuyer - entity from which the email address will be queried
-     * @param ducks     - list of ducks that information will be inserted into the email
-     * @return true if message was sent successfully
+     * @param duckBuyer buyer whose email address will be used
+     * @param ducks     whose info will be sent in the email
+     * @return true iff message was sent successfully
      */
     Boolean sendConfirmationEmail(DuckBuyer duckBuyer, List<Duck> ducks);
+
 }
 

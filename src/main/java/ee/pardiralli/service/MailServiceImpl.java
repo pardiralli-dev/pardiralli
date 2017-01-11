@@ -5,6 +5,7 @@ import ee.pardiralli.configuration.MailConfiguration;
 import ee.pardiralli.domain.Duck;
 import ee.pardiralli.domain.DuckBuyer;
 import ee.pardiralli.util.BanklinkUtils;
+import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailAuthenticationException;
 import org.springframework.mail.MailSendException;
@@ -19,6 +20,7 @@ import javax.mail.internet.MimeMessage;
 import java.util.List;
 
 @Service
+@Log4j
 public class MailServiceImpl implements MailService {
 
     private final SpringTemplateEngine templateEngine;
@@ -30,12 +32,15 @@ public class MailServiceImpl implements MailService {
         this.mailConfiguration = mailConfiguration;
     }
 
-
     @Override
     public Boolean sendConfirmationEmail(DuckBuyer duckBuyer, List<Duck> ducks) {
         final Context ctx = new Context();
         ctx.setVariable("ducks", ducks);
-        ctx.setVariable("total", BanklinkUtils.centsToEuros(ducks.stream().map(Duck::getPriceCents).mapToInt(Integer::intValue).sum()));
+        ctx.setVariable("total", BanklinkUtils.centsToEuros(
+                ducks.stream()
+                        .map(Duck::getPriceCents)
+                        .mapToInt(Integer::intValue).sum())
+        );
 
         final String htmlContent = templateEngine.process("email", ctx);
         JavaMailSender sender = mailConfiguration.getJavaMailSender();
@@ -49,6 +54,7 @@ public class MailServiceImpl implements MailService {
             helper.setSubject("Pardiralli kinnitus");
             sender.send(message);
         } catch (MessagingException | MailAuthenticationException | MailSendException e) {
+            log.error("Exception occurred while sending the confirmation email", e);
             return false;
         }
 

@@ -8,6 +8,7 @@ import ee.pardiralli.dto.DonationFormDTO;
 import ee.pardiralli.exceptions.IllegalResponseException;
 import ee.pardiralli.exceptions.IllegalTransactionException;
 import ee.pardiralli.util.BanklinkUtils;
+import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
+@Log4j
 public class PaymentServiceImpl implements PaymentService {
 
     private final DuckRepository duckRepository;
@@ -162,6 +164,7 @@ public class PaymentServiceImpl implements PaymentService {
     public int saveDonation(DonationFormDTO donation) {
         DuckBuyer duckBuyer = new DuckBuyer();
         duckBuyer.setEmail(donation.getBuyerEmail());
+        log.info("Saving " + duckBuyer);
         duckBuyer = buyerRepository.save(duckBuyer);
         Race race = raceRepository.findRaceByIsOpen(true);
 
@@ -174,6 +177,7 @@ public class PaymentServiceImpl implements PaymentService {
             duckOwner.setFirstName(box.getOwnerFirstName());
             duckOwner.setLastName(box.getOwnerLastName());
             duckOwner.setPhoneNumber(box.getOwnerPhone());
+            log.info("Saving " + duckOwner);
             duckOwner = ownerRepository.save(duckOwner);
 
             // Save duck without serial
@@ -186,6 +190,7 @@ public class PaymentServiceImpl implements PaymentService {
                 duck.setDateOfPurchase(BanklinkUtils.getCurrentDate());
                 duck.setTimeOfPurchase(BanklinkUtils.getCurrentTimeStamp());
                 duck.setTransaction(transaction);
+                log.info("Saving " + duck);
                 duckRepository.save(duck);
             }
         }
@@ -204,12 +209,14 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public Transaction setTransactionPaid(Integer tid) {
         Transaction transaction = transactionRepository.findById(tid);
+        log.info("Setting transaction as paid: " + transaction);
         transaction.setIsPaid(true);
         return transactionRepository.save(transaction);
     }
 
     private Duck setSerialNumber(Duck duck) {
         duck.setSerialNumber(numberService.getSerial());
+        log.info("Set serial number for " + duck);
         return duck;
     }
 

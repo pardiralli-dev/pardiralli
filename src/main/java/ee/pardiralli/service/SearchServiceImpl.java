@@ -3,7 +3,7 @@ package ee.pardiralli.service;
 import ee.pardiralli.db.DuckRepository;
 import ee.pardiralli.db.RaceRepository;
 import ee.pardiralli.domain.Duck;
-import ee.pardiralli.domain.Search;
+import ee.pardiralli.dto.SearchDTO;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,12 +25,12 @@ public class SearchServiceImpl implements SearchService {
     }
 
     @Override
-    public Search getLatestRaceSearchModel() {
-        return new Search(raceRepository.findLastBeginningDate());
+    public SearchDTO getLatestRaceSearchDTO() {
+        return new SearchDTO(raceRepository.findLastBeginningDate());
     }
 
     @Override
-    public List<Duck> getResults(Search userQuery) {
+    public List<Duck> getResults(SearchDTO userQuery) {
         List<Duck> result;
 
         if (userQuery.hasOnlyIdAndDate()) {

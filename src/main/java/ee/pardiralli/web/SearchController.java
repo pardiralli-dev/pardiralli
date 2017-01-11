@@ -2,7 +2,7 @@ package ee.pardiralli.web;
 
 import ee.pardiralli.domain.Duck;
 import ee.pardiralli.domain.FeedbackType;
-import ee.pardiralli.domain.Search;
+import ee.pardiralli.dto.SearchDTO;
 import ee.pardiralli.service.SearchService;
 import ee.pardiralli.util.ControllerUtil;
 import ee.pardiralli.util.SearchUtil;
@@ -34,14 +34,14 @@ public class SearchController {
 
     @GetMapping("/search")
     public String search(Model model) {
-        model.addAttribute("search", searchService.getLatestRaceSearchModel());
+        model.addAttribute("search", searchService.getLatestRaceSearchDTO());
         model.addAttribute("result", Collections.emptyList());
         return "search";
     }
 
     @PostMapping("/search")
-    public String searchSubmit(@Valid Search userQuery, BindingResult bindingResult, Model model) {
-        model.addAttribute("search", bindingResult.hasErrors() ? new Search() : searchService.getLatestRaceSearchModel());
+    public String searchSubmit(@Valid SearchDTO userQuery, BindingResult bindingResult, Model model) {
+        model.addAttribute("search", bindingResult.hasErrors() ? new SearchDTO() : searchService.getLatestRaceSearchDTO());
         List<Duck> results = SearchUtil.getResultsSubLst(searchService.getResults(userQuery), 0, 30);
         model.addAttribute("result", results);
         if (results.isEmpty())
@@ -53,7 +53,7 @@ public class SearchController {
     @PostMapping("/search_async")
     public
     @ResponseBody
-    List<String> searchSubmitAjax(@Valid Search search,
+    List<String> searchSubmitAjax(@Valid SearchDTO searchDTO,
                                   BindingResult bindingResult,
                                   @RequestParam(value = "new", defaultValue = "true") String isNewQuery,
                                   HttpServletRequest req) {
@@ -74,14 +74,14 @@ public class SearchController {
                 Object resultsObject = req.getSession().getAttribute("results");
                 from = fromObject == null ? 0 : (Integer) fromObject + 30;
                 to = toObject == null ? 30 : (Integer) toObject + 30;
-                dbResults = resultsObject != null ? (List) req.getSession().getAttribute("results") : searchService.getResults(search);
+                dbResults = resultsObject != null ? (List) req.getSession().getAttribute("results") : searchService.getResults(searchDTO);
                 break;
 
             default:
                 from = 0;
                 to = 30;
 
-                dbResults = searchService.getResults(search);
+                dbResults = searchService.getResults(searchDTO);
 
                 if (dbResults.isEmpty()) {
                     return SearchUtil.getNoItemsFoundTableRow();

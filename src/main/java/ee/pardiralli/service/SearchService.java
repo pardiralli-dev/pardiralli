@@ -1,14 +1,14 @@
 package ee.pardiralli.service;
 
 import ee.pardiralli.domain.Duck;
-import ee.pardiralli.domain.Search;
+import ee.pardiralli.dto.SearchDTO;
 
 import java.util.List;
 
 public interface SearchService {
 
-    Search getLatestRaceSearchModel();
+    SearchDTO getLatestRaceSearchDTO();
 
-    List<Duck> getResults(Search userQuery);
+    List<Duck> getResults(SearchDTO userQuery);
 
 }

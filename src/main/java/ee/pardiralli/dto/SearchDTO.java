@@ -1,4 +1,4 @@
-package ee.pardiralli.domain;
+package ee.pardiralli.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,7 +13,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Search {
+public class SearchDTO {
 
     @Min(0)
     private Integer serialNumber;
@@ -34,12 +34,12 @@ public class Search {
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     private Date raceBeginningDate;
 
-    public Search(Date lastBeginningDate) {
+    public SearchDTO(Date lastBeginningDate) {
         this.raceBeginningDate = lastBeginningDate;
     }
 
     /**
-     * @return true if {@link Search} has only ID and date declared
+     * @return true if {@link SearchDTO} has only ID and date declared
      */
     public boolean hasOnlyIdAndDate() {
         return buyersEmail == null &&

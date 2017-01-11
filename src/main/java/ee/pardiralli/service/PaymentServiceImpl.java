@@ -60,11 +60,14 @@ public class PaymentServiceImpl implements PaymentService {
 
     private void checkRecipientID(ResponseModel responseModel, String expectedID) throws IllegalResponseException {
         if (!responseModel.getRecipientID().equals(expectedID)) {
-            throw new IllegalResponseException("Recipient ID is incorrect");
+            throw new IllegalResponseException(String.format("Recipient ID is incorrect, expected %s, got %s",
+                    expectedID, responseModel.getRecipientID()));
         }
     }
 
-    public void checkConsistency(Map<String, String> params, ResponseModel responseModel, boolean isSuccessfulResponse) throws IllegalResponseException, IllegalTransactionException {
+    @Override
+    public void checkConsistency(Map<String, String> params, ResponseModel responseModel, boolean isSuccessfulResponse)
+            throws IllegalResponseException, IllegalTransactionException {
         try {
             Objects.requireNonNull(responseModel.getServiceNumber());
             Objects.requireNonNull(responseModel.getCryptoAlgorithm());
@@ -95,7 +98,7 @@ public class PaymentServiceImpl implements PaymentService {
                 checkRecipientID(responseModel, SwedbankRequestModel.senderID);
                 break;
             default:
-                throw new AssertionError("Illegal bank value");
+                throw new AssertionError("Illegal bank value: " + responseModel.getBank());
         }
 
         int transactionID = Integer.parseInt(responseModel.getStamp());
@@ -105,7 +108,8 @@ public class PaymentServiceImpl implements PaymentService {
         }
 
         if (isSuccessfulResponse) {
-            try { //check additional parameters in case of response 1111
+            // check additional parameters in case of successful response
+            try {
                 Objects.requireNonNull(responseModel.getPaymentOrderNo());
                 Objects.requireNonNull(responseModel.getPaymentAmount());
                 Objects.requireNonNull(responseModel.getCurrency());
@@ -121,14 +125,16 @@ public class PaymentServiceImpl implements PaymentService {
             String actualPaymentAmount = this.transactionAmount(transactionID);
             String expectedPaymentAmount = responseModel.getPaymentAmount();
             if (!actualPaymentAmount.equals(expectedPaymentAmount)) {
-                throw new IllegalResponseException("Payments not equal");
+                throw new IllegalResponseException(String.format("Payments not equal, expected %s, got %s",
+                        expectedPaymentAmount, actualPaymentAmount));
             }
 
             ZonedDateTime responseTime = BanklinkUtils.dateTimeFromString(responseModel.getPaymentOrderDateTime());
             ZonedDateTime currentTime = BanklinkUtils.currentDateTime();
             Duration duration = Duration.ofMinutes(5);
             if (!responseTime.isBefore(currentTime.plus(duration)) && responseTime.isAfter(currentTime.minus(duration))) {
-                throw new IllegalResponseException("Response time out of limits");
+                throw new IllegalResponseException(String.format("Response time out of limits, current time is %s, response time was %s",
+                        currentTime, responseTime));
             }
 
         }

@@ -1,7 +1,7 @@
 package ee.pardiralli.util;
 
-import ee.pardiralli.domain.Feedback;
-import ee.pardiralli.domain.FeedbackType;
+import ee.pardiralli.feedback.Feedback;
+import ee.pardiralli.feedback.FeedbackType;
 import org.springframework.ui.Model;
 
 import java.time.ZoneId;

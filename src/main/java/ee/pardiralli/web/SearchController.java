@@ -1,7 +1,7 @@
 package ee.pardiralli.web;
 
 import ee.pardiralli.domain.Duck;
-import ee.pardiralli.domain.FeedbackType;
+import ee.pardiralli.feedback.FeedbackType;
 import ee.pardiralli.dto.SearchDTO;
 import ee.pardiralli.service.SearchService;
 import ee.pardiralli.util.ControllerUtil;

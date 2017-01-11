@@ -117,7 +117,7 @@
             <noscript>
                 <div class="alert alert-warning">JavaScript on keelatud, kuvatakse ainult esimesed 30 rida</div>
             </noscript>
-            <!--/*@thymesVar id="feedbackList" type="java.util.List<ee.pardiralli.domain.Feedback>"*/-->
+            <!--/*@thymesVar id="feedbackList" type="java.util.List<ee.pardiralli.feedback.Feedback>"*/-->
             <div th:each="feedback : ${feedbackList}">
                 <div class="alert" th:text="${feedback.getMessage()}" th:classappend="${feedback.getCssClass()}"></div>
             </div>

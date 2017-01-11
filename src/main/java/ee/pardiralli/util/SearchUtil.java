@@ -1,8 +1,8 @@
 package ee.pardiralli.util;
 
 import ee.pardiralli.domain.Duck;
-import ee.pardiralli.domain.Feedback;
-import ee.pardiralli.domain.FeedbackType;
+import ee.pardiralli.feedback.Feedback;
+import ee.pardiralli.feedback.FeedbackType;
 
 import java.util.Collections;
 import java.util.List;

@@ -1,7 +1,7 @@
 package ee.pardiralli.web;
 
 import ee.pardiralli.statistics.DonationChart;
-import ee.pardiralli.domain.FeedbackType;
+import ee.pardiralli.feedback.FeedbackType;
 import ee.pardiralli.dto.RaceDTO;
 import ee.pardiralli.service.RaceService;
 import ee.pardiralli.service.StatisticsService;

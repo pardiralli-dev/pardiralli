@@ -20,7 +20,7 @@
 
     <div th:replace="fragments/menu :: admin-menu"></div>
 
-    <!--/*@thymesVar id="feedbackList" type="java.util.List<ee.pardiralli.domain.Feedback>"*/-->
+    <!--/*@thymesVar id="feedbackList" type="java.util.List<ee.pardiralli.feedback.Feedback>"*/-->
     <div th:replace="fragments/feedback :: feedback-messages (feedbackList=${feedbackList})"></div>
 
     <!--/*@thymesVar id="donation" type="ee.pardiralli.dto.DonationFormDTO"*/-->

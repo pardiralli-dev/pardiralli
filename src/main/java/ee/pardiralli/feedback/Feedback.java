@@ -1,4 +1,4 @@
-package ee.pardiralli.domain;
+package ee.pardiralli.feedback;
 
 import lombok.Data;
 

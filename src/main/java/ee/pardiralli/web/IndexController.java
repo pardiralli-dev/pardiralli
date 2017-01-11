@@ -1,6 +1,6 @@
 package ee.pardiralli.web;
 
-import ee.pardiralli.domain.FeedbackType;
+import ee.pardiralli.feedback.FeedbackType;
 import ee.pardiralli.dto.DonationBoxDTO;
 import ee.pardiralli.dto.DonationFormDTO;
 import ee.pardiralli.util.ControllerUtil;

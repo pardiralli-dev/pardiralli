@@ -1,7 +1,7 @@
 package ee.pardiralli.web;
 
 
-import ee.pardiralli.domain.FeedbackType;
+import ee.pardiralli.feedback.FeedbackType;
 import ee.pardiralli.dto.InsertionDTO;
 import ee.pardiralli.service.InsertionService;
 import ee.pardiralli.util.ControllerUtil;

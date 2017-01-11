@@ -32,13 +32,7 @@ public class StatisticsServiceImpl implements StatisticsService {
     // 1. Races DO NOT overlap
     // 2. No race has a beginning date that is after or on the same day as the finish date
 
-    /**
-     * Picks the default dates for the donation chart. The default beginning and finish date are
-     * the beginning date and finish date of the last race.
-     *
-     * @return a list containing 1) a Calendar object with the beginning date set to the beginning
-     * date of the last race and  2) the finish date of the last race
-     */
+
     @Override
     public List<Object> getDefaultDates() {
         Calendar calendar = Calendar.getInstance();
@@ -49,15 +43,6 @@ public class StatisticsServiceImpl implements StatisticsService {
         return Arrays.asList(calendar, lastFinishDate);
     }
 
-
-    /**
-     * Creates data for the donation chart.
-     *
-     * @param calendar a Calendar object with the beginning date set to the start date of the chart
-     * @param endDate  end date of the chart
-     * @return a list of lists, each of which contains the following: a date, number of ducks sold on that day,
-     * amount of donations made on that day
-     */
     @Override
     public List<List<Object>> createDataByDates(Calendar calendar, Date endDate) {
         List<List<Object>> data = new ArrayList<>();
@@ -75,13 +60,6 @@ public class StatisticsServiceImpl implements StatisticsService {
         }
     }
 
-    /**
-     * Creates CSV file of data
-     *
-     * @param name       will be the name of the file
-     * @param exportFile is an object that holds the user's choices about what data they want to have
-     * @return the csv file that was created
-     */
     @Override
     public File createCSVFile(String name, ExportFile exportFile) throws FileNotFoundException {
         File CSVFile = new File(name);
@@ -111,11 +89,6 @@ public class StatisticsServiceImpl implements StatisticsService {
         return CSVFile;
     }
 
-    /**
-     * @param startDate the date from which onwards we want to have the data of
-     * @param endDate   the end date for the data we want to have
-     * @return how many ducks were sold in that period of time
-     */
     @Override
     public int getNoOfSoldDucks(Date startDate, Date endDate) {
         int sum = 0;
@@ -132,11 +105,6 @@ public class StatisticsServiceImpl implements StatisticsService {
         }
     }
 
-    /**
-     * @param startDate the start of the period of time we want to have the data of
-     * @param endDate   end of said time period
-     * @return sum of donations (in euros) made during this period of time
-     */
     @Override
     public double getAmountOfDonatedMoney(Date startDate, Date endDate) {
         double sum = 0;
@@ -154,13 +122,6 @@ public class StatisticsServiceImpl implements StatisticsService {
         }
     }
 
-
-    /**
-     * Creates data for the donation chart.
-     *
-     * @return a list of lists, each of which contains the following: a date, number of ducks sold on that day,
-     * amount of donations made on that day
-     */
     @Override
     public List<List<Object>> createDataByRace(Date startDate, Date endDate) {
         Calendar calendar = Calendar.getInstance();
@@ -171,8 +132,7 @@ public class StatisticsServiceImpl implements StatisticsService {
     @Override
     public List<Duck> getDucksByTimePeriod(Date startDate, Date endDate) {
         return IteratorUtils.toList(
-                duckRepository.findAll().iterator())
-                .stream()
+                duckRepository.findAll().iterator()).stream()
                 .filter(d -> d.getDateOfPurchase().after(startDate) && d.getDateOfPurchase().before(endDate) ||
                         d.getDateOfPurchase().equals(startDate) || d.getDateOfPurchase().equals(endDate))
                 .collect(Collectors.toList());

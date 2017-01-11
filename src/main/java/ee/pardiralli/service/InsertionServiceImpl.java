@@ -77,7 +77,7 @@ public class InsertionServiceImpl implements InsertionService {
     }
 
     @Override
-    public boolean OpenedRaceExists() {
+    public boolean existsOpenRace() {
         return raceRepository.countOpenedRaces() == 1;
     }
 }

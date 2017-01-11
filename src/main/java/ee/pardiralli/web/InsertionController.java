@@ -36,7 +36,7 @@ public class InsertionController {
                              BindingResult bindingResult,
                              Model model) {
 
-        if (!insertionService.OpenedRaceExists()) {
+        if (!insertionService.existsOpenRace()) {
             ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Ükski võistlus ei ole avatud!");
             model.addAttribute("manualAdd", insertionDTO);
             return "insert";

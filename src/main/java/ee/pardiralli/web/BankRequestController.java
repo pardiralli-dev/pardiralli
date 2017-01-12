@@ -4,7 +4,7 @@ import ee.pardiralli.banklink.*;
 import ee.pardiralli.dto.DonationFormDTO;
 import ee.pardiralli.exceptions.IllegalTransactionException;
 import ee.pardiralli.service.PaymentService;
-import ee.pardiralli.util.BanklinkUtils;
+import ee.pardiralli.util.BanklinkUtil;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -69,8 +69,8 @@ public class BankRequestController {
     private RequestModel createRequestModel(Integer tid, Bank bank) throws IllegalTransactionException {
         String amount = paymentService.transactionAmount(tid);
         String stamp = tid.toString();
-        String ref = BanklinkUtils.genPaymentReferenceNumber();
-        String description = BanklinkUtils.genPaymentDescription(tid);
+        String ref = BanklinkUtil.genPaymentReferenceNumber();
+        String description = BanklinkUtil.genPaymentDescription(tid);
         switch (bank) {
             case lhv:
                 return new LHVRequestModel(amount, stamp, ref, description);

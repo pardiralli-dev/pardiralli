@@ -4,7 +4,7 @@ package ee.pardiralli.service;
 import ee.pardiralli.configuration.MailConfiguration;
 import ee.pardiralli.domain.Duck;
 import ee.pardiralli.domain.DuckBuyer;
-import ee.pardiralli.util.BanklinkUtils;
+import ee.pardiralli.util.BanklinkUtil;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailAuthenticationException;
@@ -36,7 +36,7 @@ public class MailServiceImpl implements MailService {
     public Boolean sendConfirmationEmail(DuckBuyer duckBuyer, List<Duck> ducks) {
         final Context ctx = new Context();
         ctx.setVariable("ducks", ducks);
-        ctx.setVariable("total", BanklinkUtils.centsToEuros(
+        ctx.setVariable("total", BanklinkUtil.centsToEuros(
                 ducks.stream()
                         .map(Duck::getPriceCents)
                         .mapToInt(Integer::intValue).sum())

@@ -1,6 +1,6 @@
 package ee.pardiralli.domain;
 
-import ee.pardiralli.util.BanklinkUtils;
+import ee.pardiralli.util.BanklinkUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -64,7 +64,7 @@ public class Duck {
     }
 
     public String getPriceEuros(){
-        return BanklinkUtils.centsToEuros(priceCents);
+        return BanklinkUtil.centsToEuros(priceCents);
     }
 
 }

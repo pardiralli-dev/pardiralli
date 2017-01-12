@@ -10,7 +10,7 @@ import ee.pardiralli.exceptions.IllegalTransactionException;
 import ee.pardiralli.service.MailService;
 import ee.pardiralli.service.PaymentService;
 import ee.pardiralli.service.SerialNumberService;
-import ee.pardiralli.util.BanklinkUtils;
+import ee.pardiralli.util.BanklinkUtil;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -47,8 +47,8 @@ public class BankResponseController {
 
             Transaction transaction = paymentService.setTransactionPaid(tid);
             List<Duck> ducks = paymentService.setSerialNumbers(transaction);
-            List<DuckDTO> duckDTOs = BanklinkUtils.ducksToDTO(ducks);
-            DuckBuyer buyer = BanklinkUtils.buyerFromDucks(ducks);
+            List<DuckDTO> duckDTOs = BanklinkUtil.ducksToDTO(ducks);
+            DuckBuyer buyer = BanklinkUtil.buyerFromDucks(ducks);
             String totalSum = paymentService.transactionAmount(tid);
 
             mailService.sendConfirmationEmail(buyer, ducks); // TODO: 11/01/2017 check if email succeeded & notify if it didn't

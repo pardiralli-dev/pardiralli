@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class BanklinkUtils {
+public class BanklinkUtil {
 
     /**
      * @param unpaidDucks for whom payment is required
@@ -174,7 +174,7 @@ public class BanklinkUtils {
     }
 
     private static PrivateKey getPrivateKey(String filename) throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
-        try (InputStream keyStream = BanklinkUtils.class.getClassLoader().getResourceAsStream(filename)) {
+        try (InputStream keyStream = BanklinkUtil.class.getClassLoader().getResourceAsStream(filename)) {
             byte[] keyBytes = IOUtils.toByteArray(keyStream);
             PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(keyBytes);
             KeyFactory kf = KeyFactory.getInstance("RSA");
@@ -183,7 +183,7 @@ public class BanklinkUtils {
     }
 
     private static PublicKey getPublicKey(String filename) throws IOException, CertificateException {
-        try (InputStream keyStream = BanklinkUtils.class.getClassLoader().getResourceAsStream(filename)) {
+        try (InputStream keyStream = BanklinkUtil.class.getClassLoader().getResourceAsStream(filename)) {
             return CertificateFactory.getInstance("X.509").generateCertificate(keyStream).getPublicKey();
         }
     }

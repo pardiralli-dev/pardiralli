@@ -7,7 +7,7 @@ import ee.pardiralli.dto.DonationBoxDTO;
 import ee.pardiralli.dto.DonationFormDTO;
 import ee.pardiralli.exceptions.IllegalResponseException;
 import ee.pardiralli.exceptions.IllegalTransactionException;
-import ee.pardiralli.util.BanklinkUtils;
+import ee.pardiralli.util.BanklinkUtil;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -57,7 +57,7 @@ public class PaymentServiceImpl implements PaymentService {
             throw new IllegalTransactionException("No ducks associated with this transaction id: " + tid);
         }
 
-        return BanklinkUtils.calculatePaymentAmount(ducks);
+        return BanklinkUtil.calculatePaymentAmount(ducks);
     }
 
     private void checkRecipientID(ResponseModel responseModel, String expectedID) throws IllegalResponseException {
@@ -131,8 +131,8 @@ public class PaymentServiceImpl implements PaymentService {
                         expectedPaymentAmount, actualPaymentAmount));
             }
 
-            ZonedDateTime responseTime = BanklinkUtils.dateTimeFromString(responseModel.getPaymentOrderDateTime());
-            ZonedDateTime currentTime = BanklinkUtils.currentDateTime();
+            ZonedDateTime responseTime = BanklinkUtil.dateTimeFromString(responseModel.getPaymentOrderDateTime());
+            ZonedDateTime currentTime = BanklinkUtil.currentDateTime();
             Duration duration = Duration.ofMinutes(5);
             if (!responseTime.isBefore(currentTime.plus(duration)) && responseTime.isAfter(currentTime.minus(duration))) {
                 throw new IllegalResponseException(String.format("Response time out of limits, current time is %s, response time was %s",
@@ -145,7 +145,7 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public void checkSuccessfulResponseMAC(Map<String, String> params, Bank bank) throws IllegalResponseException {
         String filename = bank.toString() + "-cert.pem";
-        boolean isValidMAC = BanklinkUtils.isValidMAC(filename, params, true);
+        boolean isValidMAC = BanklinkUtil.isValidMAC(filename, params, true);
         if (!isValidMAC) {
             throw new IllegalResponseException("MAC signature is invalid");
         }
@@ -154,7 +154,7 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public void checkUnsuccessfulResponseMAC(Map<String, String> params, Bank bank) throws IllegalResponseException {
         String filename = bank.toString() + "-cert.pem";
-        boolean isValidMAC = BanklinkUtils.isValidMAC(filename, params, false);
+        boolean isValidMAC = BanklinkUtil.isValidMAC(filename, params, false);
         if (!isValidMAC) {
             throw new IllegalResponseException("MAC signature is invalid");
         }
@@ -187,8 +187,8 @@ public class PaymentServiceImpl implements PaymentService {
                 duck.setDuckBuyer(duckBuyer);
                 duck.setDuckOwner(duckOwner);
                 duck.setRace(race);
-                duck.setDateOfPurchase(BanklinkUtils.getCurrentDate());
-                duck.setTimeOfPurchase(BanklinkUtils.getCurrentTimeStamp());
+                duck.setDateOfPurchase(BanklinkUtil.getCurrentDate());
+                duck.setTimeOfPurchase(BanklinkUtil.getCurrentTimeStamp());
                 duck.setTransaction(transaction);
                 log.info("Saving " + duck);
                 duckRepository.save(duck);

@@ -1,6 +1,6 @@
 package ee.pardiralli.banklink;
 
-import ee.pardiralli.util.BanklinkUtils;
+import ee.pardiralli.util.BanklinkUtil;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,7 +24,7 @@ public class LHVRequestModel extends RequestModel {
     private String VK_MSG;
     private String VK_RETURN = String.format("https://pardiralli.herokuapp.com/banklink/%s/success", Bank.lhv);
     private String VK_CANCEL = String.format("https://pardiralli.herokuapp.com/banklink/%s/fail", Bank.lhv);
-    private String VK_DATETIME = BanklinkUtils.currentDateTimeAsString();
+    private String VK_DATETIME = BanklinkUtil.currentDateTimeAsString();
     private String VK_MAC;
     private String VK_ENCODING = "UTF-8";
     private String VK_LANG = "EST";
@@ -34,7 +34,7 @@ public class LHVRequestModel extends RequestModel {
         this.VK_STAMP = stamp;
         this.VK_REF = referenceNumber;
         this.VK_MSG = paymentDescription;
-        this.VK_MAC = BanklinkUtils.getMAC("lhv-private.der",
+        this.VK_MAC = BanklinkUtil.getMAC("lhv-private.der",
                 Arrays.asList(VK_SERVICE, VK_VERSION, VK_SND_ID, VK_STAMP, VK_AMOUNT, VK_CURR, VK_ACC, VK_NAME,
                         VK_REF, VK_MSG, VK_RETURN, VK_CANCEL, VK_DATETIME));
 

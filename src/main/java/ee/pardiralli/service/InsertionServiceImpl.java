@@ -3,7 +3,7 @@ package ee.pardiralli.service;
 import ee.pardiralli.db.*;
 import ee.pardiralli.domain.*;
 import ee.pardiralli.dto.InsertionDTO;
-import ee.pardiralli.util.BanklinkUtils;
+import ee.pardiralli.util.BanklinkUtil;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -60,18 +60,18 @@ public class InsertionServiceImpl implements InsertionService {
 
         Transaction transaction = new Transaction();
         transaction.setIsPaid(true);
-        transaction.setTimeOfPayment(BanklinkUtils.getCurrentTimeStamp());
+        transaction.setTimeOfPayment(BanklinkUtil.getCurrentTimeStamp());
         transaction = transactionRepository.save(transaction);
 
         for (int i = 0; i < insertionDTO.getNumberOfDucks(); i++) {
             Duck duck = new Duck();
-            duck.setDateOfPurchase(BanklinkUtils.getCurrentDate());
+            duck.setDateOfPurchase(BanklinkUtil.getCurrentDate());
             duck.setDuckBuyer(duckBuyer);
             duck.setDuckOwner(duckOwner);
             duck.setRace(race);
             duck.setTransaction(transaction);
             duck.setPriceCents(insertionDTO.getPriceOfOneDuck() * 100);
-            duck.setTimeOfPurchase(BanklinkUtils.getCurrentTimeStamp());
+            duck.setTimeOfPurchase(BanklinkUtil.getCurrentTimeStamp());
             duck.setSerialNumber(numberService.getSerial());
 
             log.info("Saving duck " + duck);

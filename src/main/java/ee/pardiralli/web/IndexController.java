@@ -21,13 +21,13 @@ public class IndexController {
     @GetMapping("/")
     public String donationForm(Model model) {
         model.addAttribute(DonationFormDTO.DONATION_VARIABLE_NAME, new DonationFormDTO());
-        return "donation-form";
+        return "donation/donation-form";
     }
 
     @PostMapping(value = "/", params = {"addBox"})
     public String donationFormAddBox(@ModelAttribute(DonationFormDTO.DONATION_VARIABLE_NAME) DonationFormDTO donation) {
         donation.getBoxes().add(new DonationBoxDTO());
-        return "donation-form";
+        return "donation/donation-form";
     }
 
     @PostMapping(value = "/", params = {"removeBox"})
@@ -35,9 +35,8 @@ public class IndexController {
                                         HttpServletRequest req) {
         int boxId = Integer.parseInt(req.getParameter("removeBox"));
         donation.getBoxes().remove(boxId);
-        return "donation-form";
+        return "donation/donation-form";
     }
-
 
     @PostMapping("/")
     public String donationFormSubmit(Model model, HttpServletRequest req,
@@ -48,7 +47,7 @@ public class IndexController {
         if (result.hasErrors()) {
             ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Vigased andmed!");
             model.addAttribute(DonationFormDTO.DONATION_VARIABLE_NAME, donation);
-            return "donation-form";
+            return "donation/donation-form";
         }
 
         Integer totalSum = donation.getBoxes().stream()
@@ -56,14 +55,12 @@ public class IndexController {
                 .mapToInt(Integer::intValue)
                 .sum();
 
-
         session.setAttribute("donation", donation);
 
         model.addAttribute("donation", donation);
         model.addAttribute("totalSum", totalSum);
 
-        return "donation-form-confirmation";
+        return "donation/donation-form-confirmation";
     }
-
 
 }

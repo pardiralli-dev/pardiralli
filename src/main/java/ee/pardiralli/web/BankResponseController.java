@@ -26,13 +26,11 @@ import java.util.Map;
 public class BankResponseController {
 
     private final PaymentService paymentService;
-    private final SerialNumberService numberService;
     private final MailService mailService;
 
     @Autowired
-    public BankResponseController(PaymentService paymentService, SerialNumberService numberService, MailService mailService) {
+    public BankResponseController(PaymentService paymentService, MailService mailService) {
         this.paymentService = paymentService;
-        this.numberService = numberService;
         this.mailService = mailService;
     }
 
@@ -57,9 +55,8 @@ public class BankResponseController {
             model.addAttribute("buyerEmail", buyer.getEmail());
             model.addAttribute("totalSum", totalSum);
             model.addAttribute("transactionID", tid);
-            return "after_paying";
-        }
-        catch(IllegalResponseException | IllegalTransactionException e){
+            return "donation/payment_successful";
+        } catch (IllegalResponseException | IllegalTransactionException e) {
             log.error("successResponse unsuccessful", e);
             return "general_error";
         }
@@ -72,9 +69,8 @@ public class BankResponseController {
             ResponseModel responseModel = getModelByBank(bank, params);
             paymentService.checkConsistency(params, responseModel, false);
             paymentService.checkUnsuccessfulResponseMAC(params, bank);
-            return "unsuccessful_payment";
-        }
-        catch(IllegalResponseException | IllegalTransactionException e){
+            return "donation/payment_fail";
+        } catch (IllegalResponseException | IllegalTransactionException e) {
             log.error("fail unsuccessful", e);
             return "general_error";
         }
@@ -100,6 +96,5 @@ public class BankResponseController {
         }
         return model;
     }
-
 
 }

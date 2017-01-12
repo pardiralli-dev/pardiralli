@@ -56,7 +56,7 @@ public class StatisticsController {
         Date endDateExp = new Date();
         model.addAttribute("exportFile", new ExportFile(false, false, startDateExp, endDateExp));
 
-        return "statistics";
+        return "admin/statistics";
     }
 
 

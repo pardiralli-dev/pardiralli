@@ -28,7 +28,7 @@ public class InsertionController {
     @GetMapping("/insert")
     public String getTemplate(Model model) {
         model.addAttribute("manualAdd", new InsertionDTO());
-        return "insert";
+        return "admin/insert";
     }
 
     @PostMapping("/owner")
@@ -39,10 +39,10 @@ public class InsertionController {
         if (!insertionService.existsOpenRace()) {
             ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Ükski võistlus ei ole avatud!");
             model.addAttribute("manualAdd", insertionDTO);
-            return "insert";
+            return "admin/insert";
         } else if (bindingResult.hasErrors()) {
             model.addAttribute("manualAdd", insertionDTO);
-            return "insert";
+            return "admin/insert";
         } else {
             Boolean success = insertionService.saveInsertion(insertionDTO);
             ControllerUtil.setFeedback(model, FeedbackType.SUCCESS, "Andmed edukalt sisestatud");
@@ -51,6 +51,6 @@ public class InsertionController {
             }
             model.addAttribute("manualAdd", new InsertionDTO());
         }
-        return "insert";
+        return "admin/insert";
     }
 }

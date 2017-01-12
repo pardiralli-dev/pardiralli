@@ -35,9 +35,8 @@ public class RaceController {
     @GetMapping("/settings")
     public String getTemplate(RaceDTO raceDTO, Model model) {
         model.addAttribute("races", raceService.getAllRacesAsDtos());
-        return "settings";
+        return "admin/settings";
     }
-
 
     @PostMapping("/settingschart")
     public
@@ -53,7 +52,6 @@ public class RaceController {
             return new DonationChart(new ArrayList<>());
         }
     }
-
 
     @PostMapping("/settings")
     public String updateExisting(RaceDTO raceDTO, BindingResult results, Model model) {
@@ -80,15 +78,13 @@ public class RaceController {
             }
         }
         model.addAttribute("races", raceService.getAllRacesAsDtos());
-        return "settings";
+        return "admin/settings";
     }
-
 
     private Boolean canManipulateRace(RaceDTO raceDTO) {
         return raceDTO.getId() != null && raceDTO.getIsOpen() != null && raceService.raceExists(raceDTO) &&
                 (raceService.hasNoOpenedRaces() && raceDTO.getIsOpen() || !raceDTO.getIsOpen());
     }
-
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {

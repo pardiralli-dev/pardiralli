@@ -36,7 +36,7 @@ public class SearchController {
     public String search(Model model) {
         model.addAttribute("search", searchService.getLatestRaceSearchDTO());
         model.addAttribute("result", Collections.emptyList());
-        return "search";
+        return "admin/search";
     }
 
     @PostMapping("/search")
@@ -46,9 +46,8 @@ public class SearchController {
         model.addAttribute("result", results);
         if (results.isEmpty())
             ControllerUtil.setFeedback(model, FeedbackType.INFO, "Päringule vastavaid parte ei leitud");
-        return "search";
+        return "admin/search";
     }
-
 
     @PostMapping("/search_async")
     public
@@ -95,11 +94,9 @@ public class SearchController {
         req.getSession().setAttribute("from", from);
         req.getSession().setAttribute("to", to);
 
-
         // Return table rows as list
         return SearchUtil.convertToResultsTable(SearchUtil.getResultsSubLst(dbResults, from, to));
     }
-
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {

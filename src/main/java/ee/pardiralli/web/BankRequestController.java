@@ -53,13 +53,13 @@ public class BankRequestController {
     private String getPaymentFormByBank(Bank bank) {
         switch (bank) {
             case lhv:
-                return "lhv_payment_form";
+                return "banklink/lhv_payment_form";
             case swedbank:
-                return "swedbank_payment_form";
+                return "banklink/swedbank_payment_form";
             case seb:
-                return "seb_payment_form";
+                return "banklink/seb_payment_form";
             case nordea:
-                return "nordea_payment_form";
+                return "banklink/nordea_payment_form";
             default:
                 log.error("Illegal bank value");
                 throw new IllegalArgumentException("bank: " + bank);

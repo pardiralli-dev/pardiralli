@@ -42,11 +42,13 @@ public class InsertionServiceImpl implements InsertionService {
 
 
     @Override
+    //TODO: will be void
     public Boolean saveInsertion(InsertionDTO insertionDTO) {
         log.info("Inserting ducks from " + insertionDTO);
         List<Duck> duckList = new ArrayList<>();
 
         Race race = raceRepository.findRaceByIsOpen(true);
+        //TODO: if null throw exception
 
         DuckBuyer duckBuyer = new DuckBuyer();
         duckBuyer.setEmail(insertionDTO.getBuyerEmail());
@@ -78,6 +80,7 @@ public class InsertionServiceImpl implements InsertionService {
             duckList.add(duckRepository.save(duck));
         }
 
+        //TODO: if false throw excpetion, also change controller
         Boolean sentMail = mailService.sendConfirmationEmail(duckBuyer, duckList);
         if (sentMail) {
             log.info("Confirmation email sent");

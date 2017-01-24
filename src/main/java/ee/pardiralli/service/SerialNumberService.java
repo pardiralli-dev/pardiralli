@@ -4,4 +4,6 @@ public interface SerialNumberService {
 
     Integer getSerial();
 
+    void resetSerial();
+
 }

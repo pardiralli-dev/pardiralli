@@ -8,6 +8,7 @@ import org.apache.commons.collections4.IteratorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,27 +18,33 @@ import java.util.stream.Collectors;
 public class RaceServiceImpl implements RaceService {
 
     private final RaceRepository raceRepository;
+    private final SerialNumberService serialNumberService;
 
     @Autowired
-    public RaceServiceImpl(RaceRepository raceRepository) {
+    public RaceServiceImpl(RaceRepository raceRepository, SerialNumberService serialNumberService) {
         this.raceRepository = raceRepository;
+        this.serialNumberService = serialNumberService;
     }
 
     @Override
     public Race updateRace(RaceDTO raceDTO) {
         Race fromDb = raceRepository.findOne(raceDTO.getId());
         fromDb.setIsOpen(raceDTO.getIsOpen());
-        return raceRepository.save(fromDb);
+        Race race = raceRepository.save(fromDb);
+        serialNumberService.resetSerial();
+        return race;
     }
 
     @Override
     public Race saveNewRace(RaceDTO raceDTO) {
-        return raceRepository.save(
-                new Race(new java.sql.Date(raceDTO.getBeginning().getTime()),
-                        new java.sql.Date(raceDTO.getFinish().getTime()),
+        Race race = raceRepository.save(
+                new Race(new Date(raceDTO.getBeginning().getTime()),
+                        new Date(raceDTO.getFinish().getTime()),
                         raceDTO.getRaceName(),
                         raceDTO.getDescription(),
                         raceDTO.getIsOpen()));
+        serialNumberService.resetSerial();
+        return race;
     }
 
     @Override
@@ -55,13 +62,13 @@ public class RaceServiceImpl implements RaceService {
         List<RaceDTO> races = IteratorUtils.toList(
                 raceRepository.findAll().iterator()).stream()
                 .map(r -> new RaceDTO(
-                                r.getId(),
-                                r.getBeginning(),
-                                r.getFinish(),
-                                r.getRaceName(),
-                                r.getDescription(),
-                                r.getIsOpen(),
-                                false))
+                        r.getId(),
+                        r.getBeginning(),
+                        r.getFinish(),
+                        r.getRaceName(),
+                        r.getDescription(),
+                        r.getIsOpen(),
+                        false))
                 .collect(Collectors.toList());
         Collections.sort(races);
         return races;

@@ -31,6 +31,13 @@ public class SerialNumberServiceImpl implements SerialNumberService {
         return serialCounter.incrementAndGet();
     }
 
+    @Override
+    public void resetSerial() {
+        log.info("Resetting serial counter...");
+        Integer lastSerial = maxSerial();
+        this.serialCounter = new AtomicInteger(lastSerial);
+    }
+
     private Integer maxSerial() {
         log.info("Finding last duck serial number...");
         Race currentRace = raceRepository.findRaceByIsOpen(true);

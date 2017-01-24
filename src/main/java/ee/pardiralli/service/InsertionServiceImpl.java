@@ -80,7 +80,7 @@ public class InsertionServiceImpl implements InsertionService {
             duckList.add(duckRepository.save(duck));
         }
 
-        //TODO: if false throw excpetion, also change controller
+        //TODO: if false throw excpetion, also change controller.
         Boolean sentMail = mailService.sendConfirmationEmail(duckBuyer, duckList);
         if (sentMail) {
             log.info("Confirmation email sent");

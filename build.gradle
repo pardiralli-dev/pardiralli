@@ -49,4 +49,5 @@ dependencies {
     compile group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '1.4.10'
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('org.seleniumhq.selenium:selenium-java:3.0.1')
+
 }

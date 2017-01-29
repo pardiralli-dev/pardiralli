@@ -25,7 +25,7 @@ public class SearchServiceImpl implements SearchService {
     }
 
     @Override
-    public List<Duck> getResults(SearchDTO userQuery) {
+    public List<Duck> findDucksByQuery(SearchDTO userQuery) {
         List<Duck> result;
 
         if (userQuery.hasOnlyIdAndDate()) {

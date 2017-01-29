@@ -1,10 +1,12 @@
 package ee.pardiralli.web;
 
 
-import ee.pardiralli.feedback.FeedbackType;
 import ee.pardiralli.dto.InsertionDTO;
+import ee.pardiralli.feedback.FeedbackType;
 import ee.pardiralli.service.InsertionService;
+import ee.pardiralli.service.RaceService;
 import ee.pardiralli.util.ControllerUtil;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,15 +17,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import javax.validation.Valid;
 
 @Controller
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class InsertionController {
-
     private final InsertionService insertionService;
-
-    @Autowired
-    public InsertionController(InsertionService insertionService) {
-        this.insertionService = insertionService;
-    }
-
+    private final RaceService raceService;
 
     @GetMapping("/insert")
     public String getTemplate(Model model) {
@@ -36,7 +33,7 @@ public class InsertionController {
                              BindingResult bindingResult,
                              Model model) {
 
-        if (!insertionService.existsOpenRace()) {
+        if (raceService.hasNoOpenedRaces()) {
             ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Ükski võistlus ei ole avatud!");
             model.addAttribute("manualAdd", insertionDTO);
             return "admin/insert";

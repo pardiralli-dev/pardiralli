@@ -11,5 +11,4 @@ public interface InsertionService {
      */
     Boolean saveInsertion(InsertionDTO insertionDTO);
 
-    boolean existsOpenRace();
 }

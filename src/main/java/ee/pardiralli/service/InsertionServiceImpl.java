@@ -74,9 +74,4 @@ public class InsertionServiceImpl implements InsertionService {
 
         return sentMail;
     }
-
-    @Override
-    public boolean existsOpenRace() {
-        return raceRepository.countOpenedRaces() == 1; // TODO: 11/01/2017 this should be done by RaceService
-    }
 }

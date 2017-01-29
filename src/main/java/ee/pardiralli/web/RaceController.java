@@ -34,7 +34,7 @@ public class RaceController {
 
     @GetMapping("/settings")
     public String getTemplate(RaceDTO raceDTO, Model model) {
-        model.addAttribute("races", raceService.getAllRacesAsDtos());
+        model.addAttribute("races", raceService.findAllRaces());
         return "admin/settings";
     }
 
@@ -77,7 +77,7 @@ public class RaceController {
                 ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Korraga saab olla avatud ainult üks Pardiralli!");
             }
         }
-        model.addAttribute("races", raceService.getAllRacesAsDtos());
+        model.addAttribute("races", raceService.findAllRaces());
         return "admin/settings";
     }
 

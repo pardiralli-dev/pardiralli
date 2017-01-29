@@ -55,7 +55,7 @@ public class RaceServiceImpl implements RaceService {
     }
 
     @Override
-    public List<RaceDTO> getAllRacesAsDtos() {
+    public List<RaceDTO> findAllRaces() {
         List<RaceDTO> races = IteratorUtils.toList(
                 raceRepository.findAll().iterator()).stream()
                 .map(r -> new RaceDTO(

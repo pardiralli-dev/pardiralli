@@ -27,7 +27,7 @@ public class RaceServiceImpl implements RaceService {
         fromDb.setIsOpen(dto.getIsOpen());
         Race race = raceRepository.save(fromDb);
         serialNumberService.resetSerial();
-        log.info("Race {} to {} was changed. Is it open: {}", dto.getBeginningAsString(), dto.getEndAsString(), dto.getIsOpen());
+        log.info("Race {} was changed", race.toString());
         return race;
     }
 
@@ -40,7 +40,7 @@ public class RaceServiceImpl implements RaceService {
                         dto.getDescription(),
                         dto.getIsOpen()));
         serialNumberService.resetSerial();
-        log.info("New race {} to {} was added.", dto.getBeginningAsString(), dto.getEndAsString());
+        log.info("New race {} was added.", race.toString());
         return race;
     }
 

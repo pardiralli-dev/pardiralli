@@ -7,23 +7,26 @@ import ee.pardiralli.domain.Transaction;
 import ee.pardiralli.dto.DuckDTO;
 import ee.pardiralli.exceptions.IllegalResponseException;
 import ee.pardiralli.exceptions.IllegalTransactionException;
+import ee.pardiralli.feedback.FeedbackType;
 import ee.pardiralli.service.MailService;
 import ee.pardiralli.service.PaymentService;
 import ee.pardiralli.util.BanklinkUtil;
+import ee.pardiralli.util.ControllerUtil;
 import lombok.AllArgsConstructor;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import java.util.List;
 import java.util.Map;
 
 @Controller
 @AllArgsConstructor(onConstructor = @__(@Autowired))
-@Log4j
+@Slf4j
 public class BankResponseController {
     private final PaymentService paymentService;
     private final MailService mailService;
@@ -43,7 +46,12 @@ public class BankResponseController {
             DuckBuyer buyer = BanklinkUtil.buyerFromDucks(ducks);
             String totalSum = paymentService.transactionAmount(tid);
 
-            mailService.sendConfirmationEmail(buyer, ducks); // TODO: 11/01/2017 check if email succeeded & notify if it didn't
+            try {
+                mailService.sendConfirmationEmail(buyer, ducks);
+            } catch (MessagingException e) {
+                log.error("Failed to send confirmation email to {}", buyer.getEmail());
+                ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Kinnitusmeili saatmine ebaõnnestus");
+            }
 
             model.addAttribute("purchasedItems", duckDTOs);
             model.addAttribute("buyerEmail", buyer.getEmail());

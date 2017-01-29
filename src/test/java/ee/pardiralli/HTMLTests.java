@@ -24,7 +24,7 @@ public class HTMLTests {
 
 
     @Test
-    public void formInputIdsArePresent() throws Exception {
+    public void insertFormTest() throws Exception {
         String page = this.restTemplate.getForObject("http://localhost:" + port + "/insert", String.class);
         assertTrue(page.contains("id=\"ownerFirstName\""));
         assertTrue(page.contains("id=\"ownerLastName\""));
@@ -37,7 +37,7 @@ public class HTMLTests {
 
 
     @Test
-    public void exactItemSearchIdsArePresent() throws Exception {
+    public void exactSearchFormTest() throws Exception {
         String page = this.restTemplate.getForObject("http://localhost:" + port + "/search", String.class);
         assertTrue(page.contains("id=\"search_quick_id\""));
         assertTrue(page.contains("id=\"search\""));
@@ -45,7 +45,7 @@ public class HTMLTests {
     }
 
     @Test
-    public void moreGeneralItemSearchIdsArePresent() throws Exception {
+    public void moreGeneralItemSearchFornTest() throws Exception {
         String page = this.restTemplate.getForObject("http://localhost:" + port + "/search", String.class);
         assertTrue(page.contains("id=\"search_long\""));
         assertTrue(page.contains("id=\"first_name_long\""));

@@ -9,8 +9,8 @@ import ee.pardiralli.exceptions.IllegalResponseException;
 import ee.pardiralli.exceptions.IllegalTransactionException;
 import ee.pardiralli.service.MailService;
 import ee.pardiralli.service.PaymentService;
-import ee.pardiralli.service.SerialNumberService;
 import ee.pardiralli.util.BanklinkUtil;
+import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,17 +22,11 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 @Log4j
 public class BankResponseController {
-
     private final PaymentService paymentService;
     private final MailService mailService;
-
-    @Autowired
-    public BankResponseController(PaymentService paymentService, MailService mailService) {
-        this.paymentService = paymentService;
-        this.mailService = mailService;
-    }
 
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST}, value = "/banklink/{bank}/success")
     @ResponseStatus(value = HttpStatus.OK)

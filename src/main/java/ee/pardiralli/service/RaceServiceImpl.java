@@ -3,6 +3,7 @@ package ee.pardiralli.service;
 import ee.pardiralli.db.RaceRepository;
 import ee.pardiralli.domain.Race;
 import ee.pardiralli.dto.RaceDTO;
+import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import org.apache.commons.collections4.IteratorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,17 +15,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 @Log4j
 public class RaceServiceImpl implements RaceService {
-
     private final RaceRepository raceRepository;
     private final SerialNumberService serialNumberService;
-
-    @Autowired
-    public RaceServiceImpl(RaceRepository raceRepository, SerialNumberService serialNumberService) {
-        this.raceRepository = raceRepository;
-        this.serialNumberService = serialNumberService;
-    }
 
     @Override
     public Race updateRace(RaceDTO raceDTO) {

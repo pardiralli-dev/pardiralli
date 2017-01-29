@@ -4,6 +4,7 @@ import ee.pardiralli.db.*;
 import ee.pardiralli.domain.*;
 import ee.pardiralli.dto.InsertionDTO;
 import ee.pardiralli.util.BanklinkUtil;
+import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,9 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 @Log4j
 public class InsertionServiceImpl implements InsertionService {
-
     private final DuckRepository duckRepository;
     private final RaceRepository raceRepository;
     private final OwnerRepository ownerRepository;
@@ -22,23 +23,6 @@ public class InsertionServiceImpl implements InsertionService {
     private final TransactionRepository transactionRepository;
     private final MailService mailService;
     private final SerialNumberService numberService;
-
-    @Autowired
-    public InsertionServiceImpl(DuckRepository duckRepository,
-                                RaceRepository raceRepository,
-                                OwnerRepository ownerRepository,
-                                BuyerRepository buyerRepository,
-                                TransactionRepository transactionRepository,
-                                MailService mailService, SerialNumberService numberService) {
-
-        this.duckRepository = duckRepository;
-        this.raceRepository = raceRepository;
-        this.ownerRepository = ownerRepository;
-        this.buyerRepository = buyerRepository;
-        this.transactionRepository = transactionRepository;
-        this.mailService = mailService;
-        this.numberService = numberService;
-    }
 
 
     @Override

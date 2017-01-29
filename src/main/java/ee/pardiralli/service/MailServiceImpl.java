@@ -5,6 +5,7 @@ import ee.pardiralli.configuration.MailConfiguration;
 import ee.pardiralli.domain.Duck;
 import ee.pardiralli.domain.DuckBuyer;
 import ee.pardiralli.util.BanklinkUtil;
+import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailAuthenticationException;
@@ -20,17 +21,11 @@ import javax.mail.internet.MimeMessage;
 import java.util.List;
 
 @Service
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 @Log4j
 public class MailServiceImpl implements MailService {
-
     private final SpringTemplateEngine templateEngine;
     private final MailConfiguration mailConfiguration;
-
-    @Autowired
-    public MailServiceImpl(SpringTemplateEngine templateEngine, MailConfiguration mailConfiguration) {
-        this.templateEngine = templateEngine;
-        this.mailConfiguration = mailConfiguration;
-    }
 
     @Override
     public Boolean sendConfirmationEmail(DuckBuyer duckBuyer, List<Duck> ducks) {

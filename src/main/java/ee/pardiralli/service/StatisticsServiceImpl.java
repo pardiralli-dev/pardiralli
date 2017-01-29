@@ -5,6 +5,7 @@ import ee.pardiralli.db.RaceRepository;
 import ee.pardiralli.domain.Duck;
 import ee.pardiralli.statistics.ExportFile;
 import ee.pardiralli.util.StatisticsUtil;
+import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.IteratorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,15 +18,11 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class StatisticsServiceImpl implements StatisticsService {
     private final DuckRepository duckRepository;
     private final RaceRepository raceRepository;
 
-    @Autowired
-    public StatisticsServiceImpl(DuckRepository duckRepository, RaceRepository raceRepository) {
-        this.duckRepository = duckRepository;
-        this.raceRepository = raceRepository;
-    }
 
     // TODO: should use java.time instead someday
     // IMPORTANT. This method presumes two constraints:

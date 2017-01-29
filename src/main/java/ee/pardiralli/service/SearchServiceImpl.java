@@ -4,6 +4,7 @@ import ee.pardiralli.db.DuckRepository;
 import ee.pardiralli.db.RaceRepository;
 import ee.pardiralli.domain.Duck;
 import ee.pardiralli.dto.SearchDTO;
+import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,17 +13,11 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 @Log4j
 public class SearchServiceImpl implements SearchService {
-
     private final DuckRepository duckRepository;
     private final RaceRepository raceRepository;
-
-    @Autowired
-    public SearchServiceImpl(DuckRepository duckRepository, RaceRepository raceRepository) {
-        this.duckRepository = duckRepository;
-        this.raceRepository = raceRepository;
-    }
 
     @Override
     public SearchDTO getLatestRaceSearchDTO() {
@@ -30,7 +25,7 @@ public class SearchServiceImpl implements SearchService {
     }
 
     @Override
-    public List<Duck> getResults(SearchDTO userQuery) {
+    public List<Duck> findDucksByQuery(SearchDTO userQuery) {
         List<Duck> result;
 
         if (userQuery.hasOnlyIdAndDate()) {

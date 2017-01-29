@@ -1,15 +1,15 @@
 package ee.pardiralli.service;
 
 import ee.pardiralli.dto.InsertionDTO;
+import ee.pardiralli.exceptions.RaceNotFoundException;
+
+import javax.mail.MessagingException;
 
 public interface InsertionService {
 
     /**
-     * Save manual insertion of ducks
-     *
-     * @return whether confirmation mail was sent successfully
+     * Save data provided by dto into the database
      */
-    Boolean saveInsertion(InsertionDTO insertionDTO);
+    void saveInsertion(InsertionDTO insertionDTO) throws RaceNotFoundException, MessagingException;
 
-    boolean existsOpenRace();
 }

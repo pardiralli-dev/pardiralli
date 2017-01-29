@@ -8,6 +8,7 @@ import ee.pardiralli.dto.DonationFormDTO;
 import ee.pardiralli.exceptions.IllegalResponseException;
 import ee.pardiralli.exceptions.IllegalTransactionException;
 import ee.pardiralli.util.BanklinkUtil;
+import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,26 +21,15 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 @Log4j
 public class PaymentServiceImpl implements PaymentService {
-
     private final DuckRepository duckRepository;
     private final TransactionRepository transactionRepository;
     private final OwnerRepository ownerRepository;
     private final BuyerRepository buyerRepository;
     private final RaceRepository raceRepository;
     private final SerialNumberService numberService;
-
-
-    @Autowired
-    public PaymentServiceImpl(DuckRepository duckRepository, TransactionRepository transactionRepository, OwnerRepository ownerRepository, BuyerRepository buyerRepository, RaceRepository raceRepository, SerialNumberService numberService) {
-        this.duckRepository = duckRepository;
-        this.transactionRepository = transactionRepository;
-        this.ownerRepository = ownerRepository;
-        this.buyerRepository = buyerRepository;
-        this.raceRepository = raceRepository;
-        this.numberService = numberService;
-    }
 
     @Override
     public String transactionAmount(Integer tid) throws IllegalTransactionException {

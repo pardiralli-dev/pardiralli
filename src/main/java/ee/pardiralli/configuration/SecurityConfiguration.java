@@ -27,7 +27,7 @@ public class SecurityConfiguration extends WebMvcConfigurerAdapter {
     @Override
     @Profile(value = {PardiralliApplication.MAIN_PROFILE})
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/login").setViewName("login");
+        registry.addViewController("/login").setViewName("admin/login");
     }
 
 

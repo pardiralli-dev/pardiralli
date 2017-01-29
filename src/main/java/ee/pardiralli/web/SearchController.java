@@ -6,6 +6,7 @@ import ee.pardiralli.dto.SearchDTO;
 import ee.pardiralli.service.SearchService;
 import ee.pardiralli.util.ControllerUtil;
 import ee.pardiralli.util.SearchUtil;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -22,15 +23,9 @@ import java.util.Date;
 import java.util.List;
 
 @Controller
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class SearchController {
-
     private final SearchService searchService;
-
-    @Autowired
-    public SearchController(SearchService searchService) {
-        this.searchService = searchService;
-    }
-
 
     @GetMapping("/search")
     public String search(Model model) {
@@ -42,7 +37,7 @@ public class SearchController {
     @PostMapping("/search")
     public String searchSubmit(@Valid SearchDTO userQuery, BindingResult bindingResult, Model model) {
         model.addAttribute("search", bindingResult.hasErrors() ? new SearchDTO() : searchService.getLatestRaceSearchDTO());
-        List<Duck> results = SearchUtil.getResultsSubLst(searchService.getResults(userQuery), 0, 30);
+        List<Duck> results = SearchUtil.getResultsSubLst(searchService.findDucksByQuery(userQuery), 0, 30);
         model.addAttribute("result", results);
         if (results.isEmpty())
             ControllerUtil.setFeedback(model, FeedbackType.INFO, "Päringule vastavaid parte ei leitud");
@@ -73,14 +68,14 @@ public class SearchController {
                 Object resultsObject = req.getSession().getAttribute("results");
                 from = fromObject == null ? 0 : (Integer) fromObject + 30;
                 to = toObject == null ? 30 : (Integer) toObject + 30;
-                dbResults = resultsObject != null ? (List) req.getSession().getAttribute("results") : searchService.getResults(searchDTO);
+                dbResults = resultsObject != null ? (List) req.getSession().getAttribute("results") : searchService.findDucksByQuery(searchDTO);
                 break;
 
             default:
                 from = 0;
                 to = 30;
 
-                dbResults = searchService.getResults(searchDTO);
+                dbResults = searchService.findDucksByQuery(searchDTO);
 
                 if (dbResults.isEmpty()) {
                     return SearchUtil.getNoItemsFoundTableRow();

@@ -35,6 +35,7 @@ public class EmailTest {
 
     @Before
     public void setup() {
+        System.out.println("TEST");
         // Prepare data
         // Note that method save returns object that has assigned ID.
         Race race = new Race(today, today, "s", "some", true);

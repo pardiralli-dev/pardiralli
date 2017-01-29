@@ -5,6 +5,7 @@ import ee.pardiralli.dto.DonationFormDTO;
 import ee.pardiralli.exceptions.IllegalTransactionException;
 import ee.pardiralli.service.PaymentService;
 import ee.pardiralli.util.BanklinkUtil;
+import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,21 +19,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Controller
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 @Log4j
 public class BankRequestController {
-
     private final PaymentService paymentService;
-
-    @Autowired
-    public BankRequestController(PaymentService paymentService) {
-        this.paymentService = paymentService;
-    }
 
     @GetMapping("/banklink/{bank}/pay")
     @ResponseStatus(value = HttpStatus.OK)
     public String paymentForm(Model model, HttpServletRequest req, @PathVariable Bank bank, HttpSession session) {
         Object donationObj = session.getAttribute("donation");
-        if(donationObj == null){
+        if (donationObj == null) {
             log.error("donationObj is null");
             return "general_error";
         }

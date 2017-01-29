@@ -17,9 +17,18 @@ public interface RaceService {
      */
     Race saveNewRace(RaceDTO raceDTO);
 
+    /**
+     * @return <code>true</code> if no opened race exists, else <code>false</code>
+     */
     boolean hasNoOpenedRaces();
 
+    /**
+     * @return <code>true</code> if exists a Race that matches to input dto else <code>false</code>
+     */
     boolean raceExists(RaceDTO raceDTO);
 
-    List<RaceDTO> getAllRacesAsDtos();
+    /**
+     * Find and return all {@link RaceDTO} from the database
+     */
+    List<RaceDTO> findAllRaces();
 }

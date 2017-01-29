@@ -5,6 +5,7 @@ import ee.pardiralli.configuration.MailConfiguration;
 import ee.pardiralli.domain.Duck;
 import ee.pardiralli.domain.DuckBuyer;
 import ee.pardiralli.util.BanklinkUtil;
+import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailAuthenticationException;
@@ -20,20 +21,14 @@ import javax.mail.internet.MimeMessage;
 import java.util.List;
 
 @Service
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 @Log4j
 public class MailServiceImpl implements MailService {
-
     private final SpringTemplateEngine templateEngine;
     private final MailConfiguration mailConfiguration;
 
-    @Autowired
-    public MailServiceImpl(SpringTemplateEngine templateEngine, MailConfiguration mailConfiguration) {
-        this.templateEngine = templateEngine;
-        this.mailConfiguration = mailConfiguration;
-    }
-
     @Override
-    public Boolean sendConfirmationEmail(DuckBuyer duckBuyer, List<Duck> ducks) {
+    public void sendConfirmationEmail(DuckBuyer duckBuyer, List<Duck> ducks) throws MessagingException {
         final Context ctx = new Context();
         ctx.setVariable("ducks", ducks);
         ctx.setVariable("total", BanklinkUtil.centsToEuros(
@@ -55,9 +50,7 @@ public class MailServiceImpl implements MailService {
             sender.send(message);
         } catch (MessagingException | MailAuthenticationException | MailSendException e) {
             log.error("Exception occurred while sending the confirmation email", e);
-            return false;
+            throw e;
         }
-
-        return true;
     }
 }

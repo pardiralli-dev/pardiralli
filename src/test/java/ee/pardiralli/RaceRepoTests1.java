@@ -20,7 +20,7 @@ import java.util.List;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(locations = "classpath:test.properties")
 @RunWith(SpringRunner.class)
-public class RaceOpeningTests {
+public class RaceRepoTests1 {
     private final int trueCount = 6;
     private final int falseCount = 10;
     private final Date today = new Date(System.currentTimeMillis());

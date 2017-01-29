@@ -1,12 +1,13 @@
 package ee.pardiralli.web;
 
-import ee.pardiralli.statistics.DonationChart;
-import ee.pardiralli.feedback.FeedbackType;
 import ee.pardiralli.dto.RaceDTO;
+import ee.pardiralli.feedback.FeedbackType;
 import ee.pardiralli.service.RaceService;
 import ee.pardiralli.service.StatisticsService;
+import ee.pardiralli.statistics.DonationChart;
 import ee.pardiralli.util.ControllerUtil;
 import ee.pardiralli.util.RaceUtil;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -21,20 +22,14 @@ import java.util.ArrayList;
 import java.util.Date;
 
 @Controller
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class RaceController {
-
     private final RaceService raceService;
     private final StatisticsService statisticsService;
 
-    @Autowired
-    public RaceController(RaceService raceService, StatisticsService statisticsService) {
-        this.raceService = raceService;
-        this.statisticsService = statisticsService;
-    }
-
     @GetMapping("/settings")
     public String getTemplate(RaceDTO raceDTO, Model model) {
-        model.addAttribute("races", raceService.getAllRacesAsDtos());
+        model.addAttribute("races", raceService.findAllRaces());
         return "admin/settings";
     }
 
@@ -77,7 +72,7 @@ public class RaceController {
                 ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Korraga saab olla avatud ainult üks Pardiralli!");
             }
         }
-        model.addAttribute("races", raceService.getAllRacesAsDtos());
+        model.addAttribute("races", raceService.findAllRaces());
         return "admin/settings";
     }
 

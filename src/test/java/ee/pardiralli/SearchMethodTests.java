@@ -27,7 +27,7 @@ import static junit.framework.TestCase.assertTrue;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(locations = "classpath:test.properties")
 @RunWith(SpringRunner.class)
-public class DuckRepoTests {
+public class SearchMethodTests {
     private Duck duck1;
     private Duck duck2;
     private Duck duck3;

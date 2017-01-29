@@ -1,9 +1,10 @@
 package ee.pardiralli.web;
 
+import ee.pardiralli.service.StatisticsService;
 import ee.pardiralli.statistics.DonationChart;
 import ee.pardiralli.statistics.ExportFile;
 import ee.pardiralli.statistics.Statistics;
-import ee.pardiralli.service.StatisticsService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -29,14 +30,9 @@ import java.util.Date;
 import java.util.List;
 
 @Controller
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class StatisticsController {
-
     private final StatisticsService statisticsService;
-
-    @Autowired
-    public StatisticsController(StatisticsService statisticsService) {
-        this.statisticsService = statisticsService;
-    }
 
 
     @GetMapping("/statistics")

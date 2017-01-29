@@ -25,7 +25,7 @@ import static junit.framework.TestCase.assertTrue;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(locations = "classpath:test.properties")
 @RunWith(SpringRunner.class)
-public class RaceRepoTests {
+public class RaceRepoTests2 {
     private Race race1;
     private Race race2;
     private Race race3;
@@ -39,7 +39,6 @@ public class RaceRepoTests {
 
     @PersistenceContext
     private EntityManager entityManager;
-
 
     @Before
     public void setup() throws Exception {
@@ -68,7 +67,6 @@ public class RaceRepoTests {
     public void findLastTests() throws Exception {
         assertEquals(this.raceRepository.findLastBeginningDate(), race2.getBeginning());
         assertEquals(this.raceRepository.findLastFinishDate(), race1.getFinish());
-
     }
 
     @Test
@@ -78,7 +76,5 @@ public class RaceRepoTests {
 
         List<Race> findByFinishList = this.raceRepository.findByFinish(new java.sql.Date(finish2.getTime()));
         assertTrue(findByFinishList.size() == 2 && findByFinishList.contains(race2) && findByBeginningList.contains(race3));
-
     }
-
 }

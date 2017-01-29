@@ -3,6 +3,7 @@ package ee.pardiralli.service;
 import ee.pardiralli.domain.Duck;
 import ee.pardiralli.domain.DuckBuyer;
 
+import javax.mail.MessagingException;
 import java.util.List;
 
 public interface MailService {
@@ -13,9 +14,8 @@ public interface MailService {
      *
      * @param duckBuyer buyer whose email address will be used
      * @param ducks     whose info will be sent in the email
-     * @return true iff message was sent successfully
      */
-    Boolean sendConfirmationEmail(DuckBuyer duckBuyer, List<Duck> ducks);
+    void sendConfirmationEmail(DuckBuyer duckBuyer, List<Duck> ducks) throws MessagingException;
 
 }
 

@@ -3,7 +3,8 @@ package ee.pardiralli.service;
 import ee.pardiralli.db.RaceRepository;
 import ee.pardiralli.domain.Race;
 import ee.pardiralli.dto.RaceDTO;
-import lombok.extern.log4j.Log4j;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.IteratorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,36 +15,32 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@Log4j
+@AllArgsConstructor(onConstructor = @__(@Autowired))
+@Slf4j
 public class RaceServiceImpl implements RaceService {
-
     private final RaceRepository raceRepository;
     private final SerialNumberService serialNumberService;
 
-    @Autowired
-    public RaceServiceImpl(RaceRepository raceRepository, SerialNumberService serialNumberService) {
-        this.raceRepository = raceRepository;
-        this.serialNumberService = serialNumberService;
-    }
-
     @Override
-    public Race updateRace(RaceDTO raceDTO) {
-        Race fromDb = raceRepository.findOne(raceDTO.getId());
-        fromDb.setIsOpen(raceDTO.getIsOpen());
+    public Race updateRace(RaceDTO dto) {
+        Race fromDb = raceRepository.findOne(dto.getId());
+        fromDb.setIsOpen(dto.getIsOpen());
         Race race = raceRepository.save(fromDb);
         serialNumberService.resetSerial();
+        log.info("Race {} was changed", race.toString());
         return race;
     }
 
     @Override
-    public Race saveNewRace(RaceDTO raceDTO) {
+    public Race saveNewRace(RaceDTO dto) {
         Race race = raceRepository.save(
-                new Race(new Date(raceDTO.getBeginning().getTime()),
-                        new Date(raceDTO.getFinish().getTime()),
-                        raceDTO.getRaceName(),
-                        raceDTO.getDescription(),
-                        raceDTO.getIsOpen()));
+                new Race(new Date(dto.getBeginning().getTime()),
+                        new Date(dto.getFinish().getTime()),
+                        dto.getRaceName(),
+                        dto.getDescription(),
+                        dto.getIsOpen()));
         serialNumberService.resetSerial();
+        log.info("New race {} was added.", race.toString());
         return race;
     }
 
@@ -58,7 +55,7 @@ public class RaceServiceImpl implements RaceService {
     }
 
     @Override
-    public List<RaceDTO> getAllRacesAsDtos() {
+    public List<RaceDTO> findAllRaces() {
         List<RaceDTO> races = IteratorUtils.toList(
                 raceRepository.findAll().iterator()).stream()
                 .map(r -> new RaceDTO(

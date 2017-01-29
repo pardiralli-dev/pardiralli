@@ -4,7 +4,7 @@ import ee.pardiralli.db.RaceRepository;
 import ee.pardiralli.domain.Race;
 import ee.pardiralli.dto.RaceDTO;
 import lombok.AllArgsConstructor;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.IteratorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,29 +16,31 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
-@Log4j
+@Slf4j
 public class RaceServiceImpl implements RaceService {
     private final RaceRepository raceRepository;
     private final SerialNumberService serialNumberService;
 
     @Override
-    public Race updateRace(RaceDTO raceDTO) {
-        Race fromDb = raceRepository.findOne(raceDTO.getId());
-        fromDb.setIsOpen(raceDTO.getIsOpen());
+    public Race updateRace(RaceDTO dto) {
+        Race fromDb = raceRepository.findOne(dto.getId());
+        fromDb.setIsOpen(dto.getIsOpen());
         Race race = raceRepository.save(fromDb);
         serialNumberService.resetSerial();
+        log.info("Race {} to {} was changed. Is it open: {}", dto.getBeginningAsString(), dto.getEndAsString(), dto.getIsOpen());
         return race;
     }
 
     @Override
-    public Race saveNewRace(RaceDTO raceDTO) {
+    public Race saveNewRace(RaceDTO dto) {
         Race race = raceRepository.save(
-                new Race(new Date(raceDTO.getBeginning().getTime()),
-                        new Date(raceDTO.getFinish().getTime()),
-                        raceDTO.getRaceName(),
-                        raceDTO.getDescription(),
-                        raceDTO.getIsOpen()));
+                new Race(new Date(dto.getBeginning().getTime()),
+                        new Date(dto.getFinish().getTime()),
+                        dto.getRaceName(),
+                        dto.getDescription(),
+                        dto.getIsOpen()));
         serialNumberService.resetSerial();
+        log.info("New race {} to {} was added.", dto.getBeginningAsString(), dto.getEndAsString());
         return race;
     }
 

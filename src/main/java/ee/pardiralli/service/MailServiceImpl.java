@@ -28,7 +28,7 @@ public class MailServiceImpl implements MailService {
     private final MailConfiguration mailConfiguration;
 
     @Override
-    public Boolean sendConfirmationEmail(DuckBuyer duckBuyer, List<Duck> ducks) {
+    public void sendConfirmationEmail(DuckBuyer duckBuyer, List<Duck> ducks) throws MessagingException {
         final Context ctx = new Context();
         ctx.setVariable("ducks", ducks);
         ctx.setVariable("total", BanklinkUtil.centsToEuros(
@@ -50,9 +50,7 @@ public class MailServiceImpl implements MailService {
             sender.send(message);
         } catch (MessagingException | MailAuthenticationException | MailSendException e) {
             log.error("Exception occurred while sending the confirmation email", e);
-            return false;
+            throw e;
         }
-
-        return true;
     }
 }

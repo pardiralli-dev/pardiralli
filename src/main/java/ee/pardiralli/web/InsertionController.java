@@ -2,29 +2,33 @@ package ee.pardiralli.web;
 
 
 import ee.pardiralli.dto.InsertionDTO;
+import ee.pardiralli.exceptions.RaceNotFoundException;
 import ee.pardiralli.feedback.FeedbackType;
 import ee.pardiralli.service.InsertionService;
 import ee.pardiralli.service.RaceService;
 import ee.pardiralli.util.ControllerUtil;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
 
 @Controller
 @AllArgsConstructor(onConstructor = @__(@Autowired))
+@Slf4j
 public class InsertionController {
     private final InsertionService insertionService;
     private final RaceService raceService;
 
     @GetMapping("/insert")
-    public String getTemplate(Model model) {
-        model.addAttribute("manualAdd", new InsertionDTO());
+    public String getTemplate(@ModelAttribute("manualAdd") InsertionDTO dto) {
         return "admin/insert";
     }
 
@@ -36,14 +40,16 @@ public class InsertionController {
         if (raceService.hasNoOpenedRaces()) {
             ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Ükski võistlus ei ole avatud!");
             model.addAttribute("manualAdd", insertionDTO);
-            return "admin/insert";
         } else if (bindingResult.hasErrors()) {
             model.addAttribute("manualAdd", insertionDTO);
-            return "admin/insert";
         } else {
-            Boolean success = insertionService.saveInsertion(insertionDTO);
-            ControllerUtil.setFeedback(model, FeedbackType.SUCCESS, "Andmed edukalt sisestatud");
-            if (!success) {
+            try {
+                insertionService.saveInsertion(insertionDTO);
+                ControllerUtil.setFeedback(model, FeedbackType.SUCCESS, "Andmed edukalt sisestatud");
+            } catch (RaceNotFoundException e) {
+                ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Võistlust ei leitud!");
+            } catch (MessagingException e) {
+                log.error("Failed to send confirmation email to {}", insertionDTO.getBuyerEmail());
                 ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Kinnitusmeili saatmine ebaõnnestus");
             }
             model.addAttribute("manualAdd", new InsertionDTO());

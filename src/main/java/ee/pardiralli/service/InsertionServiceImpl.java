@@ -3,18 +3,20 @@ package ee.pardiralli.service;
 import ee.pardiralli.db.*;
 import ee.pardiralli.domain.*;
 import ee.pardiralli.dto.InsertionDTO;
+import ee.pardiralli.exceptions.RaceNotFoundException;
 import ee.pardiralli.util.BanklinkUtil;
 import lombok.AllArgsConstructor;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
-@Log4j
+@Slf4j
 public class InsertionServiceImpl implements InsertionService {
     private final DuckRepository duckRepository;
     private final RaceRepository raceRepository;
@@ -24,14 +26,13 @@ public class InsertionServiceImpl implements InsertionService {
     private final MailService mailService;
     private final SerialNumberService numberService;
 
-
     @Override
-    //TODO: will be void
-    public Boolean saveInsertion(InsertionDTO insertionDTO) {
-        log.info("Inserting ducks from " + insertionDTO);
+    public void saveInsertion(InsertionDTO insertionDTO) throws RaceNotFoundException, MessagingException {
+        log.info("Inserting ducks from {}", insertionDTO.toString());
         List<Duck> duckList = new ArrayList<>();
 
         Race race = raceRepository.findRaceByIsOpen(true);
+        if (race == null) throw new RaceNotFoundException();
         //TODO: if null throw exception
 
         DuckBuyer duckBuyer = new DuckBuyer();
@@ -60,18 +61,11 @@ public class InsertionServiceImpl implements InsertionService {
             duck.setTimeOfPurchase(BanklinkUtil.getCurrentTimeStamp());
             duck.setSerialNumber(numberService.getSerial());
 
-            log.info("Saving duck " + duck);
+            log.info("Saving duck {}", duck.toString());
             duckList.add(duckRepository.save(duck));
         }
 
-        //TODO: if false throw excpetion, also change controller.
-        Boolean sentMail = mailService.sendConfirmationEmail(duckBuyer, duckList);
-        if (sentMail) {
-            log.info("Confirmation email sent");
-        } else {
-            log.error("Failed to send confirmation email");
-        }
-
-        return sentMail;
+        mailService.sendConfirmationEmail(duckBuyer, duckList);
+        log.info("Confirmation email sent");
     }
 }

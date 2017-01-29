@@ -40,7 +40,6 @@ public class RaceRepoTests2 {
     @PersistenceContext
     private EntityManager entityManager;
 
-
     @Before
     public void setup() throws Exception {
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");

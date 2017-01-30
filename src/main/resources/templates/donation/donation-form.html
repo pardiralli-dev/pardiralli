@@ -43,30 +43,33 @@
                         <div class="box-content-stretch">
                             <div class="box-content">
                                 <h3 class="duck-owner-heading">Pardiomanik</h3>
-                                <div class="input-group">
+                                <div class="input-group" th:classappend="${#fields.hasErrors('boxes[__${boxStat.index}__].ownerFirstName')} ? 'has-error has-feedback'">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                                     <input th:field="*{boxes[__${boxStat.index}__].ownerFirstName}"
                                            class="form-control box-input"
                                            type="text"
                                            placeholder="Eesnimi"/>
+                                    <span th:if="${#fields.hasErrors('boxes[__${boxStat.index}__].ownerFirstName')}" class="glyphicon glyphicon-remove form-control-feedback"></span>
                                 </div>
-                                <div class="input-group">
+                                <div class="input-group" th:classappend="${#fields.hasErrors('boxes[__${boxStat.index}__].ownerLastName')} ? 'has-error has-feedback'">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                                     <input th:field="*{boxes[__${boxStat.index}__].ownerLastName}"
                                            class="form-control box-input"
                                            type="text"
                                            placeholder="Perekonnanimi"/>
+                                    <span th:if="${#fields.hasErrors('boxes[__${boxStat.index}__].ownerLastName')}" class="glyphicon glyphicon-remove form-control-feedback"></span>
                                 </div>
 
-                                <div class="input-group">
+                                <div class="input-group" th:classappend="${#fields.hasErrors('boxes[__${boxStat.index}__].ownerPhone')} ? 'has-error has-feedback'">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
                                     <input th:field="*{boxes[__${boxStat.index}__].ownerPhone}"
                                            class="form-control box-input"
                                            type="text"
                                            placeholder="Telefoninumber"/>
+                                    <span th:if="${#fields.hasErrors('boxes[__${boxStat.index}__].ownerPhone')}" class="glyphicon glyphicon-remove form-control-feedback"></span>
                                 </div>
 
-                                <div class="input-group">
+                                <div class="input-group" th:classappend="${#fields.hasErrors('boxes[__${boxStat.index}__].duckQuantity')} ? 'has-error has-feedback'">
                                     <label class="col-sm-8 control-label main-box-form-label">Partide arv:</label>
                                     <div class="col-sm-4 zero-right-padding">
                                         <input th:field="*{boxes[__${boxStat.index}__].duckQuantity}"
@@ -75,10 +78,11 @@
                                                type="number"
                                                min="1" max="1000"
                                                placeholder="1"/>
+                                        <span th:if="${#fields.hasErrors('boxes[__${boxStat.index}__].duckQuantity')}" class="glyphicon glyphicon-remove form-control-feedback"></span>
                                     </div>
                                 </div>
 
-                                <div class="input-group">
+                                <div class="input-group" th:classappend="${#fields.hasErrors('boxes[__${boxStat.index}__].duckPrice')} ? 'has-error has-feedback'">
                                     <label class="col-sm-8 control-label main-box-form-label" style="color:#193a80;">Ühe
                                         pardi hind:</label>
                                     <div class="col-sm-4 zero-right-padding">
@@ -88,9 +92,9 @@
                                                type="number"
                                                min="5" max="1000" step="5"
                                                placeholder="5"/>
+                                        <span th:if="${#fields.hasErrors('boxes[__${boxStat.index}__].duckPrice')}" class="glyphicon glyphicon-remove form-control-feedback"></span>
                                     </div>
                                 </div>
-
 
                             </div>
                         </div>
@@ -114,30 +118,33 @@
                         <div class="box-content-stretch">
                             <div class="box-content">
                                 <h3 class="duck-owner-heading">Pardiomanik</h3>
-                                <div class="input-group">
+                                <div class="input-group" th:classappend="${#fields.hasErrors('boxes[__${boxStat.index}__].ownerFirstName')} ? 'has-error has-feedback'">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                                     <input th:field="*{boxes[__${boxStat.index}__].ownerFirstName}"
                                            class="form-control box-input"
                                            type="text"
                                            placeholder="Eesnimi"/>
+                                    <span th:if="${#fields.hasErrors('boxes[__${boxStat.index}__].ownerFirstName')}" class="glyphicon glyphicon-remove form-control-feedback"></span>
                                 </div>
-                                <div class="input-group">
+                                <div class="input-group" th:classappend="${#fields.hasErrors('boxes[__${boxStat.index}__].ownerLastName')} ? 'has-error has-feedback'">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                                     <input th:field="*{boxes[__${boxStat.index}__].ownerLastName}"
                                            class="form-control box-input"
                                            type="text"
                                            placeholder="Perekonnanimi"/>
+                                    <span th:if="${#fields.hasErrors('boxes[__${boxStat.index}__].ownerLastName')}" class="glyphicon glyphicon-remove form-control-feedback"></span>
                                 </div>
 
-                                <div class="input-group">
+                                <div class="input-group" th:classappend="${#fields.hasErrors('boxes[__${boxStat.index}__].ownerPhone')} ? 'has-error has-feedback'">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
                                     <input th:field="*{boxes[__${boxStat.index}__].ownerPhone}"
                                            class="form-control box-input"
                                            type="text"
                                            placeholder="Telefoninumber"/>
+                                    <span th:if="${#fields.hasErrors('boxes[__${boxStat.index}__].ownerPhone')}" class="glyphicon glyphicon-remove form-control-feedback"></span>
                                 </div>
 
-                                <div class="input-group">
+                                <div class="input-group" th:classappend="${#fields.hasErrors('boxes[__${boxStat.index}__].duckQuantity')} ? 'has-error has-feedback'">
                                     <label class="col-sm-8 control-label main-box-form-label">Partide arv:</label>
                                     <div class="col-sm-4 zero-right-padding">
                                         <input th:field="*{boxes[__${boxStat.index}__].duckQuantity}"
@@ -146,10 +153,11 @@
                                                type="number"
                                                min="1" max="1000"
                                                placeholder="1"/>
+                                        <span th:if="${#fields.hasErrors('boxes[__${boxStat.index}__].duckQuantity')}" class="glyphicon glyphicon-remove form-control-feedback"></span>
                                     </div>
                                 </div>
 
-                                <div class="input-group">
+                                <div class="input-group" th:classappend="${#fields.hasErrors('boxes[__${boxStat.index}__].duckPrice')} ? 'has-error has-feedback'">
                                     <label class="col-sm-8 control-label main-box-form-label">Ühe pardi hind:</label>
                                     <div class="col-sm-4 zero-right-padding">
                                         <input th:field="*{boxes[__${boxStat.index}__].duckPrice}"
@@ -158,6 +166,7 @@
                                                type="number"
                                                min="5" max="1000" step="5"
                                                placeholder="5"/>
+                                        <span th:if="${#fields.hasErrors('boxes[__${boxStat.index}__].duckPrice')}" class="glyphicon glyphicon-remove form-control-feedback"></span>
                                     </div>
                                 </div>
                             </div>
@@ -175,16 +184,17 @@
                     <div class="box-content-stretch">
                         <div class="box-content">
                             <h3 class="duck-owner-heading">Maksja andmed</h3>
-                            <div class="input-group">
+                            <div class="input-group" th:classappend="${#fields.hasErrors('buyerEmail')} ? 'has-error has-feedback'">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-                                <input th:field="${donation.buyerEmail}"
+                                <input th:field="*{buyerEmail}"
                                        class="form-control box-input"
                                        type="text"
                                        placeholder="E-mail"/>
+                                <span th:if="${#fields.hasErrors('buyerEmail')}" class="glyphicon glyphicon-remove form-control-feedback"></span>
                             </div>
                             <div class="form-check">
-                                <label class="form-check-label">
-                                    <input class="terms-check" type="checkbox" value=""/>
+                                <label class="form-check-label" th:classappend="${#fields.hasErrors('accepts')} ? 'invalid-accept-checkbox'">
+                                    <input class="terms-check" th:field="*{accepts}" type="checkbox"/>
                                     Nõustun kasutustingimustega
                                 </label>
                             </div>
@@ -221,17 +231,18 @@
                     <div class="box-content-stretch">
                         <div class="box-content">
                             <h3 class="duck-owner-heading">Maksja andmed</h3>
-                            <div class="input-group">
+                            <div class="input-group" th:classappend="${#fields.hasErrors('buyerEmail')} ? 'has-error has-feedback'">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-                                <input th:field="${donation.buyerEmail}"
+                                <input th:field="*{buyerEmail}"
                                        class="form-control box-input"
                                        type="text"
                                        placeholder="E-mail"
                                 />
+                                <span th:if="${#fields.hasErrors('buyerEmail')}" class="glyphicon glyphicon-remove form-control-feedback"></span>
                             </div>
                             <div class="form-check">
-                                <label class="form-check-label">
-                                    <input class="terms-check" type="checkbox" value=""/>
+                                <label class="form-check-label" th:classappend="${#fields.hasErrors('accepts')} ? 'invalid-accept-checkbox'">
+                                    <input class="terms-check" th:field="*{accepts}" type="checkbox"/>
                                     Nõustun kasutustingimustega
                                 </label>
                             </div>

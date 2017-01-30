@@ -235,6 +235,11 @@ input.terms-check {
     /*height: 31px;*/
 }
 
+label.invalid-accept-checkbox {
+    color: darkred;
+}
+
+/* LOADER START */
 .loader,
 .loader:before,
 .loader:after {
@@ -302,3 +307,4 @@ input.terms-check {
         transform: rotate(360deg);
     }
 }
+/* LOADER END */

@@ -19,8 +19,7 @@ import javax.validation.Valid;
 public class IndexController {
 
     @GetMapping("/")
-    public String donationForm(Model model) {
-        model.addAttribute(DonationFormDTO.DONATION_VARIABLE_NAME, new DonationFormDTO());
+    public String donationForm(@ModelAttribute(DonationFormDTO.DONATION_VARIABLE_NAME) DonationFormDTO dto) {
         return "donation/donation-form";
     }
 
@@ -41,12 +40,11 @@ public class IndexController {
     @PostMapping("/")
     public String donationFormSubmit(Model model, HttpServletRequest req,
                                      HttpSession session,
-                                     @Valid @ModelAttribute DonationFormDTO donation,
+                                     @ModelAttribute(DonationFormDTO.DONATION_VARIABLE_NAME) @Valid DonationFormDTO donation,
                                      BindingResult result) {
 
         if (result.hasErrors()) {
             ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Vigased andmed!");
-            model.addAttribute(DonationFormDTO.DONATION_VARIABLE_NAME, donation);
             return "donation/donation-form";
         }
 
@@ -57,7 +55,6 @@ public class IndexController {
 
         session.setAttribute("donation", donation);
 
-        model.addAttribute("donation", donation);
         model.addAttribute("totalSum", totalSum);
 
         return "donation/donation-form-confirmation";

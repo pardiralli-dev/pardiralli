@@ -16,8 +16,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -39,11 +41,12 @@ public class RaceController {
     DonationChart setSoldItemsAndDonations(@RequestParam("beginning") String start,
                                            @RequestParam("finish") String end) {
         try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             return new DonationChart(statisticsService.createDataByRace(
-                    new SimpleDateFormat("yyyy-MM-dd").parse(start),
-                    new SimpleDateFormat("yyyy-MM-dd").parse(end))
-            );
-        } catch (ParseException e) {
+                    LocalDate.parse(start, formatter),
+                    LocalDate.parse(end, formatter)
+            ));
+        } catch (DateTimeParseException e) {
             return new DonationChart(new ArrayList<>());
         }
     }

@@ -1,11 +1,13 @@
 package ee.pardiralli.service;
 
+import ee.pardiralli.util.DateConversion;
 import ee.pardiralli.db.DuckRepository;
 import ee.pardiralli.db.RaceRepository;
 import ee.pardiralli.domain.Duck;
 import ee.pardiralli.statistics.ExportFile;
 import ee.pardiralli.util.StatisticsUtil;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.IteratorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,10 +16,15 @@ import java.io.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class StatisticsServiceImpl implements StatisticsService {
     private final DuckRepository duckRepository;
@@ -31,29 +38,29 @@ public class StatisticsServiceImpl implements StatisticsService {
 
 
     @Override
-    public List<Object> getDefaultDates() {
-        Calendar calendar = Calendar.getInstance();
+    public List<LocalDate> getDefaultDates() {
         Date lastBeginningDate = raceRepository.findLastBeginningDate();
         Date lastFinishDate = raceRepository.findLastFinishDate();
 
-        calendar.setTime(lastBeginningDate);
-        return Arrays.asList(calendar, lastFinishDate);
+        return Arrays.asList(DateConversion.getLocalDate(lastBeginningDate), DateConversion.getLocalDate(lastFinishDate));
     }
 
     @Override
-    public List<List<Object>> createDataByDates(Calendar calendar, Date endDate) {
+    public List<List<Object>> createDataByDates(LocalDate startDate, LocalDate endDate) {
         List<List<Object>> data = new ArrayList<>();
+        LocalDate date = startDate;
+        log.info(String.format("Creating chart data from %s to %s", startDate.toString(), endDate.toString()));
         while (true) {
-            Date date = calendar.getTime();
-            if (date.after(endDate)) {
+            if (date.isAfter(endDate)) {
                 return data;
             }
-            Integer ducks = duckRepository.countByDateOfPurchase(date);
-            Double donations = duckRepository.donationsByDateOfPurchase(date);
+            Integer ducks = duckRepository.countByDateOfPurchase(DateConversion.getUtilDate(date));
+            Double donations = duckRepository.donationsByDateOfPurchase(DateConversion.getUtilDate(date));
             donations = donations == null ? 0 : donations / 100;
             String day = date.toString().substring(8, 10);
             data.add(Arrays.asList(day, ducks, donations));
-            calendar.add(Calendar.DAY_OF_YEAR, 1);
+            log.info(String.format("date: %s, ducks: %d, donations: %s", date.toString(), ducks, donations.toString()));
+            date = date.plusDays(1);
         }
     }
 
@@ -63,13 +70,14 @@ public class StatisticsServiceImpl implements StatisticsService {
         PrintWriter pw = new PrintWriter(new OutputStreamWriter(new FileOutputStream(name), StandardCharsets.ISO_8859_1), true);
 
         StringBuilder sb = new StringBuilder();
-        Date startDate = exportFile.getStartDate();
-        Date endDate = exportFile.getEndDate();
+        LocalDate startDate = exportFile.getStartDate();
+        LocalDate endDate = exportFile.getEndDate();
         String niceDate = StatisticsUtil.getNiceDate(startDate, endDate);
-        List<Duck> ducks = this.getDucksByTimePeriod(startDate, endDate);
+        List<Duck> ducks = getDucksByTimePeriod(DateConversion.getUtilDate(exportFile.getStartDate()), DateConversion.getUtilDate(exportFile.getEndDate()));
 
         sb.append("Müüdud pardid ajavahemikus ").append(niceDate).append("\n");
         sb.append("Ostmise kuupäev;Omaniku eesnimi;Omaniku perenimi;Omaniku telefoninumber;Maksja e-mail;Ralli nimi;Pardi number;Pardi hind\n");
+        // TODO: fix. If a field is null then all goes to hell
         for (Duck duck : ducks){
             sb.append(duck.getDateOfPurchase().toString()).append(";");
             sb.append(duck.getDuckOwner().getFirstName()).append(";");
@@ -87,43 +95,8 @@ public class StatisticsServiceImpl implements StatisticsService {
     }
 
     @Override
-    public int getNoOfSoldDucks(Date startDate, Date endDate) {
-        int sum = 0;
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(startDate);
-        while (true) {
-            Date date = calendar.getTime();
-            if (date.after(endDate)) {
-                return sum;
-            }
-            Integer ducks = duckRepository.countByDateOfPurchase(date);
-            sum += ducks;
-            calendar.add(Calendar.DAY_OF_YEAR, 1);
-        }
-    }
-
-    @Override
-    public double getAmountOfDonatedMoney(Date startDate, Date endDate) {
-        double sum = 0;
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(startDate);
-        while (true) {
-            Date date = calendar.getTime();
-            if (date.after(endDate)) {
-                return sum;
-            }
-            Double donations = duckRepository.donationsByDateOfPurchase(date);
-            donations = donations == null ? 0 : donations / 100;
-            sum += donations;
-            calendar.add(Calendar.DAY_OF_YEAR, 1);
-        }
-    }
-
-    @Override
-    public List<List<Object>> createDataByRace(Date startDate, Date endDate) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(startDate);
-        return createDataByDates(calendar, endDate);
+    public List<List<Object>> createDataByRace(LocalDate startDate, LocalDate endDate) {
+        return createDataByDates(startDate, endDate);
     }
 
     @Override

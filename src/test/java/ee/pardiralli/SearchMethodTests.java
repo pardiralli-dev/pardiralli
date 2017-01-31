@@ -3,6 +3,7 @@ package ee.pardiralli;
 import ee.pardiralli.db.DuckRepository;
 import ee.pardiralli.db.TransactionRepository;
 import ee.pardiralli.domain.*;
+import ee.pardiralli.util.DateConversion;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,6 +19,7 @@ import javax.persistence.PersistenceContext;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
@@ -59,7 +61,7 @@ public class SearchMethodTests {
         String lName3 = "Keemik";
 
         purchaseDate1 = new Date(System.currentTimeMillis());
-        Race race = new Race(purchaseDate1,new Date(System.currentTimeMillis()), "s", "some", true);
+        Race race = new Race(DateConversion.getLocalDate(purchaseDate1), LocalDate.now(), "s", "some", true);
         this.entityManager.persist(race);
 
         DuckOwner duckOwner1 = new DuckOwner(fName1, lName1, "55764383");
@@ -160,31 +162,31 @@ public class SearchMethodTests {
     @Test
     public void findTests() throws Exception {
         // TEST EXACT SEARCH
-        assertEquals(this.duckRepository.findBySerialNumber(duck1.getSerialNumber(), purchaseDate1), duck1);
+        assertEquals(this.duckRepository.findBySerialNumber(duck1.getSerialNumber(), DateConversion.getLocalDate(purchaseDate1)), duck1);
 
 
         // TEST GENERAL SEARCH: by last name start should return all test items
-        List<Duck> similarItems = this.duckRepository.findDuck("", "kee", "", "", purchaseDate1);
+        List<Duck> similarItems = this.duckRepository.findDuck("", "kee", "", "", DateConversion.getLocalDate(purchaseDate1));
         assertTrue(similarItems.contains(duck1));
         assertTrue(similarItems.contains(duck2));
         assertTrue(similarItems.contains(duck3));
 
         // TEST GENERAL SEARCH: by last name start that should return 0 test items
-        similarItems = this.duckRepository.findDuck("", "x", "", "", purchaseDate1);
+        similarItems = this.duckRepository.findDuck("", "x", "", "", DateConversion.getLocalDate(purchaseDate1));
         assertTrue(!similarItems.contains(duck1));
         assertTrue(!similarItems.contains(duck2));
         assertTrue(!similarItems.contains(duck3));
 
 
         // TEST GENERAL SEARCH: by first name should return one test item
-        similarItems = this.duckRepository.findDuck(fName1, "", "", "", purchaseDate1);
+        similarItems = this.duckRepository.findDuck(fName1, "", "", "", DateConversion.getLocalDate(purchaseDate1));
         assertTrue(similarItems.contains(duck1));
         assertTrue(!similarItems.contains(duck2));
         assertTrue(!similarItems.contains(duck3));
 
 
         // TEST GENERAL SEARCH: by phone number and last name start should return all
-        similarItems = this.duckRepository.findDuck("", "kee", "", "55", purchaseDate1);
+        similarItems = this.duckRepository.findDuck("", "kee", "", "55", DateConversion.getLocalDate(purchaseDate1));
         assertTrue(similarItems.contains(duck1));
         assertTrue(similarItems.contains(duck2));
         assertTrue(similarItems.contains(duck3));

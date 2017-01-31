@@ -12,7 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +23,7 @@ import java.util.List;
 public class RaceRepoTests1 {
     private final int trueCount = 6;
     private final int falseCount = 10;
-    private final Date today = new Date(System.currentTimeMillis());
+    private final LocalDate today = LocalDate.now();
     private List<Race> races;
 
     @Autowired

@@ -14,8 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
@@ -29,10 +29,10 @@ public class RaceRepoTests2 {
     private Race race1;
     private Race race2;
     private Race race3;
-    private Date beginning1;
-    private Date beginning2;
-    private Date finish1;
-    private Date finish2;
+    private LocalDate beginning1;
+    private LocalDate beginning2;
+    private LocalDate finish1;
+    private LocalDate finish2;
 
     @Autowired
     private RaceRepository raceRepository;
@@ -42,18 +42,26 @@ public class RaceRepoTests2 {
 
     @Before
     public void setup() throws Exception {
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-        beginning1 = formatter.parse("12-02-2399");
-        finish1 = formatter.parse("19-12-2400");
-        race1 = new Race(new java.sql.Date(beginning1.getTime()), new java.sql.Date(finish1.getTime()), "s", "s", true);
+//        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+//        beginning1 = formatter.parse("12-02-2399");
+//        finish1 = formatter.parse("19-12-2400");
+        beginning1 = LocalDate.parse("12-02-2399", formatter);
+        finish1 = LocalDate.parse("19-12-2400", formatter);
+//        race1 = new Race(new java.sql.Date(beginning1.getTime()), new java.sql.Date(finish1.getTime()), "s", "s", true);
+        race1 = new Race(beginning1, finish1, "s", "s", true);
         this.entityManager.persist(race1);
 
-        beginning2 = formatter.parse("13-02-2399");
-        finish2 = formatter.parse("18-12-2400");
-        race2 = new Race(new java.sql.Date(beginning2.getTime()), new java.sql.Date(finish2.getTime()), "s", "s", true);
+//        beginning2 = formatter.parse("13-02-2399");
+//        finish2 = formatter.parse("18-12-2400");
+        beginning2 = LocalDate.parse("13-02-2399", formatter);
+        finish2 = LocalDate.parse("18-12-2400", formatter);
+//        race2 = new Race(new java.sql.Date(beginning2.getTime()), new java.sql.Date(finish2.getTime()), "s", "s", true);
+        race2 = new Race(beginning2, finish2, "s", "s", true);
         this.entityManager.persist(race2);
 
-        race3 = new Race(new java.sql.Date(beginning1.getTime()), new java.sql.Date(finish2.getTime()), "s", "s", true);
+//        race3 = new Race(new java.sql.Date(beginning1.getTime()), new java.sql.Date(finish2.getTime()), "s", "s", true);
+        race3 = new Race(beginning1, finish2, "s", "s", true);
         this.entityManager.persist(race3);
         this.entityManager.flush();
     }
@@ -71,10 +79,10 @@ public class RaceRepoTests2 {
 
     @Test
     public void findByTests() throws Exception {
-        List<Race> findByBeginningList = this.raceRepository.findByBeginning(new java.sql.Date(beginning1.getTime()));
+        List<Race> findByBeginningList = this.raceRepository.findByBeginning(beginning1);
         assertTrue(findByBeginningList.size() == 2 && findByBeginningList.contains(race1) && findByBeginningList.contains(race3));
 
-        List<Race> findByFinishList = this.raceRepository.findByFinish(new java.sql.Date(finish2.getTime()));
+        List<Race> findByFinishList = this.raceRepository.findByFinish(finish2);
         assertTrue(findByFinishList.size() == 2 && findByFinishList.contains(race2) && findByBeginningList.contains(race3));
     }
 }

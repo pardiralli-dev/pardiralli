@@ -39,10 +39,10 @@ public class StatisticsServiceImpl implements StatisticsService {
 
     @Override
     public List<LocalDate> getDefaultDates() {
-        Date lastBeginningDate = raceRepository.findLastBeginningDate();
-        Date lastFinishDate = raceRepository.findLastFinishDate();
+       LocalDate lastBeginningDate = raceRepository.findLastBeginningDate();
+       LocalDate lastFinishDate = raceRepository.findLastFinishDate();
 
-        return Arrays.asList(DateConversion.getLocalDate(lastBeginningDate), DateConversion.getLocalDate(lastFinishDate));
+        return Arrays.asList(lastBeginningDate, lastFinishDate);
     }
 
     @Override

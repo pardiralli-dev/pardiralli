@@ -11,7 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.sql.Date;
+import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
@@ -24,10 +24,10 @@ public class Race implements Comparable<Race> {
     private Integer id;
 
     @NotNull
-    private Date beginning;
+    private LocalDate beginning;
 
     @NotNull
-    private Date finish;
+    private LocalDate finish;
 
     @Size(max=50)
     @NotBlank
@@ -40,13 +40,13 @@ public class Race implements Comparable<Race> {
     @NotNull
     private Boolean isOpen;
 
-    public Race(Date beginning, Date finish) {
+    public Race(LocalDate beginning, LocalDate finish) {
         this.beginning = beginning;
         this.finish = finish;
     }
 
 
-    public Race(Date beginning, Date finish, String raceName, String description, Boolean isOpen) {
+    public Race(LocalDate beginning, LocalDate finish, String raceName, String description, Boolean isOpen) {
         this.beginning = beginning;
         this.finish = finish;
         this.raceName = raceName;

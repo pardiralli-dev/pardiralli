@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
@@ -17,9 +17,9 @@ public class ExportFile {
     private Boolean wantsDonatedMoney;
 
     @DateTimeFormat(pattern = "dd-MM-yyyy")
-    private Date startDate;
+    private LocalDate startDate;
 
     @DateTimeFormat(pattern = "dd-MM-yyyy")
-    private Date endDate;
+    private LocalDate endDate;
 
 }

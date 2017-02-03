@@ -9,7 +9,6 @@ import org.apache.commons.collections4.IteratorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,8 +33,8 @@ public class RaceServiceImpl implements RaceService {
     @Override
     public Race saveNewRace(RaceDTO dto) {
         Race race = raceRepository.save(
-                new Race(new Date(dto.getBeginning().getTime()),
-                        new Date(dto.getFinish().getTime()),
+                new Race(dto.getBeginning(),
+                        dto.getFinish(),
                         dto.getRaceName(),
                         dto.getDescription(),
                         dto.getIsOpen()));

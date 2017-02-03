@@ -2,11 +2,10 @@ package ee.pardiralli.db;
 
 import ee.pardiralli.domain.Duck;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
-import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -14,7 +13,7 @@ import java.util.List;
 public interface DuckRepository extends CrudRepository<Duck, Integer> {
 
     @Query("SELECT d FROM Duck d WHERE d.serialNumber = :serial AND d.race.beginning = :date")
-    Duck findBySerialNumber(@Param("serial") Integer serialNumber, @Param("date") Date date);
+    Duck findBySerialNumber(@Param("serial") Integer serialNumber, @Param("date") LocalDate date);
 
 
     @Query("SELECT d FROM Duck d WHERE " +
@@ -27,7 +26,7 @@ public interface DuckRepository extends CrudRepository<Duck, Integer> {
                         @Param("ownerLastName") String ownerLastName,
                         @Param("email") String email,
                         @Param("phone") String phone,
-                        @Param("date") Date date);
+                        @Param("date") LocalDate date);
 
 
     /**
@@ -36,7 +35,7 @@ public interface DuckRepository extends CrudRepository<Duck, Integer> {
      * @param date
      * @return the number of ducks
      */
-    Integer countByDateOfPurchase(Date date);
+    Integer countByDateOfPurchase(LocalDate date);
 
     /**
      * Return the amount of donations made during the given day.
@@ -45,7 +44,7 @@ public interface DuckRepository extends CrudRepository<Duck, Integer> {
      * @return the donation sum in cents
      */
     @Query("SELECT SUM(d.priceCents) FROM Duck d WHERE d.dateOfPurchase = :date")
-    Double donationsByDateOfPurchase(@Param("date") Date date);
+    Double donationsByDateOfPurchase(@Param("date") LocalDate date);
 
     List<Duck> findByTransactionId(Integer transactionId);
 

@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+import java.time.LocalDate;
 
 
 /**
@@ -19,9 +19,9 @@ public class Statistics {
 
     @NotNull
     @DateTimeFormat(pattern = "dd-MM-yyyy")
-    private Date startDate;
+    private LocalDate startDate;
 
     @NotNull
     @DateTimeFormat(pattern = "dd-MM-yyyy")
-    private Date endDate;
+    private LocalDate endDate;
 }

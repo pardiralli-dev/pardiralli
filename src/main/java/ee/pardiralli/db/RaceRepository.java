@@ -4,6 +4,7 @@ import ee.pardiralli.domain.Race;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -15,16 +16,16 @@ public interface RaceRepository extends CrudRepository<Race, Integer> {
 
     Race findRaceByIsOpen(Boolean isOpen);
 
-    List<Race> findByFinish(Date date);
+    List<Race> findByFinish(LocalDate date);
 
-    List<Race> findByBeginning(Date date);
+    List<Race> findByBeginning(LocalDate date);
     /**
      * Method for getting the beginning date of the latest race.
      *
      * @return beginning date
      */
     @Query("SELECT MAX(r.beginning) FROM Race r")
-    Date findLastBeginningDate();
+    LocalDate findLastBeginningDate();
 
     /**
      * Method for getting the finish date of the latest race.
@@ -32,7 +33,7 @@ public interface RaceRepository extends CrudRepository<Race, Integer> {
      * @return finish date
      */
     @Query("SELECT MAX(r.finish) FROM Race r")
-    Date findLastFinishDate();
+    LocalDate findLastFinishDate();
 
 
     @Query("SELECT COUNT (r) FROM Race r WHERE r.isOpen = true")

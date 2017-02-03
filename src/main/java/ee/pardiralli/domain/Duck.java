@@ -6,8 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.sql.Date;
-import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -20,11 +20,11 @@ public class Duck {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Date dateOfPurchase;
+    private LocalDate dateOfPurchase;
 
     private Integer serialNumber;
 
-    private Timestamp timeOfPurchase;
+    private LocalDateTime timeOfPurchase;
 
     private Integer priceCents;
 
@@ -44,9 +44,9 @@ public class Duck {
     @JoinColumn(name = "transaction_id")
     private Transaction transaction;
 
-    public Duck(Date dateOfPurchase,
+    public Duck(LocalDate dateOfPurchase,
                 Integer serialNumber,
-                Timestamp timeOfPurchase,
+                LocalDateTime timeOfPurchase,
                 Integer priceCents,
                 Race race,
                 DuckOwner duckOwner,

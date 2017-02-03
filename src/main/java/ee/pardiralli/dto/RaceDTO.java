@@ -6,22 +6,23 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotNull;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RaceDTO implements Comparable<RaceDTO>  {
+public class RaceDTO implements Comparable<RaceDTO> {
 
     private Integer id;
 
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     @NotNull
-    private java.util.Date beginning;
+    private LocalDate beginning;
 
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     @NotNull
-    private java.util.Date finish;
+    private LocalDate finish;
 
     @NotNull
     private String raceName;
@@ -35,12 +36,12 @@ public class RaceDTO implements Comparable<RaceDTO>  {
     @NotNull
     private Boolean isNew;
 
-    public String getBeginningAsString(){
-        return new SimpleDateFormat("dd-MM-yyyy").format(beginning);
+    public String getBeginningAsString() {
+        return DateTimeFormatter.ofPattern("dd-MM-yyyy").format(beginning);
     }
 
-    public String getEndAsString(){
-        return new SimpleDateFormat("dd-MM-yyyy").format(finish);
+    public String getEndAsString() {
+        return DateTimeFormatter.ofPattern("dd-MM-yyyy").format(finish);
     }
 
 

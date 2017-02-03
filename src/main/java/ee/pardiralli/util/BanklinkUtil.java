@@ -16,10 +16,8 @@ import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
-import java.sql.Date;
 import java.sql.Timestamp;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
@@ -152,13 +150,18 @@ public class BanklinkUtil {
         }
     }
 
-    public static java.sql.Timestamp getCurrentTimeStamp() {
-        return new Timestamp(ZonedDateTime.now(ZoneId.of("Europe/Helsinki"))
-                .truncatedTo(ChronoUnit.MINUTES).toInstant().getEpochSecond() * 1000L);
+    // TODO: get rid of Timestamp somehow
+    private static LocalDateTime getDateTime(java.sql.Timestamp timestamp){
+        return LocalDateTime.ofInstant(timestamp.toInstant(), ZoneOffset.ofHours(0));
     }
 
-    public static Date getCurrentDate() {
-        return new java.sql.Date(Date.from(ZonedDateTime.now(ZoneId.of("Europe/Helsinki")).toInstant()).getTime());
+    public static LocalDateTime getCurrentTimeStamp() {
+        return getDateTime(new Timestamp(ZonedDateTime.now(ZoneId.of("Europe/Helsinki"))
+                .truncatedTo(ChronoUnit.MINUTES).toInstant().getEpochSecond() * 1000L));
+    }
+
+    public static LocalDate getCurrentDate() {
+        return ZonedDateTime.now(ZoneId.of("Europe/Helsinki")).toLocalDate();
     }
 
     private static String concParamsToDataRow(List<String> params) {

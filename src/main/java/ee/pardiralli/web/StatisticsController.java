@@ -25,7 +25,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
@@ -37,9 +38,9 @@ public class StatisticsController {
 
     @GetMapping("/statistics")
     public String statistics(Model model) {
-        List<Object> dates = statisticsService.getDefaultDates();
-        Date startDate = ((Calendar) dates.get(0)).getTime();
-        Date endDate = (Date) dates.get(1);
+        List<LocalDate> dates = statisticsService.getDefaultDates();
+        LocalDate startDate = dates.get(0);
+        LocalDate endDate = dates.get(1);
         model.addAttribute(
                 "statistics",
                 new Statistics(
@@ -48,8 +49,8 @@ public class StatisticsController {
                 )
         );
 
-        Date startDateExp = new Date();
-        Date endDateExp = new Date();
+        LocalDate startDateExp = LocalDate.now();
+        LocalDate endDateExp = LocalDate.now();
         model.addAttribute("exportFile", new ExportFile(false, false, startDateExp, endDateExp));
 
         return "admin/statistics";
@@ -60,16 +61,14 @@ public class StatisticsController {
     public
     @ResponseBody
     DonationChart setSoldItemsAndDonations(@Valid Statistics statistics, BindingResult bindingResult) {
-        if (!bindingResult.hasErrors() && statistics.getStartDate().before(statistics.getEndDate())) {
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(statistics.getStartDate());
-            List<List<Object>> data = statisticsService.createDataByDates(calendar, statistics.getEndDate());
+        if (!bindingResult.hasErrors() && statistics.getStartDate().isBefore(statistics.getEndDate())) {
+            List<List<Object>> data = statisticsService.createDataByDates(statistics.getStartDate(), statistics.getEndDate());
             return new DonationChart(data);
         } else {
-            List<Object> dates = statisticsService.getDefaultDates();
-            Calendar calendar = (Calendar) dates.get(0);
-            Date endDate = (Date) dates.get(1);
-            List<List<Object>> data = statisticsService.createDataByDates(calendar, endDate);
+            List<LocalDate> dates = statisticsService.getDefaultDates();
+            LocalDate startDate = dates.get(0);
+            LocalDate endDate = dates.get(1);
+            List<List<Object>> data = statisticsService.createDataByDates(startDate, endDate);
             return new DonationChart(data);
         }
     }
@@ -89,11 +88,10 @@ public class StatisticsController {
 
         // construct the complete absolute path of the file
 
-        Date startDate = exportFile.getStartDate();
-        Date endDate = exportFile.getEndDate();
-        SimpleDateFormat formatter = new SimpleDateFormat();
-        formatter.applyPattern("dd-MM-yyyy");
-        String filenameWithDate = new StringBuilder(FILENAME).insert(FILENAME.length() - 4, formatter.format(startDate) + "_" + formatter.format(endDate)).toString();
+        LocalDate startDate = exportFile.getStartDate();
+        LocalDate endDate = exportFile.getEndDate();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        String filenameWithDate = new StringBuilder(FILENAME).insert(FILENAME.length() - 4, startDate.format(formatter) + "_" + endDate.format(formatter)).toString();
         File downloadFile = statisticsService.createCSVFile(filenameWithDate, exportFile);
         FileInputStream inputStream = new FileInputStream(downloadFile);
 

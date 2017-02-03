@@ -35,7 +35,7 @@ public interface DuckRepository extends CrudRepository<Duck, Integer> {
      * @param date
      * @return the number of ducks
      */
-    Integer countByDateOfPurchase(Date date);
+    Integer countByDateOfPurchase(LocalDate date);
 
     /**
      * Return the amount of donations made during the given day.
@@ -44,7 +44,7 @@ public interface DuckRepository extends CrudRepository<Duck, Integer> {
      * @return the donation sum in cents
      */
     @Query("SELECT SUM(d.priceCents) FROM Duck d WHERE d.dateOfPurchase = :date")
-    Double donationsByDateOfPurchase(@Param("date") Date date);
+    Double donationsByDateOfPurchase(@Param("date") LocalDate date);
 
     List<Duck> findByTransactionId(Integer transactionId);
 

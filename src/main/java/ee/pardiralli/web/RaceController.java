@@ -42,7 +42,7 @@ public class RaceController {
                                            @RequestParam("finish") String end) {
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            return new DonationChart(statisticsService.createDataByRace(
+            return new DonationChart(statisticsService.createDataByDates(
                     LocalDate.parse(start, formatter),
                     LocalDate.parse(end, formatter)
             ));

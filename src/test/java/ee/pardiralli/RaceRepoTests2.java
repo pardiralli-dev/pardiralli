@@ -42,25 +42,17 @@ public class RaceRepoTests2 {
 
     @Before
     public void setup() throws Exception {
-//        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-//        beginning1 = formatter.parse("12-02-2399");
-//        finish1 = formatter.parse("19-12-2400");
         beginning1 = LocalDate.parse("12-02-2399", formatter);
         finish1 = LocalDate.parse("19-12-2400", formatter);
-//        race1 = new Race(new java.sql.Date(beginning1.getTime()), new java.sql.Date(finish1.getTime()), "s", "s", true);
         race1 = new Race(beginning1, finish1, "s", "s", true);
         this.entityManager.persist(race1);
 
-//        beginning2 = formatter.parse("13-02-2399");
-//        finish2 = formatter.parse("18-12-2400");
         beginning2 = LocalDate.parse("13-02-2399", formatter);
         finish2 = LocalDate.parse("18-12-2400", formatter);
-//        race2 = new Race(new java.sql.Date(beginning2.getTime()), new java.sql.Date(finish2.getTime()), "s", "s", true);
         race2 = new Race(beginning2, finish2, "s", "s", true);
         this.entityManager.persist(race2);
 
-//        race3 = new Race(new java.sql.Date(beginning1.getTime()), new java.sql.Date(finish2.getTime()), "s", "s", true);
         race3 = new Race(beginning1, finish2, "s", "s", true);
         this.entityManager.persist(race3);
         this.entityManager.flush();

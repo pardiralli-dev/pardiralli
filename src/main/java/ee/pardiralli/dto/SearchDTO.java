@@ -8,7 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
@@ -32,9 +32,9 @@ public class SearchDTO {
 
     @NotNull
     @DateTimeFormat(pattern = "dd-MM-yyyy")
-    private Date raceBeginningDate;
+    private LocalDate raceBeginningDate;
 
-    public SearchDTO(Date lastBeginningDate) {
+    public SearchDTO(LocalDate lastBeginningDate) {
         this.raceBeginningDate = lastBeginningDate;
     }
 

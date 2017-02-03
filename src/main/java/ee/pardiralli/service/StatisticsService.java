@@ -6,7 +6,6 @@ import ee.pardiralli.statistics.ExportFile;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 public interface StatisticsService {
@@ -39,12 +38,11 @@ public interface StatisticsService {
     File createCSVFile(String name, ExportFile exportFile) throws FileNotFoundException;
 
     /**
-     * Creates data for the donation chart.
+     * Creates a list of ducks, which have been sold during the given time period
      *
-     * @return a list of lists, each of which contains the following: a date, number of ducks sold on that day,
-     * amount of donations made on that day
+     * @param startDate start date of the time period
+     * @param endDate end date of the time period
+     * @return a list of ducks sold during this time period
      */
-    List<List<Object>> createDataByRace(LocalDate startDate, LocalDate endDate);
-
-    List<Duck> getDucksByTimePeriod(Date startDate, Date endDate);
+    List<Duck> getDucksByTimePeriod(LocalDate startDate, LocalDate endDate);
 }

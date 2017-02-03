@@ -1,6 +1,5 @@
 package ee.pardiralli.service;
 
-import ee.pardiralli.util.DateConversion;
 import ee.pardiralli.db.DuckRepository;
 import ee.pardiralli.db.RaceRepository;
 import ee.pardiralli.domain.Duck;
@@ -19,7 +18,6 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,7 +29,6 @@ public class StatisticsServiceImpl implements StatisticsService {
     private final RaceRepository raceRepository;
 
 
-    // TODO: should use java.time instead someday
     // IMPORTANT. This method presumes two constraints:
     // 1. Races DO NOT overlap
     // 2. No race has a beginning date that is after or on the same day as the finish date
@@ -54,8 +51,8 @@ public class StatisticsServiceImpl implements StatisticsService {
             if (date.isAfter(endDate)) {
                 return data;
             }
-            Integer ducks = duckRepository.countByDateOfPurchase(DateConversion.getUtilDate(date));
-            Double donations = duckRepository.donationsByDateOfPurchase(DateConversion.getUtilDate(date));
+            Integer ducks = duckRepository.countByDateOfPurchase(date);
+            Double donations = duckRepository.donationsByDateOfPurchase(date);
             donations = donations == null ? 0 : donations / 100;
             String day = date.toString().substring(8, 10);
             data.add(Arrays.asList(day, ducks, donations));
@@ -73,7 +70,7 @@ public class StatisticsServiceImpl implements StatisticsService {
         LocalDate startDate = exportFile.getStartDate();
         LocalDate endDate = exportFile.getEndDate();
         String niceDate = StatisticsUtil.getNiceDate(startDate, endDate);
-        List<Duck> ducks = getDucksByTimePeriod(DateConversion.getUtilDate(exportFile.getStartDate()), DateConversion.getUtilDate(exportFile.getEndDate()));
+        List<Duck> ducks = getDucksByTimePeriod(exportFile.getStartDate(), exportFile.getEndDate());
 
         sb.append("Müüdud pardid ajavahemikus ").append(niceDate).append("\n");
         sb.append("Ostmise kuupäev;Omaniku eesnimi;Omaniku perenimi;Omaniku telefoninumber;Maksja e-mail;Ralli nimi;Pardi number;Pardi hind\n");
@@ -95,15 +92,10 @@ public class StatisticsServiceImpl implements StatisticsService {
     }
 
     @Override
-    public List<List<Object>> createDataByRace(LocalDate startDate, LocalDate endDate) {
-        return createDataByDates(startDate, endDate);
-    }
-
-    @Override
-    public List<Duck> getDucksByTimePeriod(Date startDate, Date endDate) {
+    public List<Duck> getDucksByTimePeriod(LocalDate startDate, LocalDate endDate) {
         return IteratorUtils.toList(
                 duckRepository.findAll().iterator()).stream()
-                .filter(d -> d.getDateOfPurchase().after(startDate) && d.getDateOfPurchase().before(endDate) ||
+                .filter(d -> d.getDateOfPurchase().isAfter(startDate) && d.getDateOfPurchase().isBefore(endDate) ||
                         d.getDateOfPurchase().equals(startDate) || d.getDateOfPurchase().equals(endDate))
                 .collect(Collectors.toList());
     }

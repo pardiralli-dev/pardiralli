@@ -8,7 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -23,14 +23,14 @@ public class Transaction {
 
     private Boolean isPaid;
 
-    private Timestamp timeOfPayment;
+    private LocalDateTime timeOfPayment;
 
     public Transaction(Boolean bool) {
         this.isPaid = bool;
     }
 
-    public Transaction(Boolean bool, Timestamp timestamp) {
+    public Transaction(Boolean bool, LocalDateTime timeOfPayment) {
         this.isPaid = bool;
-        this.timeOfPayment = timestamp;
+        this.timeOfPayment = timeOfPayment;
     }
 }

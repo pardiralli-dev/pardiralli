@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserDetailsService {
                 });*/
 
 
-        //TODO: remove hardcoded used
+        //TODO: remove hardcoded user
         Admin user = new Admin("part", "$P$BBZE7jzPjVxY4VnMgsuYuvM9T.EOZD1", "admin");
         return new CurrentUser(user);
     }

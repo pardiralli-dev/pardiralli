@@ -31,6 +31,7 @@ public class DatabaseConfiguration {
     //}
 
 
+    //TODO: uncommenting this will break JPA repository. JPA need conf.
  /* @Bean
     @Primary
     public LocalContainerEntityManagerFactoryBean primaryEntityManagerFactory(EntityManagerFactoryBuilder builder) {

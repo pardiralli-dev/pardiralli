@@ -122,6 +122,8 @@ public class PasswordHasher implements org.springframework.security.crypto.passw
 
     @Override
     public String encode(CharSequence rawPassword) {
+        //TODO: take implementation from https://github.com/Wolf480pl/PHPass/blob/master/phpass/src/com/github/wolf480pl/phpass/PHPass.java
+        System.out.println(rawPassword);
         //TODO: is it ok to return null? If throws exception than Spring does not start up.
         return null;
     }

@@ -74,16 +74,15 @@ public class StatisticsServiceImpl implements StatisticsService {
 
         sb.append("Müüdud pardid ajavahemikus ").append(niceDate).append("\n");
         sb.append("Ostmise kuupäev;Omaniku eesnimi;Omaniku perenimi;Omaniku telefoninumber;Maksja e-mail;Ralli nimi;Pardi number;Pardi hind\n");
-        // TODO: fix. If a field is null then all goes to hell
         for (Duck duck : ducks){
-            sb.append(duck.getDateOfPurchase().toString()).append(";");
-            sb.append(duck.getDuckOwner().getFirstName()).append(";");
-            sb.append(duck.getDuckOwner().getLastName()).append(";");
-            sb.append(duck.getDuckOwner().getPhoneNumber()).append(";");
-            sb.append(duck.getDuckBuyer().getEmail()).append(";");
-            sb.append(duck.getRace().getRaceName()).append(";");
-            sb.append(Integer.toString(duck.getSerialNumber())).append(";");
-            sb.append(new BigDecimal(duck.getPriceCents()).divide(new BigDecimal("100"), RoundingMode.UNNECESSARY).toPlainString()).append("\n");
+            sb.append(duck.getDateOfPurchase() == null ? "" : duck.getDateOfPurchase().toString()).append(";");
+            sb.append(duck.getDuckOwner().getFirstName() == null ? "" : duck.getDuckOwner().getFirstName()).append(";");
+            sb.append(duck.getDuckOwner().getLastName() == null ? "" : duck.getDuckOwner().getLastName()).append(";");
+            sb.append(duck.getDuckOwner().getPhoneNumber() == null ? "" : duck.getDuckOwner().getPhoneNumber()).append(";");
+            sb.append(duck.getDuckBuyer().getEmail() == null ? "" : duck.getDuckBuyer().getEmail()).append(";");
+            sb.append(duck.getRace().getRaceName() == null ? "" : duck.getRace().getRaceName()).append(";");
+            sb.append(duck.getSerialNumber() == null ? "" : Integer.toString(duck.getSerialNumber())).append(";");
+            sb.append(duck.getPriceCents() == null ? "" : new BigDecimal(duck.getPriceCents()).divide(new BigDecimal("100"), RoundingMode.UNNECESSARY).toPlainString()).append("\n");
         }
 
         pw.write(sb.toString());

@@ -4,7 +4,7 @@ CREATE SCHEMA public;
 CREATE SEQUENCE public.wp_users_id_seq;
 
 CREATE TABLE public.wp_users (
-  id INTEGER NOT NULL DEFAULT nextval('public.wp_users_id_seq'),
+  id BIGINT NOT NULL DEFAULT nextval('public.wp_users_id_seq'),
   user_login VARCHAR(60) NOT NULL,
   user_pass VARCHAR(255) NOT NULL,
   CONSTRAINT id_wp_users PRIMARY KEY (id)

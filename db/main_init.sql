@@ -153,3 +153,18 @@ END;
 
 CREATE TRIGGER add_race_tri BEFORE INSERT OR UPDATE ON race
 FOR EACH ROW EXECUTE PROCEDURE prevent_overlapping_races_fun();
+
+
+
+CREATE FUNCTION delete_past_races() RETURNS trigger
+LANGUAGE plpgsql
+AS $$
+BEGIN
+  DELETE FROM race WHERE finish < NOW();
+  RETURN NEW;
+END;
+$$;
+
+CREATE TRIGGER delete_past_races_trigger
+AFTER INSERT OR UPDATE ON race
+EXECUTE PROCEDURE delete_past_races();

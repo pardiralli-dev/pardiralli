@@ -14,3 +14,5 @@ CREATE TABLE public.wp_users (
 
 
 ALTER SEQUENCE public.wp_users_id_seq OWNED BY public.wp_users.id;
+
+insert into wp_users (user_login, user_pass) values ('part', '$P$BBZE7jzPjVxY4VnMgsuYuvM9T.EOZD1');

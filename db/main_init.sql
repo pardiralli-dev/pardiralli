@@ -34,7 +34,6 @@ CREATE SEQUENCE public.duck_buyer_id_seq;
 CREATE TABLE public.duck_buyer (
   id           INTEGER NOT NULL DEFAULT nextval('public.duck_buyer_id_seq'),
   email        VARCHAR(256),
-  phone_number VARCHAR(50),
   CONSTRAINT id_buyer PRIMARY KEY (id)
 );
 

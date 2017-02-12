@@ -164,7 +164,3 @@ BEGIN
   RETURN NEW;
 END;
 $$;
-
-CREATE TRIGGER close_past_races_trigger
-AFTER INSERT OR DELETE ON race
-FOR EACH ROW EXECUTE PROCEDURE close_past_races();

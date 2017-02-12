@@ -7,6 +7,8 @@ CREATE TABLE public.transaction (
   id              INTEGER NOT NULL DEFAULT nextval('public.transaction_id_seq'),
   is_paid         BOOLEAN NOT NULL,
   time_of_payment TIMESTAMP,
+  ip_addr         VARCHAR(45),
+  init_time       TIMESTAMP,
   CONSTRAINT id_transaction PRIMARY KEY (id)
 );
 
@@ -17,12 +19,12 @@ CREATE SEQUENCE public.race_id_seq;
 
 CREATE TABLE public.race (
   id          INTEGER NOT NULL DEFAULT nextval('public.race_id_seq'),
-  beginning   DATE    NOT NULL,
+  beginning   DATE NOT NULL,
   finish      DATE NOT NULL,
   is_open     BOOLEAN,
   race_name   VARCHAR(50),
   description VARCHAR(2000),
-  CONSTRAINT id PRIMARY KEY (id),
+  CONSTRAINT id_race PRIMARY KEY (id),
   CONSTRAINT check_dates check (beginning < finish)
 );
 
@@ -34,6 +36,7 @@ CREATE SEQUENCE public.duck_buyer_id_seq;
 CREATE TABLE public.duck_buyer (
   id           INTEGER NOT NULL DEFAULT nextval('public.duck_buyer_id_seq'),
   email        VARCHAR(256),
+  pi_code      VARCHAR(11),
   CONSTRAINT id_buyer PRIMARY KEY (id)
 );
 
@@ -68,8 +71,22 @@ CREATE TABLE public.duck (
   CONSTRAINT id_duck PRIMARY KEY (id)
 );
 
-
 ALTER SEQUENCE public.duck_id_seq OWNED BY public.duck.id;
+
+CREATE SEQUENCE public.login_history_id_seq;
+
+CREATE TABLE public.login_history (
+  id          INTEGER NOT NULL DEFAULT nextval('public.login_history_id_seq'),
+  ip_addr     VARCHAR(45),
+  username    VARCHAR(60),
+  login_time  TIMESTAMP,
+  user_id     BIGINT,
+  is_login_successful BOOLEAN,
+  CONSTRAINT id_login_history PRIMARY KEY (id)
+);
+
+
+ALTER SEQUENCE public.login_history_id_seq OWNED BY public.login_history.id;
 
 ALTER TABLE public.duck
   ADD CONSTRAINT transaction_duck_fk

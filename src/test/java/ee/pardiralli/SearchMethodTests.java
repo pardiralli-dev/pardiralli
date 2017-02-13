@@ -71,8 +71,8 @@ public class SearchMethodTests {
         this.entityManager.persist(duckOwner2);
         this.entityManager.persist(duckOwner3);
 
-        DuckBuyer duckBuyer1 = new DuckBuyer("test@gmail.com", "5534503");
-        DuckBuyer duckBuyer2 = new DuckBuyer("test1@gmail.com", "5524503");
+        DuckBuyer duckBuyer1 = new DuckBuyer("test@gmail.com", "49601123444");
+        DuckBuyer duckBuyer2 = new DuckBuyer("test1@gmail.com", "39601055544");
         this.entityManager.persist(duckBuyer1);
         this.entityManager.persist(duckBuyer2);
 

@@ -10,10 +10,6 @@ import java.util.List;
 
 public interface RaceRepository extends CrudRepository<Race, Integer> {
 
-    // Add methods to get Races from db
-
-    Race findById(Integer id);
-
     Race findRaceByIsOpen(Boolean isOpen);
 
     List<Race> findByFinish(LocalDate date);

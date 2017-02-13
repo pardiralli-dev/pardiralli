@@ -1,8 +1,8 @@
 package ee.pardiralli.service;
 
-import ee.pardiralli.db.UsersRepository;
-import ee.pardiralli.domain.WpUsers;
 import ee.pardiralli.domain.CurrentUser;
+import ee.pardiralli.db2.UsersRepository;
+import ee.pardiralli.domain2.WpUsers;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,22 +15,15 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class UserServiceImpl implements UserDetailsService {
-
     private final UsersRepository usersRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        System.out.println(usersRepository.findAll());
-
-
-        //WpUsers user = usersRepository.findOne(username);
-                //.orElseThrow(() -> {
-                  //  log.warn("Somebody tried to login with invalid name {}", username);
-                    //return new UsernameNotFoundException(String.format("User with username=%s was not found", username));
-                //});
-
-        //TODO: remove hardcoded user and check why using database fails.
-        WpUsers user = new WpUsers(null,"part", "$P$BBZE7jzPjVxY4VnMgsuYuvM9T.EOZD1");
+        WpUsers user = usersRepository.findOneByUserLogin(username)
+                .orElseThrow(() -> {
+                    log.warn("Somebody tried to login with invalid name {}", username);
+                    return new UsernameNotFoundException(String.format("User with username=%s was not found", username));
+                });
         return new CurrentUser(user);
     }
 }

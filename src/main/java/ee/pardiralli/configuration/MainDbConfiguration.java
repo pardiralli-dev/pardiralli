@@ -1,9 +1,10 @@
 package ee.pardiralli.configuration;
 
 
-import ee.pardiralli.converters.LocalDateConverter;
+import ee.pardiralli.converters.LocalDateTimeConverter;
 import ee.pardiralli.db.*;
 import ee.pardiralli.domain.Duck;
+import ee.pardiralli.domain.Transaction;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy;
@@ -52,9 +53,14 @@ public class MainDbConfiguration {
         builder.setDataSource(mainDataSource());
         builder.setJpaVendorAdapter(jpaVendorAdapter);
         builder.setPackagesToScan(
+                // Domain
                 Duck.class.getPackage().getName(),
-                DuckRepository.class.getPackage().getName(),
-                LocalDateConverter.class.getPackage().getName());
+                Transaction.class.getPackage().getName(),
+                // Repositories
+                BuyerRepository.class.getPackage().getName(),
+                // Converters
+                LocalDateTimeConverter.class.getPackage().getName()
+        );
         builder.setJpaPropertyMap(jpaProperties());
         return builder;
     }

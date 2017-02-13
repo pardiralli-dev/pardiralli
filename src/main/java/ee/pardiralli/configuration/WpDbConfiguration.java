@@ -1,8 +1,8 @@
 package ee.pardiralli.configuration;
 
 
-import ee.pardiralli.db2.UsersRepository;
-import ee.pardiralli.domain2.WpUsers;
+import ee.pardiralli.wp.UsersRepository;
+import ee.pardiralli.wp.WpUsers;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy;
@@ -26,13 +26,11 @@ import java.util.Map;
         basePackageClasses = {UsersRepository.class})
 public class WpDbConfiguration {
 
-
     @Bean
     @ConfigurationProperties(prefix = "wp.datasource")
     public DataSource wpDataSource() {
         return DataSourceBuilder.create().build();
     }
-
 
     @Bean
     public LocalContainerEntityManagerFactoryBean userEntityManagerFactory() {
@@ -42,7 +40,7 @@ public class WpDbConfiguration {
         LocalContainerEntityManagerFactoryBean builder = new LocalContainerEntityManagerFactoryBean();
         builder.setDataSource(wpDataSource());
         builder.setJpaVendorAdapter(jpaVendorAdapter);
-        builder.setPackagesToScan(WpUsers.class.getPackage().getName(),UsersRepository.class.getName());
+        builder.setPackagesToScan(WpUsers.class.getPackage().getName());
         builder.setJpaPropertyMap(jpaProperties());
         return builder;
     }
@@ -50,8 +48,7 @@ public class WpDbConfiguration {
     @Bean
     public PlatformTransactionManager userTransactionManager() {
         return new JpaTransactionManager(userEntityManagerFactory().getObject());
-     }
-
+    }
 
     /**
      * Set naming strategy for column names

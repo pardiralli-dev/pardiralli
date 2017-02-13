@@ -1,4 +1,4 @@
-package ee.pardiralli.domain2;
+package ee.pardiralli.wp;
 
 
 import lombok.AllArgsConstructor;

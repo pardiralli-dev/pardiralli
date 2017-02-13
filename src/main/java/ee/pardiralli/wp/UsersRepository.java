@@ -1,6 +1,5 @@
-package ee.pardiralli.db2;
+package ee.pardiralli.wp;
 
-import ee.pardiralli.domain2.WpUsers;
 import org.springframework.data.repository.CrudRepository;
 
 import java.math.BigInteger;

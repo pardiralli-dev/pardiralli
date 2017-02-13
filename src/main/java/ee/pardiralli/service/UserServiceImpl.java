@@ -1,8 +1,8 @@
 package ee.pardiralli.service;
 
 import ee.pardiralli.domain.CurrentUser;
-import ee.pardiralli.db2.UsersRepository;
-import ee.pardiralli.domain2.WpUsers;
+import ee.pardiralli.wp.UsersRepository;
+import ee.pardiralli.wp.WpUsers;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

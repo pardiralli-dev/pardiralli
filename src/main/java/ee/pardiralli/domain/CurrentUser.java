@@ -1,6 +1,6 @@
 package ee.pardiralli.domain;
 
-import ee.pardiralli.domain2.WpUsers;
+import ee.pardiralli.wp.WpUsers;
 import lombok.Getter;
 import org.springframework.security.core.authority.AuthorityUtils;
 

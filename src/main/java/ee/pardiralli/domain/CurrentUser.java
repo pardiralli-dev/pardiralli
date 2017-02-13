@@ -1,5 +1,6 @@
 package ee.pardiralli.domain;
 
+import ee.pardiralli.domain2.WpUsers;
 import lombok.Getter;
 import org.springframework.security.core.authority.AuthorityUtils;
 

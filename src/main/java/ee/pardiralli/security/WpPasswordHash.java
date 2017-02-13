@@ -27,15 +27,16 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.Arrays;
 
 /**
- * Verifies password hashes.
+ * Verifies WP password hashes.
  * <p>
  * https://github.com/Wolf480pl/PHPass/blob/master/phpass/src/com/github/wolf480pl/phpass/PHPass.java
  */
 
-public class PasswordHasher implements org.springframework.security.crypto.password.PasswordEncoder {
+public class WpPasswordHash implements org.springframework.security.crypto.password.PasswordEncoder {
     private final static String itoa64 = "./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
     private String encode64(byte[] src, int count) {
@@ -120,12 +121,27 @@ public class PasswordHasher implements org.springframework.security.crypto.passw
         }
     }
 
+
+    private String gensaltPrivate(byte[] input) {
+        String output = "$P$";
+        output += itoa64.charAt(13);
+        output += encode64(input, 6);
+        return output;
+    }
+
+
     @Override
     public String encode(CharSequence rawPassword) {
-        //TODO: take implementation from https://github.com/Wolf480pl/PHPass/blob/master/phpass/src/com/github/wolf480pl/phpass/PHPass.java
-        System.out.println(rawPassword);
-        //TODO: is it ok to return null? If throws exception than Spring does not start up.
-        return null;
+        byte random[] = new byte[6];
+
+        SecureRandom randomGen = new SecureRandom();
+        randomGen.nextBytes(random);
+
+        String hash = cryptPrivate(String.valueOf(rawPassword), gensaltPrivate(stringToUtf8(new String(random))));
+        if (hash.length() == 34) {
+            return hash;
+        }
+        return "*";
     }
 
     @Override

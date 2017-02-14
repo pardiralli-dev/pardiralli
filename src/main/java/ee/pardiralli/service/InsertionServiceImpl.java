@@ -47,7 +47,7 @@ public class InsertionServiceImpl implements InsertionService {
 
         Transaction transaction = new Transaction();
         transaction.setIsPaid(true);
-        transaction.setTimeOfPayment(BanklinkUtil.getCurrentTimeStamp());
+        transaction.setTimeOfPayment(BanklinkUtil.getCurrentTimestamp());
         transaction = transactionRepository.save(transaction);
 
         for (int i = 0; i < insertionDTO.getNumberOfDucks(); i++) {
@@ -58,7 +58,7 @@ public class InsertionServiceImpl implements InsertionService {
             duck.setRace(race);
             duck.setTransaction(transaction);
             duck.setPriceCents(insertionDTO.getPriceOfOneDuck() * 100);
-            duck.setTimeOfPurchase(BanklinkUtil.getCurrentTimeStamp());
+            duck.setTimeOfPurchase(BanklinkUtil.getCurrentTimestamp());
             duck.setSerialNumber(numberService.getSerial());
 
             log.info("Saving duck {}", duck.toString());

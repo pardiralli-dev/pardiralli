@@ -16,8 +16,10 @@ import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
-import java.sql.Timestamp;
-import java.time.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
@@ -57,7 +59,7 @@ public class BanklinkUtil {
 
 
     /**
-     * @return current datetime
+     * @return current zoned datetime
      */
     public static ZonedDateTime currentDateTime() {
         return ZonedDateTime.now(ZoneId.of("Europe/Helsinki")).truncatedTo(ChronoUnit.SECONDS);
@@ -77,8 +79,10 @@ public class BanklinkUtil {
 
     /**
      * @param datetimeAsString timestamp in the format
-     *                         <pre>yyyy-MM-ddThh:mmss+ZONE</pre>
-     * @return corresponding datetime
+     *                         <pre>yyyy-MM-ddThh:mm:ss+ZONE</pre>
+     *                         Example:
+     *                         <pre>2016-11-24T16:50:00+0200</pre>
+     * @return corresponding zoned datetime
      */
     public static ZonedDateTime dateTimeFromString(String datetimeAsString) {
         datetimeAsString = new StringBuilder(datetimeAsString).insert(datetimeAsString.length() - 2, ":").toString();

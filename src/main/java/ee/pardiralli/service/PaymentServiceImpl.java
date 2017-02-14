@@ -178,7 +178,7 @@ public class PaymentServiceImpl implements PaymentService {
                 duck.setDuckOwner(duckOwner);
                 duck.setRace(race);
                 duck.setDateOfPurchase(BanklinkUtil.getCurrentDate());
-                duck.setTimeOfPurchase(BanklinkUtil.getCurrentTimeStamp());
+                duck.setTimeOfPurchase(BanklinkUtil.getCurrentTimestamp());
                 duck.setTransaction(transaction);
                 log.info("Saving " + duck);
                 duckRepository.save(duck);

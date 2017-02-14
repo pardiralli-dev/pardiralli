@@ -55,7 +55,6 @@ public class MainDbConfiguration {
         builder.setPackagesToScan(
                 // Domain
                 Duck.class.getPackage().getName(),
-                Transaction.class.getPackage().getName(),
                 // Repositories
                 BuyerRepository.class.getPackage().getName(),
                 // Converters

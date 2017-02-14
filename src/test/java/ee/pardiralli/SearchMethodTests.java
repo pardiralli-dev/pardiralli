@@ -17,6 +17,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -33,9 +34,12 @@ public class SearchMethodTests {
     private Duck duck3;
     private Duck duck4;
     private Duck duck5;
+    private String fName1;
+    private String fName2;
+    private String fName3;
+
     private LocalDate purchaseDate1;
     private LocalDate purchaseDate2;
-    private String fName1;
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 
@@ -52,14 +56,14 @@ public class SearchMethodTests {
     @Before
     public void setup() throws Exception {
         fName1 = "Anu";
-        String fName2 = "Jenny";
-        String fName3 = "Tambet";
+        fName2 = "Jenny";
+        fName3 = "Tambet";
 
         String lName1 = "Keevitaja";
         String lName2 = "Keeraja";
         String lName3 = "Keemik";
 
-        purchaseDate1 = LocalDate.now();
+        purchaseDate1 = LocalDate.of(2017, Month.JANUARY, 2);
         Race race = new Race(purchaseDate1, LocalDate.now(), "s", "some", true);
         this.entityManager.persist(race);
 
@@ -80,7 +84,7 @@ public class SearchMethodTests {
         transaction1 = transactionRepository.save(transaction1);
 
         duck1 = new Duck(
-                LocalDate.now(),
+                purchaseDate1,
                 1,
                 LocalDateTime.now(),
                 100,
@@ -92,7 +96,7 @@ public class SearchMethodTests {
 
 
         duck2 = new Duck(
-                LocalDate.now(),
+                purchaseDate1,
                 2,
                 LocalDateTime.now(),
                 100,
@@ -104,7 +108,7 @@ public class SearchMethodTests {
 
 
         duck3 = new Duck(
-                LocalDate.now(),
+                purchaseDate1,
                 3,
                 LocalDateTime.now(),
                 100,

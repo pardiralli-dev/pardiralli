@@ -25,12 +25,23 @@ public class Transaction {
 
     private LocalDateTime timeOfPayment;
 
-    public Transaction(Boolean bool) {
-        this.isPaid = bool;
+    private String ipAddr;
+
+    private LocalDateTime initTime;
+
+    public Transaction(Boolean isPaid) {
+        this.isPaid = isPaid;
     }
 
-    public Transaction(Boolean bool, LocalDateTime timeOfPayment) {
-        this.isPaid = bool;
+    public Transaction(Boolean isPaid, LocalDateTime timeOfPayment) {
+        this.isPaid = isPaid;
         this.timeOfPayment = timeOfPayment;
+    }
+
+    public Transaction(Boolean isPaid, LocalDateTime timeOfPayment, String ipAddr, LocalDateTime initTime){
+        this.isPaid = isPaid;
+        this.timeOfPayment = timeOfPayment;
+        this.ipAddr = ipAddr;
+        this.initTime = initTime;
     }
 }

@@ -5,20 +5,16 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 public interface RaceRepository extends CrudRepository<Race, Integer> {
-
-    // Add methods to get Races from db
-
-    Race findById(Integer id);
 
     Race findRaceByIsOpen(Boolean isOpen);
 
     List<Race> findByFinish(LocalDate date);
 
     List<Race> findByBeginning(LocalDate date);
+
     /**
      * Method for getting the beginning date of the latest race.
      *

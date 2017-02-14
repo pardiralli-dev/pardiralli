@@ -1,7 +1,6 @@
 package ee.pardiralli;
 
-import ee.pardiralli.db.DuckRepository;
-import ee.pardiralli.db.TransactionRepository;
+import ee.pardiralli.db.*;
 import ee.pardiralli.domain.*;
 import org.junit.After;
 import org.junit.Before;
@@ -11,19 +10,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
 
-@Transactional
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(locations = "classpath:test.properties")
 @RunWith(SpringRunner.class)
@@ -33,18 +29,27 @@ public class SearchMethodTests {
     private Duck duck3;
     private Duck duck4;
     private Duck duck5;
+    private String fName1;
+    private String fName2;
+    private String fName3;
+
     private LocalDate purchaseDate1;
     private LocalDate purchaseDate2;
-    private String fName1;
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 
 
-    @PersistenceContext
-    private EntityManager entityManager;
-
     @Autowired
     private DuckRepository duckRepository;
+
+    @Autowired
+    private BuyerRepository buyerRepository;
+
+    @Autowired
+    private OwnerRepository ownerRepository;
+
+    @Autowired
+    private RaceRepository raceRepository;
 
     @Autowired
     private TransactionRepository transactionRepository;
@@ -52,35 +57,28 @@ public class SearchMethodTests {
     @Before
     public void setup() throws Exception {
         fName1 = "Anu";
-        String fName2 = "Jenny";
-        String fName3 = "Tambet";
+        fName2 = "Jenny";
+        fName3 = "Tambet";
 
         String lName1 = "Keevitaja";
         String lName2 = "Keeraja";
         String lName3 = "Keemik";
 
-        purchaseDate1 = LocalDate.now();
-        Race race = new Race(purchaseDate1, LocalDate.now(), "s", "some", true);
-        this.entityManager.persist(race);
+        purchaseDate1 = LocalDate.of(2017, Month.JANUARY, 2);
+        Race race = raceRepository.save(new Race(purchaseDate1, LocalDate.now(), "s", "some", true));
 
-        DuckOwner duckOwner1 = new DuckOwner(fName1, lName1, "55764383");
-        DuckOwner duckOwner2 = new DuckOwner(fName2, lName2, "55364383");
-        DuckOwner duckOwner3 = new DuckOwner(fName3, lName3, "55264383");
+        DuckOwner duckOwner1 = ownerRepository.save(new DuckOwner(fName1, lName1, "55764383"));
+        DuckOwner duckOwner2 = ownerRepository.save(new DuckOwner(fName2, lName2, "55364383"));
+        DuckOwner duckOwner3 = ownerRepository.save(new DuckOwner(fName3, lName3, "55264383"));
 
-        this.entityManager.persist(duckOwner1);
-        this.entityManager.persist(duckOwner2);
-        this.entityManager.persist(duckOwner3);
 
-        DuckBuyer duckBuyer1 = new DuckBuyer("test@gmail.com", "5534503");
-        DuckBuyer duckBuyer2 = new DuckBuyer("test1@gmail.com", "5524503");
-        this.entityManager.persist(duckBuyer1);
-        this.entityManager.persist(duckBuyer2);
+        DuckBuyer duckBuyer1 = buyerRepository.save(new DuckBuyer("test@gmail.com", "49601123444"));
+        DuckBuyer duckBuyer2 = buyerRepository.save(new DuckBuyer("test1@gmail.com", "39601055544"));
 
-        Transaction transaction1 = new Transaction(false);
-        transaction1 = transactionRepository.save(transaction1);
+        Transaction transaction1 = transactionRepository.save(new Transaction(false));
 
         duck1 = new Duck(
-                LocalDate.now(),
+                purchaseDate1,
                 1,
                 LocalDateTime.now(),
                 100,
@@ -92,7 +90,7 @@ public class SearchMethodTests {
 
 
         duck2 = new Duck(
-                LocalDate.now(),
+                purchaseDate1,
                 2,
                 LocalDateTime.now(),
                 100,
@@ -104,7 +102,7 @@ public class SearchMethodTests {
 
 
         duck3 = new Duck(
-                LocalDate.now(),
+                purchaseDate1,
                 3,
                 LocalDateTime.now(),
                 100,
@@ -139,19 +137,20 @@ public class SearchMethodTests {
                 transaction1
         );
 
-        this.entityManager.persist(duck1);
-        this.entityManager.persist(duck2);
-        this.entityManager.persist(duck3);
-        this.entityManager.persist(duck4);
-        this.entityManager.persist(duck5);
-        this.entityManager.flush();
-
+        this.duckRepository.save(duck1);
+        this.duckRepository.save(duck2);
+        this.duckRepository.save(duck3);
+        this.duckRepository.save(duck4);
+        this.duckRepository.save(duck5);
     }
 
     @After
     public void tearDown() throws Exception {
         transactionRepository.deleteAll();
-        entityManager.clear();
+        duckRepository.deleteAll();
+        buyerRepository.deleteAll();
+        ownerRepository.deleteAll();
+        raceRepository.deleteAll();
     }
 
     /**

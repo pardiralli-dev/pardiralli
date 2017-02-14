@@ -32,7 +32,11 @@ public class BanklinkUtil {
      * @return payment amount as string in the format {@code 15.42} which represents 15 euros and 42 cents
      */
     public static String calculatePaymentAmount(List<Duck> unpaidDucks) {
-        String amountCents = unpaidDucks.stream().map(Duck::getPriceCents).reduce((d1, d2) -> d1 + d2).toString();
+        String amountCents = String.valueOf(
+                unpaidDucks.stream()
+                        .map(Duck::getPriceCents)
+                        .mapToInt(Integer::intValue)
+                        .sum());
         return centsToEuros(amountCents);
     }
 
@@ -150,14 +154,8 @@ public class BanklinkUtil {
         }
     }
 
-    // TODO: get rid of Timestamp somehow
-    private static LocalDateTime getDateTime(java.sql.Timestamp timestamp){
-        return LocalDateTime.ofInstant(timestamp.toInstant(), ZoneOffset.ofHours(0));
-    }
-
-    public static LocalDateTime getCurrentTimeStamp() {
-        return getDateTime(new Timestamp(ZonedDateTime.now(ZoneId.of("Europe/Helsinki"))
-                .truncatedTo(ChronoUnit.MINUTES).toInstant().getEpochSecond() * 1000L));
+    public static LocalDateTime getCurrentTimestamp() {
+        return ZonedDateTime.now(ZoneId.of("Europe/Helsinki")).truncatedTo(ChronoUnit.MINUTES).toLocalDateTime();
     }
 
     public static LocalDate getCurrentDate() {

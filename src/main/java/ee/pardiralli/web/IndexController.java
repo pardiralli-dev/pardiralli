@@ -1,8 +1,8 @@
 package ee.pardiralli.web;
 
-import ee.pardiralli.feedback.FeedbackType;
 import ee.pardiralli.dto.DonationBoxDTO;
 import ee.pardiralli.dto.DonationFormDTO;
+import ee.pardiralli.feedback.FeedbackType;
 import ee.pardiralli.util.ControllerUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +17,11 @@ import javax.validation.Valid;
 
 @Controller
 public class IndexController {
+
+    @GetMapping("/login")
+    public String loginPage() {
+        return "admin/login";
+    }
 
     @GetMapping("/")
     public String donationForm(@ModelAttribute(DonationFormDTO.DONATION_VARIABLE_NAME) DonationFormDTO dto) {

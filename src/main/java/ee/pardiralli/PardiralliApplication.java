@@ -2,23 +2,27 @@ package ee.pardiralli;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-@SpringBootApplication
-@EnableGlobalMethodSecurity(securedEnabled = true)
+@SpringBootApplication(exclude = {
+        DataSourceAutoConfiguration.class,
+        HibernateJpaAutoConfiguration.class,
+        DataSourceTransactionManagerAutoConfiguration.class
+})
+@EnableTransactionManagement
 public class PardiralliApplication extends SpringBootServletInitializer {
-
-    public static final String MAIN_PROFILE = "development";
+    public static void main(String[] args) {
+        SpringApplication.run(PardiralliApplication.class, args);
+    }
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
         return application.sources(PardiralliApplication.class);
-    }
-
-    public static void main(String[] args) {
-        SpringApplication.run(PardiralliApplication.class, args);
     }
 }
 

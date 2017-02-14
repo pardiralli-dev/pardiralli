@@ -114,8 +114,7 @@ public class BanklinkUtil {
             byte[] sigBytes = sig.sign();
             return Base64.encodeBase64String(sigBytes);
         } catch (NoSuchAlgorithmException | SignatureException | InvalidKeyException | InvalidKeySpecException | IOException e) {
-            // TODO: 8.11.16 error handling
-            throw new AssertionError(e);
+            throw new RuntimeException(e);
         }
     }
 

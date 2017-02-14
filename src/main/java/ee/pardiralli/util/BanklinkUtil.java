@@ -32,7 +32,11 @@ public class BanklinkUtil {
      * @return payment amount as string in the format {@code 15.42} which represents 15 euros and 42 cents
      */
     public static String calculatePaymentAmount(List<Duck> unpaidDucks) {
-        String amountCents = unpaidDucks.stream().map(Duck::getPriceCents).reduce((d1, d2) -> d1 + d2).toString();
+        String amountCents = String.valueOf(
+                unpaidDucks.stream()
+                        .map(Duck::getPriceCents)
+                        .mapToInt(Integer::intValue)
+                        .sum());
         return centsToEuros(amountCents);
     }
 

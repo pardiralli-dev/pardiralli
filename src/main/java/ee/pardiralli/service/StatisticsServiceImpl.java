@@ -29,11 +29,6 @@ public class StatisticsServiceImpl implements StatisticsService {
     private final RaceRepository raceRepository;
 
 
-    // IMPORTANT. This method presumes two constraints:
-    // 1. Races DO NOT overlap
-    // 2. No race has a beginning date that is after or on the same day as the finish date
-
-
     @Override
     public List<LocalDate> getDefaultDates() {
        LocalDate lastBeginningDate = raceRepository.findLastBeginningDate();

@@ -140,9 +140,8 @@ public class BanklinkUtil {
      * @param params               a map containing parameters received from the bank's response
      * @param isSuccessfulResponse true if bank's response is successful, otherwise false
      * @return true, if the MAC signature is valid, otherwise false
-     * @throws IllegalResponseException if something goes wrong
      */
-    public static boolean isValidMAC(String publicKeyFilename, Map<String, String> params, boolean isSuccessfulResponse) throws IllegalResponseException {
+    public static boolean isValidMAC(String publicKeyFilename, Map<String, String> params, boolean isSuccessfulResponse) {
         String dataRow = concParamsToDataRow(getMACParams(params, isSuccessfulResponse));
         try {
             PublicKey publicKey = getPublicKey(publicKeyFilename);
@@ -152,8 +151,7 @@ public class BanklinkUtil {
             byte[] sigToVerify = params.get("VK_MAC").getBytes();
             return sig.verify(sigToVerify);
         } catch (NoSuchAlgorithmException | SignatureException | InvalidKeyException | CertificateException | IOException e) {
-            // TODO: 15.11.16 error handling
-            throw new AssertionError(e);
+            throw new RuntimeException(e);
         }
     }
 

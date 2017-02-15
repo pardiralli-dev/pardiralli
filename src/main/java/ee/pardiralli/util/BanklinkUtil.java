@@ -190,11 +190,16 @@ public class BanklinkUtil {
         }
     }
 
+    /**
+     * @param ducks nonempty list of ducks with a common buyer
+     * @return the buyer
+     * @throws RuntimeException if the ducks have several different buyers or the list is empty
+     */
     public static DuckBuyer buyerFromDucks(List<Duck> ducks) {
         if (ducks.stream().map(Duck::getDuckBuyer).distinct().count() == 1) {
             return ducks.get(0).getDuckBuyer();
         } else {
-            throw new AssertionError("list of ducks has several different buyers, ducks: " + ducks.toString());
+            throw new RuntimeException("list of ducks is empty or has several different buyers: " + ducks.toString());
         }
     }
 

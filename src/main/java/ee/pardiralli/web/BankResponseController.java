@@ -16,6 +16,8 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.mail.MailAuthenticationException;
+import org.springframework.mail.MailSendException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -49,7 +51,7 @@ public class BankResponseController {
 
             try {
                 mailService.sendConfirmationEmail(buyer, ducks);
-            } catch (MessagingException e) {
+            } catch (MessagingException | MailAuthenticationException | MailSendException e) {
                 log.error("Failed to send confirmation email to {}", buyer.getEmail());
                 ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Kinnitusmeili saatmine ebaõnnestus");
             }

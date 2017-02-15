@@ -140,20 +140,18 @@ public class BanklinkUtil {
      * @param params               a map containing parameters received from the bank's response
      * @param isSuccessfulResponse true if bank's response is successful, otherwise false
      * @return true, if the MAC signature is valid, otherwise false
-     * @throws IllegalResponseException if something goes wrong
      */
-    public static boolean isValidMAC(String publicKeyFilename, Map<String, String> params, boolean isSuccessfulResponse) throws IllegalResponseException {
+    public static boolean isValidMAC(String publicKeyFilename, Map<String, String> params, boolean isSuccessfulResponse) {
         String dataRow = concParamsToDataRow(getMACParams(params, isSuccessfulResponse));
         try {
             PublicKey publicKey = getPublicKey(publicKeyFilename);
             Signature sig = Signature.getInstance("SHA1withRSA");
             sig.initVerify(publicKey);
             sig.update(dataRow.getBytes("UTF-8"));
-            byte[] sigToVerify = params.get("VK_MAC").getBytes();
+            byte[] sigToVerify = Base64.decodeBase64(params.get("VK_MAC"));
             return sig.verify(sigToVerify);
         } catch (NoSuchAlgorithmException | SignatureException | InvalidKeyException | CertificateException | IOException e) {
-            // TODO: 15.11.16 error handling
-            throw new AssertionError(e);
+            throw new RuntimeException(e);
         }
     }
 
@@ -192,11 +190,16 @@ public class BanklinkUtil {
         }
     }
 
+    /**
+     * @param ducks nonempty list of ducks with a common buyer
+     * @return the buyer
+     * @throws RuntimeException if the ducks have several different buyers or the list is empty
+     */
     public static DuckBuyer buyerFromDucks(List<Duck> ducks) {
         if (ducks.stream().map(Duck::getDuckBuyer).distinct().count() == 1) {
             return ducks.get(0).getDuckBuyer();
         } else {
-            throw new AssertionError("list of ducks has several different buyers, ducks: " + ducks.toString());
+            throw new RuntimeException("list of ducks is empty or has several different buyers: " + ducks.toString());
         }
     }
 

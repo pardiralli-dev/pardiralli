@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -52,18 +53,9 @@ public class BanklinkUtilTest {
     }
 
     @Test
-    public void currentDateTime() throws Exception {
-
-    }
-
-    @Test
-    public void currentDateTimeAsString() throws Exception {
-
-    }
-
-    @Test
     public void dateTimeFromString() throws Exception {
-
+        Assert.assertEquals("2001-06-20T23:55:59+02:00",
+                BanklinkUtil.dateTimeFromString("2001-06-20T23:55:59+0200").toString());
     }
 
     @Test

@@ -21,15 +21,15 @@ public class NordeaRequestModel extends RequestModel {
     private String VK_NAME = "EESTI VÄHIHAIGETE LASTE VANEMATE LIIT";
     private String VK_REF;
     private String VK_MSG;
-    private String VK_RETURN = String.format("https://pardiralli.herokuapp.com/banklink/%s/success", Bank.nordea);
-    private String VK_CANCEL = String.format("https://pardiralli.herokuapp.com/banklink/%s/fail", Bank.nordea);
+    private String VK_RETURN = String.format("http://urgas.ee/pardiralli/banklink/%s/success", Bank.nordea);
+    private String VK_CANCEL = String.format("http://urgas.ee/pardiralli/banklink/%s/fail", Bank.nordea);
     private String VK_DATETIME = BanklinkUtil.currentDateTimeAsString();
     private String VK_MAC;
     private String VK_ENCODING = "UTF-8";
     private String VK_LANG = "EST";
 
     public NordeaRequestModel(String amount, String stamp, String referenceNumber, String paymentDescription) {
-        this.VK_AMOUNT = amount;
+        this.VK_AMOUNT = "0.01";//amount;
         this.VK_STAMP = stamp;
         this.VK_REF = referenceNumber;
         this.VK_MSG = paymentDescription;

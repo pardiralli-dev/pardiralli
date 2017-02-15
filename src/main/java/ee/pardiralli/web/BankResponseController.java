@@ -38,8 +38,9 @@ public class BankResponseController {
             ResponseModel responseModel = getModelByBank(bank, params);
             paymentService.checkConsistency(params, responseModel, true);
             paymentService.checkSuccessfulResponseMAC(params, bank);
-            Integer tid = Integer.valueOf(responseModel.getStamp());
+            log.info("Legal payment response received");
 
+            Integer tid = Integer.valueOf(responseModel.getStamp());
             Transaction transaction = paymentService.setTransactionPaid(tid);
             List<Duck> ducks = paymentService.setSerialNumbers(transaction);
             List<DuckDTO> duckDTOs = BanklinkUtil.ducksToDTO(ducks);

@@ -148,7 +148,7 @@ public class BanklinkUtil {
             Signature sig = Signature.getInstance("SHA1withRSA");
             sig.initVerify(publicKey);
             sig.update(dataRow.getBytes("UTF-8"));
-            byte[] sigToVerify = params.get("VK_MAC").getBytes();
+            byte[] sigToVerify = Base64.decodeBase64(params.get("VK_MAC"));
             return sig.verify(sigToVerify);
         } catch (NoSuchAlgorithmException | SignatureException | InvalidKeyException | CertificateException | IOException e) {
             throw new RuntimeException(e);

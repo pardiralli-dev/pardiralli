@@ -116,10 +116,10 @@ public class PaymentServiceImpl implements PaymentService {
 
             String expectedPaymentAmount = this.transactionAmount(transactionID);
             String actualPaymentAmount = responseModel.getPaymentAmount();
-            if (!actualPaymentAmount.equals(expectedPaymentAmount)) {
-                throw new IllegalResponseException(String.format("Payments not equal, expected %s, got %s",
-                        expectedPaymentAmount, actualPaymentAmount));
-            }
+//            if (!actualPaymentAmount.equals(expectedPaymentAmount)) {
+//                throw new IllegalResponseException(String.format("Payments not equal, expected %s, got %s",
+//                        expectedPaymentAmount, actualPaymentAmount));
+//            }
 
             ZonedDateTime responseTime = BanklinkUtil.dateTimeFromString(responseModel.getPaymentOrderDateTime());
             ZonedDateTime currentTime = BanklinkUtil.currentDateTime();

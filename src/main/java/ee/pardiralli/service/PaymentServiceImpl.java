@@ -114,8 +114,8 @@ public class PaymentServiceImpl implements PaymentService {
                 throw new IllegalResponseException("Some parameters are missing");
             }
 
-            String actualPaymentAmount = this.transactionAmount(transactionID);
-            String expectedPaymentAmount = responseModel.getPaymentAmount();
+            String expectedPaymentAmount = this.transactionAmount(transactionID);
+            String actualPaymentAmount = responseModel.getPaymentAmount();
             if (!actualPaymentAmount.equals(expectedPaymentAmount)) {
                 throw new IllegalResponseException(String.format("Payments not equal, expected %s, got %s",
                         expectedPaymentAmount, actualPaymentAmount));

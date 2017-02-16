@@ -9,28 +9,9 @@
     <link rel="stylesheet" type="text/css" href="css/admin.css"/>
 </head>
 <body>
-<nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">Pardiralli</a>
-        </div>
-        <ul class="nav navbar-nav">
-            <li><a th:href="@{/}">Avaleht</a></li>
-            <li><a th:href="@{/statistics}">Statistika</a></li>
-            <li><a th:href="@{/search}">Otsing</a></li>
-            <li><a th:href="@{/settings}">Võistlused</a></li>
-            <li class="active"><a th:href="@{/insert}">Sisestus</a></li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-            <li><a th:href="@{/logout}"><span class="glyphicon glyphicon-log-in"></span>Logi välja</a></li>
-        </ul>
-    </div>
-</nav>
 <div class="container">
+    <div th:replace="fragments/menu :: main-menu"></div>
     <h3>Makse ebaõnnestus!</h3>
-    <!--<div>-->
-        <!--<a th:href="@{/}">Tagasi pealehele</a>-->
-    <!--</div>-->
 </div>
 </body>
 </html>

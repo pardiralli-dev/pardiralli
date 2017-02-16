@@ -19,7 +19,7 @@ $ ./deploy-local.sh
 ```
 This will connect to a dummy database in Heroku. To use a local database, setup the database locally and modify the database configuration/credentials in `deploy-local.sh` accordingly.
 
-Note. The application is deployed to an embedded Tomcat container running on port 8080 so the root webpage can be accessed via localhost:8080.
+**Note.** The application is deployed to an embedded Tomcat container running on port 8080 so the root webpage can be accessed via localhost:8080.
 
 ## Functions
 

@@ -114,12 +114,12 @@ public class PaymentServiceImpl implements PaymentService {
                 throw new IllegalResponseException("Some parameters are missing");
             }
 
-            String actualPaymentAmount = this.transactionAmount(transactionID);
-            String expectedPaymentAmount = responseModel.getPaymentAmount();
-            if (!actualPaymentAmount.equals(expectedPaymentAmount)) {
-                throw new IllegalResponseException(String.format("Payments not equal, expected %s, got %s",
-                        expectedPaymentAmount, actualPaymentAmount));
-            }
+            String expectedPaymentAmount = this.transactionAmount(transactionID);
+            String actualPaymentAmount = responseModel.getPaymentAmount();
+//            if (!actualPaymentAmount.equals(expectedPaymentAmount)) {
+//                throw new IllegalResponseException(String.format("Payments not equal, expected %s, got %s",
+//                        expectedPaymentAmount, actualPaymentAmount));
+//            }
 
             ZonedDateTime responseTime = BanklinkUtil.dateTimeFromString(responseModel.getPaymentOrderDateTime());
             ZonedDateTime currentTime = BanklinkUtil.currentDateTime();

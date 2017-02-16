@@ -19,8 +19,7 @@ $ ./deploy-local.sh
 ```
 This will connect to a dummy database in Heroku. To use a local database, setup the database locally and modify the database configuration/credentials in `deploy-local.sh` accordingly.
 
-**Note.** When deploying locally, the base url is localhost:8080/ and the current subpages are localhost:8080/search, localhost:8080/statistics, localhost:8080/settings and localhost:8080/insert.
-The link to our web application is http://urgas.ee/pardiralli/.
+Note. The application is deployed to an embedded Tomcat container running on port 8080 so the root webpage can be accessed via localhost:8080.
 
 ## Functions
 
@@ -53,12 +52,12 @@ _____________________
 # Insertion page
 
 This page allows the administrator to insert ducks manually.
-* The administrator can insert a duck, given the owner's first nam, last name and phone number, the buyer's email, the number of ducks bought and the price per duck.
+* The administrator can insert a duck, given the owner's first name, last name and phone number, the buyer's email, the number of ducks bought and the price per duck.
 _____________________
 
 # Main page
 
-Whereas the previously described pages are only accessible for logged in administrators, this page can be accessed by everyone.
+Whereas the previously described pages are only accessible to logged in administrators, this page can be accessed by everyone.
 On the main page, people can purchase ducks.
 * The user must insert their email, and the name and phone number of the duck owner.
    The user must agree to the terms of the purchase and choose the amount of ducks they want to purchase and the amount of money each duck costs.

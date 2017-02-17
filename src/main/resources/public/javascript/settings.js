@@ -38,7 +38,8 @@ $(document).ready(function () {
     var current_start;
     var current_end;
     var current_row_id;
-    var dataFromServer;
+    var donationData;
+    var duckData;
     var current_descrition;
 
     // Remove spinner
@@ -58,16 +59,18 @@ $(document).ready(function () {
         var description_row = $('#info3' + current_row_id);
 
         $(".chart_").remove();
+        chart_row.append('<br>');
+        chart_row.append('<div id="linechart_ducks" class="chart_container-fluid"></div>');
         chart_row.append('<div id="linechart_donations" class="chart_ container-fluid"></div>');
         loader_row.append('<div class="loader loadingDiv container-fluid"></div>');
         description_row.append('<div class="chart_">Täpsustus: ' + current_descrition + '</div>');
-        callDrawDonationChart();
+        callDrawCharts();
     });
 
     google.charts.load('current', {'packages': ['line']});
 
     //Send POST request to server
-    function callDrawDonationChart() {
+    function callDrawCharts() {
         $(".btn").attr("disabled", "disabled");
         $.ajax({
             url: window.location.href + 'chart',
@@ -78,35 +81,46 @@ $(document).ready(function () {
                 xhr.setRequestHeader(header, token);
             },
             success: function (data) {
-                dataFromServer = data.data;//JSON.parse(data.responseText).data;
+                donationData = data.donations;
+                duckData = data.ducks;
                 google.charts.setOnLoadCallback(drawChart_donations);
+                google.charts.setOnLoadCallback(drawChart_ducks);
             }
         });
     }
 
-    function drawChart_donations() {
+    function drawChart_ducks(){
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'Päev');
         data.addColumn('number', 'Müüdud parte');
-        data.addColumn('number', 'Kogutud raha');
-        data.addRows(dataFromServer);
+        data.addRows(duckData);
 
         var options = {
-            chart: {
-                title: "Annetused ja müüdud pardid"
+            chart:  {
+                title: "Müüdud pardid"
             },
             width: 900,
             height: 500,
-            series: {
-                0: {axis: "Parte"},
-                1: {axis: "Annetusi"}
+            vAxis: {viewWindowMode: "explicit", viewWindow:{ min: 0 }}
+        };
+        var chart = new google.charts.Line(document.getElementById("linechart_ducks"));
+        chart.draw(data, google.charts.Line.convertOptions(options));
+    }
+
+    function drawChart_donations() {
+        var data = new google.visualization.DataTable();
+
+        data.addColumn('string', 'Päev');
+        data.addColumn('number', 'Kogutud raha');
+        data.addRows(donationData);
+
+        var options = {
+            chart: {
+                title: "Annetused"
             },
-            axes: {
-                y: {
-                    Parte: {label: "Müüdud parte"},
-                    Annetusi: {label: "Kogutud raha (€)"}
-                }
-            }
+            width: 900,
+            height: 500,
+            vAxis: {viewWindowMode: "explicit", viewWindow:{ min: 0 }}
         };
 
         var chart = new google.charts.Line(document.getElementById("linechart_donations"));

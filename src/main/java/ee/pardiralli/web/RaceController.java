@@ -42,12 +42,14 @@ public class RaceController {
                                            @RequestParam("finish") String end) {
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            return new DonationChart(statisticsService.createDataByDates(
+            return new DonationChart(statisticsService.createDonationData(
                     LocalDate.parse(start, formatter),
                     LocalDate.parse(end, formatter)
-            ));
+            ), statisticsService.createDuckData(
+                    LocalDate.parse(start, formatter),
+                    LocalDate.parse(end, formatter)));
         } catch (DateTimeParseException e) {
-            return new DonationChart(new ArrayList<>());
+            return new DonationChart(new ArrayList<>(), new ArrayList<>());
         }
     }
 

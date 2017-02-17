@@ -19,14 +19,24 @@ public interface StatisticsService {
     List<LocalDate> getDefaultDates();
 
     /**
+     * Creates data for the duck chart.
+     *
+     * @param startDate start date of the chart
+     * @param endDate  end date of the chart
+     * @return a list of lists, each of which contains a date (as a string) and the number of ducks (integer) sold
+     * on that day
+     */
+    List<List<Object>> createDuckData(LocalDate startDate, LocalDate endDate);
+
+    /**
      * Creates data for the donation chart.
      *
      * @param startDate start date of the chart
      * @param endDate  end date of the chart
-     * @return a list of lists, each of which contains the following: a date, number of ducks sold on that day,
-     * amount of donations made on that day
+     * @return a list of lists, each of which contains a date (as a string) and the amount of donations (double) made
+     * on that day
      */
-    List<List<Object>> createDataByDates(LocalDate startDate, LocalDate endDate);
+    List<List<Object>> createDonationData(LocalDate startDate, LocalDate endDate);
 
     /**
      * Creates CSV file of data

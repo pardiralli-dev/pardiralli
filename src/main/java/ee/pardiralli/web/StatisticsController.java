@@ -57,19 +57,22 @@ public class StatisticsController {
     }
 
 
+
     @PostMapping("/statistics")
     public
     @ResponseBody
     DonationChart setSoldItemsAndDonations(@Valid Statistics statistics, BindingResult bindingResult) {
         if (!bindingResult.hasErrors() && statistics.getStartDate().isBefore(statistics.getEndDate())) {
-            List<List<Object>> data = statisticsService.createDataByDates(statistics.getStartDate(), statistics.getEndDate());
-            return new DonationChart(data);
+            List<List<Object>> data = statisticsService.createDonationData(statistics.getStartDate(), statistics.getEndDate());
+            List<List<Object>> duckData = statisticsService.createDuckData(statistics.getStartDate(), statistics.getEndDate());
+            return new DonationChart(data, duckData);
         } else {
             List<LocalDate> dates = statisticsService.getDefaultDates();
             LocalDate startDate = dates.get(0);
             LocalDate endDate = dates.get(1);
-            List<List<Object>> data = statisticsService.createDataByDates(startDate, endDate);
-            return new DonationChart(data);
+            List<List<Object>> data = statisticsService.createDonationData(startDate, endDate);
+            List<List<Object>> duckData = statisticsService.createDuckData(startDate, endDate);
+            return new DonationChart(data, duckData);
         }
     }
 

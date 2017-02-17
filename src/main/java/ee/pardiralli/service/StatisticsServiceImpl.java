@@ -37,36 +37,65 @@ public class StatisticsServiceImpl implements StatisticsService {
         return Arrays.asList(lastBeginningDate, lastFinishDate);
     }
 
+    /**
+     * Creates data list for an empty chart.
+     *
+     * @return data for an empty chart with last week's dates
+     */
+    private List<List<Object>> createEmptyChartData(){
+        List<List<Object>> data = new ArrayList<>();
+        log.info("No races, no chart data");
+        LocalDate endDate = LocalDate.now();
+        LocalDate date = endDate.minusDays(7);
+        while (date.isBefore(endDate) || date.equals(endDate)){
+            String day = date.toString().substring(8, 10);
+            data.add(Arrays.asList(day, 0));
+            date = date.plusDays(1);
+        }
+        return data;
+    }
+
     @Override
-    public List<List<Object>> createDataByDates(LocalDate startDate, LocalDate endDate) {
+    public List<List<Object>> createDuckData(LocalDate startDate, LocalDate endDate) {
         List<List<Object>> data = new ArrayList<>();
         LocalDate date = startDate;
         // If there are no races in the db, then create an empty chart with last week's dates
         // If a race exists, then neither of the dates can be null
         if (startDate == null || endDate == null){
-            log.info("No chart data");
-            endDate = LocalDate.now();
-            date = endDate.minusDays(7);
-            while (date.isBefore(endDate) || date.equals(endDate)){
-                String day = date.toString().substring(8, 10);
-                data.add(Arrays.asList(day, 0, 0));
-                date = date.plusDays(1);
-            }
-            return data;
+            return createEmptyChartData();
         }
-        else {
-            log.info(String.format("Creating chart data from %s to %s", startDate.toString(), endDate.toString()));
-        }
+        log.info(String.format("Creating duck chart data from %s to %s", startDate.toString(), endDate.toString()));
         while (true) {
             if (date.isAfter(endDate)) {
                 return data;
             }
             Integer ducks = duckRepository.countByDateOfPurchase(date);
+            String day = date.toString().substring(8, 10);
+            data.add(Arrays.asList(day, ducks));
+            log.info(String.format("date: %s, ducks: %d", date.toString(), ducks));
+            date = date.plusDays(1);
+        }
+    }
+
+    @Override
+    public List<List<Object>> createDonationData(LocalDate startDate, LocalDate endDate) {
+        List<List<Object>> data = new ArrayList<>();
+        LocalDate date = startDate;
+        // If there are no races in the db, then create an empty chart with last week's dates
+        // If a race exists, then neither of the dates can be null
+        if (startDate == null || endDate == null){
+            return createEmptyChartData();
+        }
+        log.info(String.format("Creating donation chart data from %s to %s", startDate.toString(), endDate.toString()));
+        while (true) {
+            if (date.isAfter(endDate)) {
+                return data;
+            }
             Double donations = duckRepository.donationsByDateOfPurchase(date);
             donations = donations == null ? 0 : donations / 100;
             String day = date.toString().substring(8, 10);
-            data.add(Arrays.asList(day, ducks, donations));
-            log.info(String.format("date: %s, ducks: %d, donations: %s", date.toString(), ducks, donations.toString()));
+            data.add(Arrays.asList(day, donations));
+            log.info(String.format("date: %s, donations: %s", date.toString(), donations.toString()));
             date = date.plusDays(1);
         }
     }

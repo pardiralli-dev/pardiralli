@@ -75,6 +75,7 @@ $(document).ready(function () {
                 chart:  {
                     title: "Müüdud pardid"
                 },
+                colors: ["#FF9900"],
                 width: 900,
                 height: 500,
                 vAxis: {viewWindowMode: "explicit", viewWindow:{ min: 0 }}

@@ -60,8 +60,8 @@ $(document).ready(function () {
 
         $(".chart_").remove();
         chart_row.append('<br>');
-        chart_row.append('<div id="linechart_ducks" class="chart_container-fluid"></div>');
         chart_row.append('<div id="linechart_donations" class="chart_ container-fluid"></div>');
+        chart_row.append('<div id="linechart_ducks" class="chart_ container-fluid"></div>');
         loader_row.append('<div class="loader loadingDiv container-fluid"></div>');
         description_row.append('<div class="chart_">Täpsustus: ' + current_descrition + '</div>');
         callDrawCharts();
@@ -99,6 +99,7 @@ $(document).ready(function () {
             chart:  {
                 title: "Müüdud pardid"
             },
+            colors: ["#FF9900"],
             width: 900,
             height: 500,
             vAxis: {viewWindowMode: "explicit", viewWindow:{ min: 0 }}

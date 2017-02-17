@@ -21,6 +21,7 @@ public class DonationChart {
      * The structure of the inner lists is as follows:
      * [day_of_month (string), number_of_ducks (int), amount_of_donations (double)]
      */
-    private List<List<Object>> data = new ArrayList<>();
+    private List<List<Object>> donations = new ArrayList<>();
 
+    private List<List<Object>> ducks = new ArrayList<>();
 }

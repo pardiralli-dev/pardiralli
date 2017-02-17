@@ -85,7 +85,8 @@ $(document).ready(function () {
                         Parte: {label: "Müüdud parte"},
                         Annetusi: {label: "Kogutud raha (€)"}
                     }
-                }
+                },
+                vAxis: {viewWindowMode: "explicit", viewWindow:{ min: 0 }}
             };
 
             var chart = new google.charts.Line(document.getElementById("linechart_donations"));

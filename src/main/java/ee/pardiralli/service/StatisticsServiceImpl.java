@@ -41,7 +41,22 @@ public class StatisticsServiceImpl implements StatisticsService {
     public List<List<Object>> createDataByDates(LocalDate startDate, LocalDate endDate) {
         List<List<Object>> data = new ArrayList<>();
         LocalDate date = startDate;
-        log.info(String.format("Creating chart data from %s to %s", startDate.toString(), endDate.toString()));
+        // If there are no races in the db, then create an empty chart with last week's dates
+        // If a race exists, then neither of the dates can be null
+        if (startDate == null || endDate == null){
+            log.info("No chart data");
+            endDate = LocalDate.now();
+            date = endDate.minusDays(7);
+            while (date.isBefore(endDate) || date.equals(endDate)){
+                String day = date.toString().substring(8, 10);
+                data.add(Arrays.asList(day, 0, 0));
+                date = date.plusDays(1);
+            }
+            return data;
+        }
+        else {
+            log.info(String.format("Creating chart data from %s to %s", startDate.toString(), endDate.toString()));
+        }
         while (true) {
             if (date.isAfter(endDate)) {
                 return data;

@@ -19,12 +19,6 @@
 <body>
 <div class="container container-general">
     <div th:replace="fragments/menu :: admin-menu"></div>
-    <div class="panel panel-default">
-        <div class="panel-body">
-            <div id="linechart_donations" style="width: 900px; height: 500px">
-            </div>
-        </div>
-    </div>
     <!--/*@thymesVar id="statistics" type="ee.pardiralli.statistics.Statistics"*/-->
     <div id="loadingGif"></div>
     <div class="panel panel-default">
@@ -43,6 +37,18 @@
                     </div>
                 </div>
             </form>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div id="linechart_donations" style="width: 900px; height: 500px">
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div id="linechart_ducks" style="width: 900px; height: 500px">
+            </div>
         </div>
     </div>
     <!-- /*

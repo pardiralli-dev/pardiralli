@@ -34,8 +34,9 @@ $.datepicker.setDefaults($.datepicker.regional['et']);
 
 $(document).ready(function () {
         google.charts.load('current', {'packages': ['line']});
-        var dataFromServer;
-        callDrawDonationChart();
+        var donationData;
+        var duckData;
+        callDrawCharts();
 
 //google.charts.setOnLoadCallback(drawChart_visits);
         var gifDiv = $("#loadingGif");
@@ -46,7 +47,7 @@ $(document).ready(function () {
         });
 
 //Send POST request to server
-        function callDrawDonationChart() {
+        function callDrawCharts() {
             $.ajax({
                 url: window.location.href,
                 type: 'POST',
@@ -56,36 +57,45 @@ $(document).ready(function () {
                     xhr.setRequestHeader(header, token);
                 },
                 success: function (data) {
-                    dataFromServer = data.data;//JSON.parse(data.responseText).data;
+                    donationData = data.donations;
+                    duckData = data.ducks;
                     google.charts.setOnLoadCallback(drawChart_donations);
+                    google.charts.setOnLoadCallback(drawChart_ducks);
                 }
             });
+        }
+
+        function drawChart_ducks(){
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Päev');
+            data.addColumn('number', 'Müüdud parte');
+            data.addRows(duckData);
+
+            var options = {
+                chart:  {
+                    title: "Müüdud pardid"
+                },
+                width: 900,
+                height: 500,
+                vAxis: {viewWindowMode: "explicit", viewWindow:{ min: 0 }}
+            };
+            var chart = new google.charts.Line(document.getElementById("linechart_ducks"));
+            chart.draw(data, google.charts.Line.convertOptions(options));
         }
 
         function drawChart_donations() {
             var data = new google.visualization.DataTable();
 
             data.addColumn('string', 'Päev');
-            data.addColumn('number', 'Müüdud parte');
             data.addColumn('number', 'Kogutud raha');
-            data.addRows(dataFromServer);
+            data.addRows(donationData);
 
             var options = {
                 chart: {
-                    title: "Annetused ja müüdud pardid"
+                    title: "Annetused"
                 },
                 width: 900,
                 height: 500,
-                series: {
-                    0: {axis: "Parte"},
-                    1: {axis: "Annetusi"}
-                },
-                axes: {
-                    y: {
-                        Parte: {label: "Müüdud parte"},
-                        Annetusi: {label: "Kogutud raha (€)"}
-                    }
-                },
                 vAxis: {viewWindowMode: "explicit", viewWindow:{ min: 0 }}
             };
 
@@ -99,7 +109,7 @@ $(document).ready(function () {
                     dateFormat: "dd-mm-yy",
                     onSelect: function () {
                         gifDiv.append('<div class="loader loadingDiv container-fluid"></div>');
-                        callDrawDonationChart()
+                        callDrawCharts()
                     }
                 }
             );
@@ -110,7 +120,7 @@ $(document).ready(function () {
                     dateFormat: "dd-mm-yy",
                     onSelect: function () {
                         gifDiv.append('<div class="loader loadingDiv container-fluid"></div>');
-                        callDrawDonationChart()
+                        callDrawCharts()
                     }
                 }
             );

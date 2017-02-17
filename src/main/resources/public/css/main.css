@@ -159,8 +159,7 @@ div.row.buyer-row {
 }
 
 div.buyer-info-col {
-    display: flex;
-    flex-direction: column;
+
 }
 
 div.total-info-col {

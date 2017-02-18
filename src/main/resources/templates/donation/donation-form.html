@@ -18,7 +18,7 @@
 
 <div class="container container-mainform">
 
-    <div th:replace="fragments/menu :: admin-menu"></div>
+    <div th:replace="fragments/menu :: main-menu"></div>
 
     <!--/*@thymesVar id="feedbackList" type="java.util.List<ee.pardiralli.feedback.Feedback>"*/-->
     <div th:replace="fragments/feedback :: feedback-messages (feedbackList=${feedbackList})"></div>

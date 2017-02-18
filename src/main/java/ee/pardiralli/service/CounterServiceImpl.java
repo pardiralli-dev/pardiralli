@@ -1,6 +1,7 @@
 package ee.pardiralli.service;
 
 import ee.pardiralli.db.DuckRepository;
+import ee.pardiralli.dto.CounterDTO;
 import ee.pardiralli.util.BanklinkUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,12 +15,9 @@ public class CounterServiceImpl implements CounterService {
     private final DuckRepository duckRepository;
 
     @Override
-    public Integer duckCountInOpenRace() {
-        return duckRepository.countDucksInOpenRace();
-    }
-
-    @Override
-    public String donationsInOpenRace() {
-        return BanklinkUtil.centsToEuros(duckRepository.sumDonationsInOpenRace());
+    public CounterDTO queryCounter() {
+        return new CounterDTO(
+                BanklinkUtil.centsToEurosWhole(duckRepository.sumDonationsInOpenRace()),
+                String.valueOf(duckRepository.countDucksInOpenRace()));
     }
 }

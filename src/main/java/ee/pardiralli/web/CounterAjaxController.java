@@ -1,6 +1,7 @@
 package ee.pardiralli.web;
 
 
+import ee.pardiralli.dto.CounterDTO;
 import ee.pardiralli.service.CounterService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,15 +15,10 @@ public class CounterAjaxController {
     private final CounterService counterService;
 
 
-    @GetMapping("/duck_count_ajax")
+    @GetMapping("/counter_ajax")
     @ResponseBody
-    public String getDuckCount() {
-        return String.valueOf(counterService.duckCountInOpenRace());
+    public CounterDTO getDuckCount() {
+        return counterService.queryCounter();
     }
 
-    @GetMapping("/donations_ajax")
-    @ResponseBody
-    public String getDuckSum() {
-        return counterService.donationsInOpenRace();
-    }
 }

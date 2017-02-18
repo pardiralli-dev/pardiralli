@@ -1,14 +1,11 @@
 package ee.pardiralli.service;
 
+import ee.pardiralli.dto.CounterDTO;
+
 public interface CounterService {
 
     /**
-     * @return count of current ducks in open race
+     * @return query and create {@link CounterDTO} that contains donations info
      */
-    Integer duckCountInOpenRace();
-
-    /**
-     * @return sum of collected donations in open race
-     */
-    String donationsInOpenRace();
+    CounterDTO queryCounter();
 }

@@ -36,6 +36,8 @@ $(document).ready(function () {
         google.charts.load('current', {'packages': ['line']});
         var donationData;
         var duckData;
+        var subtitle;
+        var errorMessage;
         callDrawCharts();
 
 //google.charts.setOnLoadCallback(drawChart_visits);
@@ -59,26 +61,30 @@ $(document).ready(function () {
                 success: function (data) {
                     donationData = data.donations;
                     duckData = data.ducks;
+                    subtitle = data.subtitle;
+                    errorMessage = data.errorMessage;
                     google.charts.setOnLoadCallback(drawChart_donations);
                     google.charts.setOnLoadCallback(drawChart_ducks);
                 }
             });
         }
 
-        function drawChart_ducks(){
+
+        function drawChart_ducks() {
             var data = new google.visualization.DataTable();
             data.addColumn('string', 'Päev');
             data.addColumn('number', 'Müüdud parte');
             data.addRows(duckData);
 
             var options = {
-                chart:  {
-                    title: "Müüdud pardid"
+                chart: {
+                    title: "Müüdud pardid",
+                    subtitle: subtitle
                 },
                 colors: ["#FF9900"],
                 width: 900,
                 height: 500,
-                vAxis: {viewWindowMode: "explicit", viewWindow:{ min: 0 }}
+                vAxis: {viewWindowMode: "explicit", viewWindow: {min: 0}}
             };
             var chart = new google.charts.Line(document.getElementById("linechart_ducks"));
             chart.draw(data, google.charts.Line.convertOptions(options));
@@ -93,11 +99,12 @@ $(document).ready(function () {
 
             var options = {
                 chart: {
-                    title: "Annetused"
+                    title: "Annetused",
+                    subtitle: subtitle
                 },
                 width: 900,
                 height: 500,
-                vAxis: {viewWindowMode: "explicit", viewWindow:{ min: 0 }}
+                vAxis: {viewWindowMode: "explicit", viewWindow: {min: 0}}
             };
 
             var chart = new google.charts.Line(document.getElementById("linechart_donations"));

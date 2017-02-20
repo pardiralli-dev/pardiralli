@@ -33,8 +33,7 @@ public class StatisticsServiceImpl implements StatisticsService {
     public List<LocalDate> getDefaultDates() {
        LocalDate lastBeginningDate = raceRepository.findLastBeginningDate();
        LocalDate lastFinishDate = raceRepository.findLastFinishDate();
-
-        return Arrays.asList(lastBeginningDate, lastFinishDate);
+       return Arrays.asList(lastBeginningDate, lastFinishDate);
     }
 
     /**
@@ -108,7 +107,7 @@ public class StatisticsServiceImpl implements StatisticsService {
         StringBuilder sb = new StringBuilder();
         LocalDate startDate = exportFile.getStartDate();
         LocalDate endDate = exportFile.getEndDate();
-        String niceDate = StatisticsUtil.getNiceDate(startDate, endDate);
+        String niceDate = StatisticsUtil.getDashDate(startDate, endDate);
         List<Duck> ducks = getDucksByTimePeriod(exportFile.getStartDate(), exportFile.getEndDate());
 
         sb.append("Müüdud pardid ajavahemikus ").append(niceDate).append("\n");

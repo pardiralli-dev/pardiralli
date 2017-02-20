@@ -7,6 +7,7 @@ import ee.pardiralli.service.StatisticsService;
 import ee.pardiralli.statistics.DonationChart;
 import ee.pardiralli.util.ControllerUtil;
 import ee.pardiralli.util.RaceUtil;
+import ee.pardiralli.util.StatisticsUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -42,14 +43,18 @@ public class RaceController {
                                            @RequestParam("finish") String end) {
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate startDate = LocalDate.parse(start, formatter);
+            LocalDate endDate = LocalDate.parse(end, formatter);
             return new DonationChart(statisticsService.createDonationData(
-                    LocalDate.parse(start, formatter),
-                    LocalDate.parse(end, formatter)
+                    startDate,
+                    endDate
             ), statisticsService.createDuckData(
-                    LocalDate.parse(start, formatter),
-                    LocalDate.parse(end, formatter)));
+                    startDate,
+                    endDate
+            ), StatisticsUtil.getDotDate(startDate, endDate));
         } catch (DateTimeParseException e) {
-            return new DonationChart(new ArrayList<>(), new ArrayList<>());
+            String errorMessage = "Viga andmete töötlemisel!";
+            return new DonationChart(new ArrayList<>(), new ArrayList<>(), "", errorMessage);
         }
     }
 

@@ -40,7 +40,8 @@ $(document).ready(function () {
     var current_row_id;
     var donationData;
     var duckData;
-    var current_descrition;
+    var subtitle;
+    var current_description;
 
     // Remove spinner
     $(document).ajaxStop(function () {
@@ -52,7 +53,7 @@ $(document).ready(function () {
         current_row_id = $(this).data('selector');
         current_start = $(this).data('start');
         current_end = $(this).data('end');
-        current_descrition = $(this).data('desc');
+        current_description = $(this).data('desc');
 
         var chart_row = $('#info' + current_row_id);
         var loader_row = $('#info2' + current_row_id);
@@ -63,7 +64,7 @@ $(document).ready(function () {
         chart_row.append('<div id="linechart_donations" class="chart_ container-fluid"></div>');
         chart_row.append('<div id="linechart_ducks" class="chart_ container-fluid"></div>');
         loader_row.append('<div class="loader loadingDiv container-fluid"></div>');
-        description_row.append('<div class="chart_">Täpsustus: ' + current_descrition + '</div>');
+        description_row.append('<div class="chart_">Täpsustus: ' + current_description + '</div>');
         callDrawCharts();
     });
 
@@ -83,6 +84,7 @@ $(document).ready(function () {
             success: function (data) {
                 donationData = data.donations;
                 duckData = data.ducks;
+                subtitle = data.subtitle;
                 google.charts.setOnLoadCallback(drawChart_donations);
                 google.charts.setOnLoadCallback(drawChart_ducks);
             }
@@ -97,7 +99,8 @@ $(document).ready(function () {
 
         var options = {
             chart:  {
-                title: "Müüdud pardid"
+                title: "Müüdud pardid",
+                subtitle: subtitle
             },
             colors: ["#FF9900"],
             width: 900,
@@ -117,7 +120,8 @@ $(document).ready(function () {
 
         var options = {
             chart: {
-                title: "Annetused"
+                title: "Annetused",
+                subtitle: subtitle
             },
             width: 900,
             height: 500,

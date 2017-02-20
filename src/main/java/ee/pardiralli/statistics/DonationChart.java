@@ -30,8 +30,14 @@ public class DonationChart {
      */
     private List<List<Object>> ducks = new ArrayList<>();
 
+    /**
+     * Subtitle for the charts
+     */
     private String subtitle;
 
+    /**
+     * An error message to show on the statistics page
+     */
     private String errorMessage;
 
     public DonationChart(List<List<Object>> donations, List<List<Object>> ducks, String subtitle) {

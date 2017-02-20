@@ -34,7 +34,6 @@ $.datepicker.setDefaults($.datepicker.regional['et']);
 
 function parseDate(input) {
     var parts = input.split('-');
-    // new Date(year, month [, day [, hours[, minutes[, seconds[, ms]]]]])
     return new Date(parts[2], parts[1] - 1, parts[0]); // Note: months are 0-based
 }
 $(document).ready(function () {
@@ -44,15 +43,14 @@ $(document).ready(function () {
         var subtitle;
         var errorMessage;
         var errorMsgDiv;
-        var csvStartDate = parseDate($('#datepicker_exp_start').val());
-        var csvEndDate = parseDate($('#datepicker_exp_end').val());
-        alert(csvStartDate);
-        alert(csvEndDate);
+        var csvStartDatePicker = $('#datepicker_exp_start');
+        var csvEndDatePicker = $('#datepicker_exp_end');
+        var csvStartDate = parseDate(csvStartDatePicker.val());
+        var csvEndDate = parseDate(csvEndDatePicker.val());
 
         callDrawCharts();
 
         var gifDiv = $("#loadingGif");
-
 
         $(document).ajaxStop(function () {
             $(".loadingDiv").remove();
@@ -137,53 +135,45 @@ $(document).ready(function () {
             }
         }
 
-        $(document).ready(function () {
-            $("#datepicker_don_start").datepicker(
-                {
-                    dateFormat: "dd-mm-yy",
-                    onSelect: function () {
-                        gifDiv.append('<div class="loader loadingDiv container-fluid"></div>');
-                        callDrawCharts()
-                    }
+        $("#datepicker_don_start").datepicker(
+            {
+                dateFormat: "dd-mm-yy",
+                onSelect: function () {
+                    gifDiv.append('<div class="loader loadingDiv container-fluid"></div>');
+                    callDrawCharts()
                 }
-            );
-        });
+            }
+        );
 
-        $(document).ready(function () {
-            $("#datepicker_don_end").datepicker(
-                {
-                    dateFormat: "dd-mm-yy",
-                    onSelect: function () {
-                        gifDiv.append('<div class="loader loadingDiv container-fluid"></div>');
-                        callDrawCharts()
-                    }
+        $("#datepicker_don_end").datepicker(
+            {
+                dateFormat: "dd-mm-yy",
+                onSelect: function () {
+                    gifDiv.append('<div class="loader loadingDiv container-fluid"></div>');
+                    callDrawCharts()
                 }
-            );
-        });
+            }
+        );
 
-        $(document).ready(function () {
-            $("#datepicker_exp_start").datepicker(
-                {
-                    dateFormat: "dd-mm-yy",
-                    onSelect: function () {
-                        csvStartDate = $("#datepicker_exp_start").datepicker("getDate");
-                        checkCSVDates(csvStartDate, csvEndDate)
-                    }
+        csvStartDatePicker.datepicker(
+            {
+                dateFormat: "dd-mm-yy",
+                onSelect: function () {
+                    csvStartDate = csvStartDatePicker.datepicker("getDate");
+                    checkCSVDates(csvStartDate, csvEndDate)
                 }
-            );
-        });
+            }
+        );
 
-        $(document).ready(function () {
-            $("#datepicker_exp_end").datepicker(
-                {
-                    dateFormat: "dd-mm-yy",
-                    onSelect: function () {
-                        csvEndDate = $("#datepicker_exp_end").datepicker("getDate");
-                        checkCSVDates(csvStartDate, csvEndDate)
-                    }
+        csvEndDatePicker.datepicker(
+            {
+                dateFormat: "dd-mm-yy",
+                onSelect: function () {
+                    csvEndDate = csvEndDatePicker.datepicker("getDate");
+                    checkCSVDates(csvStartDate, csvEndDate)
                 }
-            );
-        });
+            }
+        );
 
 
     }

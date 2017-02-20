@@ -4,9 +4,11 @@
     <title>Login</title>
     <link rel="stylesheet" type="text/css"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="css/main.css"/>
 </head>
 <body>
 <div class="container">
+    <div th:replace="fragments/menu :: main-menu"></div>
     <div class="panel panel-default">
         <div class="panel-body">
             <p th:if="${param.logout}" class="alert alert-info">Olete välja loginud!</p>

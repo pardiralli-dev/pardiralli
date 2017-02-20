@@ -37,6 +37,7 @@
                     </div>
                 </div>
             </form>
+            <div id="errorMessage"></div>
         </div>
     </div>
     <div class="panel panel-default">
@@ -66,7 +67,8 @@
     <div class="panel panel-default">
         <div class="panel-body">
             <!--/*@thymesVar id="exportFile" type="ee.pardiralli.statistics.ExportFile"*/-->
-            <form id="exportform" name="exportform" class="form-horizontal" th:action="@{/export}" th:object="${exportFile}"
+            <form id="exportform" name="exportform" class="form-horizontal" th:action="@{/export}"
+                  th:object="${exportFile}"
                   method="get">
                 <fieldset>
                     <legend>Lae raport alla</legend>

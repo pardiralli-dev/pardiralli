@@ -32,15 +32,25 @@ var header = $("meta[name='_csrf_header']").attr("content");
 
 $.datepicker.setDefaults($.datepicker.regional['et']);
 
+function parseDate(input) {
+    var parts = input.split('-');
+    // new Date(year, month [, day [, hours[, minutes[, seconds[, ms]]]]])
+    return new Date(parts[2], parts[1] - 1, parts[0]); // Note: months are 0-based
+}
 $(document).ready(function () {
         google.charts.load('current', {'packages': ['line']});
         var donationData;
         var duckData;
         var subtitle;
         var errorMessage;
+        var errorMsgDiv;
+        var csvStartDate = parseDate($('#datepicker_exp_start').val());
+        var csvEndDate = parseDate($('#datepicker_exp_end').val());
+        alert(csvStartDate);
+        alert(csvEndDate);
+
         callDrawCharts();
 
-//google.charts.setOnLoadCallback(drawChart_visits);
         var gifDiv = $("#loadingGif");
 
 
@@ -48,7 +58,6 @@ $(document).ready(function () {
             $(".loadingDiv").remove();
         });
 
-//Send POST request to server
         function callDrawCharts() {
             $.ajax({
                 url: window.location.href,
@@ -57,18 +66,26 @@ $(document).ready(function () {
                 data: $("#don_chart").serialize(),
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader(header, token);
+                    $("#msg").remove();
                 },
                 success: function (data) {
+                    $("#msg").remove();
+                    errorMsgDiv = $("#errorMessage");
+
                     donationData = data.donations;
                     duckData = data.ducks;
                     subtitle = data.subtitle;
                     errorMessage = data.errorMessage;
+
                     google.charts.setOnLoadCallback(drawChart_donations);
                     google.charts.setOnLoadCallback(drawChart_ducks);
+
+                    if (errorMessage !== null) {
+                        errorMsgDiv.append('<div id="msg" class="alert alert-danger">' + errorMessage + '</div>');
+                    }
                 }
             });
         }
-
 
         function drawChart_ducks() {
             var data = new google.visualization.DataTable();
@@ -111,6 +128,15 @@ $(document).ready(function () {
             chart.draw(data, google.charts.Line.convertOptions(options));
         }
 
+        function checkCSVDates(startDate, endDate) {
+            if (startDate > endDate) {
+                $("#submit").attr("disabled", "disabled");
+            }
+            else {
+                $("#submit").removeAttr("disabled");
+            }
+        }
+
         $(document).ready(function () {
             $("#datepicker_don_start").datepicker(
                 {
@@ -122,6 +148,7 @@ $(document).ready(function () {
                 }
             );
         });
+
         $(document).ready(function () {
             $("#datepicker_don_end").datepicker(
                 {
@@ -137,7 +164,11 @@ $(document).ready(function () {
         $(document).ready(function () {
             $("#datepicker_exp_start").datepicker(
                 {
-                    dateFormat: "dd-mm-yy"
+                    dateFormat: "dd-mm-yy",
+                    onSelect: function () {
+                        csvStartDate = $("#datepicker_exp_start").datepicker("getDate");
+                        checkCSVDates(csvStartDate, csvEndDate)
+                    }
                 }
             );
         });
@@ -145,10 +176,15 @@ $(document).ready(function () {
         $(document).ready(function () {
             $("#datepicker_exp_end").datepicker(
                 {
-                    dateFormat: "dd-mm-yy"
+                    dateFormat: "dd-mm-yy",
+                    onSelect: function () {
+                        csvEndDate = $("#datepicker_exp_end").datepicker("getDate");
+                        checkCSVDates(csvStartDate, csvEndDate)
+                    }
                 }
             );
         });
+
 
     }
 );

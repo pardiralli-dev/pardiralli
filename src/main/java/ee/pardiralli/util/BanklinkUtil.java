@@ -16,8 +16,10 @@ import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
-import java.sql.Timestamp;
-import java.time.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
@@ -57,7 +59,7 @@ public class BanklinkUtil {
 
 
     /**
-     * @return current datetime
+     * @return current zoned datetime
      */
     public static ZonedDateTime currentDateTime() {
         return ZonedDateTime.now(ZoneId.of("Europe/Helsinki")).truncatedTo(ChronoUnit.SECONDS);
@@ -77,8 +79,10 @@ public class BanklinkUtil {
 
     /**
      * @param datetimeAsString timestamp in the format
-     *                         <pre>yyyy-MM-ddThh:mmss+ZONE</pre>
-     * @return corresponding datetime
+     *                         <pre>yyyy-MM-ddThh:mm:ss+ZONE</pre>
+     *                         Example:
+     *                         <pre>2016-11-24T16:50:00+0200</pre>
+     * @return corresponding zoned datetime
      */
     public static ZonedDateTime dateTimeFromString(String datetimeAsString) {
         datetimeAsString = new StringBuilder(datetimeAsString).insert(datetimeAsString.length() - 2, ":").toString();
@@ -110,8 +114,7 @@ public class BanklinkUtil {
             byte[] sigBytes = sig.sign();
             return Base64.encodeBase64String(sigBytes);
         } catch (NoSuchAlgorithmException | SignatureException | InvalidKeyException | InvalidKeySpecException | IOException e) {
-            // TODO: 8.11.16 error handling
-            throw new AssertionError(e);
+            throw new RuntimeException(e);
         }
     }
 
@@ -137,20 +140,18 @@ public class BanklinkUtil {
      * @param params               a map containing parameters received from the bank's response
      * @param isSuccessfulResponse true if bank's response is successful, otherwise false
      * @return true, if the MAC signature is valid, otherwise false
-     * @throws IllegalResponseException if something goes wrong
      */
-    public static boolean isValidMAC(String publicKeyFilename, Map<String, String> params, boolean isSuccessfulResponse) throws IllegalResponseException {
+    public static boolean isValidMAC(String publicKeyFilename, Map<String, String> params, boolean isSuccessfulResponse) {
         String dataRow = concParamsToDataRow(getMACParams(params, isSuccessfulResponse));
         try {
             PublicKey publicKey = getPublicKey(publicKeyFilename);
             Signature sig = Signature.getInstance("SHA1withRSA");
             sig.initVerify(publicKey);
             sig.update(dataRow.getBytes("UTF-8"));
-            byte[] sigToVerify = params.get("VK_MAC").getBytes();
+            byte[] sigToVerify = Base64.decodeBase64(params.get("VK_MAC"));
             return sig.verify(sigToVerify);
         } catch (NoSuchAlgorithmException | SignatureException | InvalidKeyException | CertificateException | IOException e) {
-            // TODO: 15.11.16 error handling
-            throw new AssertionError(e);
+            throw new RuntimeException(e);
         }
     }
 
@@ -189,11 +190,16 @@ public class BanklinkUtil {
         }
     }
 
+    /**
+     * @param ducks nonempty list of ducks with a common buyer
+     * @return the buyer
+     * @throws RuntimeException if the ducks have several different buyers or the list is empty
+     */
     public static DuckBuyer buyerFromDucks(List<Duck> ducks) {
         if (ducks.stream().map(Duck::getDuckBuyer).distinct().count() == 1) {
             return ducks.get(0).getDuckBuyer();
         } else {
-            throw new AssertionError("list of ducks has several different buyers, ducks: " + ducks.toString());
+            throw new RuntimeException("list of ducks is empty or has several different buyers: " + ducks.toString());
         }
     }
 

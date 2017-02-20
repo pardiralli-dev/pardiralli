@@ -16,7 +16,7 @@
 <body>
 <!--/*@thymesVar id="search" type="ee.pardiralli.dto.SearchDTO"*/-->
 <div class="container container-general">
-    <div th:replace="fragments/menu :: admin-menu"></div>
+    <div th:replace="fragments/menu :: main-menu"></div>
     <div class="panel panel-default">
         <div class="panel-body">
             <form id="exact" class="form-horizontal" th:action="@{/search}" th:object="${search}" method="post">

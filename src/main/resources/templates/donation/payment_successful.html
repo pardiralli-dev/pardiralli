@@ -9,37 +9,22 @@
     <link rel="stylesheet" type="text/css" href="css/admin.css"/>
 </head>
 <body>
-<nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">Pardiralli</a>
-        </div>
-        <ul class="nav navbar-nav">
-            <li><a th:href="@{/}">Avaleht</a></li>
-            <li><a th:href="@{/statistics}">Statistika</a></li>
-            <li><a th:href="@{/search}">Otsing</a></li>
-            <li><a th:href="@{/settings}">Võistlused</a></li>
-            <li class="active"><a th:href="@{/insert}">Sisestus</a></li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-            <li><a th:href="@{/logout}"><span class="glyphicon glyphicon-log-in"></span>Logi välja</a></li>
-        </ul>
-    </div>
-</nav>
 <div class="container">
+    <div th:replace="fragments/menu :: main-menu"></div>
+
     <h3>Makse edukalt sooritatud!</h3>
-    <br>
+    <br/>
     <div>
         <h4>Teie pardiostu info</h4>
-        <br>
+        <br/>
         <div>
             <!--/*@thymesVar id="transactionID" type="java.lang.String"*/-->
             <div th:text="'Tehingu nr: ' + ${transactionID}"></div>
-            <br>
+            <br/>
             <!--/*@thymesVar id="buyerEmail" type="java.lang.String"*/-->
             <div th:text="'E-mail: ' + ${buyerEmail}"></div>
         </div>
-        <br>
+        <br/>
         <table id="information" class="table">
             <thead>
             <tr>
@@ -59,11 +44,11 @@
                 <td th:text="${duckDTO.getPrice()}"></td>
             </tr>
         </table>
-        <br>
+        <br/>
         <!--/*@thymesVar id="totalSum" type="java.lang.String"*/-->
         <div th:text="'Summa: ' + ${totalSum} + '€'"></div>
     </div>
-    <br>
+    <br/>
     <h3>Aitäh Pardirallit toetamast!</h3>
 </div>
 </body>

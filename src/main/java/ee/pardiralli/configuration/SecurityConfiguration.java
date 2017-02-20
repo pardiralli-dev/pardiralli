@@ -26,18 +26,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/", "/login",
-                        "/banklink/swedbank/pay",
-                        "/banklink/seb/pay",
-                        "/banklink/nordea/pay",
-                        "/banklink/lhv/pay",
-                        "/banklink/swedbank/success",
-                        "/banklink/seb/success",
-                        "/banklink/nordea/success",
-                        "/banklink/lhv/success").permitAll().anyRequest()
-                .fullyAuthenticated().and().formLogin().loginPage("/login")
-                .failureUrl("/login?error").and().logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout")).and().csrf();
+                .antMatchers("/",
+                        "/login",
+                        "/banklink/**").permitAll().anyRequest().fullyAuthenticated().and()
+                .formLogin().loginPage("/login").failureUrl("/login?error").and()
+                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).and()
+                .csrf().ignoringAntMatchers("/banklink/**");
     }
 
     @Override

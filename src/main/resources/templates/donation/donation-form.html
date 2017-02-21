@@ -12,12 +12,12 @@
     <link href="https://fonts.googleapis.com/css?family=Enriqueta" rel="stylesheet"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script type="text/javascript" src="js/form-control.js"></script>
+    <script type="text/javascript" src="js/counter_ajax.js"></script>
 </head>
 <body>
 
 
 <div class="container container-mainform">
-
     <div th:replace="fragments/menu :: main-menu"></div>
 
     <!--/*@thymesVar id="feedbackList" type="java.util.List<ee.pardiralli.feedback.Feedback>"*/-->
@@ -258,6 +258,8 @@
     <hr/>
     <footer>
         TMPK16
+        <div id="counter_donation_sum"></div>
+        <div id="counter_duck_count"></div>
     </footer>
 
 </div>

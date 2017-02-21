@@ -28,10 +28,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/",
                         "/login",
+                        "/counter_ajax",
                         "/banklink/**").permitAll().anyRequest().fullyAuthenticated().and()
                 .formLogin().loginPage("/login").failureUrl("/login?error").and()
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).and()
-                .csrf().ignoringAntMatchers("/banklink/**");
+                .csrf().ignoringAntMatchers("/banklink/**", "/counter_ajax");
     }
 
     @Override

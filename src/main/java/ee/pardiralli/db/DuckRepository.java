@@ -26,6 +26,13 @@ public interface DuckRepository extends CrudRepository<Duck, Integer> {
                         @Param("phone") String phone,
                         @Param("date") LocalDate date);
 
+    @Query("SELECT COUNT(d) FROM Duck d WHERE d.race.isOpen = true")
+    Integer countDucksInOpenRace();
+
+
+    @Query("SELECT SUM(d.priceCents) FROM Duck d WHERE d.race.isOpen = true")
+    Integer sumDonationsInOpenRace();
+
 
     /**
      * Count the number of bought ducks given a date.

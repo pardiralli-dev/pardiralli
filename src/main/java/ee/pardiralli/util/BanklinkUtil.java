@@ -3,7 +3,6 @@ package ee.pardiralli.util;
 import ee.pardiralli.domain.Duck;
 import ee.pardiralli.domain.DuckBuyer;
 import ee.pardiralli.dto.DuckDTO;
-import ee.pardiralli.exceptions.IllegalResponseException;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
 
@@ -230,4 +229,11 @@ public class BanklinkUtil {
         return new BigDecimal(cents).divide(new BigDecimal("100"), 2, RoundingMode.UNNECESSARY).toPlainString();
     }
 
+    /**
+     * @param cents number of cents divisible by 100
+     * @return string representing {@code cents / 100} as whole number
+     */
+    public static String centsToEurosWhole(Integer cents) {
+        return new BigDecimal(cents).divide(new BigDecimal("100"), 0, RoundingMode.UNNECESSARY).toPlainString();
+    }
 }

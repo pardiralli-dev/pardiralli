@@ -9,7 +9,7 @@ import java.util.List;
 
 
 /**
- * Class for holding data, which is sent to the donation chart to display.
+ * Class for holding data, which is sent to the charts to display.
  */
 @Data
 @NoArgsConstructor
@@ -19,8 +19,31 @@ public class DonationChart {
     /**
      * A list of lists containing objects for the donation chart.
      * The structure of the inner lists is as follows:
-     * [day_of_month (string), number_of_ducks (int), amount_of_donations (double)]
+     * [day_of_month (string), amount_of_donations (double)]
      */
-    private List<List<Object>> data = new ArrayList<>();
+    private List<List<Object>> donations = new ArrayList<>();
+
+    /**
+     * A list of lists containing objects for the donation chart.
+     * The structure of the inner lists is as follows:
+     * [day_of_month (string), number_of_ducks (int)]
+     */
+    private List<List<Object>> ducks = new ArrayList<>();
+
+    /**
+     * Subtitle for the charts
+     */
+    private String subtitle;
+
+    /**
+     * An error message to show on the statistics page
+     */
+    private String errorMessage;
+
+    public DonationChart(List<List<Object>> donations, List<List<Object>> ducks, String subtitle) {
+        this.donations = donations;
+        this.ducks = ducks;
+        this.subtitle = subtitle;
+    }
 
 }

@@ -4,6 +4,7 @@ import ee.pardiralli.service.StatisticsService;
 import ee.pardiralli.statistics.DonationChart;
 import ee.pardiralli.statistics.ExportFile;
 import ee.pardiralli.statistics.Statistics;
+import ee.pardiralli.util.StatisticsUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -57,19 +58,30 @@ public class StatisticsController {
     }
 
 
+
     @PostMapping("/statistics")
     public
     @ResponseBody
     DonationChart setSoldItemsAndDonations(@Valid Statistics statistics, BindingResult bindingResult) {
         if (!bindingResult.hasErrors() && statistics.getStartDate().isBefore(statistics.getEndDate())) {
-            List<List<Object>> data = statisticsService.createDataByDates(statistics.getStartDate(), statistics.getEndDate());
-            return new DonationChart(data);
+            LocalDate startDate = statistics.getStartDate();
+            LocalDate endDate = statistics.getEndDate();
+            List<List<Object>> data = statisticsService.createDonationData(startDate, endDate);
+            List<List<Object>> duckData = statisticsService.createDuckData(startDate, endDate);
+            return new DonationChart(data, duckData, StatisticsUtil.getDotDate(startDate, endDate));
         } else {
             List<LocalDate> dates = statisticsService.getDefaultDates();
             LocalDate startDate = dates.get(0);
             LocalDate endDate = dates.get(1);
-            List<List<Object>> data = statisticsService.createDataByDates(startDate, endDate);
-            return new DonationChart(data);
+            List<List<Object>> data = statisticsService.createDonationData(startDate, endDate);
+            List<List<Object>> duckData = statisticsService.createDuckData(startDate, endDate);
+            String errorMessage = "Viga! Sisestage kuupäevad uuesti!";
+            if (startDate == null || endDate == null) {
+                endDate = LocalDate.now();
+                startDate = endDate.minusDays(7);
+                errorMessage = "Ei leitud ühtegi võistlust";
+            }
+            return new DonationChart(data, duckData, StatisticsUtil.getDotDate(startDate, endDate), errorMessage);
         }
     }
 

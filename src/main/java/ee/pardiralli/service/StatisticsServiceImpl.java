@@ -31,9 +31,9 @@ public class StatisticsServiceImpl implements StatisticsService {
 
     @Override
     public List<LocalDate> getDefaultDates() {
-       LocalDate lastBeginningDate = raceRepository.findLastBeginningDate();
-       LocalDate lastFinishDate = raceRepository.findLastFinishDate();
-       return Arrays.asList(lastBeginningDate, lastFinishDate);
+        LocalDate lastBeginningDate = raceRepository.findLastBeginningDate();
+        LocalDate lastFinishDate = raceRepository.findLastFinishDate();
+        return Arrays.asList(lastBeginningDate, lastFinishDate);
     }
 
     /**
@@ -41,12 +41,12 @@ public class StatisticsServiceImpl implements StatisticsService {
      *
      * @return data for an empty chart with last week's dates
      */
-    private List<List<Object>> createEmptyChartData(){
+    private List<List<Object>> createEmptyChartData() {
         List<List<Object>> data = new ArrayList<>();
         log.info("No races, no chart data");
         LocalDate endDate = LocalDate.now();
         LocalDate date = endDate.minusDays(7);
-        while (date.isBefore(endDate) || date.equals(endDate)){
+        while (date.isBefore(endDate) || date.equals(endDate)) {
             String day = date.toString().substring(8, 10);
             data.add(Arrays.asList(day, 0));
             date = date.plusDays(1);
@@ -60,10 +60,10 @@ public class StatisticsServiceImpl implements StatisticsService {
         LocalDate date = startDate;
         // If there are no races in the db, then create an empty chart with last week's dates
         // If a race exists, then neither of the dates can be null
-        if (startDate == null || endDate == null){
+        if (startDate == null || endDate == null) {
             return createEmptyChartData();
         }
-        log.info(String.format("Creating duck chart data from %s to %s", startDate.toString(), endDate.toString()));
+        log.info("Creating duck chart data from {} to {}", startDate.toString(), endDate.toString());
         while (true) {
             if (date.isAfter(endDate)) {
                 return data;
@@ -71,7 +71,7 @@ public class StatisticsServiceImpl implements StatisticsService {
             Integer ducks = duckRepository.countByDateOfPurchase(date);
             String day = date.toString().substring(8, 10);
             data.add(Arrays.asList(day, ducks));
-            log.info(String.format("date: %s, ducks: %d", date.toString(), ducks));
+            log.info("date: {}, ducks: {}", date.toString(), ducks);
             date = date.plusDays(1);
         }
     }
@@ -82,10 +82,10 @@ public class StatisticsServiceImpl implements StatisticsService {
         LocalDate date = startDate;
         // If there are no races in the db, then create an empty chart with last week's dates
         // If a race exists, then neither of the dates can be null
-        if (startDate == null || endDate == null){
+        if (startDate == null || endDate == null) {
             return createEmptyChartData();
         }
-        log.info(String.format("Creating donation chart data from %s to %s", startDate.toString(), endDate.toString()));
+        log.info("Creating donation chart data from {} to {}", startDate.toString(), endDate.toString());
         while (true) {
             if (date.isAfter(endDate)) {
                 return data;
@@ -94,7 +94,7 @@ public class StatisticsServiceImpl implements StatisticsService {
             donations = donations == null ? 0 : donations / 100;
             String day = date.toString().substring(8, 10);
             data.add(Arrays.asList(day, donations));
-            log.info(String.format("date: %s, donations: %s", date.toString(), donations.toString()));
+            log.info("date: {}, donations: {}", date.toString(), donations.toString());
             date = date.plusDays(1);
         }
     }
@@ -112,7 +112,7 @@ public class StatisticsServiceImpl implements StatisticsService {
 
         sb.append("Müüdud pardid ajavahemikus ").append(niceDate).append("\n");
         sb.append("Ostmise kuupäev;Omaniku eesnimi;Omaniku perenimi;Omaniku telefoninumber;Maksja e-mail;Ralli nimi;Pardi number;Pardi hind\n");
-        for (Duck duck : ducks){
+        for (Duck duck : ducks) {
             sb.append(duck.getDateOfPurchase() == null ? "" : duck.getDateOfPurchase().toString()).append(";");
             sb.append(duck.getDuckOwner().getFirstName() == null ? "" : duck.getDuckOwner().getFirstName()).append(";");
             sb.append(duck.getDuckOwner().getLastName() == null ? "" : duck.getDuckOwner().getLastName()).append(";");

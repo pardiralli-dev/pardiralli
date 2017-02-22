@@ -4,6 +4,7 @@ package ee.pardiralli.configuration;
 import ee.pardiralli.converters.LocalDateTimeConverter;
 import ee.pardiralli.db.*;
 import ee.pardiralli.domain.Duck;
+import ee.pardiralli.domain.LoginAttempt;
 import ee.pardiralli.domain.Transaction;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -31,7 +32,8 @@ import java.util.Map;
                 DuckRepository.class,
                 OwnerRepository.class,
                 RaceRepository.class,
-                TransactionRepository.class
+                TransactionRepository.class,
+                LoginAttempt.class
         }
 )
 public class MainDbConfiguration {

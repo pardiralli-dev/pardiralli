@@ -9,7 +9,7 @@ import ee.pardiralli.exceptions.IllegalResponseException;
 import ee.pardiralli.exceptions.IllegalTransactionException;
 import ee.pardiralli.util.BanklinkUtil;
 import lombok.AllArgsConstructor;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
-@Log4j
+@Slf4j
 public class PaymentServiceImpl implements PaymentService {
     private final DuckRepository duckRepository;
     private final TransactionRepository transactionRepository;
@@ -154,7 +154,7 @@ public class PaymentServiceImpl implements PaymentService {
     public int saveDonation(DonationFormDTO donation) {
         DuckBuyer duckBuyer = new DuckBuyer();
         duckBuyer.setEmail(donation.getBuyerEmail());
-        log.info("Saving " + duckBuyer);
+        log.info("Saving {}", duckBuyer);
         duckBuyer = buyerRepository.save(duckBuyer);
         Race race = raceRepository.findRaceByIsOpen(true);
 
@@ -180,7 +180,7 @@ public class PaymentServiceImpl implements PaymentService {
                 duck.setDateOfPurchase(BanklinkUtil.getCurrentDate());
                 duck.setTimeOfPurchase(BanklinkUtil.getCurrentTimestamp());
                 duck.setTransaction(transaction);
-                log.info("Saving " + duck);
+                log.info("Saving {}", duck);
                 duckRepository.save(duck);
             }
         }
@@ -199,14 +199,14 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public Transaction setTransactionPaid(Integer tid) {
         Transaction transaction = transactionRepository.findById(tid);
-        log.info("Setting transaction as paid: " + transaction);
+        log.info("Setting transaction as paid: {}", transaction);
         transaction.setIsPaid(true);
         return transactionRepository.save(transaction);
     }
 
     private Duck setSerialNumber(Duck duck) {
         duck.setSerialNumber(numberService.getSerial());
-        log.info("Set serial number for " + duck);
+        log.info("Set serial number for {}", duck);
         return duck;
     }
 

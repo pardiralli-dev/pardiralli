@@ -1,50 +1,119 @@
 
 html {
-    height:100%;
+    height: 100%;
 }
 
 body {
-    height:100%;
+    height: 100%;
     background: url("images/background.jpg") no-repeat fixed center center;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+    font-family: 'Merriweather Sans', sans-serif;
 }
 
-.nav.navbar-nav {
+div.wrapper::before {
+    content: '';
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 20%;
+    position: fixed;
+    height: 100%;
+    background-color: #ffde16;
+}
+
+div.wrapper {
+    min-height: 100%;
+}
+
+img.main-logo {
+    width: 80%;
+}
+
+div.logo-wrap {
+    margin-top: 40px;
+    text-align: center;
+}
+
+div.menu-wrap {
+    padding-top: 20px;
+    text-align: center;
+}
+
+a.back-to-main {
+    display: block;
+    line-height: 48px;
+    font-size: 22px;
+    color: #ab940f;
+    font-weight: 300;
+    text-decoration: none;
+    -webkit-transition: all .3s ease-in-out;
+    -moz-transition: all .3s ease-in-out;
+    -o-transition: all .3s ease-in-out;
+    -ms-transition: all .3s ease-in-out;
+    transition: all .3s ease-in-out;
+}
+
+a.back-to-main:hover {
+    color: #292b33;
+}
+
+div.counters-wrap {
+    position: fixed;
+    width: 20%;
+    bottom: 10%;
+    text-align: center;
+    font-family: 'Sniglet', cursive;
+    font-size: 2rem;
+}
+
+div.counter {
+    font-size: 3.5rem;
+    font-weight: bolder;
+}
+
+div.sidebar {
+    position: relative;
+    float: left;
+    width: 20%;
+    height: 100%;
+    background-color: #ffde16;
+}
+
+div.menu-container {
+    font-size: 2rem;
+    font-family: 'Merriweather Sans', sans-serif;
+}
+
+div.container.container-general {
+    width: 80%;
+    position: relative;
+    float: right;
+    font-family: 'Noto Sans', sans-serif;
+    color: #142e64;
+    background-color: rgba(240, 240, 240, 0.8);
+    padding: 20px 20px 100px 20px;
+    min-height: 100vh;
+}
+
+nav.navbar-nav {
     font-family: 'Enriqueta', serif;
     font-size: 2rem;
 }
 
-img.menu-logo {
-    height: 50px;
+li.admin-name-header {
+    /* simulate bootstrap's '.navbar-nav > li > a' properties */
+    line-height: 20px;
+    padding: 15px;
 }
 
-.menu-site-name {
-    font-family: 'Enriqueta', serif;
-    font-size: 3rem;
-    font-weight: 500;
-    padding: 10px;
-    margin-right: 10px;
-}
-
-div.menu-container {
-    padding: 10px 15px;
-}
-
-.container.container-mainform {
-    font-family: 'Noto Sans', sans-serif;
-    color: #142e64;
-    background-color: rgba(240, 240, 240, 0.6);
-}
-
-.container.container-general {
-    font-family: 'Noto Sans', sans-serif;
-    color: #142e64;
-    background-color: rgba(240, 240, 240, 0.8);
-    min-height: 90%;
-    margin-bottom: 10%;
+a.admin-logout {
+    /* override more accurate bootstrap selector '.navbar-nav > li > a' */
+    display: inline-block !important;
+    padding: 0 !important;
 }
 
 .container.container-error {
@@ -57,15 +126,42 @@ div.menu-container {
 
 .navbar {
     background-color: rgba(255, 255, 255, 0.8);
-
+    margin: -20px -15px 20px -15px; /* override container's padding */
 }
 
-div.row.main-row {
-
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    background-color: #ffde16;
+    padding: 10px 0;
+    margin: 0 -20px 0 -20px;
 }
 
-div.main-box-wrapper {
+.admin-login {
+    font-size: 1.2rem;
+}
 
+a.tmpk-wrap {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+}
+
+img.tmpk-link {
+    width: 24px;
+    height: 24px;
+    opacity: 0.5;
+    -webkit-transition: all .3s ease-in-out;
+    -moz-transition: all .3s ease-in-out;
+    -o-transition: all .3s ease-in-out;
+    -ms-transition: all .3s ease-in-out;
+    transition: all .3s ease-in-out;
+}
+
+img.tmpk-link:hover {
+    opacity: 1;
 }
 
 div.main-box {
@@ -78,10 +174,6 @@ div.main-box {
     width: 100%;
     /* make sure height == width, uses padding, because padding is determined as a % of width */
     padding-bottom: 100%;
-}
-
-.btn{
-
 }
 
 div.left-box {
@@ -104,7 +196,7 @@ div.buyer-info-box {
     background: #ff8c1a;
 }
 
-button.btn-banklink{
+button.btn-banklink {
     padding: 0;
 }
 
@@ -164,10 +256,6 @@ span.new-box-plus-sign {
 div.row.buyer-row {
     display: flex;
     flex-wrap: wrap;
-}
-
-div.buyer-info-col {
-
 }
 
 div.total-info-col {
@@ -235,7 +323,7 @@ input.terms-check {
     margin-top: 3rem;
 }
 
-.banklink-logo{
+.banklink-logo {
     width: 126px;
     /*width: 84px;*/
     height: 47px;
@@ -252,6 +340,7 @@ label.invalid-accept-checkbox {
 .loader:after {
     border-radius: 50%;
 }
+
 .loader {
     color: #ffffff;
     font-size: 11px;
@@ -265,11 +354,13 @@ label.invalid-accept-checkbox {
     -ms-transform: translateZ(0);
     transform: translateZ(0);
 }
+
 .loader:before,
 .loader:after {
     position: absolute;
     content: '';
 }
+
 .loader:before {
     width: 5.2em;
     height: 10.2em;
@@ -282,6 +373,7 @@ label.invalid-accept-checkbox {
     -webkit-animation: load2 2s infinite ease 1.5s;
     animation: load2 2s infinite ease 1.5s;
 }
+
 .loader:after {
     width: 5.2em;
     height: 10.2em;
@@ -294,6 +386,7 @@ label.invalid-accept-checkbox {
     -webkit-animation: load2 2s infinite ease;
     animation: load2 2s infinite ease;
 }
+
 @-webkit-keyframes load2 {
     0% {
         -webkit-transform: rotate(0deg);
@@ -304,6 +397,7 @@ label.invalid-accept-checkbox {
         transform: rotate(360deg);
     }
 }
+
 @keyframes load2 {
     0% {
         -webkit-transform: rotate(0deg);
@@ -314,4 +408,5 @@ label.invalid-accept-checkbox {
         transform: rotate(360deg);
     }
 }
+
 /* LOADER END */

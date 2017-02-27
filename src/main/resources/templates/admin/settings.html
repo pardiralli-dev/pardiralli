@@ -3,100 +3,114 @@
 <html lang="et" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Võistlused</title>
+    <meta charset="UTF-8"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="_csrf" th:content="${_csrf != null ? _csrf.token : 'testing'}"/>
     <meta name="_csrf_header" th:content="${_csrf != null ?_csrf.headerName:'testing'}"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sniglet"/>
     <link rel="stylesheet"
           href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css"/>
     <link rel="stylesheet" type="text/css"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="css/main.css"/>
-    <script src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript" src="js/settings.js"></script>
+    <script type="text/javascript" src="js/counter_ajax.js"></script>
 </head>
-<!--/*@thymesVar id="races" type="java.util.List<ee.pardiralli.dto.RaceDTO>"*/-->
-<!--/*@thymesVar id="race" type="ee.pardiralli.dto.RaceDTO"*/-->
 <body>
-<div class="container container-general">
-    <div th:replace="fragments/menu :: main-menu"></div>
-    <div class="panel panel-default">
-        <div class="panel-body">
-            <!--/*@thymesVar id="feedbackList" type="java.util.List<ee.pardiralli.feedback.Feedback>"*/-->
-            <div th:each="feedback : ${feedbackList}">
-                <div class="alert" th:text="${feedback.getMessage()}" th:classappend="${feedback.getCssClass()}"></div>
+
+<div class="wrapper">
+    <div th:replace="fragments/menu :: side-menu"></div>
+
+    <div class="container container-general">
+        <div th:replace="fragments/menu :: admin-menu"></div>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <!--/*@thymesVar id="feedbackList" type="java.util.List<ee.pardiralli.feedback.Feedback>"*/-->
+                <div th:each="feedback : ${feedbackList}">
+                    <div class="alert" th:text="${feedback.getMessage()}"
+                         th:classappend="${feedback.getCssClass()}"></div>
+                </div>
+                <!--/*@thymesVar id="raceDTO" type="ee.pardiralli.dto.RaceDTO"*/-->
+                <form id="insert" class="form-horizontal" th:action="@{/settings}" th:object="${raceDTO}" method="post">
+                    <div class="form-group">
+                        <label class="col-form-label col-sm-2" for="start_date">Alguskuupäev:</label>
+                        <div class="col-sm-10">
+                            <input th:field="*{beginning}" id="start_date" class="form-control" required="required"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label col-sm-2" for="end_date">Lõppkuupäev:</label>
+                        <div class="col-sm-10">
+                            <input th:field="*{finish}" id="end_date" class="form-control" required="required"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label col-sm-2" for="name">Nimi:</label>
+                        <div class="col-sm-10">
+                            <input th:field="*{raceName}" id="name" type="text" class="form-control"
+                                   placeholder="Võistluse nimi"
+                                   required="required"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label col-sm-2" for="desc">Kirjeldus:</label>
+                        <div class="col-sm-10">
+                            <input th:field="*{description}" id="desc" type="text" class="form-control"
+                                   placeholder="Võistluse kirjeldus" required="required"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button id="search_long" type="submit" class="btn btn-default"
+                                    th:text="'Sisesta uus võistlus!'"></button>
+                        </div>
+                    </div>
+                    <input type="hidden" name="isNew" th:value="true"/>
+                    <input type="hidden" name="isOpen" th:value="true"/>
+                </form>
             </div>
-            <!--/*@thymesVar id="raceDTO" type="ee.pardiralli.dto.RaceDTO"*/-->
-            <form id="insert" class="form-horizontal" th:action="@{/settings}" th:object="${raceDTO}" method="post">
-                <div class="form-group">
-                    <label class="col-form-label col-sm-2" for="start_date">Alguskuupäev:</label>
-                    <div class="col-sm-10">
-                        <input th:field="*{beginning}" id="start_date" class="form-control" required="required"/>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-form-label col-sm-2" for="end_date">Lõppkuupäev:</label>
-                    <div class="col-sm-10">
-                        <input th:field="*{finish}" id="end_date" class="form-control" required="required"/>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-form-label col-sm-2" for="name">Nimi:</label>
-                    <div class="col-sm-10">
-                        <input th:field="*{raceName}" id="name" type="text" class="form-control" placeholder="Võistluse nimi"
-                               required="required"/>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-form-label col-sm-2" for="desc">Kirjeldus:</label>
-                    <div class="col-sm-10">
-                        <input th:field="*{description}" id="desc" type="text" class="form-control"
-                               placeholder="Võistluse kirjeldus" required="required"/>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <button id="search_long" type="submit" class="btn btn-default" th:text="'Sisesta uus võistlus!'"></button>
-                    </div>
-                </div>
-                <input type="hidden" name="isNew" th:value="true"/>
-                <input type="hidden" name="isOpen" th:value="true"/>
-            </form>
         </div>
-    </div>
-    <div class="panel panel-default">
-        <div class="panel-body">
-            <div class="row">
-                <div class="col-md-6 lead">Nimi</div>
-                <div class="col-md-2 lead">Alguskuupäev</div>
-                <div class="col-md-2 lead">Lõppkuupäev</div>
-                <div class="col-md-2"></div>
-            </div>
-            <form th:each="raceFromLst : ${races}" th:action="@{/settings}" th:object="${race}" method="post">
+        <div class="panel panel-default">
+            <div class="panel-body">
                 <div class="row">
-                    <button class="race btn btn-default col-md-6" type="submit"
-                            th:attr="
+                    <div class="col-md-6 lead">Nimi</div>
+                    <div class="col-md-2 lead">Alguskuupäev</div>
+                    <div class="col-md-2 lead">Lõppkuupäev</div>
+                    <div class="col-md-2"></div>
+                </div>
+                <!--/*@thymesVar id="race" type="ee.pardiralli.dto.RaceDTO"*/-->
+                <!--/*@thymesVar id="races" type="java.util.List<ee.pardiralli.dto.RaceDTO>"*/-->
+                <form th:each="raceFromLst : ${races}" th:action="@{/settings}" th:object="${race}" method="post">
+                    <div class="row">
+                        <button class="race btn btn-default col-md-6" type="submit"
+                                th:attr="
                  data-selector=${raceFromLst.getId()},
                  data-start=${raceFromLst.getBeginning()},
                  data-end=${raceFromLst.getFinish()},
                  data-desc=${raceFromLst.getDescription()}"
-                            th:text="${raceFromLst.getRaceName()}"></button>
-                    <div class="col-md-2" th:text="${raceFromLst.getBeginningAsString()}"></div>
-                    <div class="col-md-2" th:text="${raceFromLst.getEndAsString()}"></div>
-                    <button class="col-md-2 btn"
-                            th:classappend="${raceFromLst.getIsOpen()} ? 'btn-danger' : 'btn-default'"
-                            type="submit"
-                            th:text="${raceFromLst.getIsOpen()} ? 'Sulge' : 'Ava'"></button>
-                    <input type="hidden" name="id" th:value="${raceFromLst.getId()}"/>
-                    <input type="hidden" name="isOpen" th:value="${!raceFromLst.getIsOpen()}"/>
-                    <input type="hidden" name="isNew" th:value="false"/>
-                </div>
-                <div th:id="'info'+${raceFromLst.getId()}" class="row"></div>
-                <div th:id="'info2'+${raceFromLst.getId()}" class="row"></div>
-                <div th:id="'info3'+${raceFromLst.getId()}" class="row lead"></div>
-            </form>
+                                th:text="${raceFromLst.getRaceName()}"></button>
+                        <div class="col-md-2" th:text="${raceFromLst.getBeginningAsString()}"></div>
+                        <div class="col-md-2" th:text="${raceFromLst.getEndAsString()}"></div>
+                        <button class="col-md-2 btn"
+                                th:classappend="${raceFromLst.getIsOpen()} ? 'btn-danger' : 'btn-default'"
+                                type="submit"
+                                th:text="${raceFromLst.getIsOpen()} ? 'Sulge' : 'Ava'"></button>
+                        <input type="hidden" name="id" th:value="${raceFromLst.getId()}"/>
+                        <input type="hidden" name="isOpen" th:value="${!raceFromLst.getIsOpen()}"/>
+                        <input type="hidden" name="isNew" th:value="false"/>
+                    </div>
+                    <div th:id="'info'+${raceFromLst.getId()}" class="row"></div>
+                    <div th:id="'info2'+${raceFromLst.getId()}" class="row"></div>
+                    <div th:id="'info3'+${raceFromLst.getId()}" class="row lead"></div>
+                </form>
+            </div>
         </div>
+
+        <div th:replace="fragments/footer :: footer"></div>
+
     </div>
 </div>
 </body>

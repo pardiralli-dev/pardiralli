@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html lang="et" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" type="text/css"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="css/main.css"/>
+    <link rel="stylesheet" type="text/css" href="css/sidebar.css"/>
+</head>
+<body>
+<div class="container">
+
+    <!-- FOOTER FRAGMENT -->
+    <footer th:fragment="footer">
+        <span>EVLVL (Eesti Vähihaigete Laste Vanemate Liit) | Registrikood: 80096899 | info@vahilapsed.ee</span>
+        <div>
+            <a sec:authorize="!isAuthenticated()" th:href="@{/login}" class="admin-login">Sisene administraatorina</a>
+            <span sec:authorize="isAuthenticated()" class="admin-login">Oled sisenenud kui <span sec:authentication="name">[user]</span> <a th:href="@{/logout}">(välju)</a></span>
+        </div>
+        <a class="tmpk-wrap" href="https://github.com/pardiralli-dev/pardiralli">
+            <img class="tmpk-link" src="css/images/gh-mark-24-light.png"/>
+        </a>
+    </footer>
+
+</div>
+</body>
+</html>

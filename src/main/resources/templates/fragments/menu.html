@@ -11,26 +11,36 @@
 <body>
 <div class="container">
 
-    <!-- FRAGMENT -->
-    <nav class="navbar" th:fragment="main-menu">
+    <!-- MAIN MENU FRAGMENT -->
+    <div th:fragment="side-menu" class="sidebar">
+        <div class="logo-wrap">
+            <img class="main-logo" src="http://www.pardiralli.ee/wp-content/themes/pardiralli/img/pardiralli.png"
+                 alt="Pardiralli"/>
+        </div>
+        <div class="menu-wrap">
+            <a class="back-to-main" href="http://www.pardiralli.ee/">Tagasi avalehele</a>
+        </div>
+
+        <div class="counters-wrap">
+            <span>Soetatud parte:</span>
+            <div id="counter_duck_count" class="counter">...</div>
+            <span>Annetatud raha:</span>
+            <div id="counter_donation_sum" class="counter">...</div>
+        </div>
+    </div>
+
+
+    <!-- ADMIN MENU FRAGMENT -->
+    <nav sec:authorize="isAuthenticated()" th:fragment="admin-menu" class="navbar">
         <div class="container-fluid menu-container">
-            <div class="navbar-header">
-                <a class="navbar-left" th:href="@{/}"><img class="menu-logo pull-left" src="css/images/main-logo.png"/><span class="menu-site-name">Pardiralli</span></a>
-            </div>
             <ul class="nav navbar-nav">
-                <li><a th:href="@{/}">Avaleht</a></li>
-                <li sec:authorize="isAuthenticated()"><a th:href="@{/statistics}">Statistika</a></li>
-                <li sec:authorize="isAuthenticated()"><a th:href="@{/search}">Otsing</a></li>
-                <li sec:authorize="isAuthenticated()"><a th:href="@{/settings}">Võistlused</a></li>
-                <li sec:authorize="isAuthenticated()"><a th:href="@{/insert}">Sisestus</a></li>
+                <li><a th:href="@{/statistics}">Statistika</a></li>
+                <li><a th:href="@{/search}">Otsing</a></li>
+                <li><a th:href="@{/settings}">Võistlused</a></li>
+                <li><a th:href="@{/insert}">Sisestus</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li sec:authorize="isAuthenticated()">
-                    <span>Oled sisenenud kui <span sec:authentication="name">[user]</span> <a th:href="@{/logout}">(välju)</a></span>
-                </li>
-                <li sec:authorize="!isAuthenticated()">
-                    <a th:href="@{/login}">Sisene</a>
-                </li>
+                <li class="admin-name-header">Administraator <span sec:authentication="name">[user]</span> <a th:href="@{/logout}" class="admin-logout">(välju)</a></li>
             </ul>
         </div>
     </nav>

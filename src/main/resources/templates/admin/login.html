@@ -1,31 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="et" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Login</title>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sniglet"/>
     <link rel="stylesheet" type="text/css"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="css/main.css"/>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/counter_ajax.js"></script>
 </head>
 <body>
-<div class="container">
-    <div th:replace="fragments/menu :: main-menu"></div>
-    <div class="panel panel-default">
-        <div class="panel-body">
-            <p th:if="${param.logout}" class="alert alert-info">Olete välja loginud!</p>
-            <p th:if="${param.error}" class="alert alert-danger">Proovige uuesti!</p>
-            <form name="form" th:action="@{/login}" action="/login" method="POST">
-                <fieldset>
-                    <legend>Logi sisse</legend>
-                    <div class="form-group">
-                        <input type="text" name="username" class="form-control" placeholder="Kasutajanimi"/>
-                    </div>
-                    <div class="form-group">
-                        <input type="password" name="password" class="form-control" placeholder="Parool"/>
-                    </div>
-                </fieldset>
-                <input type="submit" id="login" value="Login" class="btn btn-default"/>
-            </form>
+
+<div class="wrapper">
+    <div th:replace="fragments/menu :: side-menu"></div>
+
+    <div class="container container-general">
+        <div th:replace="fragments/menu :: admin-menu"></div>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <p th:if="${param.logout}" class="alert alert-info">Olete välja loginud!</p>
+                <p th:if="${param.error}" class="alert alert-danger">Proovige uuesti!</p>
+                <form name="form" th:action="@{/login}" action="/login" method="POST">
+                    <fieldset>
+                        <legend>Logi sisse</legend>
+                        <div class="form-group">
+                            <input type="text" name="username" class="form-control" placeholder="Kasutajanimi"/>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" name="password" class="form-control" placeholder="Parool"/>
+                        </div>
+                    </fieldset>
+                    <input type="submit" id="login" value="Login" class="btn btn-default"/>
+                </form>
+            </div>
         </div>
+
+        <div th:replace="fragments/footer :: footer"></div>
+
     </div>
 </div>
 </body>

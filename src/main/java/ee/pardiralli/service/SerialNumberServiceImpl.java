@@ -3,14 +3,14 @@ package ee.pardiralli.service;
 import ee.pardiralli.db.DuckRepository;
 import ee.pardiralli.db.RaceRepository;
 import ee.pardiralli.domain.Race;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
-@Log4j
+@Slf4j
 public class SerialNumberServiceImpl implements SerialNumberService {
 
     private final DuckRepository duckRepository;
@@ -46,7 +46,7 @@ public class SerialNumberServiceImpl implements SerialNumberService {
             return 0;
         } else {
             Integer maxFromDb = duckRepository.findMaxSerial(currentRace.getId());
-            log.info("Found last serial number: " + maxFromDb);
+            log.info("Found last serial number: {}", maxFromDb);
             return maxFromDb == null ? 0 : maxFromDb;
         }
     }

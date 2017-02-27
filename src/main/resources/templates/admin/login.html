@@ -25,7 +25,7 @@
                 <p th:if="${param.error}" class="alert alert-danger">Proovige uuesti!</p>
                 <form name="form" th:action="@{/login}" action="/login" method="POST">
                     <fieldset>
-                        <legend>Logi sisse</legend>
+                        <legend th:text="#{LOG_IN}">Logi sisse</legend>
                         <div class="form-group">
                             <input type="text" name="username" class="form-control" placeholder="Kasutajanimi"/>
                         </div>

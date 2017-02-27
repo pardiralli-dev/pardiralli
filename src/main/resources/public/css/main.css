@@ -116,6 +116,14 @@ a.admin-logout {
     padding: 0 !important;
 }
 
+.container.container-error {
+    font-family: 'Noto Sans', sans-serif;
+    color: #142e64;
+    background-color: rgba(240, 240, 240, 0.6);
+    min-height: 90%;
+    margin-bottom: 10%;
+}
+
 .navbar {
     background-color: rgba(255, 255, 255, 0.8);
     margin: -20px -15px 20px -15px; /* override container's padding */

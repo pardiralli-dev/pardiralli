@@ -3,7 +3,10 @@ package ee.pardiralli.web;
 import ee.pardiralli.dto.DonationBoxDTO;
 import ee.pardiralli.dto.DonationFormDTO;
 import ee.pardiralli.feedback.FeedbackType;
+import ee.pardiralli.service.IndexService;
 import ee.pardiralli.util.ControllerUtil;
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,7 +19,9 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @Controller
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class IndexController {
+    private final IndexService indexService;
 
     @GetMapping("/login")
     public String loginPage() {
@@ -25,7 +30,12 @@ public class IndexController {
 
     @GetMapping("/")
     public String donationForm(@ModelAttribute(DonationFormDTO.DONATION_VARIABLE_NAME) DonationFormDTO dto) {
-        return "donation/donation-form";
+        if (indexService.isRaceOpened()) {
+            return "donation/donation-form";
+        }
+        else {
+            return "race_not_opened";
+        }
     }
 
     @PostMapping(value = "/", params = {"addBox"})

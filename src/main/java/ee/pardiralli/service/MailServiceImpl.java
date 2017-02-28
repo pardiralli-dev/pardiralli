@@ -6,7 +6,7 @@ import ee.pardiralli.domain.Duck;
 import ee.pardiralli.domain.DuckBuyer;
 import ee.pardiralli.util.BanklinkUtil;
 import lombok.AllArgsConstructor;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailAuthenticationException;
 import org.springframework.mail.MailSendException;
@@ -22,7 +22,7 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
-@Log4j
+@Slf4j
 public class MailServiceImpl implements MailService {
     private final SpringTemplateEngine templateEngine;
     private final MailConfiguration mailConfiguration;
@@ -49,7 +49,7 @@ public class MailServiceImpl implements MailService {
             helper.setSubject("Pardiralli kinnitus");
             sender.send(message);
         } catch (MessagingException | MailAuthenticationException | MailSendException e) {
-            log.error("Exception occurred while sending the confirmation email", e);
+            log.error("Exception occurred while sending the confirmation email: {}", e);
             throw e;
         }
     }

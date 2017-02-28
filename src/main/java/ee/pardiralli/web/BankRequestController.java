@@ -6,7 +6,7 @@ import ee.pardiralli.exceptions.IllegalTransactionException;
 import ee.pardiralli.service.PaymentService;
 import ee.pardiralli.util.BanklinkUtil;
 import lombok.AllArgsConstructor;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -20,7 +20,7 @@ import javax.servlet.http.HttpSession;
 
 @Controller
 @AllArgsConstructor(onConstructor = @__(@Autowired))
-@Log4j
+@Slf4j
 public class BankRequestController {
     private final PaymentService paymentService;
 
@@ -41,7 +41,7 @@ public class BankRequestController {
             model.addAttribute("request_model", requestModel);
             return getPaymentFormByBank(bank);
         } catch (IllegalTransactionException e) {
-            log.error("Illegal transaction (paymentForm)", e);
+            log.error("Illegal transaction (paymentForm): {}", e);
             return "general_error";
         }
     }

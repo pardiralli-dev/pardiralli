@@ -5,7 +5,7 @@ import ee.pardiralli.db.RaceRepository;
 import ee.pardiralli.domain.Duck;
 import ee.pardiralli.dto.SearchDTO;
 import lombok.AllArgsConstructor;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +14,7 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
-@Log4j
+@Slf4j
 public class SearchServiceImpl implements SearchService {
     private final DuckRepository duckRepository;
     private final RaceRepository raceRepository;
@@ -40,7 +40,7 @@ public class SearchServiceImpl implements SearchService {
                     userQuery.getOwnersPhoneNr(),
                     userQuery.getRaceBeginningDate());
         }
-        log.info(String.format("Search with query %s found results with %s ducks", userQuery, result.size()));
+        log.info("Search with query {} found results with {} ducks", userQuery, result.size());
         return result;
     }
 }

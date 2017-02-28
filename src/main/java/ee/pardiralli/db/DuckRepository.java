@@ -30,7 +30,10 @@ public interface DuckRepository extends CrudRepository<Duck, Integer> {
     Integer countDucksInOpenRace();
 
 
-    @Query("SELECT SUM(d.priceCents) FROM Duck d WHERE d.race.isOpen = true")
+    /**
+     * @return sum of all donations in the open race (0 if there aren't any)
+     */
+    @Query("SELECT COALESCE(SUM(d.priceCents), 0) FROM Duck d WHERE d.race.isOpen = true")
     Integer sumDonationsInOpenRace();
 
 

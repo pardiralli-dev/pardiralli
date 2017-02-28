@@ -1,28 +1,29 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<body>
-<h2>Täname, et toetate Pardirallit!</h2>
-<table>
-    <thead>
-    <tr>
-        <th>Pardi ID</th>
-        <th>Omaniku eesnimi</th>
-        <th>Omaniku perenimi</th>
-        <th>Omaniku telefoninumber</th>
-        <th>Hind</th>
-    </tr>
-    </thead>
-    <tbody>
-    <!--/*@thymesVar id="result" type="java.util.List<ee.pardiralli.domain.Duck>"*/-->
-    <tr th:each="duck : ${ducks}">
-        <td th:text="${duck.getSerialNumber()}"></td>
-        <td th:text="${duck.getDuckOwner().getFirstName()}"></td>
-        <td th:text="${duck.getDuckOwner().getLastName()}"></td>
-        <td th:text="${duck.getDuckOwner().getPhoneNumber()}"></td>
-        <td th:text="${duck.getPriceEuros()}"></td>
-    </tr>
-    </tbody>
-</table>
-<div th:text="'Summa kokku:' + ${total}"></div>
+<body style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;">
+<div style="padding:15px;margin:auto;">
+    <div style="margin:10px;font-size:18px;">T&auml;name, et toetate Pardirallit!</div>
+    <table style="text-align:left;border-collapse:collapse;width:100%;margin-bottom:20px;border-radius:5px;background-color:#F3FAB6;">
+        <thead>
+        <tr>
+            <th style="padding:8px;">Pardi ID</th>
+            <th style="padding:8px;">Omaniku eesnimi</th>
+            <th style="padding:8px;">Omaniku perenimi</th>
+            <th style="padding:8px;">Omaniku telefoninumber</th>
+            <th style="padding:8px;">Hind</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="duck:${ducks}" style="border-top:1px solid #ffffff;">
+            <td th:text="${duck.getSerialNumber()}" style="padding:8px;"></td>
+            <td th:text="${duck.getDuckOwner().getFirstName()}" style="padding:8px;"></td>
+            <td th:text="${duck.getDuckOwner().getLastName()}" style="padding:8px;"></td>
+            <td th:text="${duck.getDuckOwner().getPhoneNumber()}" style="padding:8px;"></td>
+            <td th:text="${duck.getPriceEuros()}" style="padding:8px;"></td>
+        </tr>
+        </tbody>
+    </table>
+    <div th:text="'Summa kokku: '+${total} + ' eurot'" style="font-weight:bold;padding:10px;border-radius:5px;background-color:#F3FAB6;"></div>
+</div>
 </body>
 </html>

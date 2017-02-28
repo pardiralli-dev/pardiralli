@@ -1,12 +1,12 @@
 function queryDonationCounter() {
     $.ajax({
-        url: window.location.href + "/counter_ajax",
+        url: window.location.protocol + '//' + window.location.host + "/counter_ajax",
         type: 'GET',
         cache: false,
         success: function (data) {
-            var donationSum = data.donationSum;
-            var duckCount = data.duckCount;
-            updateCounters(donationSum, duckCount);
+            updateCounters(data.donationSum, data.duckCount);
+        },
+        complete: function () {
             setTimeout(queryDonationCounter, 5000);
         }
     });

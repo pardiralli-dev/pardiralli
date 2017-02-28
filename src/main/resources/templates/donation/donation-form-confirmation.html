@@ -1,96 +1,110 @@
 <!DOCTYPE html>
 <html lang="et" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <title>Annetuse kinnitamine</title>
     <meta charset="UTF-8"/>
-    <title>Kinnitus</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sniglet"/>
     <link rel="stylesheet" type="text/css"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="css/main.css"/>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/counter_ajax.js"></script>
 </head>
 <body>
-<div class="container container-general">
-    <div th:replace="fragments/menu :: main-menu"></div>
+
+<div class="wrapper">
+    <div th:replace="fragments/menu :: side-menu"></div>
+
     <!--/*@thymesVar id="donation" type="ee.pardiralli.dto.DonationFormDTO"*/-->
-    <!--/*@thymesVar id="totalSum" type="java.lang.Integer"*/-->
-    <div class="panel panel-default">
-        <div class="panel-body">
-            <h2>Makse kinnitamine</h2>
-        </div>
-    </div>
-    <div class="panel panel-default">
-        <div class="panel-body">
-            <table class="lead table table-hover">
-                <tr>
-                    <th>Omaniku eesnimi</th>
-                    <th>Omaniku perenimi</th>
-                    <th>Partide arv</th>
-                    <th>Pardi hind</th>
-                </tr>
-                <tr th:each="box : ${donation.getBoxes()}">
-                    <td th:text="${box.getOwnerFirstName()}"></td>
-                    <td th:text="${box.getOwnerLastName()}"></td>
-                    <td th:text="${box.getDuckQuantity()}"></td>
-                    <td th:text="${box.getDuckPrice()}"></td>
-                </tr>
-            </table>
-        </div>
-    </div>
-    <div class="panel panel-default">
-        <div class="panel-body">
-            <div class="row">
-                <div class="col-md-2">
-                    <div class="lead">Summa kokku:</div>
-                </div>
-                <div class="col-md-1">
-                    <div class="lead" th:text="${totalSum}"></div>
-                </div>
-                <div class="col-md-9"></div>
-            </div>
-            <div class="row">
-                <div class="col-md-2">
-                    <div class="lead">Ostja e-post:</div>
-                </div>
-                <div class="col-md-1">
-                    <div class="lead" th:text="${donation.getBuyerEmail()}"></div>
-                </div>
-                <div class="col-md-9"></div>
-            </div>
-        </div>
-    </div>
-    <div class="panel panel-default">
-        <div class="panel-body">
-            <div class="row">
-                <div class="col-md-1"></div>
-                <div class="col-md-1"></div>
+    <div class="container container-general">
+        <div th:replace="fragments/menu :: admin-menu"></div>
 
-                <div class="col-md-2 text-center">
-                    <a class="btn center-block btn-banklink" th:href="@{/banklink/swedbank/pay}">
-                        <img class="banklink-logo" src="css/images/swedbank-logo.png" alt="Swedbank"/>
-                    </a>
-                </div>
-                <div class="col-md-2 text-center">
-                    <a class="btn center-block btn-banklink" th:href="@{/banklink/nordea/pay}">
-                        <img class="banklink-logo" src="css/images/nordea-logo.png" alt="Nordea"/>
-                    </a>
-                </div>
-                <div class="col-md-2 text-center">
-                    <a class="btn center-block btn-banklink" th:href="@{/banklink/lhv/pay}">
-                        <img class="banklink-logo" src="css/images/lhv-logo.png" alt="LHV"/>
-                    </a>
-                </div>
-                <div class="col-md-2 text-center">
-                    <a class="btn center-block btn-banklink" th:href="@{/banklink/seb/pay}">
-                        <img class="banklink-logo" src="css/images/seb-logo.png" alt="SEB"/>
-                    </a>
-                </div>
-                <div class="col-md-1 text-center"></div>
-                <div class="col-md-1 text-center"></div>
+        <!--/*@thymesVar id="feedbackList" type="java.util.List<ee.pardiralli.feedback.Feedback>"*/-->
+        <div th:replace="fragments/feedback :: feedback-messages (feedbackList=${feedbackList})"></div>
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <h2>Makse kinnitamine</h2>
             </div>
         </div>
-    </div>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <table class="lead table table-hover">
+                    <tr>
+                        <th>Omaniku eesnimi</th>
+                        <th>Omaniku perenimi</th>
+                        <th>Partide arv</th>
+                        <th>Pardi hind</th>
+                    </tr>
+                    <tr th:each="box : ${donation.getBoxes()}">
+                        <td th:text="${box.getOwnerFirstName()}"></td>
+                        <td th:text="${box.getOwnerLastName()}"></td>
+                        <td th:text="${box.getDuckQuantity()}"></td>
+                        <td th:text="${box.getDuckPrice()}"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="lead">Summa kokku:</div>
+                    </div>
+                    <div class="col-md-1">
+                        <!--/*@thymesVar id="totalSum" type="java.lang.Integer"*/-->
+                        <div class="lead" th:text="${totalSum}"></div>
+                    </div>
+                    <div class="col-md-9"></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="lead">Ostja e-post:</div>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="lead" th:text="${donation.getBuyerEmail()}"></div>
+                    </div>
+                    <div class="col-md-9"></div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-1"></div>
 
+                    <div class="col-md-2 text-center">
+                        <a class="btn center-block btn-banklink" th:href="@{/banklink/swedbank/pay}">
+                            <img class="banklink-logo" src="css/images/swedbank-logo.png" alt="Swedbank"/>
+                        </a>
+                    </div>
+                    <div class="col-md-2 text-center">
+                        <a class="btn center-block btn-banklink" th:href="@{/banklink/nordea/pay}">
+                            <img class="banklink-logo" src="css/images/nordea-logo.png" alt="Nordea"/>
+                        </a>
+                    </div>
+                    <div class="col-md-2 text-center">
+                        <a class="btn center-block btn-banklink" th:href="@{/banklink/lhv/pay}">
+                            <img class="banklink-logo" src="css/images/lhv-logo.png" alt="LHV"/>
+                        </a>
+                    </div>
+                    <div class="col-md-2 text-center">
+                        <a class="btn center-block btn-banklink" th:href="@{/banklink/seb/pay}">
+                            <img class="banklink-logo" src="css/images/seb-logo.png" alt="SEB"/>
+                        </a>
+                    </div>
+                    <div class="col-md-1 text-center"></div>
+                    <div class="col-md-1 text-center"></div>
+                </div>
+            </div>
+        </div>
+
+        <div th:replace="fragments/footer :: footer"></div>
+
+    </div>
 </div>
-
 
 </body>
 </html>

@@ -63,7 +63,6 @@ public class StatisticsServiceImpl implements StatisticsService {
         if (startDate == null || endDate == null){
             return createEmptyChartData();
         }
-        log.info(String.format("Creating duck chart data from %s to %s", startDate.toString(), endDate.toString()));
         while (true) {
             if (date.isAfter(endDate)) {
                 return data;
@@ -71,7 +70,6 @@ public class StatisticsServiceImpl implements StatisticsService {
             Integer ducks = duckRepository.countByDateOfPurchase(date);
             String day = date.toString().substring(8, 10);
             data.add(Arrays.asList(day, ducks));
-            log.info(String.format("date: %s, ducks: %d", date.toString(), ducks));
             date = date.plusDays(1);
         }
     }
@@ -85,7 +83,6 @@ public class StatisticsServiceImpl implements StatisticsService {
         if (startDate == null || endDate == null){
             return createEmptyChartData();
         }
-        log.info(String.format("Creating donation chart data from %s to %s", startDate.toString(), endDate.toString()));
         while (true) {
             if (date.isAfter(endDate)) {
                 return data;
@@ -94,7 +91,6 @@ public class StatisticsServiceImpl implements StatisticsService {
             donations = donations == null ? 0 : donations / 100;
             String day = date.toString().substring(8, 10);
             data.add(Arrays.asList(day, donations));
-            log.info(String.format("date: %s, donations: %s", date.toString(), donations.toString()));
             date = date.plusDays(1);
         }
     }

@@ -13,8 +13,12 @@ function queryDonationCounter() {
 }
 
 function updateCounters(donationSum, duckCount) {
-    document.getElementById("counter_donation_sum").textContent = donationSum;
-    document.getElementById("counter_duck_count").textContent = duckCount;
+    document.getElementById("counter_duck_count").textContent = addThousandSeparator(duckCount, " ");
+    document.getElementById("counter_donation_sum").textContent = addThousandSeparator(donationSum, " ");
+}
+
+function addThousandSeparator(number, sep) {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, sep);
 }
 
 $(document).ready(function () {

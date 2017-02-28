@@ -63,7 +63,7 @@ public class BankResponseController {
             return "donation/payment_successful";
         } catch (IllegalResponseException | IllegalTransactionException e) {
             log.error("successResponse unsuccessful", e);
-            return "general_error";
+            throw new RuntimeException("successResponse unsuccessful");
         }
     }
 
@@ -77,7 +77,7 @@ public class BankResponseController {
             return "donation/payment_fail";
         } catch (IllegalResponseException | IllegalTransactionException e) {
             log.error("fail unsuccessful", e);
-            return "general_error";
+            throw new RuntimeException("fail unsuccessful");
         }
     }
 

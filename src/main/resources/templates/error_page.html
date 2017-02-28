@@ -10,6 +10,11 @@
 <div class="container container-error">
     <div th:replace="fragments/menu :: main-menu"></div>
     <div class="alert alert-warning"><h3 class="text-center">On juhtunud midagi ootamatut...See on viga!...</h3></div>
+    <!--/*@thymesVar id="feedbackList" type="java.util.List<ee.pardiralli.feedback.Feedback>"*/-->
+    <div th:each="feedback : ${feedbackList}">
+        <div class="alert" th:text="${feedback.getMessage()}"
+             th:classappend="${feedback.getCssClass()}"></div>
+    </div>
     <div class="text-muted">Tehniliste probleemide korral võtke ühendust Pardiralli meeskonnaga.</div>
 </div>
 </body>

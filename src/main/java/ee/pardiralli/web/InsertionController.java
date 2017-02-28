@@ -10,6 +10,8 @@ import ee.pardiralli.util.ControllerUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailAuthenticationException;
+import org.springframework.mail.MailSendException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -48,7 +50,7 @@ public class InsertionController {
                 ControllerUtil.setFeedback(model, FeedbackType.SUCCESS, "Andmed edukalt sisestatud");
             } catch (RaceNotFoundException e) {
                 ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Võistlust ei leitud!");
-            } catch (MessagingException e) {
+            } catch (MessagingException | MailAuthenticationException | MailSendException e) {
                 log.error("Failed to send confirmation email to {}", insertionDTO.getBuyerEmail());
                 ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Kinnitusmeili saatmine ebaõnnestus");
             }

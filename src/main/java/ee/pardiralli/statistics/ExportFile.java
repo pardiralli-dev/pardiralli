@@ -12,10 +12,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class ExportFile {
 
-    private Boolean wantsSoldDucks;
-
-    private Boolean wantsDonatedMoney;
-
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     private LocalDate startDate;
 

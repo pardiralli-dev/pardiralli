@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerA
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication(exclude = {
@@ -15,7 +16,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
         DataSourceTransactionManagerAutoConfiguration.class
 })
 @EnableTransactionManagement
+@EnableAsync
 public class PardiralliApplication extends SpringBootServletInitializer {
+
     public static void main(String[] args) {
         SpringApplication.run(PardiralliApplication.class, args);
     }

@@ -66,6 +66,5 @@ public class InsertionServiceImpl implements InsertionService {
         }
 
         mailService.sendConfirmationEmail(duckBuyer, duckList);
-        log.info("Confirmation email sent");
     }
 }

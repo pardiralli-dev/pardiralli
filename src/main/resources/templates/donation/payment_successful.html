@@ -40,8 +40,8 @@
                     <th>Hind</th>
                 </tr>
                 </thead>
-                <!--/*@thymesVar id="purchasedItems" type="java.util.List<ee.pardiralli.dto.DuckDTO>"*/-->
-                <tr th:each="duckDTO : ${purchasedItems}">
+                <!--/*@thymesVar id="purchaseInfo" type="java.util.List<ee.pardiralli.dto.PurchaseInfoDTO>"*/-->
+                <tr th:each="duckDTO : ${purchaseInfo.getDucks()}">
                     <td th:text="${duckDTO.getSerialNumber()}"></td>
                     <td th:text="${duckDTO.getOwnerFirstName()}"></td>
                     <td th:text="${duckDTO.getOwnerLastName()}"></td>
@@ -51,16 +51,16 @@
             </table>
             <br/>
             <div>
-                <!--/*@thymesVar id="transactionID" type="java.lang.String"*/-->
-                <span class="payment_success_stuff">Tehingu nr: </span><span th:text="${transactionID}"></span>
+                <!--/*@thymesVar id="purchaseInfo" type="java.util.List<ee.pardiralli.dto.PurchaseInfoDTO>"*/-->
+                <span class="payment_success_stuff">Tehingu nr: </span><span th:text="${purchaseInfo.getTransactionID()}"></span>
                 <br/>
                 <br/>
-                <!--/*@thymesVar id="buyerEmail" type="java.lang.String"*/-->
-                <span class="payment_success_stuff">E-mail: </span><span th:text="${buyerEmail}"></span>
+                <!--/*@thymesVar id="purchaseInfo" type="java.util.List<ee.pardiralli.dto.PurchaseInfoDTO>"*/-->
+                <span class="payment_success_stuff">E-mail: </span><span th:text="${purchaseInfo.getBuyerEmail()}"></span>
             </div>
             <br/>
-            <!--/*@thymesVar id="totalSum" type="java.lang.String"*/-->
-            <span id="payment_success_sum" th:text="'Summa: '+ ${totalSum} + '€'"></span>
+            <!--/*@thymesVar id="purchaseInfo" type="java.util.List<ee.pardiralli.dto.PurchaseInfoDTO>"*/-->
+            <span id="payment_success_sum" th:text="'Summa: '+ ${purchaseInfo.getPaymentSum()} + '€'"></span>
         </div>
         <br/>
         <h3>Täname Pardirallit toetamast!</h3>

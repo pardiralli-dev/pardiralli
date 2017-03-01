@@ -56,6 +56,7 @@ public class BankResponseController {
                 ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Kinnitusmeili saatmine ebaõnnestus");
             }
 
+            // TODO: all of these to a single DTO object
             model.addAttribute("purchasedItems", duckDTOs);
             model.addAttribute("buyerEmail", buyer.getEmail());
             model.addAttribute("totalSum", totalSum);
@@ -63,21 +64,22 @@ public class BankResponseController {
             return "donation/payment_successful";
         } catch (IllegalResponseException | IllegalTransactionException e) {
             log.error("successResponse unsuccessful", e);
-            throw new RuntimeException("successResponse unsuccessful");
+            throw new RuntimeException(e);
         }
     }
 
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST}, value = "/banklink/{bank}/fail")
     @ResponseStatus(value = HttpStatus.OK)
-    public String failResponse(@RequestParam Map<String, String> params, @PathVariable Bank bank) {
+    public String failResponse(Model model, @RequestParam Map<String, String> params, @PathVariable Bank bank) {
         try {
             ResponseModel responseModel = getModelByBank(bank, params);
             paymentService.checkConsistency(params, responseModel, false);
             paymentService.checkUnsuccessfulResponseMAC(params, bank);
-            return "donation/payment_fail";
+            ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Maksmine ebaõnnestus");
+            return "donation/donation-form";
         } catch (IllegalResponseException | IllegalTransactionException e) {
             log.error("fail unsuccessful", e);
-            throw new RuntimeException("fail unsuccessful");
+            throw new RuntimeException(e);
         }
     }
 

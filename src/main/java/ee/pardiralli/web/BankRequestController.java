@@ -30,7 +30,7 @@ public class BankRequestController {
         Object donationObj = session.getAttribute("donation");
         if (donationObj == null) {
             log.error("donationObj is null");
-            return "general_error";
+            throw new RuntimeException("donationObj is null");
         }
 
         DonationFormDTO donation = (DonationFormDTO) donationObj;
@@ -42,7 +42,7 @@ public class BankRequestController {
             return getPaymentFormByBank(bank);
         } catch (IllegalTransactionException e) {
             log.error("Illegal transaction (paymentForm): {}", e);
-            return "general_error";
+            throw new RuntimeException(e);
         }
     }
 

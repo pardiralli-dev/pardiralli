@@ -410,3 +410,12 @@ label.invalid-accept-checkbox {
 }
 
 /* LOADER END */
+
+span.payment_success_stuff {
+    font-weight: bolder;
+    font-size: 1.5rem;
+}
+#payment_success_sum {
+    font-weight: bolder;
+    font-size: 1.8rem;
+}

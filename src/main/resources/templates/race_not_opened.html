@@ -15,9 +15,14 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div class="container container-general">
-    <div th:replace="fragments/menu :: main-menu"></div>
-    <h3>Hetkel ei saa parte osta.</h3>
+<div class="wrapper">
+    <div th:replace="fragments/menu :: side-menu"></div>
+
+    <div class="container container-general">
+        <div th:replace="fragments/menu :: admin-menu"></div>
+        <h3>Hetkel ei ole partide ostmine avatud. Vabandame!</h3>
+        <div th:replace="fragments/footer :: footer"></div>
+    </div>
 </div>
 </body>
 </html>

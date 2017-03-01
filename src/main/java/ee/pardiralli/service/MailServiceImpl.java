@@ -12,6 +12,7 @@ import org.springframework.mail.MailAuthenticationException;
 import org.springframework.mail.MailSendException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring4.SpringTemplateEngine;
@@ -28,6 +29,7 @@ public class MailServiceImpl implements MailService {
     private final MailConfiguration mailConfiguration;
 
     @Override
+    @Async
     public void sendConfirmationEmail(DuckBuyer duckBuyer, List<Duck> ducks) throws MessagingException {
         final Context ctx = new Context();
         ctx.setVariable("ducks", ducks);
@@ -48,6 +50,7 @@ public class MailServiceImpl implements MailService {
             helper.setText(htmlContent, true);
             helper.setSubject("Pardiralli kinnitus");
             sender.send(message);
+            log.info("Confirmation email sent to {}", duckBuyer.getEmail());
         } catch (MessagingException | MailAuthenticationException | MailSendException e) {
             log.error("Exception occurred while sending the confirmation email: {}", e);
             throw e;

@@ -58,7 +58,6 @@ public class StatisticsController {
     }
 
 
-
     @PostMapping("/statistics")
     public
     @ResponseBody

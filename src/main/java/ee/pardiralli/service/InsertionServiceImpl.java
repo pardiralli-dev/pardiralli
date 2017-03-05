@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +32,7 @@ public class InsertionServiceImpl implements InsertionService {
     private final PaymentService paymentService;
 
     @Override
-    public void saveInsertion(InsertionDTO insertionDTO) throws RaceNotFoundException, MessagingException {
+    public void saveInsertion(InsertionDTO insertionDTO, HttpServletRequest request, Principal principal) throws RaceNotFoundException, MessagingException {
         log.info("Inserting ducks from {}", insertionDTO.toString());
         List<Duck> duckList = new ArrayList<>();
 
@@ -50,6 +52,9 @@ public class InsertionServiceImpl implements InsertionService {
         Transaction transaction = new Transaction();
         transaction.setIsPaid(true);
         transaction.setTimeOfPayment(BanklinkUtil.getCurrentTimestamp());
+        transaction.setInserter(principal.getName());
+        transaction.setIdentificationCode(insertionDTO.getIdentificationCode());
+        transaction.setEmailSent(false);
         transaction = transactionRepository.save(transaction);
 
         for (int i = 0; i < insertionDTO.getNumberOfDucks(); i++) {

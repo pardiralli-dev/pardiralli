@@ -34,7 +34,7 @@ public class MailServiceImpl implements MailService {
 
     @Override
     @Async
-    public void sendConfirmationEmail(PurchaseInfoDTO purchaseInfoDTO) throws MessagingException, MailAuthenticationException, MailSendException {
+    public void sendConfirmationEmail(PurchaseInfoDTO purchaseInfoDTO) throws MessagingException {
         final Context ctx = new Context();
         ctx.setVariable("dto", purchaseInfoDTO);
 

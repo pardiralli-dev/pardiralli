@@ -31,6 +31,10 @@ public class Transaction {
 
     private Boolean emailSent;
 
+    private String inserter;
+
+    private String identificationCode;
+
     public Transaction(Boolean isPaid) {
         this.isPaid = isPaid;
     }

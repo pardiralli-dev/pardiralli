@@ -1,50 +1,14 @@
 package ee.pardiralli.util;
 
 import ee.pardiralli.domain.Duck;
-import ee.pardiralli.feedback.Feedback;
-import ee.pardiralli.feedback.FeedbackType;
+import ee.pardiralli.dto.SearchResultDTO;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class SearchUtil {
-
-    private static final Feedback FEEDBACK_NOT_FOUND = new Feedback("Päringule vastavaid parte ei leitud", FeedbackType.INFO);
-
-    /**
-     * Map list of items to HTML table rows
-     *
-     * @return list of HTML table rows
-     */
-    public static List<String> convertToResultsTable(List<Duck> items) {
-        return items.stream()
-                .map(duck ->
-                        "<tr>" +
-                                "<td>" + duck.getSerialNumber() + "</td>" +
-                                "<td>" + duck.getDuckBuyer().getEmail() + "</td>" +
-                                "<td>" + duck.getDuckOwner().getFirstName() + "</td>" +
-                                "<td>" + duck.getDuckOwner().getLastName() + "</td>" +
-                                "<td>" + duck.getDuckOwner().getPhoneNumber() + "</td>" +
-                                "<td>" + duck.getRace().getBeginning() + "</td>" +
-                                "</tr>"
-                ).collect(Collectors.toList());
-    }
-
-
-    /**
-     * @return HTML row that contains info that not items were found HTML table rows
-     */
-    public static List<String> getNoItemsFoundTableRow() {
-        return Collections.singletonList("<tr class=\"" + FEEDBACK_NOT_FOUND.getCssClass() + "\">" +
-                "<td></td>" +
-                "<td></td>" +
-                "<td>" + FEEDBACK_NOT_FOUND.getMessage() + "</td>" +
-                "<td></td>" +
-                "<td></td>" +
-                "<td></td>" +
-                "</tr>");
-    }
 
     /**
      * Get sublist from the results list
@@ -54,10 +18,56 @@ public class SearchUtil {
      * @param to   index to
      * @return sublist
      */
-    public static List<Duck> getResultsSubLst(List<Duck> lst, Integer from, Integer to) {
+    public static List<SearchResultDTO> getResultsSubLst(List<SearchResultDTO> lst, Integer from, Integer to) {
         Integer size = lst.size();
         if (from > size) return Collections.emptyList();
         return size >= to ? lst.subList(from, to) : lst.subList(from, size);
+    }
+
+    /**
+     * Convert {@link Duck} to {@link SearchResultDTO}
+     */
+    public static SearchResultDTO duckToSearchResultDTO(Duck d) {
+        return new SearchResultDTO(
+                d.getDuckOwner().getFirstName(),
+                d.getDuckOwner().getLastName(),
+                d.getDuckOwner().getPhoneNumber(),
+                String.valueOf(d.getSerialNumber()),
+                d.getDuckBuyer().getEmail(),
+                d.getPriceEuros(),
+                String.valueOf(d.getTransaction().getId()),
+                translateBoolean(d.getTransaction().getIsPaid()),
+                getDateAsString(d.getTimeOfPurchase(), "dd.MM.yyyy', 'HH:mm:ss"),
+                d.getTransaction().getIpAddr(),
+                translateBoolean(d.getTransaction().getEmailSent()),
+                d.getRace().getRaceName(),
+                d.getTransaction().getInserter(),
+                d.getTransaction().getIdentificationCode()
+        );
+    }
+
+
+    /**
+     * @param bool to be replaced with string positive or negative response.
+     *             Cannot be null
+     */
+    private static String translateBoolean(Boolean bool) {
+        if (bool == null) {
+            throw new AssertionError("Null value in translateToBoolean");
+        }
+        return bool ? "\u2713" : "\u2716";
+    }
+
+    /**
+     * Formats the given dates nicely into one string: startDate - endDate
+     *
+     * @param startDate date to format
+     * @param pattern   the pattern for the formatter
+     * @return dates as string in the shape of given pattern
+     */
+    private static String getDateAsString(LocalDateTime startDate, String pattern) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+        return startDate.format(formatter);
     }
 }
 

@@ -48,7 +48,10 @@ public class BankResponseController {
             List<Duck> ducks = paymentService.setSerialNumbers(transaction);
             List<DuckDTO> duckDTOs = BanklinkUtil.ducksToDTO(ducks);
             DuckBuyer buyer = BanklinkUtil.buyerFromDucks(ducks);
-            String totalSum = paymentService.transactionAmount(tid);
+            String totalSum = BanklinkUtil.centsToEuros(
+                    ducks.stream()
+                            .map(Duck::getPriceCents)
+                            .mapToInt(Integer::intValue).sum());
 
             try {
                 mailService.sendConfirmationEmail(buyer, ducks);

@@ -52,7 +52,6 @@ public class InsertionServiceImpl implements InsertionService {
         Transaction transaction = new Transaction();
         transaction.setIsPaid(true);
         transaction.setTimeOfPayment(BanklinkUtil.getCurrentTimestamp());
-        transaction.setIpAddr(request.getRemoteAddr());
         transaction.setInserter(principal.getName());
         transaction.setIdentificationCode(insertionDTO.getIdentificationCode());
         transaction.setEmailSent(false);

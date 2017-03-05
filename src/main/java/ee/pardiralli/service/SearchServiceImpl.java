@@ -3,7 +3,9 @@ package ee.pardiralli.service;
 import ee.pardiralli.db.DuckRepository;
 import ee.pardiralli.db.RaceRepository;
 import ee.pardiralli.domain.Duck;
-import ee.pardiralli.dto.SearchDTO;
+import ee.pardiralli.dto.SearchQueryDTO;
+import ee.pardiralli.dto.SearchResultDTO;
+import ee.pardiralli.util.SearchUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -20,12 +23,12 @@ public class SearchServiceImpl implements SearchService {
     private final RaceRepository raceRepository;
 
     @Override
-    public SearchDTO getLatestRaceSearchDTO() {
-        return new SearchDTO(raceRepository.findLastBeginningDate());
+    public SearchQueryDTO getLatestRaceSearchDTO() {
+        return new SearchQueryDTO(raceRepository.findLastBeginningDate());
     }
 
     @Override
-    public List<Duck> findDucksByQuery(SearchDTO userQuery) {
+    public List<SearchResultDTO> findDucksByQuery(SearchQueryDTO userQuery) {
         List<Duck> result;
 
         if (userQuery.hasOnlyIdAndDate()) {
@@ -40,7 +43,8 @@ public class SearchServiceImpl implements SearchService {
                     userQuery.getOwnersPhoneNr(),
                     userQuery.getRaceBeginningDate());
         }
+
         log.info("Search with query {} found results with {} ducks", userQuery, result.size());
-        return result;
+        return result.stream().map(SearchUtil::duckToSearchResultDTO).collect(Collectors.toList());
     }
 }

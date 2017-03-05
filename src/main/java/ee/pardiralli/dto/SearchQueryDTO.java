@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SearchDTO {
+public class SearchQueryDTO {
 
     @Min(0)
     private Integer serialNumber;
@@ -34,12 +34,12 @@ public class SearchDTO {
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     private LocalDate raceBeginningDate;
 
-    public SearchDTO(LocalDate lastBeginningDate) {
+    public SearchQueryDTO(LocalDate lastBeginningDate) {
         this.raceBeginningDate = lastBeginningDate;
     }
 
     /**
-     * @return true if {@link SearchDTO} has only ID and date declared
+     * @return true if {@link SearchQueryDTO} has only ID and date declared
      */
     public boolean hasOnlyIdAndDate() {
         return buyersEmail == null &&

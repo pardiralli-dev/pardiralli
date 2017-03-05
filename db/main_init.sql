@@ -10,6 +10,8 @@ CREATE TABLE public.transaction (
   ip_addr         VARCHAR(45),
   init_time       TIMESTAMP,
   email_sent      BOOLEAN DEFAULT FALSE,
+  inserter        VARCHAR(100),
+  identification_code    VARCHAR(11),
   CONSTRAINT id_transaction PRIMARY KEY (id)
 );
 

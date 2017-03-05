@@ -12,11 +12,10 @@ public interface MailService {
     /**
      * Send confirmation email to duck buyer about the transaction
      *
-     * @throws MessagingException
      * @throws MailAuthenticationException
      * @throws MailSendException
      */
-    void sendConfirmationEmail(PurchaseInfoDTO purchaseInfoDTO) throws MessagingException, MailAuthenticationException, MailSendException;
+    void sendConfirmationEmail(PurchaseInfoDTO purchaseInfoDTO) throws MessagingException;
 
 }
 

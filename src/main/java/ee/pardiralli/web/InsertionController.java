@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.security.Principal;
 
 @Controller
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -37,7 +39,9 @@ public class InsertionController {
     @PostMapping("/owner")
     public String insertData(@Valid InsertionDTO insertionDTO,
                              BindingResult bindingResult,
-                             Model model) {
+                             Model model,
+                             HttpServletRequest request,
+                             Principal principal) {
 
         if (raceService.hasNoOpenedRaces()) {
             ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Ükski võistlus ei ole avatud!");
@@ -46,7 +50,7 @@ public class InsertionController {
             model.addAttribute("manualAdd", insertionDTO);
         } else {
             try {
-                insertionService.saveInsertion(insertionDTO);
+                insertionService.saveInsertion(insertionDTO, request, principal);
                 ControllerUtil.setFeedback(model, FeedbackType.SUCCESS, "Andmed edukalt sisestatud");
             } catch (RaceNotFoundException e) {
                 ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Võistlust ei leitud!");

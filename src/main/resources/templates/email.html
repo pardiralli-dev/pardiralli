@@ -14,17 +14,17 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="duck:${ducks}" style="border-top:1px solid #ffffff;">
+        <tr th:each="duck:${dto.getDucks()}" style="border-top:1px solid #ffffff;">
             <td th:text="${duck.getSerialNumber()}" style="padding:8px;"></td>
-            <td th:text="${duck.getDuckOwner().getFirstName()}" style="padding:8px;"></td>
-            <td th:text="${duck.getDuckOwner().getLastName()}" style="padding:8px;"></td>
-            <td th:text="${duck.getDuckOwner().getPhoneNumber()}" style="padding:8px;"></td>
-            <td th:text="${duck.getPriceEuros()}" style="padding:8px;"></td>
+            <td th:text="${duck.getOwnerFirstName()}" style="padding:8px;"></td>
+            <td th:text="${duck.getOwnerLastName()}" style="padding:8px;"></td>
+            <td th:text="${duck.getOwnerPhoneNo()}" style="padding:8px;"></td>
+            <td th:text="${duck.getPrice()}" style="padding:8px;"></td>
         </tr>
         </tbody>
     </table>
-    <div th:text="'Tehingu nr: '+${ducks.get(0).getTransaction().getId()}" style="color:#333;font-weight:bold;padding:10px;border-top-left-radius:5px;border-top-right-radius:5px;background-color:#fff020;"></div>
-    <div th:text="'Summa: '+${total} + ' eurot'" style="color:#333;font-weight:bold;padding:10px;background-color:#fff020;"></div>
+    <div th:text="'Tehingu nr: '+${dto.getTransactionID()}" style="color:#333;font-weight:bold;padding:10px;border-top-left-radius:5px;border-top-right-radius:5px;background-color:#fff020;"></div>
+    <div th:text="'Summa: '+${dto.getPaymentSum()} + ' eurot'" style="color:#333;font-weight:bold;padding:10px;background-color:#fff020;"></div>
     <div style="color:#333;font-weight:bold;padding:10px;border-bottom-left-radius:5px;border-bottom-right-radius: 5px;background-color:#fff020;">EVLVL (Eesti Vähihaigete Laste Vanemate Liit) | Registrikood: 80096899 | info@vahilapsed.ee</div>
 </div>
 </body>

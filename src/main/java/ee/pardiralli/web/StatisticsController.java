@@ -52,7 +52,7 @@ public class StatisticsController {
 
         LocalDate startDateExp = LocalDate.now();
         LocalDate endDateExp = LocalDate.now();
-        model.addAttribute("exportFile", new ExportFile(false, false, startDateExp, endDateExp));
+        model.addAttribute("exportFile", new ExportFile(startDateExp, endDateExp));
 
         return "admin/statistics";
     }

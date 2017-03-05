@@ -2,8 +2,11 @@ package ee.pardiralli.service;
 
 
 import ee.pardiralli.configuration.MailConfiguration;
+import ee.pardiralli.db.TransactionRepository;
 import ee.pardiralli.domain.Duck;
 import ee.pardiralli.domain.DuckBuyer;
+import ee.pardiralli.domain.Transaction;
+import ee.pardiralli.dto.PurchaseInfoDTO;
 import ee.pardiralli.util.BanklinkUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,17 +30,13 @@ import java.util.List;
 public class MailServiceImpl implements MailService {
     private final SpringTemplateEngine templateEngine;
     private final MailConfiguration mailConfiguration;
+    private final TransactionRepository transactionRepository;
 
     @Override
     @Async
-    public void sendConfirmationEmail(DuckBuyer duckBuyer, List<Duck> ducks) throws MessagingException {
+    public void sendConfirmationEmail(PurchaseInfoDTO purchaseInfoDTO) throws MessagingException, MailAuthenticationException, MailSendException {
         final Context ctx = new Context();
-        ctx.setVariable("ducks", ducks);
-        ctx.setVariable("total", BanklinkUtil.centsToEuros(
-                ducks.stream()
-                        .map(Duck::getPriceCents)
-                        .mapToInt(Integer::intValue).sum())
-        );
+        ctx.setVariable("dto", purchaseInfoDTO);
 
         final String htmlContent = templateEngine.process("email", ctx);
         JavaMailSender sender = mailConfiguration.getJavaMailSender();
@@ -46,11 +45,14 @@ public class MailServiceImpl implements MailService {
         MimeMessageHelper helper = new MimeMessageHelper(message);
 
         try {
-            helper.setTo(duckBuyer.getEmail());
+            helper.setTo(purchaseInfoDTO.getBuyerEmail());
             helper.setText(htmlContent, true);
             helper.setSubject("Pardiralli kinnitus");
             sender.send(message);
-            log.info("Confirmation email sent to {}", duckBuyer.getEmail());
+            Transaction transaction = transactionRepository.findById(Integer.valueOf(purchaseInfoDTO.getTransactionID()));
+            transaction.setEmailSent(true);
+            transactionRepository.save(transaction);
+            log.info("Confirmation email sent to {}", purchaseInfoDTO.getBuyerEmail());
         } catch (MessagingException | MailAuthenticationException | MailSendException e) {
             log.error("Exception occurred while sending the confirmation email: {}", e);
             throw e;

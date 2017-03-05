@@ -3,6 +3,8 @@ package ee.pardiralli.service;
 import ee.pardiralli.db.*;
 import ee.pardiralli.domain.*;
 import ee.pardiralli.dto.InsertionDTO;
+import ee.pardiralli.dto.PurchaseInfoDTO;
+import ee.pardiralli.exceptions.IllegalTransactionException;
 import ee.pardiralli.exceptions.RaceNotFoundException;
 import ee.pardiralli.util.BanklinkUtil;
 import lombok.AllArgsConstructor;
@@ -25,6 +27,7 @@ public class InsertionServiceImpl implements InsertionService {
     private final TransactionRepository transactionRepository;
     private final MailService mailService;
     private final SerialNumberService numberService;
+    private final PaymentService paymentService;
 
     @Override
     public void saveInsertion(InsertionDTO insertionDTO) throws RaceNotFoundException, MessagingException {
@@ -33,7 +36,6 @@ public class InsertionServiceImpl implements InsertionService {
 
         Race race = raceRepository.findRaceByIsOpen(true);
         if (race == null) throw new RaceNotFoundException();
-        //TODO: if null throw exception
 
         DuckBuyer duckBuyer = new DuckBuyer();
         duckBuyer.setEmail(insertionDTO.getBuyerEmail());
@@ -65,6 +67,17 @@ public class InsertionServiceImpl implements InsertionService {
             duckList.add(duckRepository.save(duck));
         }
 
-        mailService.sendConfirmationEmail(duckBuyer, duckList);
+        try {
+            PurchaseInfoDTO purchaseInfoDTO = new PurchaseInfoDTO(
+                    BanklinkUtil.ducksToDTO(duckList),
+                    duckBuyer.getEmail(),
+                    paymentService.transactionAmount(transaction.getId()),
+                    String.valueOf(transaction.getId()));
+            mailService.sendConfirmationEmail(purchaseInfoDTO);
+
+        } catch (IllegalTransactionException e) {
+            log.error("Manual insertion of ducks failed with transaction ID {}", transaction.getId());
+            throw new RuntimeException(e);
+        }
     }
 }

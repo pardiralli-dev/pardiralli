@@ -49,15 +49,15 @@ public class BankResponseController {
             List<DuckDTO> duckDTOs = BanklinkUtil.ducksToDTO(ducks);
             DuckBuyer buyer = BanklinkUtil.buyerFromDucks(ducks);
             String totalSum = paymentService.transactionAmount(tid);
+            PurchaseInfoDTO purchaseInfoDTO = new PurchaseInfoDTO(duckDTOs, buyer.getEmail(), totalSum, tid.toString());
 
             try {
-                mailService.sendConfirmationEmail(buyer, ducks);
+                mailService.sendConfirmationEmail(purchaseInfoDTO);
             } catch (MessagingException | MailAuthenticationException | MailSendException e) {
                 log.error("Failed to send confirmation email to {}", buyer.getEmail());
                 ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Kinnitusmeili saatmine ebaõnnestus");
             }
 
-            PurchaseInfoDTO purchaseInfoDTO = new PurchaseInfoDTO(duckDTOs, buyer.getEmail(), totalSum, tid.toString());
             model.addAttribute("purchaseInfo", purchaseInfoDTO);
             return "donation/payment_successful";
         } catch (IllegalResponseException | IllegalTransactionException e) {

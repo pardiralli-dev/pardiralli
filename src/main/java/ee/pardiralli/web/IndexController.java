@@ -32,8 +32,7 @@ public class IndexController {
     public String donationForm(@ModelAttribute(DonationFormDTO.DONATION_VARIABLE_NAME) DonationFormDTO dto) {
         if (indexService.isRaceOpened()) {
             return "donation/donation-form";
-        }
-        else {
+        } else {
             return "race_not_opened";
         }
     }

@@ -16,9 +16,8 @@ public class CounterServiceImpl implements CounterService {
 
     @Override
     public CounterDTO queryCounter() {
-        Integer donationSumInOpenRace = duckRepository.sumDonationsInOpenRace() == null ? 0 : duckRepository.sumDonationsInOpenRace();
         return new CounterDTO(
-                BanklinkUtil.centsToEurosWhole(donationSumInOpenRace),
+                BanklinkUtil.centsToEurosWhole(duckRepository.sumDonationsInOpenRace()),
                 String.valueOf(duckRepository.countDucksInOpenRace()));
     }
 }

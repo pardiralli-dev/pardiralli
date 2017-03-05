@@ -15,6 +15,6 @@ public class IndexServiceImpl implements IndexService {
 
     @Override
     public Boolean isRaceOpened() {
-        return raceRepository.countOpenedRaces() != 0;
+        return raceRepository.countOpenedRaces() > 0;
     }
 }

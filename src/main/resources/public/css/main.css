@@ -85,29 +85,27 @@ div.sidebar {
 
 div.menu-container {
     font-size: 2rem;
-    font-family: 'Merriweather Sans', sans-serif;
+    font-weight: 300;
 }
 
 div.container.container-general {
     width: 80%;
     position: relative;
     float: right;
-    font-family: 'Noto Sans', sans-serif;
     color: #142e64;
     background-color: rgba(240, 240, 240, 0.8);
     padding: 20px 20px 100px 20px;
     min-height: 100vh;
 }
 
-nav.navbar-nav {
-    font-family: 'Enriqueta', serif;
-    font-size: 2rem;
-}
-
 li.admin-name-header {
     /* simulate bootstrap's '.navbar-nav > li > a' properties */
     line-height: 20px;
     padding: 15px;
+}
+
+span.admin-name {
+    font-weight: 500;
 }
 
 a.admin-logout {

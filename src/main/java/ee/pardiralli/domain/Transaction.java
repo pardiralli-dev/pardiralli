@@ -29,6 +29,12 @@ public class Transaction {
 
     private LocalDateTime initTime;
 
+    private Boolean emailSent;
+
+    private String inserter;
+
+    private String identificationCode;
+
     public Transaction(Boolean isPaid) {
         this.isPaid = isPaid;
     }

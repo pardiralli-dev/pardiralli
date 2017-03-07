@@ -9,6 +9,9 @@ CREATE TABLE public.transaction (
   time_of_payment TIMESTAMP,
   ip_addr         VARCHAR(45),
   init_time       TIMESTAMP,
+  email_sent      BOOLEAN DEFAULT FALSE,
+  inserter        VARCHAR(100),
+  identification_code    VARCHAR(11),
   CONSTRAINT id_transaction PRIMARY KEY (id)
 );
 
@@ -120,6 +123,15 @@ ON DELETE CASCADE
 ON UPDATE CASCADE
 NOT DEFERRABLE;
 
+CREATE FUNCTION close_past_races() RETURNS void AS $$
+DECLARE
+  curtime DATE := NOW();
+BEGIN
+  UPDATE race SET is_open = FALSE WHERE finish < curtime;
+END;
+$$ LANGUAGE plpgsql;
+
+
 CREATE OR REPLACE FUNCTION prevent_overlapping_races_fun () RETURNS OPAQUE AS '
 DECLARE
     myrec RECORD;
@@ -151,16 +163,4 @@ RETURN NEW;
 END;
 ' LANGUAGE 'plpgsql';
 
-CREATE TRIGGER add_race_tri BEFORE INSERT OR UPDATE ON race
-FOR EACH ROW EXECUTE PROCEDURE prevent_overlapping_races_fun();
 
-
-
-CREATE FUNCTION close_past_races() RETURNS trigger
-LANGUAGE plpgsql
-AS $$
-BEGIN
-  UPDATE race SET is_open = FALSE WHERE finish < NOW();
-  RETURN NEW;
-END;
-$$;

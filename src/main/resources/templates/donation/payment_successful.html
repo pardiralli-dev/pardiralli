@@ -3,53 +3,64 @@
 <html lang="et" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Makse sooritatud</title>
+    <meta charset="UTF-8"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sniglet"/>
     <link rel="stylesheet" type="text/css"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css" href="css/admin.css"/>
+    <link rel="stylesheet" type="text/css" href="css/main.css"/>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/counter_ajax.js"></script>
 </head>
 <body>
-<div class="container">
-    <div th:replace="fragments/menu :: main-menu"></div>
+<div class="wrapper">
+    <div th:replace="fragments/menu :: side-menu"></div>
 
-    <h3>Makse edukalt sooritatud!</h3>
-    <br/>
-    <div>
-        <h4>Teie pardiostu info</h4>
+    <div class="container container-general">
+        <div th:replace="fragments/menu :: admin-menu"></div>
+        <br/>
+        <h3>Makse edukalt sooritatud!</h3>
         <br/>
         <div>
-            <!--/*@thymesVar id="transactionID" type="java.lang.String"*/-->
-            <div th:text="'Tehingu nr: ' + ${transactionID}"></div>
+            <h4><strong>Teie pardiostu info</strong></h4>
             <br/>
-            <!--/*@thymesVar id="buyerEmail" type="java.lang.String"*/-->
-            <div th:text="'E-mail: ' + ${buyerEmail}"></div>
+            <table id="information" class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Pardi nr</th>
+                    <th>Omaniku eesnimi</th>
+                    <th>Omaniku perekonnanimi</th>
+                    <th>Omaniku telefoninumber</th>
+                    <th>Hind</th>
+                </tr>
+                </thead>
+                <!--/*@thymesVar id="purchaseInfo" type="java.util.List<ee.pardiralli.dto.PurchaseInfoDTO>"*/-->
+                <tr th:each="duckDTO : ${purchaseInfo.getDucks()}">
+                    <td th:text="${duckDTO.getSerialNumber()}"></td>
+                    <td th:text="${duckDTO.getOwnerFirstName()}"></td>
+                    <td th:text="${duckDTO.getOwnerLastName()}"></td>
+                    <td th:text="${duckDTO.getOwnerPhoneNo()}"></td>
+                    <td th:text="${duckDTO.getPrice()}"></td>
+                </tr>
+            </table>
+            <br/>
+            <div>
+                <!--/*@thymesVar id="purchaseInfo" type="java.util.List<ee.pardiralli.dto.PurchaseInfoDTO>"*/-->
+                <span class="payment_success_field">Tehingu nr: </span><span class="payment_success_val" th:text="${purchaseInfo.getTransactionID()}"></span>
+                <br/>
+                <br/>
+                <!--/*@thymesVar id="purchaseInfo" type="java.util.List<ee.pardiralli.dto.PurchaseInfoDTO>"*/-->
+                <span class="payment_success_field">E-mail: </span><span class="payment_success_val" th:text="${purchaseInfo.getBuyerEmail()}"></span>
+            </div>
+            <br/>
+            <!--/*@thymesVar id="purchaseInfo" type="java.util.List<ee.pardiralli.dto.PurchaseInfoDTO>"*/-->
+            <span class="payment_success_field">Summa: </span><span class="payment_success_val" th:text="${purchaseInfo.getPaymentSum()} + '€'"></span>
         </div>
         <br/>
-        <table id="information" class="table">
-            <thead>
-            <tr>
-                <th>Pardi nr</th>
-                <th>Omaniku eesnimi</th>
-                <th>Omaniku perekonnanimi</th>
-                <th>Omaniku telefoninumber</th>
-                <th>Hind</th>
-            </tr>
-            </thead>
-            <!--/*@thymesVar id="purchasedItems" type="java.util.List<ee.pardiralli.dto.DuckDTO>"*/-->
-            <tr th:each="duckDTO : ${purchasedItems}">
-                <td th:text="${duckDTO.getSerialNumber()}"></td>
-                <td th:text="${duckDTO.getOwnerFirstName()}"></td>
-                <td th:text="${duckDTO.getOwnerLastName()}"></td>
-                <td th:text="${duckDTO.getOwnerPhoneNo()}"></td>
-                <td th:text="${duckDTO.getPrice()}"></td>
-            </tr>
-        </table>
-        <br/>
-        <!--/*@thymesVar id="totalSum" type="java.lang.String"*/-->
-        <div th:text="'Summa: ' + ${totalSum} + '€'"></div>
+        <h3>Täname Pardirallit toetamast!</h3>
+        <div th:replace="fragments/footer :: footer"></div>
+
     </div>
-    <br/>
-    <h3>Aitäh Pardirallit toetamast!</h3>
 </div>
 </body>
 

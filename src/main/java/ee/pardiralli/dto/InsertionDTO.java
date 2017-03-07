@@ -7,6 +7,7 @@ import org.hibernate.validator.constraints.Email;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Data
 @NoArgsConstructor
@@ -23,6 +24,9 @@ public class InsertionDTO {
     @NotNull
     @Email
     String buyerEmail;
+
+    @Size(max = 11)
+    String identificationCode;
 
     @NotNull
     String ownerPhoneNumber;

@@ -1,10 +1,10 @@
 package ee.pardiralli.service;
 
-import ee.pardiralli.domain.Duck;
-import ee.pardiralli.domain.DuckBuyer;
+import ee.pardiralli.dto.PurchaseInfoDTO;
+import org.springframework.mail.MailAuthenticationException;
+import org.springframework.mail.MailSendException;
 
 import javax.mail.MessagingException;
-import java.util.List;
 
 public interface MailService {
 
@@ -12,10 +12,10 @@ public interface MailService {
     /**
      * Send confirmation email to duck buyer about the transaction
      *
-     * @param duckBuyer buyer whose email address will be used
-     * @param ducks     whose info will be sent in the email
+     * @throws MailAuthenticationException
+     * @throws MailSendException
      */
-    void sendConfirmationEmail(DuckBuyer duckBuyer, List<Duck> ducks) throws MessagingException;
+    void sendConfirmationEmail(PurchaseInfoDTO purchaseInfoDTO) throws MessagingException;
 
 }
 

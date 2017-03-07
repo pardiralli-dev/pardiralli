@@ -17,15 +17,13 @@
     <script type="text/javascript" src="js/counter_ajax.js"></script>
 </head>
 <body>
-
 <div class="wrapper">
     <div th:replace="fragments/menu :: side-menu"></div>
-
     <div class="container container-general">
         <div th:replace="fragments/menu :: admin-menu"></div>
         <div class="panel panel-default">
             <div class="panel-body">
-                <!--/*@thymesVar id="search" type="ee.pardiralli.dto.SearchDTO"*/-->
+                <!--/*@thymesVar id="search" type="ee.pardiralli.dto.SearchQueryDTO"*/-->
                 <form id="exact" class="form-horizontal" th:action="@{/search}" th:object="${search}" method="post">
                     <h4>Otsi</h4>
                     <div class="form-group">
@@ -122,9 +120,6 @@
         </div>
         <div class="panel panel-default">
             <div class="panel-body">
-                <noscript>
-                    <div class="alert alert-warning">JavaScript on keelatud, kuvatakse ainult esimesed 30 rida</div>
-                </noscript>
                 <!--/*@thymesVar id="feedbackList" type="java.util.List<ee.pardiralli.feedback.Feedback>"*/-->
                 <div th:each="feedback : ${feedbackList}">
                     <div class="alert" th:text="${feedback.getMessage()}"
@@ -133,31 +128,45 @@
                 <table id="results" class="table">
                     <thead>
                     <tr>
-                        <th>Pardi ID</th>
-                        <th>Ostja e-mail</th>
-                        <th>Omaniku eesnimi</th>
-                        <th>Omaniku perenimi</th>
-                        <th>Omaniku telefoninumber</th>
-                        <th>Üritus</th>
+                        <th th:text="#{search.table_header.duck_serial_no}"></th>
+                        <th th:text="#{search.table_header.owner_first_name}"></th>
+                        <th th:text="#{search.table_header.owner_last_name}"></th>
+                        <th th:text="#{search.table_header.owner_phone}"></th>
+                        <th th:text="#{search.table_header.buyer_email}"></th>
+                        <th th:text="#{search.table_header.identification_code}"></th>
+                        <th th:text="#{search.table_header.donation}"></th>
+                        <th th:text="#{search.table_header.transaction_no}"></th>
+                        <th th:text="#{search.table_header.is_paid}"></th>
+                        <th th:text="#{search.table_header.payment_time}"></th>
+                        <th th:text="#{search.table_header.confirmation_email}"></th>
+                        <th th:text="#{search.table_header.race_name}"></th>
+                        <th th:text="#{search.table_header.inserter}"></th>
+                        <th th:text="#{search.table_header.ip}"></th>
                     </tr>
                     </thead>
                     <tbody>
-                    <!--/*@thymesVar id="result" type="java.util.List<ee.pardiralli.domain.Duck>"*/-->
+                    <!--/*@thymesVar id="result" type="ee.pardiralli.dto.SearchResultDTO"*/-->
                     <tr th:each="res : ${result}">
                         <td th:text="${res.getSerialNumber()}"></td>
-                        <td th:text="${res.getDuckBuyer().getEmail()}"></td>
-                        <td th:text="${res.getDuckOwner().getFirstName()}"></td>
-                        <td th:text="${res.getDuckOwner().getLastName()}"></td>
-                        <td th:text="${res.getDuckOwner().getPhoneNumber()}"></td>
-                        <td th:text="${res.getRace().getBeginning()}"></td>
+                        <td th:text="${res.getOwnerFirstName()}"></td>
+                        <td th:text="${res.getOwnerLastName()}"></td>
+                        <td th:text="${res.getOwnerPhoneNo()}"></td>
+                        <td th:text="${res.getBuyerEmail()}"></td>
+                        <td th:text="${res.getIdentificationCode()}"></td>
+                        <td th:text="${res.getPrice()}"></td>
+                        <td th:text="${res.getTid()}"></td>
+                        <td th:text="${res.getIsPaid()}"></td>
+                        <td th:text="${res.getTimeOfPayment()}"></td>
+                        <td th:text="${res.getEmailSent()}"></td>
+                        <td th:text="${res.getRace()}"></td>
+                        <td th:text="${res.getInserter()}"></td>
+                        <td th:text="${res.getIpAddr()}"></td>
                     </tr>
                     </tbody>
                 </table>
             </div>
         </div>
-
         <div th:replace="fragments/footer :: footer"></div>
-
     </div>
 </div>
 </body>

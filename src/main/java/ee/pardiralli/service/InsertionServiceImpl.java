@@ -3,6 +3,8 @@ package ee.pardiralli.service;
 import ee.pardiralli.db.*;
 import ee.pardiralli.domain.*;
 import ee.pardiralli.dto.InsertionDTO;
+import ee.pardiralli.dto.PurchaseInfoDTO;
+import ee.pardiralli.exceptions.IllegalTransactionException;
 import ee.pardiralli.exceptions.RaceNotFoundException;
 import ee.pardiralli.util.BanklinkUtil;
 import lombok.AllArgsConstructor;
@@ -11,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,15 +29,15 @@ public class InsertionServiceImpl implements InsertionService {
     private final TransactionRepository transactionRepository;
     private final MailService mailService;
     private final SerialNumberService numberService;
+    private final PaymentService paymentService;
 
     @Override
-    public void saveInsertion(InsertionDTO insertionDTO) throws RaceNotFoundException, MessagingException {
+    public void saveInsertion(InsertionDTO insertionDTO, HttpServletRequest request, Principal principal) throws RaceNotFoundException, MessagingException {
         log.info("Inserting ducks from {}", insertionDTO.toString());
         List<Duck> duckList = new ArrayList<>();
 
         Race race = raceRepository.findRaceByIsOpen(true);
         if (race == null) throw new RaceNotFoundException();
-        //TODO: if null throw exception
 
         DuckBuyer duckBuyer = new DuckBuyer();
         duckBuyer.setEmail(insertionDTO.getBuyerEmail());
@@ -48,6 +52,9 @@ public class InsertionServiceImpl implements InsertionService {
         Transaction transaction = new Transaction();
         transaction.setIsPaid(true);
         transaction.setTimeOfPayment(BanklinkUtil.getCurrentTimestamp());
+        transaction.setInserter(principal.getName());
+        transaction.setIdentificationCode(insertionDTO.getIdentificationCode());
+        transaction.setEmailSent(false);
         transaction = transactionRepository.save(transaction);
 
         for (int i = 0; i < insertionDTO.getNumberOfDucks(); i++) {
@@ -65,6 +72,17 @@ public class InsertionServiceImpl implements InsertionService {
             duckList.add(duckRepository.save(duck));
         }
 
-        mailService.sendConfirmationEmail(duckBuyer, duckList);
+        try {
+            PurchaseInfoDTO purchaseInfoDTO = new PurchaseInfoDTO(
+                    BanklinkUtil.ducksToDTO(duckList),
+                    duckBuyer.getEmail(),
+                    paymentService.transactionAmount(transaction.getId()),
+                    String.valueOf(transaction.getId()));
+            mailService.sendConfirmationEmail(purchaseInfoDTO);
+
+        } catch (IllegalTransactionException e) {
+            log.error("Manual insertion of ducks failed with transaction ID {}", transaction.getId());
+            throw new RuntimeException(e);
+        }
     }
 }

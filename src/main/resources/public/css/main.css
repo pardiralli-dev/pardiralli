@@ -335,10 +335,33 @@ input[type=checkbox] {
 }
 
 .banklink-logo {
-    width: 126px;
-    /*width: 84px;*/
-    height: 47px;
-    /*height: 31px;*/
+    width: 84px;
+    height: 31px;
+}
+
+.banklink-text {
+    font-weight: 300;
+    font-size: 1.8rem;
+    line-height: 1.5;
+    margin-right: 1rem;
+}
+
+h2.ralli-page-header {
+    font-weight: 300;
+}
+
+.donation-summary-text {
+    font-weight: 300;
+    font-size: 1.8rem;
+    line-height: 2.5;
+}
+
+.weight400 {
+    font-weight: 400;
+}
+
+.border-right {
+    border-right: 1px solid #ddd;
 }
 
 label.invalid-accept-checkbox {

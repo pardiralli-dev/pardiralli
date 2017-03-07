@@ -25,78 +25,71 @@
 
         <div class="panel panel-default">
             <div class="panel-body">
-                <h2>Makse kinnitamine</h2>
+                <h2 class="ralli-page-header">Annetuse kinnitamine</h2>
             </div>
         </div>
-        <div class="panel panel-default">
+        <div class="panel panel-default donation-summary-text">
             <div class="panel-body">
-                <table class="lead table table-hover">
+                <table class="table table-hover">
                     <tr>
                         <th>Omaniku eesnimi</th>
                         <th>Omaniku perenimi</th>
                         <th>Partide arv</th>
-                        <th>Pardi hind</th>
+                        <th>Ühe pardi hind</th>
                     </tr>
                     <tr th:each="box : ${donation.getBoxes()}">
                         <td th:text="${box.getOwnerFirstName()}"></td>
                         <td th:text="${box.getOwnerLastName()}"></td>
                         <td th:text="${box.getDuckQuantity()}"></td>
-                        <td th:text="${box.getDuckPrice()}"></td>
+                        <td><span th:text="${box.getDuckPrice()}" th:remove="tag"></span> €</td>
                     </tr>
                 </table>
             </div>
         </div>
-        <div class="panel panel-default">
+        <div class="panel panel-default donation-summary-text">
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-md-2">
-                        <div class="lead">Summa kokku:</div>
-                    </div>
-                    <div class="col-md-1">
+                    <div class="col-sm-2">Annetus kokku:</div>
+                    <div class="col-sm-10">
                         <!--/*@thymesVar id="totalSum" type="java.lang.Integer"*/-->
-                        <div class="lead" th:text="${totalSum}"></div>
+                        <div class="weight400"><span th:text="${totalSum}" th:remove="tag"></span> €</div>
                     </div>
-                    <div class="col-md-9"></div>
                 </div>
                 <div class="row">
-                    <div class="col-md-2">
-                        <div class="lead">Ostja e-post:</div>
+                    <div class="col-sm-2">E-post:</div>
+                    <div class="col-sm-10">
+                        <div class="weight400" th:text="${donation.getBuyerEmail()}"></div>
                     </div>
-                    <div class="col-md-1">
-                        <div class="lead" th:text="${donation.getBuyerEmail()}"></div>
-                    </div>
-                    <div class="col-md-9"></div>
                 </div>
             </div>
         </div>
-        <div class="panel panel-default">
+        <div class="panel panel-default donation-summary-text">
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-md-1"></div>
-                    <div class="col-md-1"></div>
-
-                    <div class="col-md-2 text-center">
+                    <div class="col-md-3 text-center border-right">
                         <a class="btn center-block btn-banklink" th:href="@{/banklink/swedbank/pay}">
+                            <span class="banklink-text">Swedbank</span>
                             <img class="banklink-logo" src="css/images/swedbank-logo.png" alt="Swedbank"/>
                         </a>
                     </div>
-                    <div class="col-md-2 text-center">
-                        <a class="btn center-block btn-banklink" th:href="@{/banklink/nordea/pay}">
-                            <img class="banklink-logo" src="css/images/nordea-logo.png" alt="Nordea"/>
-                        </a>
-                    </div>
-                    <div class="col-md-2 text-center">
-                        <a class="btn center-block btn-banklink" th:href="@{/banklink/lhv/pay}">
-                            <img class="banklink-logo" src="css/images/lhv-logo.png" alt="LHV"/>
-                        </a>
-                    </div>
-                    <div class="col-md-2 text-center">
+                    <div class="col-md-3 text-center border-right">
                         <a class="btn center-block btn-banklink" th:href="@{/banklink/seb/pay}">
+                            <span class="banklink-text">SEB</span>
                             <img class="banklink-logo" src="css/images/seb-logo.png" alt="SEB"/>
                         </a>
                     </div>
-                    <div class="col-md-1 text-center"></div>
-                    <div class="col-md-1 text-center"></div>
+                    <div class="col-md-3 text-center border-right">
+                        <a class="btn center-block btn-banklink" th:href="@{/banklink/lhv/pay}">
+                            <span class="banklink-text">LHV</span>
+                            <img class="banklink-logo" src="css/images/lhv-logo.png" alt="LHV"/>
+                        </a>
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <a class="btn center-block btn-banklink" th:href="@{/banklink/nordea/pay}">
+                            <span class="banklink-text">Nordea</span>
+                            <img class="banklink-logo" src="css/images/nordea-logo.png" alt="Nordea"/>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

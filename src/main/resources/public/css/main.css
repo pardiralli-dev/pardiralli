@@ -317,8 +317,21 @@ label.main-box-form-label {
     color: #193a80;
 }
 
+div.terms-check-wrap {
+    padding-left: 10px;
+}
+
 input.terms-check {
     margin-top: 3rem;
+    margin-right: 1rem;
+}
+
+input[type=checkbox] {
+    -ms-transform: scale(1.5);
+    -moz-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    -o-transform: scale(1.5);
+    padding: 10px;
 }
 
 .banklink-logo {
@@ -413,6 +426,7 @@ span.payment_success_field {
     font-weight: bolder;
     font-size: 1.5rem;
 }
+
 span.payment_success_val {
     font-size: 1.5rem;
 }

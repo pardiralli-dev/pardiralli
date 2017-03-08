@@ -35,21 +35,21 @@ public class SearchQueryDTO {
     private LocalDate raceBeginningDate;
 
 
-    private Boolean checkSerialNumber=true;
-    private Boolean checkOwnerFirstName=true;
-    private Boolean checkOwnerLastName=true;
-    private Boolean checkOwnerPhoneNo=true;
-    private Boolean checkBuyerEmail=true;
-    private Boolean checkIdentificationCode=false;
-    private Boolean checkPrice=true;
-    private Boolean checkTid=false;
-    private Boolean checkIsPaid=true;
-    private Boolean checkTimeOfPayment=true;
-    private Boolean checkBank=false;
-    private Boolean checkEmailSent=true;
-    private Boolean checkRace=true;
-    private Boolean checkInserter=false;
-    private Boolean checkIpAddr=false;
+    private Boolean checkSerialNumber = true;
+    private Boolean checkOwnerFirstName = true;
+    private Boolean checkOwnerLastName = true;
+    private Boolean checkOwnerPhoneNo = true;
+    private Boolean checkBuyerEmail = true;
+    private Boolean checkIdentificationCode = false;
+    private Boolean checkPrice = true;
+    private Boolean checkTid = false;
+    private Boolean checkIsPaid = true;
+    private Boolean checkTimeOfPayment = true;
+    private Boolean checkBank = false;
+    private Boolean checkEmailSent = true;
+    private Boolean checkRace = true;
+    private Boolean checkInserter = false;
+    private Boolean checkIpAddr = false;
 
 
     public SearchQueryDTO(LocalDate lastBeginningDate) {

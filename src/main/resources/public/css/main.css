@@ -108,10 +108,9 @@ span.admin-name {
     font-weight: 500;
 }
 
-a.admin-logout {
-    /* override more accurate bootstrap selector '.navbar-nav > li > a' */
-    display: inline-block !important;
-    padding: 0 !important;
+input.admin-logout {
+    display: inline-block;
+    padding: 0;
 }
 
 .container.container-error {

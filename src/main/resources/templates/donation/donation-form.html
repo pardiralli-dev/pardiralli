@@ -22,6 +22,8 @@
     <div class="container container-general">
         <div th:replace="fragments/menu :: admin-menu"></div>
 
+        <p th:if="${param.logoutsuccess}" class="alert alert-success">Olete välja loginud!</p>
+
         <!--/*@thymesVar id="feedbackList" type="java.util.List<ee.pardiralli.feedback.Feedback>"*/-->
         <div th:replace="fragments/feedback :: feedback-messages (feedbackList=${feedbackList})"></div>
 
@@ -52,8 +54,7 @@
                                                class="form-control box-input"
                                                type="text"
                                                placeholder="Eesnimi"/>
-                                        <span th:if="${#fields.hasErrors('boxes[__${boxStat.index}__].ownerFirstName')}"
-                                              class="glyphicon glyphicon-remove form-control-feedback"></span>
+                                        <span th:if="${#fields.hasErrors('boxes[__${boxStat.index}__].ownerFirstName')}" class="glyphicon glyphicon-remove form-control-feedback"></span>
                                     </div>
                                     <div class="input-group"
                                          th:classappend="${#fields.hasErrors('boxes[__${boxStat.index}__].ownerLastName')} ? 'has-error has-feedback'">

@@ -42,7 +42,9 @@
                 <li><a th:href="@{/insert}">Sisestus</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li class="admin-name-header">Administraator <span sec:authentication="name" class="admin-name">[user]</span> <a th:href="@{/logout}" class="admin-logout">(välju)</a></li>
+                <form method="post" th:action="@{/logout}">
+                    <li class="admin-name-header">Administraator <span sec:authentication="name" class="admin-name">[user]</span> <input type="submit" th:value="#{admin_login.logout_link}" class="btn-link admin-logout"/></li>
+                </form>
             </ul>
         </div>
     </nav>

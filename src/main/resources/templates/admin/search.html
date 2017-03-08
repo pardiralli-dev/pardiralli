@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
-<html lang="et" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="et">
 <head>
     <title>Otsing</title>
     <meta charset="UTF-8"/>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta http-equiv="Content-Type" content="text/htmlcharset=UTF-8"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sniglet"/>
     <link rel="stylesheet" type="text/css"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
@@ -21,153 +21,213 @@
     <div th:replace="fragments/menu :: side-menu"></div>
     <div class="container container-general">
         <div th:replace="fragments/menu :: admin-menu"></div>
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <!--/*@thymesVar id="search" type="ee.pardiralli.dto.SearchQueryDTO"*/-->
-                <form id="exact" class="form-horizontal" th:action="@{/search}" th:object="${search}" method="post">
-                    <h4>Otsi</h4>
-                    <div class="form-group">
-                        <label class="col-form-label col-sm-2" for="search_quick_id">Otsi omanikku pardi ID
-                            järgi:</label>
-                        <div class="col-sm-10">
-                            <input id="search_quick_id"
-                                   type="number"
-                                   class="form-control"
-                                   th:field="*{serialNumber}"
-                                   required="required"
-                                   name="search_quick_id"/>
+        <!--/*@thymesVar id="search" type="ee.pardiralli.dto.SearchQueryDTO"*/-->
+        <form id="general" class="form-horizontal" th:action="@{/search}" th:object="${search}" method="post">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="form-group" th:classappend="${#fields.hasErrors('serialNumber')} ? 'has-error has-feedback'">
+                        <label class="col-form-label col-sm-3" for="search_quick_id">Otsi omanikku pardi ID järgi:</label>
+                        <div class="col-sm-9">
+                            <input id="search_quick_id" type="number" class="form-control" th:field="*{serialNumber}" name="search_quick_id"/>
+                            <span th:if="${#fields.hasErrors('serialNumber')}" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                        </div>
+                    </div>
+                    <div class="form-group" th:classappend="${#fields.hasErrors('ownersFirstName')} ? 'has-error has-feedback'">
+                        <label class="col-form-label col-sm-3" for="first_name_long">Omaniku eesnimi:</label>
+                        <div class="col-sm-9">
+                            <input id="first_name_long" type="text" class="form-control" th:field="*{ownersFirstName}" name="first_name_long"/>
+                            <span th:if="${#fields.hasErrors('ownersFirstName')}" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                        </div>
+                    </div>
+                    <div class="form-group" th:classappend="${#fields.hasErrors('ownersLastName')} ? 'has-error has-feedback'">
+                        <label class="col-form-label col-sm-3" for="last_name_long">Omaniku perenimi:</label>
+                        <div class="col-sm-9">
+                            <input id="last_name_long" type="text" class="form-control" th:field="*{ownersLastName}" name="last_name_long"/>
+                            <span th:if="${#fields.hasErrors('ownersLastName')}" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                        </div>
+                    </div>
+                    <div class="form-group" th:classappend="${#fields.hasErrors('buyersEmail')} ? 'has-error has-feedback'">
+                        <label class="col-form-label col-sm-3" for="email_long">Ostja e-mail:</label>
+                        <div class="col-sm-9">
+                            <input id="email_long" type="text" class="form-control" th:field="*{buyersEmail}" name="email_long"/>
+                            <span th:if="${#fields.hasErrors('buyersEmail')}" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                        </div>
+                    </div>
+                    <div class="form-group" th:classappend="${#fields.hasErrors('ownersPhoneNr')} ? 'has-error has-feedback'">
+                        <label class="col-form-label col-sm-3" for="phone_number_long">Omaniku telefoninumber:</label>
+                        <div class="col-sm-9">
+                            <input id="phone_number_long" type="number" class="form-control" th:field="*{ownersPhoneNr}" name="phone_number_long"/>
+                            <span th:if="${#fields.hasErrors('ownersPhoneNr')}" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                        </div>
+                    </div>
+                    <div class="form-group"
+                         th:classappend="${#fields.hasErrors('raceBeginningDate')} ? 'has-error has-feedback'">
+                        <label class="col-form-label col-sm-3" for="search_date_long">Alguskuupäev:</label>
+                        <div class="col-sm-9">
+                            <input id="search_date_long" th:field="*{raceBeginningDate}" class="form-control" required="required" name="search_date"/>
+                            <span th:if="${#fields.hasErrors('raceBeginningDate')}" class="glyphicon glyphicon-remove form-control-feedback"></span>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-form-label col-sm-2" for="search_quick_date">Alguskuupäev:</label>
-                        <div class="col-sm-10">
-                            <input id="search_quick_date"
-                                   class="form-control"
-                                   th:field="*{raceBeginningDate}"
-                                   required="required"
-                                   name="search_quick_date"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-10">
-                            <input id="search" type="submit" class="btn btn-default" value="Otsi!"/>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <form id="general" class="form-horizontal" th:action="@{/search}" th:object="${search}" method="post">
-                    <h4>Täpsem otsing</h4>
-                    <div class="form-group">
-                        <label class="col-form-label col-sm-2" for="first_name_long">Omaniku eesnimi:</label>
-                        <div class="col-sm-10">
-                            <input id="first_name_long"
-                                   type="text"
-                                   class="form-control"
-                                   th:field="*{ownersFirstName}"
-                                   name="first_name_long"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-form-label col-sm-2" for="last_name_long">Omaniku perenimi:</label>
-                        <div class="col-sm-10">
-                            <input id="last_name_long"
-                                   type="text"
-                                   class="form-control"
-                                   th:field="*{ownersLastName}"
-                                   name="last_name_long"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-form-label col-sm-2" for="email_long">Ostja e-mail:</label>
-                        <div class="col-sm-10">
-                            <input id="email_long"
-                                   type="text"
-                                   class="form-control"
-                                   th:field="*{buyersEmail}"
-                                   name="email_long"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-form-label col-sm-2" for="phone_number_long">Omaniku telefoninumber:</label>
-                        <div class="col-sm-10">
-                            <input id="phone_number_long"
-                                   type="number"
-                                   class="form-control"
-                                   th:field="*{ownersPhoneNr}"
-                                   name="phone_number_long"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-form-label col-sm-2" for="search_date_long">Alguskuupäev:</label>
-                        <div class="col-sm-10">
-                            <input id="search_date_long"
-                                   th:field="*{raceBeginningDate}"
-                                   class="form-control"
-                                   required="required"
-                                   name="search_date"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-10">
+                        <div class="col-sm-offset-3 col-sm-9">
                             <input id="search_long" type="submit" class="btn btn-default" value="Otsi!"/>
                         </div>
                     </div>
-                </form>
-            </div>
-        </div>
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <!--/*@thymesVar id="feedbackList" type="java.util.List<ee.pardiralli.feedback.Feedback>"*/-->
-                <div th:each="feedback : ${feedbackList}">
-                    <div class="alert" th:text="${feedback.getMessage()}"
-                         th:classappend="${feedback.getCssClass()}"></div>
                 </div>
-                <table id="results" class="table">
-                    <thead>
-                    <tr>
-                        <th th:text="#{search.table_header.duck_serial_no}"></th>
-                        <th th:text="#{search.table_header.owner_first_name}"></th>
-                        <th th:text="#{search.table_header.owner_last_name}"></th>
-                        <th th:text="#{search.table_header.owner_phone}"></th>
-                        <th th:text="#{search.table_header.buyer_email}"></th>
-                        <th th:text="#{search.table_header.identification_code}"></th>
-                        <th th:text="#{search.table_header.donation}"></th>
-                        <th th:text="#{search.table_header.transaction_no}"></th>
-                        <th th:text="#{search.table_header.is_paid}"></th>
-                        <th th:text="#{search.table_header.payment_time}"></th>
-                        <th th:text="#{search.table_header.bank_name}"></th>
-                        <th th:text="#{search.table_header.confirmation_email}"></th>
-                        <th th:text="#{search.table_header.race_name}"></th>
-                        <th th:text="#{search.table_header.inserter}"></th>
-                        <th th:text="#{search.table_header.ip}"></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <!--/*@thymesVar id="result" type="ee.pardiralli.dto.SearchResultDTO"*/-->
-                    <tr th:each="res : ${result}">
-                        <td th:text="${res.getSerialNumber()}"></td>
-                        <td th:text="${res.getOwnerFirstName()}"></td>
-                        <td th:text="${res.getOwnerLastName()}"></td>
-                        <td th:text="${res.getOwnerPhoneNo()}"></td>
-                        <td th:text="${res.getBuyerEmail()}"></td>
-                        <td th:text="${res.getIdentificationCode()}"></td>
-                        <td th:text="${res.getPrice()}"></td>
-                        <td th:text="${res.getTid()}"></td>
-                        <td th:text="${res.getIsPaid()}"></td>
-                        <td th:text="${res.getTimeOfPayment()}"></td>
-                        <td th:text="${res.getBank()}"></td>
-                        <td th:text="${res.getEmailSent()}"></td>
-                        <td th:text="${res.getRace()}"></td>
-                        <td th:text="${res.getInserter()}"></td>
-                        <td th:text="${res.getIpAddr()}"></td>
-                    </tr>
-                    </tbody>
-                </table>
             </div>
-        </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label>
+                                <input th:id="checkSerialNumber" th:field="*{checkSerialNumber}" type="checkbox"/>
+                                <span class="weight400" th:text="#{search.table_header.duck_serial_no}"></span>
+                            </label>
+                        </div>
+                        <div class="col-sm-3">
+                            <label>
+                                <input th:id="checkBuyerEmail" th:field="*{checkBuyerEmail}" type="checkbox"/>
+                                <span class="weight400" th:text="#{search.table_header.buyer_email}"></span>
+
+                            </label>
+                        </div>
+                        <div class="col-sm-3">
+                            <label>
+                                <input th:id="checkIsPaid" th:field="*{checkIsPaid}" type="checkbox"/>
+                                <span class="weight400" th:text="#{search.table_header.is_paid}"></span>
+                            </label>
+                        </div>
+                        <div class="col-sm-3">
+                            <label>
+                                <input th:id="checkRace" th:field="*{checkRace}" type="checkbox"/>
+                                <span class="weight400" th:text="#{search.table_header.race_name}"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label>
+                                <input th:id="checkOwnerFirstName" th:field="*{checkOwnerFirstName}" type="checkbox"/>
+                                <span class="weight400" th:text="#{search.table_header.owner_first_name}"></span>
+                            </label>
+                        </div>
+                        <div class="col-sm-3">
+                            <label>
+                                <input th:id="checkIdentificationCode" th:field="*{checkIdentificationCode}" type="checkbox"/>
+                                <span class="weight400" th:text="#{search.table_header.identification_code}"></span>
+                            </label>
+                        </div>
+                        <div class="col-sm-3">
+                            <label>
+                                <input th:id="checkTimeOfPayment" th:field="*{checkTimeOfPayment}" type="checkbox"/>
+                                <span class="weight400" th:text="#{search.table_header.payment_time}"></span>
+                            </label>
+                        </div>
+                        <div class="col-sm-3">
+                            <label>
+                                <input th:id="checkInserter" th:field="*{checkInserter}" type="checkbox"/>
+                                <span class="weight400" th:text="#{search.table_header.inserter}"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label>
+                                <input th:id="checkOwnerLastName" th:field="*{checkOwnerLastName}" type="checkbox"/>
+                                <span class="weight400" th:text="#{search.table_header.owner_last_name}"></span>
+                            </label>
+                        </div>
+                        <div class="col-sm-3">
+                            <label>
+                                <input th:id="checkPrice" th:field="*{checkPrice}" type="checkbox"/>
+                                <span class="weight400" th:text="#{search.table_header.donation}"></span>
+                            </label>
+                        </div>
+                        <div class="col-sm-3">
+                            <label>
+                                <input th:id="checkBank" th:field="*{checkBank}" type="checkbox"/>
+                                <span class="weight400" th:text="#{search.table_header.bank_name}"></span>
+                            </label>
+                        </div>
+                        <div class="col-sm-3">
+                            <label>
+                                <input th:id="checkIpAddr" th:field="*{checkIpAddr}" type="checkbox"/>
+                                <span class="weight400" th:text="#{search.table_header.ip}"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label>
+                                <input th:id="checkOwnerPhoneNo" th:field="*{checkOwnerPhoneNo}" type="checkbox"/>
+                                <span class="weight400" th:text="#{search.table_header.owner_phone}"></span>
+                            </label>
+                        </div>
+                        <div class="col-sm-3">
+                            <label>
+                                <input th:id="checkTid" th:field="*{checkTid}" type="checkbox"/>
+                                <span class="weight400" th:text="#{search.table_header.transaction_no}"></span>
+                            </label>
+                        </div>
+                        <div class="col-sm-3">
+                            <label>
+                                <input th:id="checkEmailSent" th:field="*{checkEmailSent}" type="checkbox"/>
+                                <span class="weight400" th:text="#{search.table_header.confirmation_email}"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <!--/*@thymesVar id="feedbackList" type="java.util.List<ee.pardiralli.feedback.Feedback>"*/-->
+                    <div th:each="feedback : ${feedbackList}">
+                        <div class="alert" th:text="${feedback.getMessage()}" th:classappend="${feedback.getCssClass()}"></div>
+                    </div>
+                    <table id="results" class="table">
+                        <thead>
+                        <tr>
+                            <th th:if="${search.getCheckSerialNumber()}" th:text="#{search.table_header.duck_serial_no}"></th>
+                            <th th:if="${search.getCheckOwnerFirstName()}" th:text="#{search.table_header.owner_first_name}"></th>
+                            <th th:if="${search.getCheckOwnerLastName()}" th:text="#{search.table_header.owner_last_name}"></th>
+                            <th th:if="${search.getCheckOwnerPhoneNo()}" th:text="#{search.table_header.owner_phone}"></th>
+                            <th th:if="${search.getCheckBuyerEmail()}" th:text="#{search.table_header.buyer_email}"></th>
+                            <th th:if="${search.getCheckIdentificationCode()}" th:text="#{search.table_header.identification_code}"></th>
+                            <th th:if="${search.getCheckPrice()}" th:text="#{search.table_header.donation}"></th>
+                            <th th:if="${search.getCheckTid()}" th:text="#{search.table_header.transaction_no}"></th>
+                            <th th:if="${search.getCheckIsPaid()}" th:text="#{search.table_header.is_paid}"></th>
+                            <th th:if="${search.getCheckTimeOfPayment()}" th:text="#{search.table_header.payment_time}"></th>
+                            <th th:if="${search.getCheckBank()}" th:text="#{search.table_header.bank_name}"></th>
+                            <th th:if="${search.getCheckEmailSent()}" th:text="#{search.table_header.confirmation_email}"></th>
+                            <th th:if="${search.getCheckRace()}" th:text="#{search.table_header.race_name}"></th>
+                            <th th:if="${search.getCheckInserter()}" th:text="#{search.table_header.inserter}"></th>
+                            <th th:if="${search.getCheckIpAddr()}" th:text="#{search.table_header.ip}"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!--/*@thymesVar id="result" type="java.util.List<ee.pardiralli.dto.SearchResultDTO>"*/-->
+                        <tr th:each="res : ${result}">
+                            <td th:if="${search.getCheckSerialNumber()}" th:text="${res.getSerialNumber()}"></td>
+                            <td th:if="${search.getCheckOwnerFirstName()}" th:text="${res.getOwnerFirstName()}"></td>
+                            <td th:if="${search.getCheckOwnerLastName()}" th:text="${res.getOwnerLastName()}"></td>
+                            <td th:if="${search.getCheckOwnerPhoneNo()}" th:text="${res.getOwnerPhoneNo()}"></td>
+                            <td th:if="${search.getCheckBuyerEmail()}" th:text="${res.getBuyerEmail()}"></td>
+                            <td th:if="${search.getCheckIdentificationCode()}" th:text="${res.getIdentificationCode()}"></td>
+                            <td th:if="${search.getCheckPrice()}" th:text="${res.getPrice()}"></td>
+                            <td th:if="${search.getCheckTid()}" th:text="${res.getTid()}"></td>
+                            <td th:if="${search.getCheckIsPaid()}" th:text="${res.getIsPaid()}"></td>
+                            <td th:if="${search.getCheckTimeOfPayment()}" th:text="${res.getTimeOfPayment()}"></td>
+                            <td th:if="${search.getCheckBank()}" th:text="${res.getBank()}"></td>
+                            <td th:if="${search.getCheckEmailSent()}" th:text="${res.getEmailSent()}"></td>
+                            <td th:if="${search.getCheckRace()}" th:text="${res.getRace()}"></td>
+                            <td th:if="${search.getCheckInserter()}" th:text="${res.getInserter()}"></td>
+                            <td th:if="${search.getCheckIpAddr()}" th:text="${res.getIpAddr()}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </form>
         <div th:replace="fragments/footer :: footer"></div>
     </div>
 </div>

@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
@@ -28,23 +29,22 @@ public class SearchController {
     private final SearchService searchService;
 
     @GetMapping("/search")
-    public String search(Model model) {
+    public String getTemplate(Model model) {
         model.addAttribute("search", searchService.getLatestRaceSearchDTO());
-        model.addAttribute("result", Collections.emptyList());
         return "admin/search";
     }
 
     @PostMapping("/search")
-    public String searchSubmit(@Valid SearchQueryDTO userQuery, BindingResult bindingResult, Model model) {
-        model.addAttribute("search", bindingResult.hasErrors() ? new SearchQueryDTO() : searchService.getLatestRaceSearchDTO());
-        List<SearchResultDTO> results = searchService.findDucksByQuery(userQuery);
-
-        model.addAttribute("result", results);
-
-        if (results.isEmpty()) {
-            ControllerUtil.setFeedback(model, FeedbackType.INFO, "Päringule vastavaid parte ei leitud");
+    public String searchSubmit(@ModelAttribute("search") @Valid SearchQueryDTO userQuery, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Vigane päring!");
+        } else {
+            List<SearchResultDTO> results = searchService.findDucksByQuery(userQuery);
+            model.addAttribute("result", results);
+            if (results.isEmpty()) {
+                ControllerUtil.setFeedback(model, FeedbackType.INFO, "Päringule vastavaid parte ei leitud");
+            }
         }
-
         return "admin/search";
     }
 

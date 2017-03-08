@@ -34,19 +34,25 @@ public class SearchQueryDTO {
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     private LocalDate raceBeginningDate;
 
+
+    private Boolean checkSerialNumber=true;
+    private Boolean checkOwnerFirstName=true;
+    private Boolean checkOwnerLastName=true;
+    private Boolean checkOwnerPhoneNo=true;
+    private Boolean checkBuyerEmail=true;
+    private Boolean checkIdentificationCode=false;
+    private Boolean checkPrice=true;
+    private Boolean checkTid=false;
+    private Boolean checkIsPaid=true;
+    private Boolean checkTimeOfPayment=true;
+    private Boolean checkBank=false;
+    private Boolean checkEmailSent=true;
+    private Boolean checkRace=true;
+    private Boolean checkInserter=false;
+    private Boolean checkIpAddr=false;
+
+
     public SearchQueryDTO(LocalDate lastBeginningDate) {
         this.raceBeginningDate = lastBeginningDate;
-    }
-
-    /**
-     * @return true if {@link SearchQueryDTO} has only ID and date declared
-     */
-    public boolean hasOnlyIdAndDate() {
-        return buyersEmail == null &&
-                ownersFirstName == null &&
-                ownersLastName == null &&
-                ownersPhoneNr == null &&
-                serialNumber != null &&
-                raceBeginningDate != null;
     }
 }

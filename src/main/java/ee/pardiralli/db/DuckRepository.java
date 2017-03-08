@@ -26,14 +26,16 @@ public interface DuckRepository extends CrudRepository<Duck, Integer> {
                         @Param("phone") String phone,
                         @Param("date") LocalDate date);
 
-    @Query("SELECT COUNT(d) FROM Duck d WHERE d.race.isOpen = true")
+    @Query("SELECT COUNT(d) FROM Duck d " +
+            "WHERE d.race.isOpen = true AND d.transaction.isPaid = true")
     Integer countDucksInOpenRace();
 
 
     /**
      * @return sum of all donations in the open race (0 if there aren't any)
      */
-    @Query("SELECT COALESCE(SUM(d.priceCents), 0) FROM Duck d WHERE d.race.isOpen = true")
+    @Query("SELECT COALESCE(SUM(d.priceCents), 0) FROM Duck d " +
+            "WHERE d.race.isOpen = true AND d.transaction.isPaid = true")
     Integer sumDonationsInOpenRace();
 
 

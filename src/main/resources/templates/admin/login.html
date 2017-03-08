@@ -19,21 +19,22 @@
 
     <div class="container container-general">
         <div th:replace="fragments/menu :: admin-menu"></div>
-        <div class="panel panel-default">
+
+        <div class="panel panel-default admin-login-panel">
             <div class="panel-body">
                 <p th:if="${param.logout}" class="alert alert-info">Olete välja loginud!</p>
                 <p th:if="${param.error}" class="alert alert-danger">Proovige uuesti!</p>
                 <form name="form" th:action="@{/login}" action="/login" method="POST">
                     <fieldset>
-                        <legend th:text="#{LOG_IN}">Logi sisse</legend>
+                        <legend th:text="#{admin_login.form_legend}"></legend>
                         <div class="form-group">
-                            <input type="text" name="username" class="form-control" placeholder="Kasutajanimi"/>
+                            <input type="text" name="username" class="form-control" th:placeholder="#{admin_login.username_placeholder}"/>
                         </div>
                         <div class="form-group">
-                            <input type="password" name="password" class="form-control" placeholder="Parool"/>
+                            <input type="password" name="password" class="form-control" th:placeholder="#{admin_login.password_placeholder}"/>
                         </div>
                     </fieldset>
-                    <input type="submit" id="login" value="Login" class="btn btn-default"/>
+                    <input type="submit" id="login" th:value="#{admin_login.button_text}" class="btn btn-default"/>
                 </form>
             </div>
         </div>

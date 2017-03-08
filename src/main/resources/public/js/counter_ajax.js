@@ -206,9 +206,10 @@ var CountUp = function (target, startVal, endVal, decimals, duration, options) {
 
 function queryDonationCounter() {
     $.ajax({
-        url: "https://urgas.ee/pardiralli/counter_ajax",
+        url: window.location.protocol + '//' + $('#root_url').text() + "/counter_ajax",
         type: 'GET',
         cache: false,
+        // Note that Chrome's bug does not allow CORS from localhost
         crossDomain: true, // for testing from localhost
         success: function (data) {
             console.log('Updating counters');

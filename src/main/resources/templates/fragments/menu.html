@@ -22,6 +22,7 @@
         </div>
 
         <div class="counters-wrap">
+            <span style="display: none" th:text="${@environment.getProperty('root_url')}" th:id="root_url"></span>
             <span>Soetatud parte:</span>
             <div id="counter_duck_count" class="counter">...</div>
             <span>Annetatud raha:</span>

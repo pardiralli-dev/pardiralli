@@ -54,7 +54,6 @@ public class InsertionServiceImpl implements InsertionService {
         transaction.setTimeOfPayment(BanklinkUtil.getCurrentTimestamp());
         transaction.setInserter(principal.getName());
         transaction.setIdentificationCode(insertionDTO.getIdentificationCode());
-        transaction.setEmailSent(false);
         transaction = transactionRepository.save(transaction);
 
         for (int i = 0; i < insertionDTO.getNumberOfDucks(); i++) {

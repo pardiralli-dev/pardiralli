@@ -29,7 +29,7 @@ public class Transaction {
 
     private LocalDateTime initTime;
 
-    private Boolean emailSent;
+    private Boolean emailSent = false;
 
     private String inserter;
 

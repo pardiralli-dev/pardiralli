@@ -23,10 +23,10 @@ public class DuckBuyer {
 
     private String email;
 
-    private String piCode;
+    private String identificationCode;
 
     public DuckBuyer(String email, String piCode){
         this.email = email;
-        this.piCode = piCode;
+        this.identificationCode = piCode;
     }
 }

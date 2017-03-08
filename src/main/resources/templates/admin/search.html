@@ -138,6 +138,7 @@
                         <th th:text="#{search.table_header.transaction_no}"></th>
                         <th th:text="#{search.table_header.is_paid}"></th>
                         <th th:text="#{search.table_header.payment_time}"></th>
+                        <th th:text="#{search.table_header.bank_name}"></th>
                         <th th:text="#{search.table_header.confirmation_email}"></th>
                         <th th:text="#{search.table_header.race_name}"></th>
                         <th th:text="#{search.table_header.inserter}"></th>
@@ -157,6 +158,7 @@
                         <td th:text="${res.getTid()}"></td>
                         <td th:text="${res.getIsPaid()}"></td>
                         <td th:text="${res.getTimeOfPayment()}"></td>
+                        <td th:text="${res.getBank()}"></td>
                         <td th:text="${res.getEmailSent()}"></td>
                         <td th:text="${res.getRace()}"></td>
                         <td th:text="${res.getInserter()}"></td>

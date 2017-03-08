@@ -5,7 +5,6 @@ import ee.pardiralli.banklink.ResponseModel;
 import ee.pardiralli.domain.Duck;
 import ee.pardiralli.domain.Transaction;
 import ee.pardiralli.dto.DonationFormDTO;
-import ee.pardiralli.dto.DuckDTO;
 import ee.pardiralli.exceptions.IllegalResponseException;
 import ee.pardiralli.exceptions.IllegalTransactionException;
 
@@ -25,14 +24,14 @@ public interface PaymentService {
     String transactionAmount(Integer tid) throws IllegalTransactionException;
 
     /**
-     * @param params a map containing parameters received from the bank's response
-     * @param model {@link ResponseModel} object constructed from params
+     * @param params               a map containing parameters received from the bank's response
+     * @param model                {@link ResponseModel} object constructed from params
      * @param isSuccessfulResponse true if bank's response is successful, otherwise false
-     * @throws IllegalResponseException if some parameters are missing
-     *                                  if the payment amount in the parameters is not equal the amount in the database
-     *                                  if the response time is out of limits (+/- 5 minutes of the current time)
-     *                                  if the recipient ID is incorrect
-     *                                  if the response's MAC signature is incorrect
+     * @throws IllegalResponseException    if some parameters are missing
+     *                                     if the payment amount in the parameters is not equal the amount in the database
+     *                                     if the response time is out of limits (+/- 5 minutes of the current time)
+     *                                     if the recipient ID is incorrect
+     *                                     if the response's MAC signature is incorrect
      * @throws IllegalTransactionException if transaction is null or isPaid does not correspond to the bank's response (successful -- must be true, otherwise false)
      */
     void checkConsistency(Map<String, String> params, ResponseModel model, boolean isSuccessfulResponse) throws IllegalResponseException, IllegalTransactionException;
@@ -57,9 +56,11 @@ public interface PaymentService {
 
     /**
      * @param donation
+     * @param ipAddr
+     * @param bank
      * @return transaction ID
      */
-    int saveDonation(DonationFormDTO donation);
+    int saveDonation(DonationFormDTO donation, String ipAddr, Bank bank);
 
     /**
      * Set serial numbers of ducks that are related with given Transaction.

@@ -34,7 +34,7 @@ public class BankRequestController {
         }
 
         DonationFormDTO donationDTO = (DonationFormDTO) donationObj;
-        int tid = paymentService.saveDonation(donationDTO, req.getRemoteAddr(),bank);
+        int tid = paymentService.saveDonation(donationDTO, req.getRemoteAddr(), bank);
 
         try {
             RequestModel requestModel = createRequestModel(tid, bank);

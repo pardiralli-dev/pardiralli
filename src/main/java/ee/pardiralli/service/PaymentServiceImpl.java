@@ -151,7 +151,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public int saveDonation(DonationFormDTO donation) {
+    public int saveDonation(DonationFormDTO donation, String ipAddr, Bank bank) {
         DuckBuyer duckBuyer = new DuckBuyer();
         duckBuyer.setEmail(donation.getBuyerEmail());
         log.info("Saving {}", duckBuyer);
@@ -160,6 +160,8 @@ public class PaymentServiceImpl implements PaymentService {
 
         Transaction transaction = new Transaction();
         transaction.setIsPaid(false);
+        transaction.setIpAddr(ipAddr);
+        transaction.setBank(bank);
         transaction = transactionRepository.save(transaction);
 
         for (DonationBoxDTO box : donation.getBoxes()) {

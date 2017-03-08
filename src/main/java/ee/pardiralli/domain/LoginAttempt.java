@@ -18,14 +18,12 @@ public class LoginAttempt {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String IPAddr;
+    private String IpAddr;
 
     private String username;
 
-    private LocalDateTime LoginTime;
+    private LocalDateTime time;
 
-    private long userID;
-
-    private Boolean isLoginSuccessful;
+    private Boolean successful;
 
 }

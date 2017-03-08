@@ -33,8 +33,8 @@ public class BankRequestController {
             throw new RuntimeException("donationObj is null");
         }
 
-        DonationFormDTO donation = (DonationFormDTO) donationObj;
-        int tid = paymentService.saveDonation(donation);
+        DonationFormDTO donationDTO = (DonationFormDTO) donationObj;
+        int tid = paymentService.saveDonation(donationDTO, req.getRemoteAddr(), bank);
 
         try {
             RequestModel requestModel = createRequestModel(tid, bank);

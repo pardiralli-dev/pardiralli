@@ -1,13 +1,11 @@
 package ee.pardiralli.domain;
 
+import ee.pardiralli.banklink.Bank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Data
@@ -33,7 +31,8 @@ public class Transaction {
 
     private String inserter;
 
-    private String identificationCode;
+    @Enumerated(EnumType.STRING)
+    private Bank bank;
 
     public Transaction(Boolean isPaid) {
         this.isPaid = isPaid;
@@ -44,7 +43,7 @@ public class Transaction {
         this.timeOfPayment = timeOfPayment;
     }
 
-    public Transaction(Boolean isPaid, LocalDateTime timeOfPayment, String ipAddr, LocalDateTime initTime){
+    public Transaction(Boolean isPaid, LocalDateTime timeOfPayment, String ipAddr, LocalDateTime initTime) {
         this.isPaid = isPaid;
         this.timeOfPayment = timeOfPayment;
         this.ipAddr = ipAddr;

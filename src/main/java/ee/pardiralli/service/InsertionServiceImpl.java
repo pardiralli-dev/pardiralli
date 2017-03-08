@@ -40,6 +40,7 @@ public class InsertionServiceImpl implements InsertionService {
         if (race == null) throw new RaceNotFoundException();
 
         DuckBuyer duckBuyer = new DuckBuyer();
+        duckBuyer.setIdentificationCode(insertionDTO.getIdentificationCode());
         duckBuyer.setEmail(insertionDTO.getBuyerEmail());
         duckBuyer = buyerRepository.save(duckBuyer);
 
@@ -53,7 +54,6 @@ public class InsertionServiceImpl implements InsertionService {
         transaction.setIsPaid(true);
         transaction.setTimeOfPayment(BanklinkUtil.getCurrentTimestamp());
         transaction.setInserter(principal.getName());
-        transaction.setIdentificationCode(insertionDTO.getIdentificationCode());
         transaction = transactionRepository.save(transaction);
 
         for (int i = 0; i < insertionDTO.getNumberOfDucks(); i++) {

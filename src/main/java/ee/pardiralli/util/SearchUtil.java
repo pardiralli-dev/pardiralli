@@ -42,7 +42,8 @@ public class SearchUtil {
                 translateBoolean(d.getTransaction().getEmailSent()),
                 d.getRace().getRaceName(),
                 d.getTransaction().getInserter(),
-                d.getTransaction().getIdentificationCode()
+                d.getDuckBuyer().getIdentificationCode(),
+                d.getTransaction().getBank()
         );
     }
 

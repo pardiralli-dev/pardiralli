@@ -8,18 +8,21 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sniglet"/>
     <link rel="stylesheet" type="text/css"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css" href="css/main.css"/>
-    <script type="text/javascript" src="js/jquery.min.js"></script>
-    <script type="text/javascript" src="js/counter_ajax.js"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/counter_ajax.js}"></script>
+    <script type="text/javascript" th:src="@{/js/email-poll.js}"></script>
 </head>
 <body>
 <div class="wrapper">
     <div th:replace="fragments/menu :: side-menu"></div>
 
+    <!--/*@thymesVar id="purchaseInfo" type="java.util.List<ee.pardiralli.dto.PurchaseInfoDTO>"*/-->
     <div class="container container-general">
         <div th:replace="fragments/menu :: admin-menu"></div>
         <br/>
         <h3>Makse edukalt sooritatud!</h3>
+        <p class="alert alert-success" id="success" style="display: none;">E-kiri annetuse infoga on saadetud aadressile <span th:text="${purchaseInfo.getBuyerEmail()}"></span>.</p>
         <br/>
         <div>
             <h4><strong>Teie pardiostu info</strong></h4>
@@ -34,7 +37,6 @@
                     <th>Hind</th>
                 </tr>
                 </thead>
-                <!--/*@thymesVar id="purchaseInfo" type="java.util.List<ee.pardiralli.dto.PurchaseInfoDTO>"*/-->
                 <tr th:each="duckDTO : ${purchaseInfo.getDucks()}">
                     <td th:text="${duckDTO.getSerialNumber()}"></td>
                     <td th:text="${duckDTO.getOwnerFirstName()}"></td>
@@ -46,7 +48,7 @@
             <br/>
             <div>
                 <!--/*@thymesVar id="purchaseInfo" type="java.util.List<ee.pardiralli.dto.PurchaseInfoDTO>"*/-->
-                <span class="payment_success_field">Tehingu nr: </span><span class="payment_success_val" th:text="${purchaseInfo.getTransactionID()}"></span>
+                <span class="payment_success_field">Tehingu nr: </span><span class="payment_success_val" id="tid" th:text="${purchaseInfo.getTransactionID()}"></span>
                 <br/>
                 <br/>
                 <!--/*@thymesVar id="purchaseInfo" type="java.util.List<ee.pardiralli.dto.PurchaseInfoDTO>"*/-->

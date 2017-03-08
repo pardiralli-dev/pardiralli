@@ -85,29 +85,27 @@ div.sidebar {
 
 div.menu-container {
     font-size: 2rem;
-    font-family: 'Merriweather Sans', sans-serif;
+    font-weight: 300;
 }
 
 div.container.container-general {
     width: 80%;
     position: relative;
     float: right;
-    font-family: 'Noto Sans', sans-serif;
     color: #142e64;
     background-color: rgba(240, 240, 240, 0.8);
     padding: 20px 20px 100px 20px;
     min-height: 100vh;
 }
 
-nav.navbar-nav {
-    font-family: 'Enriqueta', serif;
-    font-size: 2rem;
-}
-
 li.admin-name-header {
     /* simulate bootstrap's '.navbar-nav > li > a' properties */
     line-height: 20px;
     padding: 15px;
+}
+
+span.admin-name {
+    font-weight: 500;
 }
 
 a.admin-logout {
@@ -319,15 +317,51 @@ label.main-box-form-label {
     color: #193a80;
 }
 
+div.terms-check-wrap {
+    padding-left: 10px;
+}
+
 input.terms-check {
     margin-top: 3rem;
+    margin-right: 1rem;
+}
+
+input[type=checkbox] {
+    -ms-transform: scale(1.5);
+    -moz-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    -o-transform: scale(1.5);
+    padding: 10px;
 }
 
 .banklink-logo {
-    width: 126px;
-    /*width: 84px;*/
-    height: 47px;
-    /*height: 31px;*/
+    width: 84px;
+    height: 31px;
+}
+
+.banklink-text {
+    font-weight: 300;
+    font-size: 1.8rem;
+    line-height: 1.5;
+    margin-right: 1rem;
+}
+
+h2.ralli-page-header {
+    font-weight: 300;
+}
+
+.donation-summary-text {
+    font-weight: 300;
+    font-size: 1.8rem;
+    line-height: 2.5;
+}
+
+.weight400 {
+    font-weight: 400;
+}
+
+.border-right {
+    border-right: 1px solid #ddd;
 }
 
 label.invalid-accept-checkbox {
@@ -415,6 +449,7 @@ span.payment_success_field {
     font-weight: bolder;
     font-size: 1.5rem;
 }
+
 span.payment_success_val {
     font-size: 1.5rem;
 }

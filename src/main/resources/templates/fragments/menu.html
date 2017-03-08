@@ -34,13 +34,14 @@
     <nav sec:authorize="isAuthenticated()" th:fragment="admin-menu" class="navbar">
         <div class="container-fluid menu-container">
             <ul class="nav navbar-nav">
+                <li><a th:href="@{/}">Pealeht</a></li>
                 <li><a th:href="@{/statistics}">Statistika</a></li>
                 <li><a th:href="@{/search}">Otsing</a></li>
                 <li><a th:href="@{/settings}">Võistlused</a></li>
                 <li><a th:href="@{/insert}">Sisestus</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li class="admin-name-header">Administraator <span sec:authentication="name">[user]</span> <a th:href="@{/logout}" class="admin-logout">(välju)</a></li>
+                <li class="admin-name-header">Administraator <span sec:authentication="name" class="admin-name">[user]</span> <a th:href="@{/logout}" class="admin-logout">(välju)</a></li>
             </ul>
         </div>
     </nav>

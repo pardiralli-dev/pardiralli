@@ -206,10 +206,12 @@ var CountUp = function (target, startVal, endVal, decimals, duration, options) {
 
 function queryDonationCounter() {
     $.ajax({
-        url: window.location.protocol + '//' + window.location.host + "/counter_ajax",
+        url: "https://urgas.ee/pardiralli/counter_ajax",
         type: 'GET',
         cache: false,
+        crossDomain: true, // for testing from localhost
         success: function (data) {
+            console.log('Updating counters');
             updateCounters(data.donationSum, data.duckCount);
         },
         complete: function () {

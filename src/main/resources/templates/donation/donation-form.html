@@ -220,9 +220,8 @@
                                     <span th:if="${#fields.hasErrors('buyerEmail')}"
                                           class="glyphicon glyphicon-remove form-control-feedback"></span>
                                 </div>
-                                <div class="form-check">
-                                    <label class="form-check-label"
-                                           th:classappend="${#fields.hasErrors('accepts')} ? 'invalid-accept-checkbox'">
+                                <div class="terms-check-wrap">
+                                    <label th:classappend="${#fields.hasErrors('accepts')} ? 'invalid-accept-checkbox'">
                                         <input class="terms-check" th:field="*{accepts}" type="checkbox"/>
                                         Nõustun kasutustingimustega
                                     </label>
@@ -271,9 +270,8 @@
                                     <span th:if="${#fields.hasErrors('buyerEmail')}"
                                           class="glyphicon glyphicon-remove form-control-feedback"></span>
                                 </div>
-                                <div class="form-check">
-                                    <label class="form-check-label"
-                                           th:classappend="${#fields.hasErrors('accepts')} ? 'invalid-accept-checkbox'">
+                                <div class="terms-check-wrap">
+                                    <label th:classappend="${#fields.hasErrors('accepts')} ? 'invalid-accept-checkbox'">
                                         <input class="terms-check" th:field="*{accepts}" type="checkbox"/>
                                         Nõustun kasutustingimustega
                                     </label>

@@ -36,17 +36,16 @@
                 <!--/* left-floating box */-->
                 <div th:if="${boxStat.index} % 2 == 0" class="row">
 
-                    <div class="col-sm-6 main-box-wrapper">
-                        <!--<div>
-                            <div class="col-sm-6 text-right">
-                                <button type="submit" name="removeBox" th:value="${boxStat.index}"
-                                        class="btn btn-xs btn-danger glyphicon glyphicon-remove"></button>
-                            </div>
-                        </div>-->
+                    <div class="col-xs-10 col-md-8 col-lg-7 main-box-wrapper">
                         <div class="main-box left-box">
                             <div class="box-content-stretch">
                                 <div class="box-content">
-                                    <h3 class="duck-owner-heading">Pardiomanik</h3>
+                                    <h3 class="duck-owner-heading">Pardiomanik
+                                        <div th:if="*{boxes.size() > 1}" class="box-remove-wrap pull-right">
+                                            <button type="submit" name="removeBox" th:value="${boxStat.index}"
+                                                    class="box-remove-btn btn btn-lg btn-primary-outline glyphicon glyphicon-remove"></button>
+                                        </div>
+                                    </h3>
                                     <div class="input-group"
                                          th:classappend="${#fields.hasErrors('boxes[__${boxStat.index}__].ownerFirstName')} ? 'has-error has-feedback'">
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
@@ -81,8 +80,8 @@
 
                                     <div class="input-group"
                                          th:classappend="${#fields.hasErrors('boxes[__${boxStat.index}__].duckQuantity')} ? 'has-error has-feedback'">
-                                        <label class="col-sm-8 control-label main-box-form-label">Partide arv:</label>
-                                        <div class="col-sm-4 zero-right-padding">
+                                        <label class="col-xs-8 control-label main-box-form-label">Partide arv:</label>
+                                        <div class="col-xs-4 zero-right-padding">
                                             <input th:field="*{boxes[__${boxStat.index}__].duckQuantity}"
                                                    th:id="'qty' + ${boxStat.count}"
                                                    class="form-control box-input qty"
@@ -96,10 +95,8 @@
 
                                     <div class="input-group"
                                          th:classappend="${#fields.hasErrors('boxes[__${boxStat.index}__].duckPrice')} ? 'has-error has-feedback'">
-                                        <label class="col-sm-8 control-label main-box-form-label"
-                                               style="color:#193a80;">Ühe
-                                            pardi hind:</label>
-                                        <div class="col-sm-4 zero-right-padding">
+                                        <label class="col-xs-8 control-label main-box-form-label">Ühe pardi hind:</label>
+                                        <div class="col-xs-4 zero-right-padding">
                                             <input th:field="*{boxes[__${boxStat.index}__].duckPrice}"
                                                    th:id="'prc' + ${boxStat.count}"
                                                    class="form-control box-input prc"
@@ -115,7 +112,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-6 new-box-btn-col">
+                    <div class="col-xs-2 col-md-4 col-lg-5 new-box-btn-col">
                         <div th:if="${boxStat.first}" class="new-box-btn-wrapper">
                             <button type="submit" name="addBox" class="btn btn-remove circle btn-lg btn-new-box">
                                 Lisa<br/>omanik<br/>
@@ -127,12 +124,17 @@
 
                 <!--/* right-floating box */-->
                 <div th:if="${boxStat.index} % 2 == 1" class="row">
-                    <div class="col-sm-5"></div>
-                    <div class="col-sm-7 main-box-wrapper">
+                    <div class="col-xs-2 col-md-4 col-lg-5"></div>
+                    <div class="col-xs-10 col-md-8 col-lg-7 main-box-wrapper">
                         <div class="main-box right-box">
                             <div class="box-content-stretch">
                                 <div class="box-content">
-                                    <h3 class="duck-owner-heading">Pardiomanik</h3>
+                                    <h3 class="duck-owner-heading">Pardiomanik
+                                        <div th:if="*{boxes.size() > 1}" class="box-remove-wrap pull-right">
+                                            <button type="submit" name="removeBox" th:value="${boxStat.index}"
+                                                    class="box-remove-btn btn btn-lg btn-primary-outline glyphicon glyphicon-remove"></button>
+                                        </div>
+                                    </h3>
                                     <div class="input-group"
                                          th:classappend="${#fields.hasErrors('boxes[__${boxStat.index}__].ownerFirstName')} ? 'has-error has-feedback'">
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
@@ -168,8 +170,8 @@
 
                                     <div class="input-group"
                                          th:classappend="${#fields.hasErrors('boxes[__${boxStat.index}__].duckQuantity')} ? 'has-error has-feedback'">
-                                        <label class="col-sm-8 control-label main-box-form-label">Partide arv:</label>
-                                        <div class="col-sm-4 zero-right-padding">
+                                        <label class="col-xs-8 control-label main-box-form-label">Partide arv:</label>
+                                        <div class="col-xs-4 zero-right-padding">
                                             <input th:field="*{boxes[__${boxStat.index}__].duckQuantity}"
                                                    th:id="'qty' + ${boxStat.count}"
                                                    class="form-control box-input qty"
@@ -183,9 +185,8 @@
 
                                     <div class="input-group"
                                          th:classappend="${#fields.hasErrors('boxes[__${boxStat.index}__].duckPrice')} ? 'has-error has-feedback'">
-                                        <label class="col-sm-8 control-label main-box-form-label">Ühe pardi
-                                            hind:</label>
-                                        <div class="col-sm-4 zero-right-padding">
+                                        <label class="col-xs-8 control-label main-box-form-label">Ühe pardi hind:</label>
+                                        <div class="col-xs-4 zero-right-padding">
                                             <input th:field="*{boxes[__${boxStat.index}__].duckPrice}"
                                                    th:id="'prc' + ${boxStat.count}"
                                                    class="form-control box-input prc"
@@ -206,7 +207,7 @@
             <!--/* buyer info */-->
             <div th:if="${donation.boxes.size() % 2 == 0}" class="row buyer-row">
                 <!--/* left-floating */-->
-                <div class="col-sm-5">
+                <div class="col-xs-9 col-sm-8 col-lg-5">
                     <div class="main-box buyer-info-box">
                         <div class="box-content-stretch">
                             <div class="box-content">
@@ -231,7 +232,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-4 total-info-col">
+                <div class="col-xs-3 col-sm-4 col-lg-4 total-info-col">
                     <div class="buy-btn-wrapper-left">
                         <button type="submit" class="btn btn-danger circle btn-lg btn-buy">Anneta</button>
                     </div>
@@ -240,13 +241,13 @@
                         <span class="total-sum-amount">5.00</span>
                     </div>
                 </div>
-                <div class="col-sm-3"></div>
+                <div class="hidden-xs hidden-sm hidden-md col-lg-3"></div>
             </div>
 
             <div th:if="${donation.boxes.size() % 2 == 1}" class="row buyer-row">
                 <!--/* right-floating */-->
-                <div class="col-sm-3"></div>
-                <div class="col-sm-4 total-info-col">
+                <div class="hidden-xs hidden-sm hidden-md col-lg-3"></div>
+                <div class="col-xs-3 col-sm-4 col-lg-4 total-info-col">
                     <div class="buy-btn-wrapper-right">
                         <button type="submit" class="btn btn-danger circle btn-lg btn-buy">ANNETA</button>
                     </div>
@@ -255,7 +256,7 @@
                         <span class="total-sum-amount">5.00</span>
                     </div>
                 </div>
-                <div class="col-sm-5">
+                <div class="col-xs-9 col-sm-8 col-lg-5">
                     <div class="main-box buyer-info-box">
                         <div class="box-content-stretch">
                             <div class="box-content">

@@ -48,6 +48,10 @@ public class IndexController {
                                         HttpServletRequest req) {
         int boxId = Integer.parseInt(req.getParameter("removeBox"));
         donation.getBoxes().remove(boxId);
+        //
+        if (donation.getBoxes().size() == 0) {
+            donation.getBoxes().add(new DonationBoxDTO());
+        }
         return "donation/donation-form";
     }
 

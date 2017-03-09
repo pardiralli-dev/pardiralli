@@ -6,6 +6,7 @@ import ee.pardiralli.db.TransactionRepository;
 import ee.pardiralli.domain.Duck;
 import ee.pardiralli.domain.DuckBuyer;
 import ee.pardiralli.domain.Transaction;
+import ee.pardiralli.dto.EmailSentDTO;
 import ee.pardiralli.dto.PurchaseInfoDTO;
 import ee.pardiralli.util.BanklinkUtil;
 import lombok.AllArgsConstructor;
@@ -56,6 +57,17 @@ public class MailServiceImpl implements MailService {
         } catch (MessagingException | MailAuthenticationException | MailSendException e) {
             log.error("Exception occurred while sending the confirmation email: {}", e);
             throw e;
+        }
+    }
+
+    @Override
+    public EmailSentDTO queryEmailSent(Integer transactionId) {
+        Transaction t = transactionRepository.findById(transactionId);
+        if (t == null) {
+            log.warn("Transaction with queried ID '{}' does not exist", transactionId);
+            return new EmailSentDTO(false);
+        } else {
+            return new EmailSentDTO(t.getEmailSent());
         }
     }
 }

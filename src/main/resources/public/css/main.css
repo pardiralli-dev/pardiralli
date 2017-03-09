@@ -1,6 +1,8 @@
 
 html {
     height: 100%;
+    min-width: 650px;
+    min-height: 550px;
 }
 
 body {
@@ -108,10 +110,9 @@ span.admin-name {
     font-weight: 500;
 }
 
-a.admin-logout {
-    /* override more accurate bootstrap selector '.navbar-nav > li > a' */
-    display: inline-block !important;
-    padding: 0 !important;
+input.admin-logout {
+    display: inline-block;
+    padding: 0;
 }
 
 .container.container-error {
@@ -196,6 +197,20 @@ div.right-box {
     font-weight: bold;
     font-family: 'Cabin Sketch', cursive;
     font-size: 4rem;
+}
+
+div.box-remove-wrap {
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+button.box-remove-btn {
+    background-color: transparent;
+    padding: 0;
+}
+
+button.box-remove-btn:hover {
+    color: #fff020; /* TODO */
 }
 
 div.buyer-info-box {

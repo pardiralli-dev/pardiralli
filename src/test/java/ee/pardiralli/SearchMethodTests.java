@@ -161,31 +161,31 @@ public class SearchMethodTests {
     @Test
     public void findTests() throws Exception {
         // TEST EXACT SEARCH
-        assertEquals(this.duckRepository.findBySerialNumber(duck1.getSerialNumber(), purchaseDate1), duck1);
+        assertEquals(this.duckRepository.findDuck(duck1.getSerialNumber(), "", "", "", "", purchaseDate1).get(0), duck1);
 
 
         // TEST GENERAL SEARCH: by last name start should return all test items
-        List<Duck> similarItems = this.duckRepository.findDuck("", "kee", "", "", purchaseDate1);
+        List<Duck> similarItems = this.duckRepository.findDuck(null, "", "kee", "", "", purchaseDate1);
         assertTrue(similarItems.contains(duck1));
         assertTrue(similarItems.contains(duck2));
         assertTrue(similarItems.contains(duck3));
 
         // TEST GENERAL SEARCH: by last name start that should return 0 test items
-        similarItems = this.duckRepository.findDuck("", "x", "", "", purchaseDate1);
+        similarItems = this.duckRepository.findDuck(null, "", "x", "", "", purchaseDate1);
         assertTrue(!similarItems.contains(duck1));
         assertTrue(!similarItems.contains(duck2));
         assertTrue(!similarItems.contains(duck3));
 
 
         // TEST GENERAL SEARCH: by first name should return one test item
-        similarItems = this.duckRepository.findDuck(fName1, "", "", "", purchaseDate1);
+        similarItems = this.duckRepository.findDuck(null, fName1, "", "", "", purchaseDate1);
         assertTrue(similarItems.contains(duck1));
         assertTrue(!similarItems.contains(duck2));
         assertTrue(!similarItems.contains(duck3));
 
 
         // TEST GENERAL SEARCH: by phone number and last name start should return all
-        similarItems = this.duckRepository.findDuck("", "kee", "", "55", purchaseDate1);
+        similarItems = this.duckRepository.findDuck(null, "", "kee", "", "55", purchaseDate1);
         assertTrue(similarItems.contains(duck1));
         assertTrue(similarItems.contains(duck2));
         assertTrue(similarItems.contains(duck3));

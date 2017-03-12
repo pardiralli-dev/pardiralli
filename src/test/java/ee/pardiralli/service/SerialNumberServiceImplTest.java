@@ -60,8 +60,8 @@ public class SerialNumberServiceImplTest {
         r2 = raceRepository.save(r2);
         r3 = raceRepository.save(r3);
 
-        DuckOwner owner = ownerRepository.save(new DuckOwner("E", "A", "55764383"));
-        DuckBuyer buyer = buyerRepository.save(new DuckBuyer("getSerial@gmail.com", "11111111111"));
+        DuckOwner owner = ownerRepository.save(new DuckOwner(1, "E", "A", "55764383"));
+        DuckBuyer buyer = buyerRepository.save(new DuckBuyer(1, "getSerial@gmail.com", "11111111111"));
 
         int oldSerial1 = 0;
         int oldSerial2 = 0;

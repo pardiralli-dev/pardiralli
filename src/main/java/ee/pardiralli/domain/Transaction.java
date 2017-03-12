@@ -14,39 +14,19 @@ import java.time.LocalDateTime;
 @Entity
 public class Transaction {
     public static final String TRANSACTION_ID_NAME = "tid";
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
     private Boolean isPaid;
-
     private LocalDateTime timeOfPayment;
-
     private String ipAddr;
-
     private LocalDateTime initTime;
-
     private Boolean emailSent = false;
-
     private String inserter;
-
     @Enumerated(EnumType.STRING)
     private Bank bank;
 
     public Transaction(Boolean isPaid) {
         this.isPaid = isPaid;
-    }
-
-    public Transaction(Boolean isPaid, LocalDateTime timeOfPayment) {
-        this.isPaid = isPaid;
-        this.timeOfPayment = timeOfPayment;
-    }
-
-    public Transaction(Boolean isPaid, LocalDateTime timeOfPayment, String ipAddr, LocalDateTime initTime) {
-        this.isPaid = isPaid;
-        this.timeOfPayment = timeOfPayment;
-        this.ipAddr = ipAddr;
-        this.initTime = initTime;
     }
 }

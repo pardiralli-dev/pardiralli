@@ -1,39 +1,11 @@
 var token = $("meta[name='_csrf']").attr("content");
 var header = $("meta[name='_csrf_header']").attr("content");
 
-$.datepicker.regional['et'] = {
-    closeText: "Sulge",
-    prevText: "Eelnev",
-    nextText: "Järgnev",
-    currentText: "Täna",
-    monthNames: ["Jaanuar", "Veebruar", "Märts", "Aprill", "Mai", "Juuni",
-        "Juuli", "August", "September", "Oktoober", "November", "Detsember"],
-    monthNamesShort: ["Jaan", "Veebr", "Märts", "Apr", "Mai", "Juuni",
-        "Juuli", "Aug", "Sept", "Okt", "Nov", "Dets"],
-    dayNames: [
-        "Pühapäev",
-        "Esmaspäev",
-        "Teisipäev",
-        "Kolmapäev",
-        "Neljapäev",
-        "Reede",
-        "Laupäev"
-    ],
-    dayNamesShort: ["Pühap", "Esmasp", "Teisip", "Kolmap", "Neljap", "Reede", "Laup"],
-    dayNamesMin: ["P", "E", "T", "K", "N", "R", "L"],
-    weekHeader: "näd",
-    firstDay: 1,
-    dateFormat: "dd-mm-yy",
-    isRTL: false,
-    showMonthAfterYear: false,
-    yearSuffix: ""
-};
-
 $.datepicker.setDefaults($.datepicker.regional['et']);
 
 $(document).ready(function () {
-    $("#start_date").datepicker();
-    $("#end_date").datepicker();
+    $("#start_date").datepicker({dateFormat: "dd-mm-yy"});
+    $("#end_date").datepicker({dateFormat: "dd-mm-yy"});
 
     var current_start;
     var current_end;

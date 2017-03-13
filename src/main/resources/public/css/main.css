@@ -379,6 +379,11 @@ h2.ralli-page-header {
     line-height: 2.5;
 }
 
+.thank-you-note {
+    font-weight: 300;
+    margin-top: 50px;
+}
+
 .weight400 {
     font-weight: 400;
 }

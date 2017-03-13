@@ -76,9 +76,9 @@
                 <!--/*@thymesVar id="races" type="java.util.List<ee.pardiralli.dto.RaceDTO>"*/-->
                 <form th:each="raceFromLst : ${races}" th:action="@{/settings}" th:object="${race}" method="post">
                     <div class="row">
-                        <button class="race btn btn-default col-md-6" type="submit"
-                                th:attr="data-selector=${raceFromLst.getId()},data-start=${raceFromLst.getBeginning()},data-end=${raceFromLst.getFinish()},data-desc=${raceFromLst.getDescription()}"
-                                th:text="${raceFromLst.getRaceName()}"></button>
+                        <div class="race btn btn-default col-md-6"
+                             th:attr="data-selector=${raceFromLst.getId()},data-start=${raceFromLst.getBeginning()},data-end=${raceFromLst.getFinish()},data-desc=${raceFromLst.getDescription()}"
+                             th:text="${raceFromLst.getRaceName()}"></div>
                         <div class="col-md-2" th:text="${raceFromLst.getBeginningAsString()}"></div>
                         <div class="col-md-2" th:text="${raceFromLst.getEndAsString()}"></div>
                         <button class="col-md-2 btn" th:classappend="${raceFromLst.getIsOpen()} ? 'btn-danger' : 'btn-default'" type="submit" th:text="${raceFromLst.getIsOpen()} ? 'Sulge' : 'Ava'"></button>

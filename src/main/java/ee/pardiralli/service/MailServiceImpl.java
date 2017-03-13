@@ -67,7 +67,7 @@ public class MailServiceImpl implements MailService {
         Transaction t = transactionRepository.findById(transactionId);
         if (t == null) {
             log.warn("Transaction with queried ID '{}' does not exist", transactionId);
-            return new EmailSentDTO(false);
+            return new EmailSentDTO(null);
         } else {
             return new EmailSentDTO(t.getEmailSent());
         }

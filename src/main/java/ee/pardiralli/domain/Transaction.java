@@ -14,15 +14,23 @@ import java.time.LocalDateTime;
 @Entity
 public class Transaction {
     public static final String TRANSACTION_ID_NAME = "tid";
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     private Boolean isPaid;
+
     private LocalDateTime timeOfPayment;
+
     private String ipAddr;
+
     private LocalDateTime initTime;
+
     private Boolean emailSent = false;
+
     private String inserter;
+
     @Enumerated(EnumType.STRING)
     private Bank bank;
 

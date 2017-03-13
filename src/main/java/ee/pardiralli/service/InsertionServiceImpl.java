@@ -32,7 +32,7 @@ public class InsertionServiceImpl implements InsertionService {
     private final PaymentService paymentService;
 
     @Override
-    public void saveInsertion(InsertionDTO insertionDTO, HttpServletRequest request, Principal principal) throws RaceNotFoundException, MessagingException {
+    public void saveInsertion(InsertionDTO insertionDTO, Principal principal) throws RaceNotFoundException, MessagingException {
         log.info("Inserting ducks from {}", insertionDTO.toString());
         List<Duck> duckList = new ArrayList<>();
 

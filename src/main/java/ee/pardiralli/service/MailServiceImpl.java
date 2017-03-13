@@ -45,18 +45,20 @@ public class MailServiceImpl implements MailService {
         MimeMessage message = sender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
 
+        Transaction transaction = transactionRepository.findById(Integer.valueOf(purchaseInfoDTO.getTransactionID()));
+
         try {
             helper.setTo(purchaseInfoDTO.getBuyerEmail());
             helper.setText(htmlContent, true);
             helper.setSubject("Pardiralli kinnitus");
             sender.send(message);
-            Transaction transaction = transactionRepository.findById(Integer.valueOf(purchaseInfoDTO.getTransactionID()));
             transaction.setEmailSent(true);
             transactionRepository.save(transaction);
             log.info("Confirmation email sent to {}", purchaseInfoDTO.getBuyerEmail());
         } catch (MessagingException | MailAuthenticationException | MailSendException e) {
             log.error("Exception occurred while sending the confirmation email: {}", e);
-            throw e;
+            transaction.setEmailSent(false);
+            transactionRepository.save(transaction);
         }
     }
 

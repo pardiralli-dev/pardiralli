@@ -25,7 +25,7 @@ CREATE TABLE public.transaction (
                 time_of_payment TIMESTAMP,
                 ip_addr VARCHAR(45),
                 init_time TIMESTAMP,
-                email_sent BOOLEAN NOT NULL,
+                email_sent BOOLEAN,
                 inserter VARCHAR(100),
                 bank VARCHAR(20),
                 CONSTRAINT id_transaction PRIMARY KEY (id)

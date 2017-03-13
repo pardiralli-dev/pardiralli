@@ -76,12 +76,12 @@
                 <!--/*@thymesVar id="races" type="java.util.List<ee.pardiralli.dto.RaceDTO>"*/-->
                 <form th:each="raceFromLst : ${races}" th:action="@{/settings}" th:object="${race}" method="post">
                     <div class="row">
-                        <div class="race btn btn-default col-md-6"
+                        <div class="race btn btn-default btn-xs col-md-6"
                              th:attr="data-selector=${raceFromLst.getId()},data-start=${raceFromLst.getBeginning()},data-end=${raceFromLst.getFinish()},data-desc=${raceFromLst.getDescription()}"
                              th:text="${raceFromLst.getRaceName()}"></div>
                         <div class="col-md-2" th:text="${raceFromLst.getBeginningAsString()}"></div>
                         <div class="col-md-2" th:text="${raceFromLst.getEndAsString()}"></div>
-                        <button class="col-md-2 btn" th:classappend="${raceFromLst.getIsOpen()} ? 'btn-danger' : 'btn-default'" type="submit" th:text="${raceFromLst.getIsOpen()} ? 'Sulge' : 'Ava'"></button>
+                        <button class="col-md-2 btn btn-xs" th:classappend="${raceFromLst.getIsOpen()} ? 'btn-danger':'btn-default'" type="submit" th:text="${raceFromLst.getIsOpen()} ? 'Sulge':'Ava'"></button>
                         <input type="hidden" name="id" th:value="${raceFromLst.getId()}"/>
                         <input type="hidden" name="isOpen" th:value="${!raceFromLst.getIsOpen()}"/>
                         <input type="hidden" name="isNew" th:value="false"/>

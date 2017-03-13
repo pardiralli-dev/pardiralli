@@ -63,7 +63,7 @@ public class Duck {
         this.transaction = transaction;
     }
 
-    public String getPriceEuros(){
+    public String getPriceEuros() {
         return BanklinkUtil.centsToEuros(priceCents);
     }
 

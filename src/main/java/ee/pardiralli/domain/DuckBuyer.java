@@ -24,9 +24,4 @@ public class DuckBuyer {
     private String email;
 
     private String identificationCode;
-
-    public DuckBuyer(String email, String piCode){
-        this.email = email;
-        this.identificationCode = piCode;
-    }
 }

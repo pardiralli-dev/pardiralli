@@ -3,13 +3,17 @@ package ee.pardiralli.util;
 import ee.pardiralli.domain.Duck;
 import ee.pardiralli.domain.DuckBuyer;
 import ee.pardiralli.dto.DuckDTO;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.net.ntp.NTPUDPClient;
+import org.apache.commons.net.ntp.TimeInfo;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.net.InetAddress;
 import java.security.*;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
@@ -26,6 +30,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Slf4j
 public class BanklinkUtil {
 
     /**
@@ -58,11 +63,31 @@ public class BanklinkUtil {
 
 
     /**
+     * Get current time from pool.ntp.org. If lookup fails, returns local system time.
+     *
      * @return current zoned datetime
      */
     public static ZonedDateTime currentDateTime() {
-        return ZonedDateTime.now(ZoneId.of("Europe/Helsinki")).truncatedTo(ChronoUnit.SECONDS);
+        ZoneId helsinki = ZoneId.of("Europe/Helsinki");
+        String TIME_SERVER = "pool.ntp.org";
+        try {
+            NTPUDPClient timeClient = new NTPUDPClient();
+            InetAddress inetAddress = InetAddress.getByName(TIME_SERVER);
+            TimeInfo timeInfo = timeClient.getTime(inetAddress);
+
+            //TODO: maybe we can do it without Date object
+            return timeInfo.getMessage()
+                    .getReceiveTimeStamp()
+                    .getDate()
+                    .toInstant()
+                    .atZone(helsinki)
+                    .truncatedTo(ChronoUnit.SECONDS);
+        } catch (IOException e) {
+            log.error("Failed to query time info from pool.ntp.org: {}", e);
+            return ZonedDateTime.now(helsinki).truncatedTo(ChronoUnit.SECONDS);
+        }
     }
+
 
     /**
      * @return timestamp in the format

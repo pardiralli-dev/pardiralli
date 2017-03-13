@@ -23,10 +23,7 @@
         <div class="panel panel-default">
             <div class="panel-body">
                 <!--/*@thymesVar id="feedbackList" type="java.util.List<ee.pardiralli.feedback.Feedback>"*/-->
-                <div th:each="feedback : ${feedbackList}">
-                    <div class="alert" th:text="${feedback.getMessage()}"
-                         th:classappend="${feedback.getCssClass()}"></div>
-                </div>
+                <div th:replace="fragments/feedback :: feedback-messages (feedbackList=${feedbackList})"></div>
                 <!--/*@thymesVar id="manualAdd" type="ee.pardiralli.dto.InsertionDTO"*/-->
                 <form id="owner" class="form-horizontal" th:action="@{/owner}" th:object="${manualAdd}" method="post">
                     <h4>Lisa andmeid süsteemi</h4>

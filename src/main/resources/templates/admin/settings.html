@@ -29,9 +29,7 @@
         <div class="panel panel-default">
             <div class="panel-body">
                 <!--/*@thymesVar id="feedbackList" type="java.util.List<ee.pardiralli.feedback.Feedback>"*/-->
-                <div th:each="feedback : ${feedbackList}">
-                    <div class="alert" th:text="${feedback.getMessage()}" th:classappend="${feedback.getCssClass()}"></div>
-                </div>
+                <div th:replace="fragments/feedback :: feedback-messages (feedbackList=${feedbackList})"></div>
                 <!--/*@thymesVar id="raceDTO" type="ee.pardiralli.dto.RaceDTO"*/-->
                 <form id="insert" class="form-horizontal" th:action="@{/settings}" th:object="${raceDTO}" method="post">
                     <div class="form-group">

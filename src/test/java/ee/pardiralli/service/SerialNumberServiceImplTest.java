@@ -52,13 +52,13 @@ public class SerialNumberServiceImplTest {
      */
     @Test
     public void testSerial() throws Exception {
-        Race r1 = new Race(1, of(2016, JANUARY, 20), of(2016, JANUARY, 22), "1", "1", false);
-        Race r2 = new Race(2, of(2016, JANUARY, 23), of(2016, JANUARY, 25), "2", "2", false);
-        Race r3 = new Race(3, of(2015, JANUARY, 23), of(2015, JANUARY, 25), "3", "3", false);
+        Race race1 = new Race(1, of(2016, JANUARY, 20), of(2016, JANUARY, 22), "r1", "1", false);
+        Race race2 = new Race(2, of(2016, JANUARY, 23), of(2016, JANUARY, 25), "r2", "2", false);
+        Race race3 = new Race(3, of(2015, JANUARY, 23), of(2015, JANUARY, 25), "r3", "3", false);
 
-        r1 = raceRepository.save(r1);
-        r2 = raceRepository.save(r2);
-        r3 = raceRepository.save(r3);
+        race1 = raceRepository.save(race1);
+        race2 = raceRepository.save(race2);
+        race3 = raceRepository.save(race3);
 
         DuckOwner owner = ownerRepository.save(new DuckOwner(1, "E", "A", "55764383"));
         DuckBuyer buyer = buyerRepository.save(new DuckBuyer(1, "getSerial@gmail.com", "11111111111"));
@@ -71,19 +71,25 @@ public class SerialNumberServiceImplTest {
             int newSerial;
             switch (i % 3) {
                 case 0:
-                    newSerial = getSerial(r1, owner, buyer);
+                    newSerial = getSerial(race1, owner, buyer);
                     Assert.assertEquals(oldSerial1 + 1, newSerial);
                     oldSerial1 = newSerial;
+                    Assert.assertNotEquals(oldSerial1, oldSerial2); // Race 1 serials should be different from others
+                    Assert.assertNotEquals(oldSerial1, oldSerial3);
                     break;
                 case 1:
-                    newSerial = getSerial(r2, owner, buyer);
+                    newSerial = getSerial(race2, owner, buyer);
                     Assert.assertEquals(oldSerial2 + 1, newSerial);
                     oldSerial2 = newSerial;
+                    Assert.assertEquals(oldSerial2, oldSerial1); // Race 1 & 2 serials should be same
+                    Assert.assertNotEquals(oldSerial2, oldSerial3); // Race 2 & 3 serials should be different
                     break;
                 case 2:
-                    newSerial = getSerial(r3, owner, buyer);
+                    newSerial = getSerial(race3, owner, buyer);
                     Assert.assertEquals(oldSerial3 + 1, newSerial);
                     oldSerial3 = newSerial;
+                    Assert.assertEquals(oldSerial3, oldSerial2); // All serials for three races should be same
+                    Assert.assertEquals(oldSerial3, oldSerial1);
                     break;
             }
         }
@@ -95,8 +101,7 @@ public class SerialNumberServiceImplTest {
         race.setIsOpen(true);
         raceRepository.save(race);
         serialNumberService.resetSerial();
-        duck = new Duck(
-                race.getBeginning(),
+        duck = new Duck(race.getBeginning(),
                 serialNumberService.getSerial(),
                 LocalDateTime.now(),
                 100,

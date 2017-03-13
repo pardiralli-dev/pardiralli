@@ -46,9 +46,9 @@ public class SerialNumberServiceImplTest {
      * <p>
      * for i in range(40):
      * <p>
-     * if i % 3 == 0: then open race i_1 and add duck and check if serial is correct
-     * if i % 3 == 1: then open race i_2 and add duck and check if serial is correct
-     * if i % 3 == 2: then open race i_3 and add duck and check if serial is correct
+     * if i % 3 == 0: then open race1 and add duck and check if serial is correct
+     * if i % 3 == 1: then open race2 and add duck and check if serial is correct
+     * if i % 3 == 2: then open race3 and add duck and check if serial is correct
      */
     @Test
     public void testSerial() throws Exception {

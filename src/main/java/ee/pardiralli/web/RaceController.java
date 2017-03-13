@@ -62,10 +62,14 @@ public class RaceController {
     public String updateExisting(RaceDTO raceDTO, BindingResult results, Model model) {
 
         if (raceDTO.getIsNew()) {
-            if (!raceService.hasNoOpenedRaces()) {
+            if (results.hasFieldErrors()) {
+                ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Ebasobiv sisendis!");
+            } else if (!raceService.hasNoOpenedRaces()) {
                 ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Korraga saab olla avatud ainult üks Pardiralli!");
             } else if (!RaceUtil.raceDatesAreLegal(raceDTO)) {
                 ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Ebasobivad kuupäevad!");
+            } else if (raceService.overlaps(raceDTO)) {
+                ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Võistlus kattub olemasolevaga!");
             } else if (!results.hasFieldErrors()) {
                 raceService.saveNewRace(raceDTO);
                 ControllerUtil.setFeedback(model, FeedbackType.SUCCESS, "Uus võistlus avatud!");

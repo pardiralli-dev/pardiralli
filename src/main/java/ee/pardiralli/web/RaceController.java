@@ -17,6 +17,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -31,7 +32,7 @@ public class RaceController {
     private final StatisticsService statisticsService;
 
     @GetMapping("/settings")
-    public String getTemplate(RaceDTO raceDTO, Model model) {
+    public String getTemplate(@ModelAttribute("raceDTO") RaceDTO raceDTO, Model model) {
         model.addAttribute("races", raceService.findAllRaces());
         return "admin/settings";
     }
@@ -59,7 +60,7 @@ public class RaceController {
     }
 
     @PostMapping("/settings")
-    public String updateExisting(RaceDTO raceDTO, BindingResult results, Model model) {
+    public String updateExisting(@ModelAttribute("raceDTO") @Valid RaceDTO raceDTO, BindingResult results, Model model) {
 
         if (raceDTO.getIsNew()) {
             if (results.hasFieldErrors()) {

@@ -5,12 +5,11 @@
     <title>Sisestus</title>
     <meta charset="UTF-8"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sniglet"/>
-    <link rel="stylesheet" type="text/css"
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css" href="css/main.css"/>
-    <script type="text/javascript" src="js/jquery.min.js"></script>
-    <script type="text/javascript" src="js/counter_ajax.js"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/sniglet.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/counter_ajax.js}"></script>
 </head>
 <body>
 
@@ -23,10 +22,7 @@
         <div class="panel panel-default">
             <div class="panel-body">
                 <!--/*@thymesVar id="feedbackList" type="java.util.List<ee.pardiralli.feedback.Feedback>"*/-->
-                <div th:each="feedback : ${feedbackList}">
-                    <div class="alert" th:text="${feedback.getMessage()}"
-                         th:classappend="${feedback.getCssClass()}"></div>
-                </div>
+                <div th:replace="fragments/feedback :: feedback-messages (feedbackList=${feedbackList})"></div>
                 <!--/*@thymesVar id="manualAdd" type="ee.pardiralli.dto.InsertionDTO"*/-->
                 <form id="owner" class="form-horizontal" th:action="@{/owner}" th:object="${manualAdd}" method="post">
                     <h4>Lisa andmeid süsteemi</h4>

@@ -14,7 +14,6 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 public class InsertionDTO {
 
-
     @NotNull
     String ownerFirstName;
 

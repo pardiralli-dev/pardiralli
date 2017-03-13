@@ -50,7 +50,7 @@ public class InsertionController {
             model.addAttribute("manualAdd", insertionDTO);
         } else {
             try {
-                insertionService.saveInsertion(insertionDTO, request, principal);
+                insertionService.saveInsertion(insertionDTO, principal);
                 ControllerUtil.setFeedback(model, FeedbackType.SUCCESS, "Andmed edukalt sisestatud");
             } catch (RaceNotFoundException e) {
                 ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Võistlust ei leitud!");

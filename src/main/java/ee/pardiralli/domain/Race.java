@@ -29,22 +29,16 @@ public class Race implements Comparable<Race> {
     @NotNull
     private LocalDate finish;
 
-    @Size(max=50)
+    @Size(max = 50)
     @NotBlank
     private String raceName;
 
-    @Size(max=2000)
+    @Size(max = 2000)
     @NotBlank
     private String description;
 
     @NotNull
     private Boolean isOpen;
-
-    public Race(LocalDate beginning, LocalDate finish) {
-        this.beginning = beginning;
-        this.finish = finish;
-    }
-
 
     public Race(LocalDate beginning, LocalDate finish, String raceName, String description, Boolean isOpen) {
         this.beginning = beginning;
@@ -53,9 +47,6 @@ public class Race implements Comparable<Race> {
         this.description = description;
         this.isOpen = isOpen;
     }
-
-
-
 
     @Override
     public int compareTo(Race o) {

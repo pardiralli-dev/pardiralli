@@ -69,4 +69,9 @@ public class RaceServiceImpl implements RaceService {
         Collections.sort(races);
         return races;
     }
+
+    @Override
+    public boolean overlaps(RaceDTO raceDTO) {
+        return raceRepository.countRacesBetween(raceDTO.getBeginning(), raceDTO.getFinish()) != 0;
+    }
 }

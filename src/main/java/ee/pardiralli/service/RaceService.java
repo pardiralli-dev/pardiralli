@@ -36,4 +36,9 @@ public interface RaceService {
      * Return <code>true</code> if another race overlaps with input race
      */
     boolean overlaps(RaceDTO raceDTO);
+
+    /**
+     * Find and close all races that have passed
+     */
+    void closePassedRaces();
 }

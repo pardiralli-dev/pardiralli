@@ -3,6 +3,7 @@ package ee.pardiralli.service;
 import ee.pardiralli.db.RaceRepository;
 import ee.pardiralli.domain.Race;
 import ee.pardiralli.dto.RaceDTO;
+import ee.pardiralli.util.BanklinkUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.IteratorUtils;
@@ -73,5 +74,18 @@ public class RaceServiceImpl implements RaceService {
     @Override
     public boolean overlaps(RaceDTO raceDTO) {
         return raceRepository.countRacesBetween(raceDTO.getBeginning(), raceDTO.getFinish()) != 0;
+    }
+
+    @Override
+    public void closePassedRaces() {
+        if (!hasNoOpenedRaces()) {
+            Race lastRace = raceRepository.findRaceByIsOpen(true);
+            if (lastRace.getFinish().compareTo(BanklinkUtil.getCurrentDate()) < 0) {
+                log.info("found race that needs to be closed: {}", lastRace.toString());
+                lastRace.setIsOpen(false);
+                raceRepository.save(lastRace);
+                log.info("{} closed", lastRace.toString());
+            }
+        }
     }
 }

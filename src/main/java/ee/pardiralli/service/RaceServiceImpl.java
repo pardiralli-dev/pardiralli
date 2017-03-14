@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.IteratorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -76,8 +77,9 @@ public class RaceServiceImpl implements RaceService {
         return raceRepository.countRacesBetween(raceDTO.getBeginning(), raceDTO.getFinish()) != 0;
     }
 
-    @Override
-    public void closePassedRaces() {
+    @Scheduled(cron = "5 0 0 * * *", zone = "Europe/Athens")
+    private void closePassedRaces() {
+        log.info("Checking for races to close");
         if (!hasNoOpenedRaces()) {
             Race lastRace = raceRepository.findRaceByIsOpen(true);
             if (lastRace.getFinish().compareTo(BanklinkUtil.getCurrentDate()) < 0) {
@@ -86,6 +88,8 @@ public class RaceServiceImpl implements RaceService {
                 raceRepository.save(lastRace);
                 log.info("{} closed", lastRace.toString());
             }
+        } else {
+            log.info("Found no open race to automatically close.");
         }
     }
 }

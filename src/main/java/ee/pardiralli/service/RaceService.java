@@ -31,4 +31,10 @@ public interface RaceService {
      * Find and return all {@link RaceDTO} from the database
      */
     List<RaceDTO> findAllRaces();
+
+    /**
+     * Return <code>true</code> if another race overlaps with input race
+     */
+    boolean overlaps(RaceDTO raceDTO);
+
 }

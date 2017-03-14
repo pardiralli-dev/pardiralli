@@ -3,6 +3,7 @@ package ee.pardiralli.db;
 import ee.pardiralli.domain.Race;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -35,4 +36,10 @@ public interface RaceRepository extends CrudRepository<Race, Integer> {
     @Query("SELECT COUNT (r) FROM Race r WHERE r.isOpen = true")
     Integer countOpenedRaces();
 
+
+    @Query("SELECT COUNT (r) FROM Race r " +
+            "WHERE (r.beginning BETWEEN :startDate AND :endDate) " +
+            "OR " +
+            "(r.finish BETWEEN :startDate AND :endDate)")
+    Integer countRacesBetween(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 }

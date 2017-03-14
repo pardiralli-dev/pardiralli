@@ -120,11 +120,3 @@ REFERENCES public.duck_owner (id)
 ON DELETE CASCADE
 ON UPDATE CASCADE
 NOT DEFERRABLE;
-
-CREATE FUNCTION close_past_races() RETURNS void AS $$
-DECLARE
-  curtime DATE := NOW();
-BEGIN
-  UPDATE race SET is_open = FALSE WHERE finish < curtime;
-END;
-$$ LANGUAGE plpgsql;

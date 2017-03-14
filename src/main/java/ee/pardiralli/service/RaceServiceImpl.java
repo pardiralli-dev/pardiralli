@@ -3,10 +3,12 @@ package ee.pardiralli.service;
 import ee.pardiralli.db.RaceRepository;
 import ee.pardiralli.domain.Race;
 import ee.pardiralli.dto.RaceDTO;
+import ee.pardiralli.util.BanklinkUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.IteratorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -73,5 +75,21 @@ public class RaceServiceImpl implements RaceService {
     @Override
     public boolean overlaps(RaceDTO raceDTO) {
         return raceRepository.countRacesBetween(raceDTO.getBeginning(), raceDTO.getFinish()) != 0;
+    }
+
+    @Scheduled(cron = "5 0 0 * * *", zone = "Europe/Athens")
+    private void closePassedRaces() {
+        log.info("Checking for races to close");
+        if (!hasNoOpenedRaces()) {
+            Race lastRace = raceRepository.findRaceByIsOpen(true);
+            if (lastRace.getFinish().compareTo(BanklinkUtil.getCurrentDate()) < 0) {
+                log.info("found race that needs to be closed: {}", lastRace.toString());
+                lastRace.setIsOpen(false);
+                raceRepository.save(lastRace);
+                log.info("{} closed", lastRace.toString());
+            }
+        } else {
+            log.info("Found no open race to automatically close.");
+        }
     }
 }

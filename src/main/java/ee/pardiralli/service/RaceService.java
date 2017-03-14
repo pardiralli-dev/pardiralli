@@ -36,4 +36,5 @@ public interface RaceService {
      * Return <code>true</code> if another race overlaps with input race
      */
     boolean overlaps(RaceDTO raceDTO);
+
 }

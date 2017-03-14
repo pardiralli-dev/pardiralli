@@ -14,10 +14,12 @@ public class ScheduledTasks {
     private final RaceService raceService;
 
     /**
-     * In every 7 hours check for races to close
+     * Every day at 00 check for races to close
      */
-    @Scheduled(fixedRate = 25000000)
+    @Scheduled(cron = "0 0 00 * * *")
     public void checkForOldRaces() {
+        //"0 0 9-17 * * MON-FRI" = on the hour nine-to-five weekdays
+        //"0 * 6,19 * * *" = 6:00 AM and 7:00 PM every day.
         log.info("Checking for races to close");
         raceService.closePassedRaces();
     }

@@ -80,7 +80,7 @@ public class RaceController {
         } else {
             if (checkInput(raceDTO)) {
                 raceService.updateRace(raceDTO);
-                ControllerUtil.setFeedback(model, FeedbackType.INFO,
+                ControllerUtil.setFeedback(model, FeedbackType.SUCCESS,
                         raceDTO.getIsOpen() ? "Pardiralli edukalt avatud" : "Pardiralli edukalt suletud!");
             } else {
                 ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Korraga saab olla avatud ainult üks Pardiralli!");

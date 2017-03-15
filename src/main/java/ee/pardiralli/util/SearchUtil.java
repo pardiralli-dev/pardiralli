@@ -32,7 +32,7 @@ public class SearchUtil {
                 d.getDuckOwner().getFirstName(),
                 d.getDuckOwner().getLastName(),
                 d.getDuckOwner().getPhoneNumber(),
-                String.valueOf(d.getSerialNumber()),
+                d.getSerialNumber() == null ? "-" : String.valueOf(d.getSerialNumber()),
                 d.getDuckBuyer().getEmail(),
                 d.getPriceEuros(),
                 String.valueOf(d.getTransaction().getId()),

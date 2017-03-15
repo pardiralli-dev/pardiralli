@@ -5,6 +5,7 @@
     <title>Sisestus</title>
     <meta charset="UTF-8"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Merriweather+Sans:300,400"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/sniglet.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
@@ -25,49 +26,49 @@
                 <form id="owner" class="form-horizontal" th:action="@{/owner}" th:object="${manualAdd}" method="post">
                     <h4>Lisa andmeid süsteemi</h4>
                     <div class="form-group">
-                        <label for="ownerFirstName" class="col-form-label col-sm-2">Pardi omaniku eesnimi:</label>
-                        <div class="col-sm-10" th:classappend="${#fields.hasErrors('ownerFirstName')}?'has-error has-feedback'">
+                        <label for="ownerFirstName" class="col-form-label col-sm-6 col-lg-3">Pardi omaniku eesnimi:</label>
+                        <div class="col-sm-6 col-lg-9" th:classappend="${#fields.hasErrors('ownerFirstName')}?'has-error has-feedback'">
                             <input id="ownerFirstName" type="text" class="form-control" th:field="*{ownerFirstName}" required="required"/>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="ownerLastName" class="col-form-label col-sm-2">Pardi omaniku perenimi:</label>
-                        <div class="col-sm-10" th:classappend="${#fields.hasErrors('ownerLastName')}?'has-error has-feedback'">
+                        <label for="ownerLastName" class="col-form-label col-sm-6 col-lg-3">Pardi omaniku perenimi:</label>
+                        <div class="col-sm-6 col-lg-9" th:classappend="${#fields.hasErrors('ownerLastName')}?'has-error has-feedback'">
                             <input id="ownerLastName" type="text" class="form-control" th:field="*{ownerLastName}" required="required"/>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="id" class="col-form-label col-sm-2">Isikukood:</label>
-                        <div class="col-sm-10" th:classappend="${#fields.hasErrors('identificationCode')}?'has-error has-feedback'">
+                        <label for="id" class="col-form-label col-sm-6 col-lg-3">Isikukood:</label>
+                        <div class="col-sm-6 col-lg-9" th:classappend="${#fields.hasErrors('identificationCode')}?'has-error has-feedback'">
                             <input id="id" type="text" maxlength="11" minlength="11" class="form-control" th:field="*{identificationCode}"/>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="email" class="col-form-label col-sm-2">Maksja e-post:</label>
-                        <div class="col-sm-10" th:classappend="${#fields.hasErrors('buyerEmail')}?'has-error has-feedback'">
+                        <label for="email" class="col-form-label col-sm-6 col-lg-3">Maksja e-post:</label>
+                        <div class="col-sm-6 col-lg-9" th:classappend="${#fields.hasErrors('buyerEmail')}?'has-error has-feedback'">
                             <input id="email" type="email" class="form-control" th:field="*{buyerEmail}" required="required"/>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-form-label col-sm-2" for="ownerPhoneNumber">Pardi omaniku telefoninumber:</label>
-                        <div class="col-sm-10" th:classappend="${#fields.hasErrors('ownerPhoneNumber')}?'has-error has-feedback'">
+                        <label class="col-form-label col-sm-6 col-lg-3" for="ownerPhoneNumber">Pardi omaniku telefoninumber:</label>
+                        <div class="col-sm-6 col-lg-9" th:classappend="${#fields.hasErrors('ownerPhoneNumber')}?'has-error has-feedback'">
                             <input id="ownerPhoneNumber" type="number" class="form-control" th:field="*{ownerPhoneNumber}" required="required"/>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-form-label col-sm-2" for="numberOfDucks">Partide arv:</label>
-                        <div class="col-sm-10" th:classappend="${#fields.hasErrors('numberOfDucks')}?'has-error has-feedback'">
+                        <label class="col-form-label col-sm-6 col-lg-3" for="numberOfDucks">Partide arv:</label>
+                        <div class="col-sm-6 col-lg-9" th:classappend="${#fields.hasErrors('numberOfDucks')}?'has-error has-feedback'">
                             <input id="numberOfDucks" type="number" class="form-control" th:field="*{numberOfDucks}" required="required"/>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-form-label col-sm-2" for="priceOfOneDuck">Ühe pardi hind:</label>
-                        <div class="col-sm-10" th:classappend="${#fields.hasErrors('priceOfOneDuck')}?'has-error has-feedback'">
+                        <label class="col-form-label col-sm-6 col-lg-3" for="priceOfOneDuck">Ühe pardi hind:</label>
+                        <div class="col-sm-6 col-lg-9" th:classappend="${#fields.hasErrors('priceOfOneDuck')}?'has-error has-feedback'">
                             <input id="priceOfOneDuck" type="number" class="form-control" th:field="*{priceOfOneDuck}" required="required"/>
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-10">
+                        <div class="col-sm-offset-6 col-sm-6 col-lg-offset-3 col-lg-9">
                             <input id="insert" type="submit" class="btn btn-default" value="Lisa"/>
                         </div>
                     </div>

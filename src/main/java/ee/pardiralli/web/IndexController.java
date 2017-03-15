@@ -6,10 +6,12 @@ import ee.pardiralli.feedback.FeedbackType;
 import ee.pardiralli.service.IndexService;
 import ee.pardiralli.util.ControllerUtil;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,9 +19,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @AllArgsConstructor(onConstructor = @__(@Autowired))
+@Slf4j
 public class IndexController {
     private final IndexService indexService;
 
@@ -48,7 +53,7 @@ public class IndexController {
                                         HttpServletRequest req) {
         int boxId = Integer.parseInt(req.getParameter("removeBox"));
         donation.getBoxes().remove(boxId);
-        //
+
         if (donation.getBoxes().size() == 0) {
             donation.getBoxes().add(new DonationBoxDTO());
         }
@@ -62,7 +67,25 @@ public class IndexController {
                                      BindingResult result) {
 
         if (result.hasErrors()) {
-            ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Vigased andmed!");
+            List<String> errorFields = result.getAllErrors().stream()
+                    .filter(FieldError.class::isInstance)
+                    .map(FieldError.class::cast)
+                    .map(FieldError::getField)
+                    .collect(Collectors.toList());
+
+            if (result.getAllErrors().size() != errorFields.size()) {
+                log.error("Errors contained non-FieldErrors!");
+                log.error("Errors: {}", result.getAllErrors());
+                log.error("ErrorFields: {}", errorFields);
+            }
+
+            if (errorFields.stream().anyMatch(f -> !f.equals("accepts"))) {
+                ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Mõni väli sisaldab vigaseid andmeid.");
+            }
+            if (errorFields.contains("accepts")) {
+                ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Jätkamiseks peate nõustuma kasutustingimustega.");
+            }
+
             return "donation/donation-form";
         }
 

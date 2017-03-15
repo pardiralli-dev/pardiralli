@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AllArgsConstructor(onConstructor = @__(@Autowired))
-public class RestEmailController {
+public class RestServicesController {
     private final MailService mailService;
 
     @GetMapping("/rest/conf-email-check")

@@ -1,8 +1,6 @@
 DROP SCHEMA IF EXISTS public CASCADE;
 CREATE SCHEMA public;
 
-
-
 CREATE SEQUENCE public.login_attempt_id_seq;
 
 CREATE TABLE public.login_attempt (
@@ -26,6 +24,7 @@ CREATE TABLE public.transaction (
                 ip_addr VARCHAR(45),
                 init_time TIMESTAMP,
                 email_sent BOOLEAN,
+                sms_sent BOOLEAN,
                 inserter VARCHAR(100),
                 bank VARCHAR(20),
                 CONSTRAINT id_transaction PRIMARY KEY (id)

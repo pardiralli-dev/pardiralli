@@ -2,15 +2,15 @@ package ee.pardiralli.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import java.util.List;
+import java.util.Map;
 
 @AllArgsConstructor
 @Data
 public class SMSDTO {
 
-    @NotBlank
-    private String paymentSum;
-
-    @NotBlank
-    private String transactionID;
+    @NotEmpty
+    private Map<String, List<String>> serialNrMap;
 }

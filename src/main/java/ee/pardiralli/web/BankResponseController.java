@@ -11,6 +11,7 @@ import ee.pardiralli.exceptions.IllegalTransactionException;
 import ee.pardiralli.feedback.FeedbackType;
 import ee.pardiralli.service.MailService;
 import ee.pardiralli.service.PaymentService;
+import ee.pardiralli.service.SMSService;
 import ee.pardiralli.util.BanklinkUtil;
 import ee.pardiralli.util.ControllerUtil;
 import lombok.AllArgsConstructor;
@@ -33,6 +34,7 @@ import java.util.Map;
 public class BankResponseController {
     private final PaymentService paymentService;
     private final MailService mailService;
+    private final SMSService smsService;
 
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST}, value = "/banklink/{bank}/success")
     @ResponseStatus(value = HttpStatus.OK)
@@ -57,6 +59,8 @@ public class BankResponseController {
                 log.error("Failed to send confirmation email to {}", buyer.getEmail());
                 ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Kinnitusmeili saatmine ebaõnnestus");
             }
+//            TODO: 15.03.2017 works only with registered numbers
+//            smsService.sendSMSToAllOwners(BanklinkUtil.getSMSDTO(ducks));
 
             model.addAttribute("purchaseInfo", purchaseInfoDTO);
             return "donation/payment_successful";

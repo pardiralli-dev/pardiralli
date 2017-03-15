@@ -3,6 +3,7 @@ package ee.pardiralli.util;
 import ee.pardiralli.domain.Duck;
 import ee.pardiralli.domain.DuckBuyer;
 import ee.pardiralli.dto.DuckDTO;
+import ee.pardiralli.dto.SMSDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
@@ -25,9 +26,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -236,6 +235,17 @@ public class BanklinkUtil {
                         d.getSerialNumber().toString(),
                         centsToEuros(d.getPriceCents())
                 )).collect(Collectors.toList());
+    }
+
+    public static SMSDTO getSMSDTO(List<Duck> ducks) {
+        Map<String, List<String>> serialNrMap = new HashMap<>();
+        for (Duck d : ducks) {
+            String phoneNumber = d.getDuckOwner().getPhoneNumber();
+            List<String> serialNumbers = serialNrMap.getOrDefault(phoneNumber, new ArrayList<>());
+            serialNumbers.add(d.getSerialNumber().toString());
+            serialNrMap.put(phoneNumber, serialNumbers);
+        }
+        return new SMSDTO(serialNrMap);
     }
 
     /**

@@ -1,16 +1,18 @@
 package ee.pardiralli.service;
 
 import ee.pardiralli.dto.SMSDTO;
-import org.springframework.stereotype.Service;
 
-@Service
+import java.util.List;
+
 public interface SMSService {
 
     /**
      * Send an SMS to the specified number.
      *
      * @param toNumber the phone number where the message will be sent
-     * @param smsDTO the information to be sent by SMS
+     * @param serialNumbers the serial numbers to be sent by SMS
      */
-    void sendSMS(String toNumber, SMSDTO smsDTO);
+    void sendSMS(String toNumber, List<String> serialNumbers);
+
+    void sendSMSToAllOwners(SMSDTO smsdto);
 }

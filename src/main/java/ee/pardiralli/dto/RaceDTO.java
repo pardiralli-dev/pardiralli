@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -25,9 +26,11 @@ public class RaceDTO implements Comparable<RaceDTO> {
     private LocalDate finish;
 
     @NotNull
+    @Size(max = 50)
     private String raceName;
 
     @NotNull
+    @Size(max = 2000)
     private String description;
 
     @NotNull

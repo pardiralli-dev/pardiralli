@@ -15,10 +15,8 @@
 
 <div class="wrapper">
     <div th:replace="fragments/menu :: side-menu"></div>
-
     <div class="container container-general">
         <div th:replace="fragments/menu :: admin-menu"></div>
-
         <div class="panel panel-default">
             <div class="panel-body">
                 <!--/*@thymesVar id="feedbackList" type="java.util.List<ee.pardiralli.feedback.Feedback>"*/-->
@@ -27,92 +25,45 @@
                 <form id="owner" class="form-horizontal" th:action="@{/owner}" th:object="${manualAdd}" method="post">
                     <h4>Lisa andmeid süsteemi</h4>
                     <div class="form-group">
-                        <label for="ownerFirstName"
-                               class="col-form-label col-sm-2"
-                               th:classappend="${#fields.hasErrors('ownerFirstName')}?'invalid'">Pardi omaniku
-                            eesnimi:</label>
-                        <div class="col-sm-10">
-                            <input id="ownerFirstName"
-                                   type="text"
-                                   class="form-control"
-                                   th:field="*{ownerFirstName}"
-                                   required="required"/>
+                        <label for="ownerFirstName" class="col-form-label col-sm-2">Pardi omaniku eesnimi:</label>
+                        <div class="col-sm-10" th:classappend="${#fields.hasErrors('ownerFirstName')}?'has-error has-feedback'">
+                            <input id="ownerFirstName" type="text" class="form-control" th:field="*{ownerFirstName}" required="required"/>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="ownerLastName"
-                               class="col-form-label col-sm-2"
-                               th:classappend="${#fields.hasErrors('ownerLastName')}?'invalid'">Pardi omaniku
-                            perenimi:</label>
-                        <div class="col-sm-10">
-                            <input id="ownerLastName"
-                                   type="text"
-                                   class="form-control"
-                                   th:field="*{ownerLastName}"
-                                   required="required"/>
+                        <label for="ownerLastName" class="col-form-label col-sm-2">Pardi omaniku perenimi:</label>
+                        <div class="col-sm-10" th:classappend="${#fields.hasErrors('ownerLastName')}?'has-error has-feedback'">
+                            <input id="ownerLastName" type="text" class="form-control" th:field="*{ownerLastName}" required="required"/>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="id"
-                               class="col-form-label col-sm-2"
-                               th:classappend="${#fields.hasErrors('identificationCode')}?'invalid'">Isikukood:</label>
-                        <div class="col-sm-10">
-                            <input id="id"
-                                   type="text"
-                                   class="form-control"
-                                   th:field="*{identificationCode}"
-                                   required="required"/>
+                        <label for="id" class="col-form-label col-sm-2">Isikukood:</label>
+                        <div class="col-sm-10" th:classappend="${#fields.hasErrors('identificationCode')}?'has-error has-feedback'">
+                            <input id="id" type="text" maxlength="11" minlength="11" class="form-control" th:field="*{identificationCode}"/>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="email"
-                               class="col-form-label col-sm-2"
-                               th:classappend="${#fields.hasErrors('buyerEmail')}?'invalid'">Maksja e-post:</label>
-                        <div class="col-sm-10">
-                            <input id="email"
-                                   type="email"
-                                   class="form-control"
-                                   th:field="*{buyerEmail}"
-                                   required="required"/>
+                        <label for="email" class="col-form-label col-sm-2">Maksja e-post:</label>
+                        <div class="col-sm-10" th:classappend="${#fields.hasErrors('buyerEmail')}?'has-error has-feedback'">
+                            <input id="email" type="email" class="form-control" th:field="*{buyerEmail}" required="required"/>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-form-label col-sm-2"
-                               for="ownerPhoneNumber"
-                               th:classappend="${#fields.hasErrors('ownerPhoneNumber')}?'invalid'">Pardi omaniku
-                            telefoninumber:</label>
-                        <div class="col-sm-10">
-                            <input id="ownerPhoneNumber"
-                                   type="number"
-                                   class="form-control"
-                                   th:field="*{ownerPhoneNumber}"
-                                   required="required"/>
+                        <label class="col-form-label col-sm-2" for="ownerPhoneNumber">Pardi omaniku telefoninumber:</label>
+                        <div class="col-sm-10" th:classappend="${#fields.hasErrors('ownerPhoneNumber')}?'has-error has-feedback'">
+                            <input id="ownerPhoneNumber" type="number" class="form-control" th:field="*{ownerPhoneNumber}" required="required"/>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-form-label col-sm-2"
-                               for="numberOfDucks"
-                               th:classappend="${#fields.hasErrors('numberOfDucks')}?'invalid'">Partide
-                            arv:</label>
-                        <div class="col-sm-10">
-                            <input id="numberOfDucks"
-                                   type="number"
-                                   class="form-control"
-                                   th:field="*{numberOfDucks}"
-                                   required="required"/>
+                        <label class="col-form-label col-sm-2" for="numberOfDucks">Partide arv:</label>
+                        <div class="col-sm-10" th:classappend="${#fields.hasErrors('numberOfDucks')}?'has-error has-feedback'">
+                            <input id="numberOfDucks" type="number" class="form-control" th:field="*{numberOfDucks}" required="required"/>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-form-label col-sm-2"
-                               for="priceOfOneDuck"
-                               th:classappend="${#fields.hasErrors('priceOfOneDuck')}?'invalid'">Ühe pardi
-                            hind:</label>
-                        <div class="col-sm-10">
-                            <input id="priceOfOneDuck"
-                                   type="number"
-                                   class="form-control"
-                                   th:field="*{priceOfOneDuck}"
-                                   required="required"/>
+                        <label class="col-form-label col-sm-2" for="priceOfOneDuck">Ühe pardi hind:</label>
+                        <div class="col-sm-10" th:classappend="${#fields.hasErrors('priceOfOneDuck')}?'has-error has-feedback'">
+                            <input id="priceOfOneDuck" type="number" class="form-control" th:field="*{priceOfOneDuck}" required="required"/>
                         </div>
                     </div>
                     <div class="form-group">
@@ -123,11 +74,8 @@
                 </form>
             </div>
         </div>
-
         <div th:replace="fragments/footer :: footer"></div>
-
     </div>
 </div>
-
 </body>
 </html>

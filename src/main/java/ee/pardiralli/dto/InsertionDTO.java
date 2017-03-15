@@ -1,5 +1,6 @@
 package ee.pardiralli.dto;
 
+import ee.pardiralli.constraint.NationalIdentificationNumber;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,19 +16,22 @@ import javax.validation.constraints.Size;
 public class InsertionDTO {
 
     @NotNull
+    @Size(max = 100)
     String ownerFirstName;
 
     @NotNull
+    @Size(max = 100)
     String ownerLastName;
 
     @NotNull
     @Email
     String buyerEmail;
 
-    @Size(max = 11)
+    @NationalIdentificationNumber
     String identificationCode;
 
     @NotNull
+    @Size(max = 50)
     String ownerPhoneNumber;
 
     @Min(1)

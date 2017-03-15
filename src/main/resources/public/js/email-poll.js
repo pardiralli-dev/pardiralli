@@ -9,13 +9,16 @@ function queryEmailSucessful() {
         cache: false,
         success: function (data) {
             console.log('Response: ' + data.emailSent);
-            if (data.emailSent === 'true') {
-                success = true;
+            if (data.emailSent === true) {
+                end = true;
                 $('#success').removeAttr('style');  // remove 'display: none' style
+            } else if (data.emailSent === false) {
+                end = true;
+                $('#fail').removeAttr('style');  // remove 'display: none' style
             }
         },
         complete: function () {
-            if (!success) {
+            if (!end) {
                 n++;
                 const timeout = 1000 + 500 * n;
                 console.log('Checking again in ' + timeout.toString() + ' ms.');
@@ -26,7 +29,7 @@ function queryEmailSucessful() {
 }
 
 var n = 0;
-var success = false;
+var end = false;
 $(document).ready(function () {
         queryEmailSucessful();
     }

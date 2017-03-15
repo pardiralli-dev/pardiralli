@@ -37,7 +37,7 @@
                         <th>Ühe pardi hind</th>
                     </tr>
                     <tr th:each="box : ${donation.getBoxes()}">
-                        <td><span th:text="${box.getOwnerFirstName()}"></span> <span th:text="${box.getOwnerLastName()}"></span></td>
+                        <td><span th:text="${box.getOwnerFirstName()}" th:remove="tag"></span> <span th:text="${box.getOwnerLastName()}" th:remove="tag"></span></td>
                         <td th:text="${box.getOwnerPhone()}"></td>
                         <td th:text="${box.getDuckQuantity()}"></td>
                         <td><span th:text="${box.getDuckPrice()}" th:remove="tag"></span> €</td>

@@ -16,14 +16,22 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class UserServiceImpl implements UserDetailsService {
     private final UsersRepository usersRepository;
+    private final AuthService authService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         WpUsers user = usersRepository.findOneByUserLogin(username)
                 .orElseThrow(() -> {
-                    log.warn("Somebody tried to login with invalid name {}", username);
-                    return new UsernameNotFoundException(String.format("User with username=%s was not found", username));
+                    log.warn("Login attempt with invalid username '{}'", username);
+                    return new UsernameNotFoundException(String.format("Username '%s' not found", username));
                 });
-        return new CurrentUser(user);
+
+        if (authService.userIsWPAdmin(user)) {
+            return new CurrentUser(user);
+        } else {
+            log.warn("Login attempt with non-admin WP user '{}'", username);
+            throw new UsernameNotFoundException(String.format("User '%s' is not WP admin", username));
+        }
     }
+
 }

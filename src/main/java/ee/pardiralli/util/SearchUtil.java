@@ -49,12 +49,12 @@ public class SearchUtil {
 
 
     /**
-     * @param bool to be replaced with string positive or negative response.
-     *             Cannot be null
+     * @param bool to be replaced with string positive, negative or indeterminate response
+     *             Note: can be null
      */
     private static String translateBoolean(Boolean bool) {
         if (bool == null) {
-            throw new AssertionError("Null value in translateToBoolean");
+            return "?";
         }
         return bool ? "\u2713" : "\u2716";
     }

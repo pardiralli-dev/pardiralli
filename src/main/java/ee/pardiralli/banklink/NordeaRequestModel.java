@@ -9,7 +9,7 @@ import java.util.Arrays;
 @Getter
 @Setter
 public class NordeaRequestModel extends RequestModel {
-    public static final String senderID = "80096899";
+    public static final String senderID = "80096899A";
 
     private String VK_SERVICE = "1011";
     private String VK_VERSION = "008";

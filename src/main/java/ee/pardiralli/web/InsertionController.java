@@ -37,17 +37,15 @@ public class InsertionController {
     }
 
     @PostMapping("/owner")
-    public String insertData(@Valid InsertionDTO insertionDTO,
+    public String insertData(@ModelAttribute("manualAdd") @Valid InsertionDTO insertionDTO,
                              BindingResult bindingResult,
                              Model model,
-                             HttpServletRequest request,
                              Principal principal) {
 
         if (raceService.hasNoOpenedRaces()) {
             ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Ükski võistlus ei ole avatud!");
-            model.addAttribute("manualAdd", insertionDTO);
         } else if (bindingResult.hasErrors()) {
-            model.addAttribute("manualAdd", insertionDTO);
+            ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Vigane sisend!");
         } else {
             try {
                 insertionService.saveInsertion(insertionDTO, principal);

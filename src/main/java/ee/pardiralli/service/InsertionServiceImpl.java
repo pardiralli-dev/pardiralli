@@ -83,6 +83,6 @@ public class InsertionServiceImpl implements InsertionService {
             throw new RuntimeException(e);
         }
 //        TODO: 15.03.2017 works only with registered numbers
-//        smsService.sendSMSToAllOwners(BanklinkUtil.getSMSDTO(duckList));
+//        smsService.sendSMSToAllOwners(BanklinkUtil.getMessages(duckList));
     }
 }

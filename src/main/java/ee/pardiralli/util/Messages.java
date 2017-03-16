@@ -1,4 +1,4 @@
-package ee.pardiralli.dto;
+package ee.pardiralli.util;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +9,7 @@ import java.util.Map;
 
 @AllArgsConstructor
 @Data
-public class SMSDTO {
+public class Messages {
 
     /**
      * Maps phone numbers of owners to the serial numbers of ducks bought for them.

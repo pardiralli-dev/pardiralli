@@ -3,7 +3,6 @@ package ee.pardiralli.util;
 import ee.pardiralli.domain.Duck;
 import ee.pardiralli.domain.DuckBuyer;
 import ee.pardiralli.dto.DuckDTO;
-import ee.pardiralli.dto.SMSDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
@@ -237,7 +236,7 @@ public class BanklinkUtil {
                 )).collect(Collectors.toList());
     }
 
-    public static SMSDTO getSMSDTO(List<Duck> ducks) {
+    public static Messages getMessages(List<Duck> ducks) {
         Map<String, List<String>> serialNrMap = new HashMap<>();
         for (Duck d : ducks) {
             String phoneNumber = d.getDuckOwner().getPhoneNumber();
@@ -245,7 +244,7 @@ public class BanklinkUtil {
             serialNumbers.add(d.getSerialNumber().toString());
             serialNrMap.put(phoneNumber, serialNumbers);
         }
-        return new SMSDTO(serialNrMap);
+        return new Messages(serialNrMap);
     }
 
     /**

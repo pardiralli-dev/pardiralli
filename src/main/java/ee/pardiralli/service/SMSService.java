@@ -1,6 +1,6 @@
 package ee.pardiralli.service;
 
-import ee.pardiralli.dto.SMSDTO;
+import ee.pardiralli.util.Messages;
 
 import java.util.List;
 
@@ -15,10 +15,10 @@ public interface SMSService {
     void sendSMS(String toNumber, List<String> serialNumbers);
 
     /**
-     * Sends SMSs to all of the numbers in the SMSDTO map.
+     * Sends SMSs to all of the numbers in the Messages map.
      *
-     * @param smsDTO contains a map where keys are phone numbers and values are lists of
+     * @param messages contains a map where keys are phone numbers and values are lists of
      * duck serial numbers belonging to the owner with the given phone number.
      */
-    void sendSMSToAllOwners(SMSDTO smsDTO);
+    void sendSMSToAllOwners(Messages messages);
 }

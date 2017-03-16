@@ -4,7 +4,7 @@ package ee.pardiralli.service;
 import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
-import ee.pardiralli.dto.SMSDTO;
+import ee.pardiralli.util.Messages;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -48,8 +48,8 @@ public class SMSServiceImpl implements SMSService {
     }
 
     @Override
-    public void sendSMSToAllOwners(SMSDTO smsDTO) {
-        Map<String, List<String>> serialNrMap = smsDTO.getSerialNrMap();
+    public void sendSMSToAllOwners(Messages messages) {
+        Map<String, List<String>> serialNrMap = messages.getSerialNrMap();
         for (String phoneNumber : serialNrMap.keySet()) {
             sendSMS(phoneNumber, serialNrMap.get(phoneNumber));
         }

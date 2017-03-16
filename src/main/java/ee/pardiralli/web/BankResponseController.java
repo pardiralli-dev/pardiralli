@@ -53,7 +53,7 @@ public class BankResponseController {
             mailService.sendConfirmationEmail(purchaseInfoDTO);
 
             // TODO: 15.03.2017 works only with registered numbers
-            // smsService.sendSMSToAllOwners(BanklinkUtil.getSMSDTO(ducks));
+            // smsService.sendSMSToAllOwners(BanklinkUtil.getMessages(ducks));
 
             model.addAttribute("purchaseInfo", purchaseInfoDTO);
             return "donation/payment_successful";

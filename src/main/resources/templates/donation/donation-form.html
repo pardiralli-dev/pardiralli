@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
-<html lang="et" xmlns:th="http://www.thymeleaf.org">
+<html lang="et" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <title>Pardiralli</title>
     <meta charset="UTF-8"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Merriweather+Sans:300,400"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/sniglet.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/cabin.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}"/>
@@ -21,6 +22,10 @@
     <div class="container container-general">
         <div th:replace="fragments/menu :: admin-menu"></div>
 
+        <div sec:authorize="!isAuthenticated()" class="main-heading-wrap">
+            <h2 class="main-heading text-center">Pardiralli annetuskeskkond</h2>
+        </div>
+
         <p th:if="${param.logoutsuccess}" class="alert alert-success">Olete välja loginud!</p>
 
         <!--/*@thymesVar id="feedbackList" type="java.util.List<ee.pardiralli.feedback.Feedback>"*/-->
@@ -35,7 +40,7 @@
                 <!--/* left-floating box */-->
                 <div th:if="${boxStat.index} % 2 == 0" class="row">
 
-                    <div class="col-xs-10 col-md-8 col-lg-7 main-box-wrapper">
+                    <div class="col-xs-10 col-md-8 col-lg-7 col-xl-6 main-box-wrapper">
                         <div class="main-box left-box">
                             <div class="box-content-stretch">
                                 <div class="box-content">
@@ -111,7 +116,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-2 col-md-4 col-lg-5 new-box-btn-col">
+                    <div class="col-xs-2 col-md-4 col-lg-5 col-xl-6 new-box-btn-col">
                         <div th:if="${boxStat.first}" class="new-box-btn-wrapper">
                             <button type="submit" name="addBox" class="btn btn-remove circle btn-lg btn-new-box">
                                 Lisa<br/>omanik<br/>
@@ -123,8 +128,8 @@
 
                 <!--/* right-floating box */-->
                 <div th:if="${boxStat.index} % 2 == 1" class="row">
-                    <div class="col-xs-2 col-md-4 col-lg-5"></div>
-                    <div class="col-xs-10 col-md-8 col-lg-7 main-box-wrapper">
+                    <div class="col-xs-2 col-md-4 col-lg-5 col-xl-6"></div>
+                    <div class="col-xs-10 col-md-8 col-lg-7 col-xl-6 main-box-wrapper">
                         <div class="main-box right-box">
                             <div class="box-content-stretch">
                                 <div class="box-content">

@@ -6,6 +6,7 @@ import ee.pardiralli.db.TransactionRepository;
 import ee.pardiralli.domain.Transaction;
 import ee.pardiralli.dto.EmailSentDTO;
 import ee.pardiralli.dto.PurchaseInfoDTO;
+import ee.pardiralli.dto.TextMsgDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ public class MailServiceImpl implements MailService {
 
     @Override
     @Async
-    public void sendConfirmationEmail(PurchaseInfoDTO purchaseInfoDTO) throws MessagingException {
+    public void sendConfirmationEmail(PurchaseInfoDTO purchaseInfoDTO) {
         final Context ctx = new Context();
         ctx.setVariable("dto", purchaseInfoDTO);
 
@@ -72,6 +73,17 @@ public class MailServiceImpl implements MailService {
             return new EmailSentDTO(null);
         } else {
             return new EmailSentDTO(t.getEmailSent());
+        }
+    }
+
+    @Override
+    public TextMsgDTO querySmsSent(Integer transactionId) {
+        Transaction t = transactionRepository.findById(transactionId);
+        if (t == null) {
+            log.warn("Transaction with queried ID '{}' does not exist", transactionId);
+            return new TextMsgDTO(null);
+        } else {
+            return new TextMsgDTO(t.getSmsSent());
         }
     }
 }

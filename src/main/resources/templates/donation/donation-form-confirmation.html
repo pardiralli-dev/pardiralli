@@ -4,6 +4,7 @@
     <title>Annetuse kinnitamine</title>
     <meta charset="UTF-8"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Merriweather+Sans:300,400"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/sniglet.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
@@ -48,15 +49,15 @@
         <div class="panel panel-default donation-summary-text">
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-sm-2">Annetus kokku:</div>
-                    <div class="col-sm-10">
+                    <div class="col-sm-5 col-lg-2">Annetus kokku:</div>
+                    <div class="col-sm-7 col-lg-10">
                         <!--/*@thymesVar id="totalSum" type="java.lang.Integer"*/-->
                         <div class="weight400"><span th:text="${totalSum}" th:remove="tag"></span> €</div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-2">E-post:</div>
-                    <div class="col-sm-10">
+                    <div class="col-sm-5 col-lg-2">E-post:</div>
+                    <div class="col-sm-7 col-lg-10">
                         <div class="weight400" th:text="${donation.getBuyerEmail()}"></div>
                     </div>
                 </div>

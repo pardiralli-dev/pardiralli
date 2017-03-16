@@ -36,7 +36,7 @@ $(document).ready(function () {
         chart_row.append('<div id="linechart_donations" class="chart_ container-fluid"></div>');
         chart_row.append('<div id="linechart_ducks" class="chart_ container-fluid"></div>');
         loader_row.append('<div class="loader loadingDiv container-fluid"></div>');
-        description_row.append('<div class="chart_">Täpsustus: ' + current_description + '</div>');
+        description_row.append('<div class="chart_">Kirjeldus:</div><div>' + current_description + '</div>');
         callDrawCharts();
     });
 

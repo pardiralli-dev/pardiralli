@@ -17,13 +17,10 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.mail.MailAuthenticationException;
-import org.springframework.mail.MailSendException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.mail.MessagingException;
 import java.util.List;
 import java.util.Map;
 
@@ -51,12 +48,7 @@ public class BankResponseController {
             String totalSum = paymentService.transactionAmount(tid);
             PurchaseInfoDTO purchaseInfoDTO = new PurchaseInfoDTO(duckDTOs, buyer.getEmail(), totalSum, tid.toString());
 
-            try {
-                mailService.sendConfirmationEmail(purchaseInfoDTO);
-            } catch (MessagingException | MailAuthenticationException | MailSendException e) {
-                log.error("Failed to send confirmation email to {}", buyer.getEmail());
-                ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Kinnitusmeili saatmine ebaõnnestus");
-            }
+            mailService.sendConfirmationEmail(purchaseInfoDTO);
 
             model.addAttribute("purchaseInfo", purchaseInfoDTO);
             return "donation/payment_successful";

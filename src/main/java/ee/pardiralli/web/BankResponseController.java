@@ -11,6 +11,7 @@ import ee.pardiralli.exceptions.IllegalTransactionException;
 import ee.pardiralli.feedback.FeedbackType;
 import ee.pardiralli.service.MailService;
 import ee.pardiralli.service.PaymentService;
+import ee.pardiralli.service.SMSService;
 import ee.pardiralli.util.BanklinkUtil;
 import ee.pardiralli.util.ControllerUtil;
 import lombok.AllArgsConstructor;
@@ -30,6 +31,7 @@ import java.util.Map;
 public class BankResponseController {
     private final PaymentService paymentService;
     private final MailService mailService;
+    private final SMSService smsService;
 
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST}, value = "/banklink/{bank}/success")
     @ResponseStatus(value = HttpStatus.OK)
@@ -49,6 +51,9 @@ public class BankResponseController {
             PurchaseInfoDTO purchaseInfoDTO = new PurchaseInfoDTO(duckDTOs, buyer.getEmail(), totalSum, tid.toString());
 
             mailService.sendConfirmationEmail(purchaseInfoDTO);
+
+            // TODO: 15.03.2017 works only with registered numbers
+            // smsService.sendSMSToAllOwners(BanklinkUtil.getMessages(ducks));
 
             model.addAttribute("purchaseInfo", purchaseInfoDTO);
             return "donation/payment_successful";

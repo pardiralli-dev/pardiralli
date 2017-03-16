@@ -25,9 +25,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -236,6 +234,17 @@ public class BanklinkUtil {
                         d.getSerialNumber().toString(),
                         centsToEuros(d.getPriceCents())
                 )).collect(Collectors.toList());
+    }
+
+    public static Messages getMessages(List<Duck> ducks) {
+        Map<String, List<String>> serialNrMap = new HashMap<>();
+        for (Duck d : ducks) {
+            String phoneNumber = d.getDuckOwner().getPhoneNumber();
+            List<String> serialNumbers = serialNrMap.getOrDefault(phoneNumber, new ArrayList<>());
+            serialNumbers.add(d.getSerialNumber().toString());
+            serialNrMap.put(phoneNumber, serialNumbers);
+        }
+        return new Messages(serialNrMap);
     }
 
     /**

@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
-import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +29,7 @@ public class InsertionServiceImpl implements InsertionService {
     private final MailService mailService;
     private final SerialNumberService numberService;
     private final PaymentService paymentService;
+    private final SMSService smsService;
 
     @Override
     public void saveInsertion(InsertionDTO insertionDTO, Principal principal) throws RaceNotFoundException, MessagingException {
@@ -78,10 +78,11 @@ public class InsertionServiceImpl implements InsertionService {
                     paymentService.transactionAmount(transaction.getId()),
                     String.valueOf(transaction.getId()));
             mailService.sendConfirmationEmail(purchaseInfoDTO);
-
         } catch (IllegalTransactionException e) {
             log.error("Manual insertion of ducks failed with transaction ID {}", transaction.getId());
             throw new RuntimeException(e);
         }
+//        TODO: 15.03.2017 works only with registered numbers
+//        smsService.sendSMSToAllOwners(BanklinkUtil.getMessages(duckList));
     }
 }

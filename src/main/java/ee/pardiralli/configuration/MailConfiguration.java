@@ -13,18 +13,16 @@ public class MailConfiguration {
 
     @Value("${mail.protocol}")
     private String protocol;
-    @Value("${mail.host}")
+    @Value("${mail.smtp.host}")
     private String host;
-    @Value("${mail.port}")
+    @Value("${mail.smtp.port}")
     private int port;
     @Value("${mail.smtp.socketFactory.port}")
     private int socketPort;
     @Value("${mail.smtp.auth}")
     private boolean auth;
-    @Value("${mail.smtp.starttls.enable}")
-    private boolean starttls;
-    @Value("${mail.smtp.starttls.required}")
-    private boolean startlls_required;
+    @Value("${mail.smtp.startssl.enable}")
+    private boolean startSsl;
     @Value("${mail.smtp.debug}")
     private boolean debug;
     @Value("${mail.smtp.socketFactory.fallback}")
@@ -40,12 +38,11 @@ public class MailConfiguration {
 
         Properties mailProperties = new Properties();
         mailProperties.put("mail.smtp.auth", auth);
-        mailProperties.put("mail.smtp.starttls.enable", starttls);
-        mailProperties.put("mail.smtp.starttls.required", startlls_required);
-        mailProperties.put("mail.smtp.socketFactory.port", socketPort);
         mailProperties.put("mail.smtp.debug", debug);
         mailProperties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
         mailProperties.put("mail.smtp.socketFactory.fallback", fallback);
+        mailProperties.put("mail.smtp.socketFactory.port", socketPort);
+        mailProperties.put("mail.smtp.startssl.enable", startSsl);
 
         mailSender.setJavaMailProperties(mailProperties);
         mailSender.setHost(host);

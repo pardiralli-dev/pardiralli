@@ -29,6 +29,8 @@ public class Transaction {
 
     private Boolean emailSent;
 
+    private Boolean smsSent;
+
     private String inserter;
 
     @Enumerated(EnumType.STRING)

@@ -5,6 +5,7 @@
     <title>Otsing</title>
     <meta charset="UTF-8"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Merriweather+Sans:300,400"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/sniglet.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
@@ -26,50 +27,50 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     <div class="form-group" th:classappend="${#fields.hasErrors('serialNumber')} ? 'has-error has-feedback'">
-                        <label class="col-form-label col-sm-3" for="search_quick_id">Otsi omanikku pardi ID järgi:</label>
-                        <div class="col-sm-9">
+                        <label class="col-form-label col-sm-6 col-lg-3" for="search_quick_id">Otsi omanikku pardi ID järgi:</label>
+                        <div class="col-sm-6 col-lg-9">
                             <input id="search_quick_id" type="number" class="form-control" th:field="*{serialNumber}" name="search_quick_id"/>
                             <span th:if="${#fields.hasErrors('serialNumber')}" class="glyphicon glyphicon-remove form-control-feedback"></span>
                         </div>
                     </div>
                     <div class="form-group" th:classappend="${#fields.hasErrors('ownersFirstName')} ? 'has-error has-feedback'">
-                        <label class="col-form-label col-sm-3" for="first_name_long">Omaniku eesnimi:</label>
-                        <div class="col-sm-9">
+                        <label class="col-form-label col-sm-6 col-lg-3" for="first_name_long">Omaniku eesnimi:</label>
+                        <div class="col-sm-6 col-lg-9">
                             <input id="first_name_long" type="text" class="form-control" th:field="*{ownersFirstName}" name="first_name_long"/>
                             <span th:if="${#fields.hasErrors('ownersFirstName')}" class="glyphicon glyphicon-remove form-control-feedback"></span>
                         </div>
                     </div>
                     <div class="form-group" th:classappend="${#fields.hasErrors('ownersLastName')} ? 'has-error has-feedback'">
-                        <label class="col-form-label col-sm-3" for="last_name_long">Omaniku perenimi:</label>
-                        <div class="col-sm-9">
+                        <label class="col-form-label col-sm-6 col-lg-3" for="last_name_long">Omaniku perenimi:</label>
+                        <div class="col-sm-6 col-lg-9">
                             <input id="last_name_long" type="text" class="form-control" th:field="*{ownersLastName}" name="last_name_long"/>
                             <span th:if="${#fields.hasErrors('ownersLastName')}" class="glyphicon glyphicon-remove form-control-feedback"></span>
                         </div>
                     </div>
                     <div class="form-group" th:classappend="${#fields.hasErrors('buyersEmail')} ? 'has-error has-feedback'">
-                        <label class="col-form-label col-sm-3" for="email_long">Ostja e-mail:</label>
-                        <div class="col-sm-9">
+                        <label class="col-form-label col-sm-6 col-lg-3" for="email_long">Ostja e-mail:</label>
+                        <div class="col-sm-6 col-lg-9">
                             <input id="email_long" type="text" class="form-control" th:field="*{buyersEmail}" name="email_long"/>
                             <span th:if="${#fields.hasErrors('buyersEmail')}" class="glyphicon glyphicon-remove form-control-feedback"></span>
                         </div>
                     </div>
                     <div class="form-group" th:classappend="${#fields.hasErrors('ownersPhoneNr')} ? 'has-error has-feedback'">
-                        <label class="col-form-label col-sm-3" for="phone_number_long">Omaniku telefoninumber:</label>
-                        <div class="col-sm-9">
+                        <label class="col-form-label col-sm-6 col-lg-3" for="phone_number_long">Omaniku telefoninumber:</label>
+                        <div class="col-sm-6 col-lg-9">
                             <input id="phone_number_long" type="number" class="form-control" th:field="*{ownersPhoneNr}" name="phone_number_long"/>
                             <span th:if="${#fields.hasErrors('ownersPhoneNr')}" class="glyphicon glyphicon-remove form-control-feedback"></span>
                         </div>
                     </div>
                     <div class="form-group"
                          th:classappend="${#fields.hasErrors('raceBeginningDate')} ? 'has-error has-feedback'">
-                        <label class="col-form-label col-sm-3" for="search_date_long">Alguskuupäev:</label>
-                        <div class="col-sm-9">
+                        <label class="col-form-label col-sm-6 col-lg-3" for="search_date_long">Alguskuupäev:</label>
+                        <div class="col-sm-6 col-lg-9">
                             <input id="search_date_long" th:field="*{raceBeginningDate}" class="form-control" required="required" name="search_date"/>
                             <span th:if="${#fields.hasErrors('raceBeginningDate')}" class="glyphicon glyphicon-remove form-control-feedback"></span>
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-sm-offset-3 col-sm-9">
+                        <div class="col-sm-offset-6 col-lg-offset-3 col-sm-6 col-lg-9">
                             <input id="search_long" type="submit" class="btn btn-default" value="Otsi!"/>
                         </div>
                     </div>
@@ -81,26 +82,26 @@
                         <div class="col-sm-3">
                             <label>
                                 <input th:id="checkSerialNumber" th:field="*{checkSerialNumber}" type="checkbox"/>
-                                <span class="weight400" th:text="#{search.table_header.duck_serial_no}"></span>
+                                <span class="search-check-label" th:text="#{search.table_header.duck_serial_no}"></span>
                             </label>
                         </div>
                         <div class="col-sm-3">
                             <label>
                                 <input th:id="checkBuyerEmail" th:field="*{checkBuyerEmail}" type="checkbox"/>
-                                <span class="weight400" th:text="#{search.table_header.buyer_email}"></span>
+                                <span class="search-check-label" th:text="#{search.table_header.buyer_email}"></span>
 
                             </label>
                         </div>
                         <div class="col-sm-3">
                             <label>
                                 <input th:id="checkIsPaid" th:field="*{checkIsPaid}" type="checkbox"/>
-                                <span class="weight400" th:text="#{search.table_header.is_paid}"></span>
+                                <span class="search-check-label" th:text="#{search.table_header.is_paid}"></span>
                             </label>
                         </div>
                         <div class="col-sm-3">
                             <label>
                                 <input th:id="checkRace" th:field="*{checkRace}" type="checkbox"/>
-                                <span class="weight400" th:text="#{search.table_header.race_name}"></span>
+                                <span class="search-check-label" th:text="#{search.table_header.race_name}"></span>
                             </label>
                         </div>
                     </div>
@@ -108,25 +109,25 @@
                         <div class="col-sm-3">
                             <label>
                                 <input th:id="checkOwnerFirstName" th:field="*{checkOwnerFirstName}" type="checkbox"/>
-                                <span class="weight400" th:text="#{search.table_header.owner_first_name}"></span>
+                                <span class="search-check-label" th:text="#{search.table_header.owner_first_name}"></span>
                             </label>
                         </div>
                         <div class="col-sm-3">
                             <label>
                                 <input th:id="checkIdentificationCode" th:field="*{checkIdentificationCode}" type="checkbox"/>
-                                <span class="weight400" th:text="#{search.table_header.identification_code}"></span>
+                                <span class="search-check-label" th:text="#{search.table_header.identification_code}"></span>
                             </label>
                         </div>
                         <div class="col-sm-3">
                             <label>
                                 <input th:id="checkTimeOfPayment" th:field="*{checkTimeOfPayment}" type="checkbox"/>
-                                <span class="weight400" th:text="#{search.table_header.payment_time}"></span>
+                                <span class="search-check-label" th:text="#{search.table_header.payment_time}"></span>
                             </label>
                         </div>
                         <div class="col-sm-3">
                             <label>
                                 <input th:id="checkInserter" th:field="*{checkInserter}" type="checkbox"/>
-                                <span class="weight400" th:text="#{search.table_header.inserter}"></span>
+                                <span class="search-check-label" th:text="#{search.table_header.inserter}"></span>
                             </label>
                         </div>
                     </div>
@@ -134,25 +135,25 @@
                         <div class="col-sm-3">
                             <label>
                                 <input th:id="checkOwnerLastName" th:field="*{checkOwnerLastName}" type="checkbox"/>
-                                <span class="weight400" th:text="#{search.table_header.owner_last_name}"></span>
+                                <span class="search-check-label" th:text="#{search.table_header.owner_last_name}"></span>
                             </label>
                         </div>
                         <div class="col-sm-3">
                             <label>
                                 <input th:id="checkPrice" th:field="*{checkPrice}" type="checkbox"/>
-                                <span class="weight400" th:text="#{search.table_header.donation}"></span>
+                                <span class="search-check-label" th:text="#{search.table_header.donation}"></span>
                             </label>
                         </div>
                         <div class="col-sm-3">
                             <label>
                                 <input th:id="checkBank" th:field="*{checkBank}" type="checkbox"/>
-                                <span class="weight400" th:text="#{search.table_header.bank_name}"></span>
+                                <span class="search-check-label" th:text="#{search.table_header.bank_name}"></span>
                             </label>
                         </div>
                         <div class="col-sm-3">
                             <label>
                                 <input th:id="checkIpAddr" th:field="*{checkIpAddr}" type="checkbox"/>
-                                <span class="weight400" th:text="#{search.table_header.ip}"></span>
+                                <span class="search-check-label" th:text="#{search.table_header.ip}"></span>
                             </label>
                         </div>
                     </div>
@@ -160,19 +161,19 @@
                         <div class="col-sm-3">
                             <label>
                                 <input th:id="checkOwnerPhoneNo" th:field="*{checkOwnerPhoneNo}" type="checkbox"/>
-                                <span class="weight400" th:text="#{search.table_header.owner_phone}"></span>
+                                <span class="search-check-label" th:text="#{search.table_header.owner_phone}"></span>
                             </label>
                         </div>
                         <div class="col-sm-3">
                             <label>
                                 <input th:id="checkTid" th:field="*{checkTid}" type="checkbox"/>
-                                <span class="weight400" th:text="#{search.table_header.transaction_no}"></span>
+                                <span class="search-check-label" th:text="#{search.table_header.transaction_no}"></span>
                             </label>
                         </div>
                         <div class="col-sm-3">
                             <label>
                                 <input th:id="checkEmailSent" th:field="*{checkEmailSent}" type="checkbox"/>
-                                <span class="weight400" th:text="#{search.table_header.confirmation_email}"></span>
+                                <span class="search-check-label" th:text="#{search.table_header.confirmation_email}"></span>
                             </label>
                         </div>
                     </div>

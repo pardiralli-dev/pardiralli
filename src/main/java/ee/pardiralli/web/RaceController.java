@@ -77,21 +77,21 @@ public class RaceController {
             } else {
                 ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Viga sisendis!");
             }
-
         } else {
-            if (canManipulateRace(raceDTO)) {
+            if (checkInput(raceDTO)) {
                 raceService.updateRace(raceDTO);
-                ControllerUtil.setFeedback(model, FeedbackType.INFO,
+                ControllerUtil.setFeedback(model, FeedbackType.SUCCESS,
                         raceDTO.getIsOpen() ? "Pardiralli edukalt avatud" : "Pardiralli edukalt suletud!");
             } else {
                 ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Korraga saab olla avatud ainult üks Pardiralli!");
             }
         }
+        // Do not move this forward as we need to send updated DTO
         model.addAttribute("races", raceService.findAllRaces());
         return "admin/settings";
     }
 
-    private Boolean canManipulateRace(RaceDTO raceDTO) {
+    private Boolean checkInput(RaceDTO raceDTO) {
         return raceDTO.getId() != null && raceDTO.getIsOpen() != null && raceService.raceExists(raceDTO) &&
                 (raceService.hasNoOpenedRaces() && raceDTO.getIsOpen() || !raceDTO.getIsOpen());
     }

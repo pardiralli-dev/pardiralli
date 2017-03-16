@@ -4,6 +4,7 @@
     <title>Annetuse kinnitamine</title>
     <meta charset="UTF-8"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Merriweather+Sans:300,400"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/sniglet.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
@@ -48,15 +49,15 @@
         <div class="panel panel-default donation-summary-text">
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-sm-2">Annetus kokku:</div>
-                    <div class="col-sm-10">
+                    <div class="col-sm-5 col-lg-2">Annetus kokku:</div>
+                    <div class="col-sm-7 col-lg-10">
                         <!--/*@thymesVar id="totalSum" type="java.lang.Integer"*/-->
                         <div class="weight400"><span th:text="${totalSum}" th:remove="tag"></span> €</div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-2">E-post:</div>
-                    <div class="col-sm-10">
+                    <div class="col-sm-5 col-lg-2">E-post:</div>
+                    <div class="col-sm-7 col-lg-10">
                         <div class="weight400" th:text="${donation.getBuyerEmail()}"></div>
                     </div>
                 </div>
@@ -68,25 +69,25 @@
                     <div class="col-md-3 text-center border-right">
                         <a class="btn center-block btn-banklink" th:href="@{/banklink/swedbank/pay}">
                             <span class="banklink-text">Swedbank</span>
-                            <img class="banklink-logo" src="css/images/swedbank-logo.png" alt="Swedbank"/>
+                            <img class="banklink-logo" th:src="@{/css/images/swedbank-logo.png}" alt="Swedbank"/>
                         </a>
                     </div>
                     <div class="col-md-3 text-center border-right">
                         <a class="btn center-block btn-banklink" th:href="@{/banklink/seb/pay}">
                             <span class="banklink-text">SEB</span>
-                            <img class="banklink-logo" src="css/images/seb-logo.png" alt="SEB"/>
+                            <img class="banklink-logo" th:src="@{/css/images/seb-logo.png}" alt="SEB"/>
                         </a>
                     </div>
                     <div class="col-md-3 text-center border-right">
                         <a class="btn center-block btn-banklink" th:href="@{/banklink/lhv/pay}">
                             <span class="banklink-text">LHV</span>
-                            <img class="banklink-logo" src="css/images/lhv-logo.png" alt="LHV"/>
+                            <img class="banklink-logo" th:src="@{/css/images/lhv-logo.png}" alt="LHV"/>
                         </a>
                     </div>
                     <div class="col-md-3 text-center">
                         <a class="btn center-block btn-banklink" th:href="@{/banklink/nordea/pay}">
                             <span class="banklink-text">Nordea</span>
-                            <img class="banklink-logo" src="css/images/nordea-logo.png" alt="Nordea"/>
+                            <img class="banklink-logo" th:src="@{/css/images/nordea-logo.png}" alt="Nordea"/>
                         </a>
                     </div>
                 </div>

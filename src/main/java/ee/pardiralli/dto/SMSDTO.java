@@ -11,6 +11,9 @@ import java.util.Map;
 @Data
 public class SMSDTO {
 
+    /**
+     * Maps phone numbers of owners to the serial numbers of ducks bought for them.
+     */
     @NotEmpty
     private Map<String, List<String>> serialNrMap;
 }

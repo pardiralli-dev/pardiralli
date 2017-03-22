@@ -2,7 +2,7 @@ package ee.pardiralli.service;
 
 import ee.pardiralli.domain.CurrentUser;
 import ee.pardiralli.wp.UsersRepository;
-import ee.pardiralli.wp.WpUsers;
+import ee.pardiralli.wp.PrUsers;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        WpUsers user = usersRepository.findOneByUserLogin(username)
+        PrUsers user = usersRepository.findOneByUserLogin(username)
                 .orElseThrow(() -> {
                     log.warn("Login attempt with invalid username '{}'", username);
                     return new UsernameNotFoundException(String.format("Username '%s' not found", username));

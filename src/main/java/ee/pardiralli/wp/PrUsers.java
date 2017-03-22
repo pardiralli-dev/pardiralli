@@ -13,7 +13,7 @@ import java.math.BigInteger;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class WpUsers {
+public class PrUsers {
     @Id
     private BigInteger id;
 

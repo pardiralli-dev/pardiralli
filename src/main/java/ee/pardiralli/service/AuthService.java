@@ -1,8 +1,8 @@
 package ee.pardiralli.service;
 
-import ee.pardiralli.wp.WpUsers;
+import ee.pardiralli.wp.PrUsers;
 
 public interface AuthService {
 
-    boolean userIsWPAdmin(WpUsers wpUser);
+    boolean userIsWPAdmin(PrUsers wpUser);
 }

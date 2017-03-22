@@ -4,7 +4,7 @@ import de.ailis.pherialize.MixedArray;
 import de.ailis.pherialize.Pherialize;
 import de.ailis.pherialize.exceptions.UnserializeException;
 import ee.pardiralli.wp.UserMetaRepository;
-import ee.pardiralli.wp.WpUsers;
+import ee.pardiralli.wp.PrUsers;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ public class AuthServiceImpl implements AuthService {
     private final UserMetaRepository userMetaRepository;
 
     @Override
-    public boolean userIsWPAdmin(WpUsers wpUser) {
+    public boolean userIsWPAdmin(PrUsers wpUser) {
         String capabilities = userMetaRepository.findCapsByUser(wpUser);
 
         try {

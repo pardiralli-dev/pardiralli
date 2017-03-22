@@ -2,7 +2,7 @@ package ee.pardiralli.configuration;
 
 
 import ee.pardiralli.wp.UsersRepository;
-import ee.pardiralli.wp.WpUsers;
+import ee.pardiralli.wp.PrUsers;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy;
@@ -40,7 +40,7 @@ public class WpDbConfiguration {
         LocalContainerEntityManagerFactoryBean builder = new LocalContainerEntityManagerFactoryBean();
         builder.setDataSource(wpDataSource());
         builder.setJpaVendorAdapter(jpaVendorAdapter);
-        builder.setPackagesToScan(WpUsers.class.getPackage().getName());
+        builder.setPackagesToScan(PrUsers.class.getPackage().getName());
         builder.setJpaPropertyMap(jpaProperties());
         return builder;
     }

@@ -14,14 +14,14 @@ import java.math.BigInteger;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class WpUsermeta {
+public class PrUsermeta {
 
     @Id
     private BigInteger id;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private WpUsers user;
+    private PrUsers user;
 
     private String metaKey;
 

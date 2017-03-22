@@ -50,4 +50,5 @@ dependencies {
     compile files('lib/pherialize-1.2.1.jar')
     testCompile('org.springframework.boot:spring-boot-starter-test')
     runtime('org.postgresql:postgresql')
+    compile group: 'mysql', name: 'mysql-connector-java', version: '6.0.6'
 }

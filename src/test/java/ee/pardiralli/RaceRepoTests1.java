@@ -37,14 +37,14 @@ public class RaceRepoTests1 {
         raceRepository.deleteAll();
         races = new ArrayList<>();
         for (int i = 0; i < trueCount; i++) {
-            LocalDate start =  LocalDate.of(2016, Month.JANUARY, i+1);
-            LocalDate finish =  LocalDate.of(2016, Month.JANUARY, i+2);
-            races.add(raceRepository.save(new Race(i, start, finish, "s", "some", true)));
+            LocalDate start = LocalDate.of(2016, Month.JANUARY, i + 1);
+            LocalDate finish = LocalDate.of(2016, Month.JANUARY, i + 2);
+            races.add(raceRepository.save(new Race(i, start, finish, "some", true)));
         }
         for (int i = 0; i < falseCount; i++) {
-            LocalDate start =  LocalDate.of(2016, Month.FEBRUARY, i+1);
-            LocalDate finish =  LocalDate.of(2016, Month.FEBRUARY, i+2);
-            races.add(raceRepository.save(new Race(i, start, finish, "s", "some", false)));
+            LocalDate start = LocalDate.of(2016, Month.FEBRUARY, i + 1);
+            LocalDate finish = LocalDate.of(2016, Month.FEBRUARY, i + 2);
+            races.add(raceRepository.save(new Race(i, start, finish, "some", false)));
         }
     }
 

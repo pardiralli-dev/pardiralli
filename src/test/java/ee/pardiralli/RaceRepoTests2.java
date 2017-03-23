@@ -41,18 +41,18 @@ public class RaceRepoTests2 {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         beginning1 = LocalDate.parse("12-02-2399", formatter);
         finish1 = LocalDate.parse("19-12-2400", formatter);
-        race1 = new Race(beginning1, finish1, "s", "s", true);
+        race1 = new Race(beginning1, finish1, "s", true);
         race1 = raceRepository.save(race1);
 
         beginning2 = LocalDate.parse("13-02-2499", formatter);
         finish2 = LocalDate.parse("18-12-2500", formatter);
-        race2 = new Race(beginning2, finish2, "s", "s", true);
+        race2 = new Race(beginning2, finish2, "s", true);
         race2 = raceRepository.save(race2);
 
 
         beginning3 = LocalDate.parse("13-02-2001", formatter);
         finish3 = LocalDate.parse("18-12-2002", formatter);
-        race3 = new Race(beginning3, finish3, "s", "s", true);
+        race3 = new Race(beginning3, finish3, "s", true);
         race3 = raceRepository.save(race3);
     }
 

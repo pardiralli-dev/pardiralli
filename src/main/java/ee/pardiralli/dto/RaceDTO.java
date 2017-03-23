@@ -29,9 +29,6 @@ public class RaceDTO implements Comparable<RaceDTO> {
     @Size(max = 50)
     private String raceName;
 
-    @NotNull
-    @Size(max = 2000)
-    private String description;
 
     @NotNull
     private Boolean isOpen;

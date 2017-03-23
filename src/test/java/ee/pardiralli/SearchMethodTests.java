@@ -65,11 +65,11 @@ public class SearchMethodTests {
         String lName3 = "Keemik";
 
         purchaseDate1 = LocalDate.of(2017, Month.JANUARY, 2);
-        Race race = raceRepository.save(new Race(purchaseDate1, LocalDate.now(), "s", "some", true));
+        Race race = raceRepository.save(new Race(purchaseDate1, LocalDate.now(), "some", true));
 
-        DuckOwner duckOwner1 = ownerRepository.save(new DuckOwner(1,fName1, lName1, "55764383"));
-        DuckOwner duckOwner2 = ownerRepository.save(new DuckOwner(2,fName2, lName2, "55364383"));
-        DuckOwner duckOwner3 = ownerRepository.save(new DuckOwner(3,fName3, lName3, "55264383"));
+        DuckOwner duckOwner1 = ownerRepository.save(new DuckOwner(1, fName1, lName1, "55764383"));
+        DuckOwner duckOwner2 = ownerRepository.save(new DuckOwner(2, fName2, lName2, "55364383"));
+        DuckOwner duckOwner3 = ownerRepository.save(new DuckOwner(3, fName3, lName3, "55264383"));
 
 
         DuckBuyer duckBuyer1 = buyerRepository.save(new DuckBuyer(1, "test@gmail.com", "49601123444"));

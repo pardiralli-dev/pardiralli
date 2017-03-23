@@ -13,7 +13,6 @@ $(document).ready(function () {
     var donationData;
     var duckData;
     var subtitle;
-    var current_description;
 
     // Remove spinner
     $(document).ajaxStop(function () {
@@ -25,18 +24,15 @@ $(document).ready(function () {
         current_row_id = $(this).data('selector');
         current_start = $(this).data('start');
         current_end = $(this).data('end');
-        current_description = $(this).data('desc');
 
         var chart_row = $('#info' + current_row_id);
         var loader_row = $('#info2' + current_row_id);
-        var description_row = $('#info3' + current_row_id);
 
         $(".chart_").remove();
         chart_row.append('<br>');
         chart_row.append('<div id="linechart_donations" class="chart_ container-fluid"></div>');
         chart_row.append('<div id="linechart_ducks" class="chart_ container-fluid"></div>');
         loader_row.append('<div class="loader loadingDiv container-fluid"></div>');
-        description_row.append('<div class="chart_">Kirjeldus:</div><div>' + current_description + '</div>');
         callDrawCharts();
     });
 

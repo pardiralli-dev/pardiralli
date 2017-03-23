@@ -38,7 +38,6 @@ public class RaceServiceImpl implements RaceService {
                 new Race(dto.getBeginning(),
                         dto.getFinish(),
                         dto.getRaceName(),
-                        dto.getDescription(),
                         dto.getIsOpen()));
         serialNumberService.resetSerial();
         log.info("New race {} was added.", race.toString());
@@ -64,7 +63,6 @@ public class RaceServiceImpl implements RaceService {
                         r.getBeginning(),
                         r.getFinish(),
                         r.getRaceName(),
-                        r.getDescription(),
                         r.getIsOpen(),
                         false))
                 .collect(Collectors.toList());

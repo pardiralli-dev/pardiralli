@@ -1,11 +1,17 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<body style="font-family: Arial, Helvetica, sans-serif;font-size:14px;">
-<div style="padding:15px;margin:auto;">
-    <div style="margin:10px;font-size:18px;">T&auml;name, et toetate Pardirallit!</div>
-    <table style="text-align:left;border-collapse:collapse;width:100%;margin-bottom:20px;border-radius:5px;color:#333;background-color:#fff020;">
+<body style="font-size:14px; background-image: url(https://pardiralli.ee/wrxgjzylyn/css/images/background.jpg); font-family:'Helvetica Neue', Helvetica, Arial, sans-serif; color: #142e64;">
+<div style="padding:15px; margin:auto; background-color: rgba(255,255,255,0.25); ">
+    <div style="margin:10px; font-size:18px; "></div>
+    <table style="text-align:left; border-collapse:collapse; width:100%; margin-bottom:20px; border-radius:5px;">
         <thead>
         <tr>
+            <th colspan="5" style="padding:8px;">
+                <img style="width: 50px; vertical-align:middle;" src="https://pardiralli.ee/wrxgjzylyn/css/images/main-logo.png"/>
+                <span style="padding:16px; font-size: 24px; font-weight: 400; vertical-align:middle;">T&auml;name, et toetate Pardirallit!</span>
+            </th>
+        </tr>
+        <tr style="background-color:rgba(248,253,212,0.7);">
             <th style="padding:8px;">Pardi number</th>
             <th style="padding:8px;">Omaniku eesnimi</th>
             <th style="padding:8px;">Omaniku perenimi</th>
@@ -14,7 +20,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="duck:${dto.getDucks()}" style="border-top:1px solid #ffffff;">
+        <tr th:each="duck:${dto.getDucks()}" style="border-top:2px solid rgb(255,255,255); background-color:rgba(248,253,212,0.7);">
             <td th:text="${duck.getSerialNumber()}" style="padding:8px;"></td>
             <td th:text="${duck.getOwnerFirstName()}" style="padding:8px;"></td>
             <td th:text="${duck.getOwnerLastName()}" style="padding:8px;"></td>
@@ -23,9 +29,10 @@
         </tr>
         </tbody>
     </table>
-    <div th:text="'Tehingu nr: '+${dto.getTransactionID()}" style="color:#333;font-weight:bold;padding:10px;border-top-left-radius:5px;border-top-right-radius:5px;background-color:#fff020;"></div>
-    <div th:text="'Summa: '+${dto.getPaymentSum()} + ' eurot'" style="color:#333;font-weight:bold;padding:10px;background-color:#fff020;"></div>
-    <div style="color:#333;font-weight:bold;padding:10px;border-bottom-left-radius:5px;border-bottom-right-radius: 5px;background-color:#fff020;">EVLVL (Eesti Vähihaigete Laste Vanemate Liit) | Registrikood: 80096899 | info@vahilapsed.ee</div>
+    <div style="margin-bottom: 10px; padding:10px; border-top-left-radius:5px; border-top-right-radius:5px; background-color:rgba(248,253,212,0.7);">
+        Tehingu nr: <span style="font-weight:bold;" th:text="${dto.getTransactionID()}"></span>
+    </div>
+    <div style="padding:10px; background-color:rgba(248,253,212,0.7);">Summa kokku: <span style="font-weight:bold;" th:text="${dto.getPaymentSum()}"></span><span style="font-weight: bold"> &euro;</span></div>
 </div>
 </body>
 </html>

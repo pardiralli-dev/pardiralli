@@ -19,6 +19,10 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public boolean userIsWPAdmin(PrUsers wpUser) {
         String capabilities = userMetaRepository.findCapsByUser(wpUser);
+        if (capabilities == null) {
+            log.error("User '{}' WP capabilities not found!", wpUser.getUserLogin());
+            return false;
+        }
 
         try {
             MixedArray array = Pherialize.unserialize(capabilities).toArray();

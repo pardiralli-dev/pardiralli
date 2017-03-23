@@ -5,6 +5,7 @@ function queryEmailSucessful() {
         url: window.location.protocol + '//' + $('#root_url').text() + "/rest/conf-email-check",
         type: 'GET',
         data: {tid: $('#tid').text()},
+        crossDomain: true,
         cache: false,
         success: function (data) {
             if (data.emailSent === true) {
@@ -35,6 +36,7 @@ function querySmsSucessful() {
         url: window.location.protocol + '//' + $('#root_url').text() + "/rest/conf-sms-check",
         type: 'GET',
         data: {tid: $('#tid').text()},
+        crossDomain: true,
         cache: false,
         success: function (data) {
             if (data.smsSent === true) {

@@ -16,7 +16,7 @@ public class CounterAjaxController {
 
 
     @GetMapping("/counter_ajax")
-    @CrossOrigin(origins = {"http://localhost:8080", "http://www.pardiralli.ee"})
+    @CrossOrigin(origins = {"http://localhost:8080", "https://www.pardiralli.ee"})
     public CounterDTO getDuckCount() {
         return counterService.queryCounter();
     }

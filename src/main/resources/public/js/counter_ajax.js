@@ -209,8 +209,7 @@ function queryDonationCounter() {
         url: window.location.protocol + '//' + $('#root_url').text() + "/counter_ajax",
         type: 'GET',
         cache: false,
-        // Note that Chrome's bug does not allow CORS from localhost
-        crossDomain: true, // for testing from localhost
+        crossDomain: true,
         success: function (data) {
             console.log('Updating counters');
             updateCounters(data.donationSum, data.duckCount);

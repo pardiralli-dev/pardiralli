@@ -17,8 +17,8 @@ public class SwedbankRequestModel extends RequestModel {
     private String VK_STAMP;
     private String VK_AMOUNT;
     private String VK_CURR = "EUR";
-    private String VK_ACC = "EE162200221062611517";
-    private String VK_NAME = "PRIIT PALUOJA";
+    private String VK_ACC = "EE562200221064019722";
+    private String VK_NAME = "EESTI VÄHIHAIGETE LASTE VANEMATE LIIT";
     private String VK_REF = "";
     private String VK_MSG;
     private String VK_RETURN =  String.format("https://www.pardiralli.ee/wrxgjzylyn/banklink/%s/success", Bank.swedbank);

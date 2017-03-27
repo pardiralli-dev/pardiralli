@@ -43,20 +43,30 @@ public class BankResponseController {
             log.info("Legal payment response received");
 
             Integer tid = Integer.valueOf(responseModel.getStamp());
-            Transaction transaction = paymentService.setTransactionPaid(tid);
-            List<Duck> ducks = paymentService.setSerialNumbers(transaction);
-            List<DuckDTO> duckDTOs = BanklinkUtil.ducksToDTO(ducks);
-            DuckBuyer buyer = BanklinkUtil.buyerFromDucks(ducks);
-            String totalSum = paymentService.transactionAmount(tid);
-            PurchaseInfoDTO purchaseInfoDTO = new PurchaseInfoDTO(duckDTOs, buyer.getEmail(), totalSum, tid.toString());
+            PurchaseInfoDTO purchaseInfoDTO;
 
-            mailService.sendConfirmationEmail(purchaseInfoDTO);
-
-            // TODO: 15.03.2017 works only with registered numbers
-            // smsService.sendSMSToAllOwners(BanklinkUtil.getMessages(ducks));
+            // If this was the first callback, perform additional tasks & update DTO as well
+            if (!paymentService.isTransactionPaid(tid)) {
+                paymentService.setTransactionPaid(tid);
+                List<Duck> ducks = paymentService.setSerialNumbers(tid);
+                List<DuckDTO> duckDTOs = BanklinkUtil.ducksToDTO(ducks);
+                DuckBuyer buyer = BanklinkUtil.buyerFromDucks(ducks);
+                String totalSum = paymentService.transactionAmount(tid);
+                purchaseInfoDTO = new PurchaseInfoDTO(duckDTOs, buyer.getEmail(), totalSum, tid.toString());
+                mailService.sendConfirmationEmail(purchaseInfoDTO);
+                // smsService.sendSMSToAllOwners(BanklinkUtil.getMessages(ducks)); // works only with registered numbers
+            } else {
+                List<Duck> ducks = paymentService.getDucks(tid);
+                log.info("{}", ducks);
+                List<DuckDTO> duckDTOs = BanklinkUtil.ducksToDTO(ducks);
+                DuckBuyer buyer = BanklinkUtil.buyerFromDucks(ducks);
+                String totalSum = paymentService.transactionAmount(tid);
+                purchaseInfoDTO = new PurchaseInfoDTO(duckDTOs, buyer.getEmail(), totalSum, tid.toString());
+            }
 
             model.addAttribute("purchaseInfo", purchaseInfoDTO);
             return "donation/payment_successful";
+
         } catch (IllegalResponseException | IllegalTransactionException e) {
             log.error("successResponse unsuccessful", e);
             throw new RuntimeException(e);

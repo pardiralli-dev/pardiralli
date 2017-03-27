@@ -17,21 +17,20 @@ public class SwedbankRequestModel extends RequestModel {
     private String VK_STAMP;
     private String VK_AMOUNT;
     private String VK_CURR = "EUR";
-    private String VK_ACC = "EE382200221001116031";
+    private String VK_ACC = "EE562200221064019722";
     private String VK_NAME = "EESTI VÄHIHAIGETE LASTE VANEMATE LIIT";
-    private String VK_REF;
+    private String VK_REF = "";
     private String VK_MSG;
-    private String VK_RETURN = String.format("https://www.pardiralli.ee/wrxgjzylyn/banklink/%s/success", Bank.swedbank);
+    private String VK_RETURN =  String.format("https://www.pardiralli.ee/wrxgjzylyn/banklink/%s/success", Bank.swedbank);
     private String VK_CANCEL = String.format("https://www.pardiralli.ee/wrxgjzylyn/banklink/%s/fail", Bank.swedbank);
     private String VK_DATETIME = BanklinkUtil.currentDateTimeAsString();
     private String VK_MAC;
     private String VK_ENCODING = "UTF-8";
     private String VK_LANG = "EST";
 
-    public SwedbankRequestModel(String amount, String stamp, String referenceNumber, String paymentDescription) {
+    public SwedbankRequestModel(String amount, String stamp, String paymentDescription) {
         this.VK_AMOUNT = "0.01";//amount;
         this.VK_STAMP = stamp;
-        this.VK_REF = referenceNumber;
         this.VK_MSG = paymentDescription;
         this.VK_MAC = BanklinkUtil.getMAC("swedbank-private.der",
                 Arrays.asList(VK_SERVICE, VK_VERSION, VK_SND_ID, VK_STAMP, VK_AMOUNT, VK_CURR, VK_ACC, VK_NAME,

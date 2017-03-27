@@ -6,33 +6,31 @@
     <table style="text-align:left; border-collapse:collapse; width:100%; margin-bottom:20px; border-radius:5px;">
         <thead>
         <tr>
-            <th colspan="5" style="padding:8px;">
+            <th colspan="4" style="padding:8px;">
                 <img style="width: 50px; vertical-align:middle;" src="https://pardiralli.ee/wrxgjzylyn/css/images/main-logo.png"/>
                 <span style="padding:16px; font-size: 24px; font-weight: 400; vertical-align:middle;">T&auml;name, et toetate Pardirallit!</span>
             </th>
         </tr>
-        <tr style="background-color:rgba(248,253,212,0.7);">
-            <th style="padding:8px;">Pardi number</th>
-            <th style="padding:8px;">Omaniku eesnimi</th>
-            <th style="padding:8px;">Omaniku perenimi</th>
-            <th style="padding:8px;">Omaniku telefoninumber</th>
+        <tr style="background-color:rgba(248,253,212,0.8);">
+            <th style="padding:8px;">Pardi nr</th>
+            <th style="padding:8px;">Omanik</th>
+            <th style="padding:8px;">Telefoninumber</th>
             <th style="padding:8px;">Hind</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="duck:${dto.getDucks()}" style="border-top:2px solid rgb(255,255,255); background-color:rgba(248,253,212,0.7);">
+        <tr th:each="duck:${dto.getDucks()}" style="border-top:2px solid rgb(255,255,255); background-color:rgba(248,253,212,0.8);">
             <td th:text="${duck.getSerialNumber()}" style="padding:8px;"></td>
-            <td th:text="${duck.getOwnerFirstName()}" style="padding:8px;"></td>
-            <td th:text="${duck.getOwnerLastName()}" style="padding:8px;"></td>
+            <td th:text="${duck.getOwnerFirstName()} + ' ' + ${duck.getOwnerLastName()}" style="padding:8px;"></td>
             <td th:text="${duck.getOwnerPhoneNo()}" style="padding:8px;"></td>
             <td th:text="${duck.getPrice()}" style="padding:8px;"></td>
         </tr>
         </tbody>
     </table>
-    <div style="margin-bottom: 10px; padding:10px; border-top-left-radius:5px; border-top-right-radius:5px; background-color:rgba(248,253,212,0.7);">
+    <div style="margin-bottom: 10px; padding:10px; border-top-left-radius:5px; border-top-right-radius:5px; background-color:rgba(248,253,212,0.8);">
         Tehingu nr: <span style="font-weight:bold;" th:text="${dto.getTransactionID()}"></span>
     </div>
-    <div style="padding:10px; background-color:rgba(248,253,212,0.7);">Summa kokku: <span style="font-weight:bold;" th:text="${dto.getPaymentSum()}"></span><span style="font-weight: bold"> &euro;</span></div>
+    <div style="padding:10px; background-color:rgba(248,253,212,0.8);">Annetus kokku: <span style="font-weight:bold;" th:text="${dto.getPaymentSum()}"></span><span style="font-weight: bold"> &euro;</span></div>
 </div>
 </body>
 </html>

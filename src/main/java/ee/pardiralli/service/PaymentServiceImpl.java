@@ -191,11 +191,20 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public List<Duck> setSerialNumbers(Transaction transaction) {
-        return duckRepository.findByTransactionId(transaction.getId()).stream()
+    public List<Duck> setSerialNumbers(Integer tid) {
+        return duckRepository.findByTransactionId(tid).stream()
                 .map(this::setSerialNumber)
                 .map(duckRepository::save)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Duck> getDucks(Integer tid) {
+        List<Duck> ducks = duckRepository.findByTransactionId(tid);
+        if (ducks == null) {
+            throw new RuntimeException(String.format("No ducks found with tid '%s'", tid));
+        }
+        return ducks;
     }
 
     @Override
@@ -204,6 +213,15 @@ public class PaymentServiceImpl implements PaymentService {
         log.info("Setting transaction as paid: {}", transaction);
         transaction.setIsPaid(true);
         return transactionRepository.save(transaction);
+    }
+
+    @Override
+    public Boolean isTransactionPaid(Integer tid) {
+        Transaction transaction = transactionRepository.findById(tid);
+        if (transaction == null) {
+            throw new RuntimeException(String.format("Transaction with tid '%s' not found", tid));
+        }
+        return transaction.getIsPaid();
     }
 
     private Duck setSerialNumber(Duck duck) {

@@ -65,17 +65,16 @@ public class BankRequestController {
     private RequestModel createRequestModel(Integer tid, Bank bank) throws IllegalTransactionException {
         String amount = paymentService.transactionAmount(tid);
         String stamp = tid.toString();
-        String ref = BanklinkUtil.genPaymentReferenceNumber();
         String description = BanklinkUtil.genPaymentDescription(tid);
         switch (bank) {
             case lhv:
-                return new LHVRequestModel(amount, stamp, ref, description);
+                return new LHVRequestModel(amount, stamp, description);
             case swedbank:
-                return new SwedbankRequestModel(amount, stamp, ref, description);
+                return new SwedbankRequestModel(amount, stamp, description);
             case seb:
-                return new SEBRequestModel(amount, stamp, ref, description);
+                return new SEBRequestModel(amount, stamp, description);
             case nordea:
-                return new NordeaRequestModel(amount, stamp, ref, description);
+                return new NordeaRequestModel(amount, stamp, description);
             default:
                 log.error("Illegal bank value");
                 throw new IllegalArgumentException("bank: " + bank);

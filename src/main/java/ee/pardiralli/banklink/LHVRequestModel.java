@@ -11,7 +11,6 @@ import java.util.Arrays;
 public class LHVRequestModel extends RequestModel {
     public static final String senderID = "PARDIRALLI";
 
-
     private String VK_SERVICE = "1011";
     private String VK_VERSION = "008";
     private String VK_SND_ID = senderID;
@@ -20,7 +19,7 @@ public class LHVRequestModel extends RequestModel {
     private String VK_CURR = "EUR";
     private String VK_ACC = "EE147700771001365866";
     private String VK_NAME = "EESTI VÄHIHAIGETE LASTE VANEMATE LIIT";
-    private String VK_REF;
+    private String VK_REF = "";
     private String VK_MSG;
     private String VK_RETURN = String.format("https://www.pardiralli.ee/wrxgjzylyn/banklink/%s/success", Bank.lhv);
     private String VK_CANCEL = String.format("https://www.pardiralli.ee/wrxgjzylyn/banklink/%s/fail", Bank.lhv);
@@ -29,10 +28,9 @@ public class LHVRequestModel extends RequestModel {
     private String VK_ENCODING = "UTF-8";
     private String VK_LANG = "EST";
 
-    public LHVRequestModel(String amount, String stamp, String referenceNumber, String paymentDescription) {
+    public LHVRequestModel(String amount, String stamp, String paymentDescription) {
         this.VK_AMOUNT = "0.01";//amount;
         this.VK_STAMP = stamp;
-        this.VK_REF = referenceNumber;
         this.VK_MSG = paymentDescription;
         this.VK_MAC = BanklinkUtil.getMAC("lhv-private.der",
                 Arrays.asList(VK_SERVICE, VK_VERSION, VK_SND_ID, VK_STAMP, VK_AMOUNT, VK_CURR, VK_ACC, VK_NAME,

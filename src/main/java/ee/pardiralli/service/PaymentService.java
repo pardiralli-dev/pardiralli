@@ -63,12 +63,18 @@ public interface PaymentService {
     int saveDonation(DonationFormDTO donation, String ipAddr, Bank bank);
 
     /**
-     * Set serial numbers of ducks that are related with given Transaction.
+     * Set serial numbers of ducks that are related with given Transaction ID.
      *
-     * @param transction
+     * @param tid Transaction ID
      * @return list of ducks whose serial numbers were set
      */
-    List<Duck> setSerialNumbers(Transaction transction);
+    List<Duck> setSerialNumbers(Integer tid);
+
+    List<Duck> getDucks(Integer tid);
 
     Transaction setTransactionPaid(Integer tid);
+
+    Boolean isTransactionPaid(Integer tid);
+
+
 }

@@ -45,14 +45,6 @@ public class BanklinkUtil {
     }
 
     /**
-     * @return bank payment reference number
-     */
-    public static String genPaymentReferenceNumber() {
-        // TODO: 11.11.16
-        return "1032360190009";
-    }
-
-    /**
      * @return bank payment description
      */
     public static String genPaymentDescription(Integer transactionId) {

@@ -69,11 +69,9 @@ public class PaymentServiceImpl implements PaymentService {
             Objects.requireNonNull(responseModel.getPaymentOrderReferenceNo());
             Objects.requireNonNull(responseModel.getPaymentOrderMessage());
             Objects.requireNonNull(responseModel.getSignature());
-            Objects.requireNonNull(responseModel.getEncoding());
-            Objects.requireNonNull(responseModel.getLanguage());
             Objects.requireNonNull(responseModel.getAutomaticResponse());
         } catch (NullPointerException e) {
-            throw new IllegalResponseException("Some parameters are missing");
+            throw new RuntimeException(e);
         }
 
         switch (responseModel.getBank()) {
@@ -102,7 +100,6 @@ public class PaymentServiceImpl implements PaymentService {
         if (isSuccessfulResponse) {
             // check additional parameters in case of successful response
             try {
-                Objects.requireNonNull(responseModel.getPaymentOrderNo());
                 Objects.requireNonNull(responseModel.getPaymentAmount());
                 Objects.requireNonNull(responseModel.getCurrency());
                 Objects.requireNonNull(responseModel.getRecipientAccountNo());
@@ -111,7 +108,7 @@ public class PaymentServiceImpl implements PaymentService {
                 Objects.requireNonNull(responseModel.getSenderName());
                 Objects.requireNonNull(responseModel.getPaymentOrderDateTime());
             } catch (NullPointerException e) {
-                throw new IllegalResponseException("Some parameters are missing");
+                throw new RuntimeException(e);
             }
 
             String expectedPaymentAmount = this.transactionAmount(transactionID);

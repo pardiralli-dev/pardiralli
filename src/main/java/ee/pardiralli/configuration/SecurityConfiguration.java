@@ -73,7 +73,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private class failureListener implements ApplicationListener<AuthenticationFailureBadCredentialsEvent> {
         @Override
         public void onApplicationEvent(AuthenticationFailureBadCredentialsEvent event) {
-            log.info("{} failed to log in.", event.getAuthentication().getName());
+            log.info("Bad login credentials for user {}", event.getAuthentication().getName());
             WebAuthenticationDetails auth = (WebAuthenticationDetails) event.getAuthentication().getDetails();
             loginAttemptService.loginFailed(auth.getRemoteAddress());
         }

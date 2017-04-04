@@ -24,9 +24,11 @@ public class UserServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        if (loginAttemptService.isBlocked(getClientIP())) {
-            log.warn("Denied login for user '{}'. Is blocked for too many login attempts", username);
-            throw new UsernameNotFoundException(String.format("User'%s' is blocked", username));
+        // NB! Considers only the last IP in the chain, might cause problems when several users are sitting behind the same IP
+        String ip = getClientIP();
+        if (loginAttemptService.isBlocked(ip)) {
+            log.warn("Denied login for user '{}' from IP {}. Is blocked for too many login attempts", username, ip);
+            throw new UsernameNotFoundException(String.format("User '%s' is blocked", username));
         }
 
         PrUsers user = usersRepository.findOneByUserLogin(username)

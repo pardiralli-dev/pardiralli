@@ -1,6 +1,7 @@
 package ee.pardiralli.db;
 
 import ee.pardiralli.domain.Duck;
+import ee.pardiralli.domain.DuckOwner;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -62,4 +63,6 @@ public interface DuckRepository extends CrudRepository<Duck, Integer> {
      */
     @Query("SELECT MAX(d.serialNumber) FROM Duck d WHERE d.race.id = :raceId")
     Integer findMaxSerial(@Param("raceId") Integer raceId);
+
+    List<Duck> findByDuckOwner(DuckOwner duckOwner);
 }

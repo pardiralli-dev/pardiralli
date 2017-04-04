@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="et">
+<head>
+    <title>Otsing</title>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Merriweather+Sans:300,400"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/sniglet.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/jquery-ui.css}"/>
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/counter_ajax.js}"></script>
+</head>
+<body>
+<div class="wrapper">
+    <div th:replace="fragments/menu :: side-menu"></div>
+    <div class="container container-general">
+        <div th:replace="fragments/menu :: admin-menu"></div>
+
+        <div sec:authorize="!isAuthenticated()" class="main-heading-wrap">
+            <h2 class="main-heading text-center">Pardiralli annetuskeskkond</h2>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <!--/*@thymesVar id="feedbackList" type="java.util.List<ee.pardiralli.feedback.Feedback>"*/-->
+                <div th:replace="fragments/feedback :: feedback-messages (feedbackList=${feedbackList})"></div>
+
+                <!--/*@thymesVar id="query" type="ee.pardiralli.dto.PublicSearchQueryDTO"*/-->
+                <form class="form-horizontal public-search" th:action="@{/ducks/search}" th:object="${query}" method="post">
+
+                    <div class="form-group" th:classappend="${#fields.hasErrors('ownersFirstName')} ? 'has-error has-feedback'">
+                        <label class="control-label col-sm-6 col-md-3" for="first_name" th:text="#{publicsearch.form.first_name}"></label>
+                        <div class="col-sm-6 col-md-9">
+                            <input id="first_name" type="text" class="form-control" th:field="*{ownersFirstName}"/>
+                            <span th:if="${#fields.hasErrors('ownersFirstName')}" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                            <div th:if="${#fields.hasErrors('ownersFirstName')}" class="err-msg-specific" th:text="#{publicsearch.form.err.too_few_chars}"></div>
+                        </div>
+                    </div>
+                    <div class="form-group" th:classappend="${#fields.hasErrors('ownersLastName')} ? 'has-error has-feedback'">
+                        <label class="control-label col-sm-6 col-md-3" for="last_name" th:text="#{publicsearch.form.last_name}"></label>
+                        <div class="col-sm-6 col-md-9">
+                            <input id="last_name" type="text" class="form-control" th:field="*{ownersLastName}"/>
+                            <span th:if="${#fields.hasErrors('ownersLastName')}" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                            <div th:if="${#fields.hasErrors('ownersLastName')}" class="err-msg-specific" th:text="#{publicsearch.form.err.too_few_chars}"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-6 col-md-offset-3 col-sm-6 col-md-9">
+                            <input type="submit" class="btn btn-default" value="Otsi"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!--/*@thymesVar id="results" type="java.util.List<ee.pardiralli.dto.PublicSearchResultDTO>"*/-->
+        <div th:if="${results?.size() > 0}" class="panel panel-default">
+            <div class="panel-body">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th th:text="#{publicsearch.table_header.owner}"></th>
+                        <th th:text="#{publicsearch.table_header.duck_no}"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="res : ${results}">
+                        <td><span th:text="${res.getOwnerFirstName()}"></span> <span th:text="${res.getOwnerLastName()}"></span></td>
+                        <td th:text="${res.getSerialNumber()}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div th:replace="fragments/footer :: footer"></div>
+    </div>
+</div>
+</body>
+</html>

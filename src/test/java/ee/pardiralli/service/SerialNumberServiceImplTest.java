@@ -52,9 +52,9 @@ public class SerialNumberServiceImplTest {
      */
     @Test
     public void testSerial() throws Exception {
-        Race race1 = new Race(1, of(2016, JANUARY, 20), of(2016, JANUARY, 22), "r1", "1", false);
-        Race race2 = new Race(2, of(2016, JANUARY, 23), of(2016, JANUARY, 25), "r2", "2", false);
-        Race race3 = new Race(3, of(2015, JANUARY, 23), of(2015, JANUARY, 25), "r3", "3", false);
+        Race race1 = new Race(1, of(2016, JANUARY, 20), of(2016, JANUARY, 22), "r1", false);
+        Race race2 = new Race(2, of(2016, JANUARY, 23), of(2016, JANUARY, 25), "r2", false);
+        Race race3 = new Race(3, of(2015, JANUARY, 23), of(2015, JANUARY, 25), "r3", false);
 
         race1 = raceRepository.save(race1);
         race2 = raceRepository.save(race2);

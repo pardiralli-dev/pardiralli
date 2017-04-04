@@ -18,7 +18,7 @@ public class BanklinkUtilTest {
     LocalDate dateTomorrow = LocalDate.now().plusDays(1);
     LocalDateTime dateTimeNow = LocalDateTime.now();
     LocalDateTime dateTimeYesterday = LocalDateTime.now().minusDays(1);
-    Race race = new Race(dateYesterday, dateTomorrow, "Reiss", "Desc", true);
+    Race race = new Race(dateYesterday, dateTomorrow, "Reiss", true);
     DuckOwner owner = new DuckOwner(1,"Kaisa", "Kundalini", "123");
     DuckOwner owner2 = new DuckOwner(2,"Kelvin", "Kabaree", "987");
     DuckBuyer buyer = new DuckBuyer(3,"kaisa@kundalini.com", "123");

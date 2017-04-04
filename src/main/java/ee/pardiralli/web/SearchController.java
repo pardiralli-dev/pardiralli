@@ -1,5 +1,7 @@
 package ee.pardiralli.web;
 
+import ee.pardiralli.dto.PublicSearchQueryDTO;
+import ee.pardiralli.dto.PublicSearchResultDTO;
 import ee.pardiralli.dto.SearchQueryDTO;
 import ee.pardiralli.dto.SearchResultDTO;
 import ee.pardiralli.feedback.FeedbackType;
@@ -19,7 +21,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -46,6 +47,25 @@ public class SearchController {
             }
         }
         return "admin/search";
+    }
+
+    @GetMapping("/ducks/search")
+    public String publicSearchTemplate(@ModelAttribute("query") PublicSearchQueryDTO query) {
+        return "public_search";
+    }
+
+    @PostMapping("/ducks/search")
+    public String publicSearchSubmit(@ModelAttribute("query") @Valid PublicSearchQueryDTO query, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Vigane päring! Kontrolli andmeid.");
+        } else {
+            List<PublicSearchResultDTO> results = searchService.publicQuery(query);
+            model.addAttribute("results", results);
+            if (results.isEmpty()) {
+                ControllerUtil.setFeedback(model, FeedbackType.INFO, "Sisestatud omanikuga parte ei leitud.");
+            }
+        }
+        return "public_search";
     }
 
     @InitBinder

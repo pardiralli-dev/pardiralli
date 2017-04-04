@@ -1,8 +1,11 @@
 package ee.pardiralli.service;
 
 import ee.pardiralli.db.DuckRepository;
+import ee.pardiralli.db.OwnerRepository;
 import ee.pardiralli.db.RaceRepository;
 import ee.pardiralli.domain.Duck;
+import ee.pardiralli.dto.PublicSearchQueryDTO;
+import ee.pardiralli.dto.PublicSearchResultDTO;
 import ee.pardiralli.dto.SearchQueryDTO;
 import ee.pardiralli.dto.SearchResultDTO;
 import ee.pardiralli.util.SearchUtil;
@@ -11,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,6 +23,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class SearchServiceImpl implements SearchService {
     private final DuckRepository duckRepository;
+    private final OwnerRepository ownerRepository;
     private final RaceRepository raceRepository;
 
     @Override
@@ -39,4 +44,19 @@ public class SearchServiceImpl implements SearchService {
         log.info("Search with query {} found results with {} ducks", userQuery, result.size());
         return result.stream().map(SearchUtil::duckToSearchResultDTO).collect(Collectors.toList());
     }
+
+    @Override
+    public List<PublicSearchResultDTO> publicQuery(PublicSearchQueryDTO query) {
+        return ownerRepository
+                .findByFirstNameContainingAndLastNameContainingAllIgnoreCase(query.getOwnersFirstName(), query.getOwnersLastName())
+                .stream()
+                .map(duckRepository::findByDuckOwner)
+                .flatMap(Collection::stream)
+                .map(d -> new PublicSearchResultDTO(
+                        d.getDuckOwner().getFirstName(),
+                        d.getDuckOwner().getLastName(),
+                        String.valueOf(d.getSerialNumber())))
+                .collect(Collectors.toList());
+    }
 }
+

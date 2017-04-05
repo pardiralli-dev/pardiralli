@@ -16,20 +16,21 @@
             <img class="main-logo" th:src="@{/css/images/main-logo.png}" alt="Pardiralli"/>
         </div>
         <div class="menu-wrap">
-            <a class="side-menu-link" th:classappend="${#httpServletRequest.getRequestURI() == '/'} ? 'active'" th:href="@{/}">
-                <img th:if="${#httpServletRequest.getRequestURI() == '/'}" class="side-menu-active-arrow" src="https://www.pardiralli.ee/wp-content/themes/pardiralli/img/nool.png"/>
+            <a class="side-menu-link" th:classappend="${#httpServletRequest.getRequestURI() == @environment.getProperty('root_prefix') + '/'} ? 'active'" th:href="@{/}">
+                <img th:if="${#httpServletRequest.getRequestURI() == @environment.getProperty('root_prefix') + '/'}" class="side-menu-active-arrow"
+                     src="https://www.pardiralli.ee/wp-content/themes/pardiralli/img/nool.png"/>
                 <span th:text="#{side_menu.link.donation_main}" th:remove="tag"></span>
             </a>
-            <a class="side-menu-link" th:classappend="${#httpServletRequest.getRequestURI() == '/ducks/search'} ? 'active'" th:href="@{/ducks/search}">
-                <img th:if="${#httpServletRequest.getRequestURI() == '/ducks/search'}" class="side-menu-active-arrow" src="https://www.pardiralli.ee/wp-content/themes/pardiralli/img/nool.png"/>
+            <a class="side-menu-link" th:classappend="${#httpServletRequest.getRequestURI() == @environment.getProperty('root_prefix') + '/ducks/search'} ? 'active'" th:href="@{/ducks/search}">
+                <img th:if="${#httpServletRequest.getRequestURI() == @environment.getProperty('root_prefix') + '/ducks/search'}" class="side-menu-active-arrow" src="https://www.pardiralli.ee/wp-content/themes/pardiralli/img/nool.png"/>
                 <span th:text="#{side_menu.link.duck_search}" th:remove="tag"></span>
             </a>
-            <a class="side-menu-link" href="http://www.pardiralli.ee/" th:text="#{side_menu.link.back_to_main}"></a>
+            <a class="side-menu-link" href="https://www.pardiralli.ee/" th:text="#{side_menu.link.back_to_main}"></a>
         </div>
 
         <div class="counters-wrap">
             <span style="display: none" th:text="${@environment.getProperty('root_url')}" th:id="root_url"></span>
-            <span>Soetatud parte:</span>
+            <span>Soetatud pardinumbreid:</span>
             <div id="counter_duck_count" class="counter">...</div>
             <span>Annetatud raha:</span>
             <div id="counter_donation_sum" class="counter">...</div>

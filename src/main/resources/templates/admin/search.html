@@ -27,35 +27,38 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     <div class="form-group" th:classappend="${#fields.hasErrors('serialNumber')} ? 'has-error has-feedback'">
-                        <label class="col-form-label col-sm-6 col-lg-3" for="search_quick_id">Otsi omanikku pardi ID järgi:</label>
+                        <label class="control-label col-sm-6 col-lg-3" for="search_quick_id">Pardi number:</label>
                         <div class="col-sm-6 col-lg-9">
                             <input id="search_quick_id" type="number" class="form-control" th:field="*{serialNumber}" name="search_quick_id"/>
                             <span th:if="${#fields.hasErrors('serialNumber')}" class="glyphicon glyphicon-remove form-control-feedback"></span>
                         </div>
                     </div>
+
+                    <hr/>
+
                     <div class="form-group" th:classappend="${#fields.hasErrors('ownersFirstName')} ? 'has-error has-feedback'">
-                        <label class="col-form-label col-sm-6 col-lg-3" for="first_name_long">Omaniku eesnimi:</label>
+                        <label class="control-label col-sm-6 col-lg-3" for="first_name_long">Omaniku eesnimi:</label>
                         <div class="col-sm-6 col-lg-9">
                             <input id="first_name_long" type="text" class="form-control" th:field="*{ownersFirstName}" name="first_name_long"/>
                             <span th:if="${#fields.hasErrors('ownersFirstName')}" class="glyphicon glyphicon-remove form-control-feedback"></span>
                         </div>
                     </div>
                     <div class="form-group" th:classappend="${#fields.hasErrors('ownersLastName')} ? 'has-error has-feedback'">
-                        <label class="col-form-label col-sm-6 col-lg-3" for="last_name_long">Omaniku perenimi:</label>
+                        <label class="control-label col-sm-6 col-lg-3" for="last_name_long">Omaniku perenimi:</label>
                         <div class="col-sm-6 col-lg-9">
                             <input id="last_name_long" type="text" class="form-control" th:field="*{ownersLastName}" name="last_name_long"/>
                             <span th:if="${#fields.hasErrors('ownersLastName')}" class="glyphicon glyphicon-remove form-control-feedback"></span>
                         </div>
                     </div>
                     <div class="form-group" th:classappend="${#fields.hasErrors('buyersEmail')} ? 'has-error has-feedback'">
-                        <label class="col-form-label col-sm-6 col-lg-3" for="email_long">Ostja e-mail:</label>
+                        <label class="control-label col-sm-6 col-lg-3" for="email_long">Ostja e-mail:</label>
                         <div class="col-sm-6 col-lg-9">
                             <input id="email_long" type="text" class="form-control" th:field="*{buyersEmail}" name="email_long"/>
                             <span th:if="${#fields.hasErrors('buyersEmail')}" class="glyphicon glyphicon-remove form-control-feedback"></span>
                         </div>
                     </div>
                     <div class="form-group" th:classappend="${#fields.hasErrors('ownersPhoneNr')} ? 'has-error has-feedback'">
-                        <label class="col-form-label col-sm-6 col-lg-3" for="phone_number_long">Omaniku telefoninumber:</label>
+                        <label class="control-label col-sm-6 col-lg-3" for="phone_number_long">Omaniku telefoninumber:</label>
                         <div class="col-sm-6 col-lg-9">
                             <input id="phone_number_long" type="number" class="form-control" th:field="*{ownersPhoneNr}" name="phone_number_long"/>
                             <span th:if="${#fields.hasErrors('ownersPhoneNr')}" class="glyphicon glyphicon-remove form-control-feedback"></span>
@@ -63,7 +66,7 @@
                     </div>
                     <div class="form-group"
                          th:classappend="${#fields.hasErrors('raceBeginningDate')} ? 'has-error has-feedback'">
-                        <label class="col-form-label col-sm-6 col-lg-3" for="search_date_long">Alguskuupäev:</label>
+                        <label class="control-label col-sm-6 col-lg-3" for="search_date_long">Alguskuupäev:</label>
                         <div class="col-sm-6 col-lg-9">
                             <input id="search_date_long" th:field="*{raceBeginningDate}" class="form-control" required="required" name="search_date"/>
                             <span th:if="${#fields.hasErrors('raceBeginningDate')}" class="glyphicon glyphicon-remove form-control-feedback"></span>

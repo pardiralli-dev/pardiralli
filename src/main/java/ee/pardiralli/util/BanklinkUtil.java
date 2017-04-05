@@ -48,7 +48,7 @@ public class BanklinkUtil {
      * @return bank payment description
      */
     public static String genPaymentDescription(Integer transactionId) {
-        return "Pardiralli tehing nr " + transactionId;
+        return "Pardiralli annetus";
     }
 
 

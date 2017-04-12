@@ -3,7 +3,7 @@ package ee.pardiralli.web;
 import ee.pardiralli.banklink.*;
 import ee.pardiralli.domain.Duck;
 import ee.pardiralli.domain.DuckBuyer;
-import ee.pardiralli.domain.Transaction;
+import ee.pardiralli.dto.DonationFormDTO;
 import ee.pardiralli.dto.DuckDTO;
 import ee.pardiralli.dto.PurchaseInfoDTO;
 import ee.pardiralli.exceptions.IllegalResponseException;
@@ -75,7 +75,8 @@ public class BankResponseController {
 
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST}, value = "/banklink/{bank}/fail")
     @ResponseStatus(value = HttpStatus.OK)
-    public String failResponse(Model model, @RequestParam Map<String, String> params, @PathVariable Bank bank) {
+    public String failResponse(Model model, @RequestParam Map<String, String> params, @PathVariable Bank bank,
+                               @ModelAttribute(DonationFormDTO.DONATION_VARIABLE_NAME) DonationFormDTO dto) {
         try {
             ResponseModel responseModel = getModelByBank(bank, params);
             paymentService.checkConsistency(params, responseModel, false);

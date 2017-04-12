@@ -29,7 +29,7 @@ public class LHVRequestModel extends RequestModel {
     private String VK_LANG = "EST";
 
     public LHVRequestModel(String amount, String stamp, String paymentDescription) {
-        this.VK_AMOUNT = "0.01";//amount;
+        this.VK_AMOUNT = amount;
         this.VK_STAMP = stamp;
         this.VK_MSG = paymentDescription;
         this.VK_MAC = BanklinkUtil.getMAC("lhv-private.der",

@@ -21,8 +21,8 @@ public class NordeaRequestModel extends RequestModel {
     private String VK_NAME = "EESTI VÄHIHAIGETE LASTE VANEMATE LIIT";
     private String VK_REF = "1032360190009";  // random, VK_REF is required by Nordea
     private String VK_MSG;
-    private String VK_RETURN = String.format("https://www.pardiralli.ee/wrxgjzylyn/banklink/%s/success", Bank.nordea);
-    private String VK_CANCEL = String.format("https://www.pardiralli.ee/wrxgjzylyn/banklink/%s/fail", Bank.nordea);
+    private String VK_RETURN = String.format("https://www.pardiralli.ee/annetus/banklink/%s/success", Bank.nordea);
+    private String VK_CANCEL = String.format("https://www.pardiralli.ee/annetus/banklink/%s/fail", Bank.nordea);
     private String VK_DATETIME = BanklinkUtil.currentDateTimeAsString();
     private String VK_MAC;
     private String VK_ENCODING = "UTF-8";

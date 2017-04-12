@@ -21,8 +21,8 @@ public class LHVRequestModel extends RequestModel {
     private String VK_NAME = "EESTI VÄHIHAIGETE LASTE VANEMATE LIIT";
     private String VK_REF = "";
     private String VK_MSG;
-    private String VK_RETURN = String.format("https://www.pardiralli.ee/wrxgjzylyn/banklink/%s/success", Bank.lhv);
-    private String VK_CANCEL = String.format("https://www.pardiralli.ee/wrxgjzylyn/banklink/%s/fail", Bank.lhv);
+    private String VK_RETURN = String.format("https://www.pardiralli.ee/annetus/banklink/%s/success", Bank.lhv);
+    private String VK_CANCEL = String.format("https://www.pardiralli.ee/annetus/banklink/%s/fail", Bank.lhv);
     private String VK_DATETIME = BanklinkUtil.currentDateTimeAsString();
     private String VK_MAC;
     private String VK_ENCODING = "UTF-8";

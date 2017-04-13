@@ -49,6 +49,7 @@ public class SearchController {
         return "admin/search";
     }
 
+    /*
     @GetMapping("/ducks/search")
     public String publicSearchTemplate(@ModelAttribute("query") PublicSearchQueryDTO query) {
         return "public_search";
@@ -67,6 +68,7 @@ public class SearchController {
         }
         return "public_search";
     }
+    */
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {

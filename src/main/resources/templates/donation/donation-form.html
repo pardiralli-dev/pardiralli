@@ -277,10 +277,10 @@
                                           class="glyphicon glyphicon-remove form-control-feedback"></span>
                                 </div>
                                 <div class="terms-check-wrap">
-                                    <label th:classappend="${#fields.hasErrors('accepts')} ? 'invalid-accept-checkbox'">
-                                        <input class="terms-check" th:field="*{accepts}" type="checkbox"/>
-                                        Nõustun kasutustingimustega
+                                    <label for="accept" th:classappend="${#fields.hasErrors('accepts')} ? 'invalid-accept-checkbox'">
+                                        <a target="_blank" href="https://www.pardiralli.ee/wp-content/uploads/2016/11/Pardiralli_2017_reeglid.pdf">Nõustun kasutustingimustega</a>
                                     </label>
+                                    <input id="accept" class="terms-check" th:field="*{accepts}" type="checkbox"/>
                                 </div>
                             </div>
                         </div>

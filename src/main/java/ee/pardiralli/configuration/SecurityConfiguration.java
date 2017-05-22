@@ -38,6 +38,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/login",
                         "/counter_ajax",
                         "/rest/**",
+                        "/ducks/search",
                         "/banklink/**").permitAll().anyRequest().fullyAuthenticated().and()
                 .formLogin().loginPage("/login").failureUrl("/login?error").and()
                 .logout().logoutUrl("/logout").logoutSuccessUrl("/?logoutsuccess").and()

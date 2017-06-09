@@ -32,7 +32,7 @@ public class InsertionServiceImpl implements InsertionService {
     private final SMSService smsService;
 
     @Override
-    public void saveInsertion(InsertionDTO insertionDTO, Principal principal) throws RaceNotFoundException, MessagingException {
+    public List<Duck> saveInsertion(InsertionDTO insertionDTO, Principal principal) throws RaceNotFoundException, MessagingException {
         log.info("Inserting ducks from {}", insertionDTO.toString());
         List<Duck> duckList = new ArrayList<>();
 
@@ -84,5 +84,7 @@ public class InsertionServiceImpl implements InsertionService {
         }
 //        TODO: 15.03.2017 works only with registered numbers
 //        smsService.sendSMSToAllOwners(BanklinkUtil.getMessages(duckList));
+
+        return duckList;
     }
 }

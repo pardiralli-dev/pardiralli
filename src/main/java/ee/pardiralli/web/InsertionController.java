@@ -1,6 +1,7 @@
 package ee.pardiralli.web;
 
 
+import ee.pardiralli.domain.Duck;
 import ee.pardiralli.dto.InsertionDTO;
 import ee.pardiralli.exceptions.RaceNotFoundException;
 import ee.pardiralli.feedback.FeedbackType;
@@ -23,6 +24,8 @@ import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -48,8 +51,13 @@ public class InsertionController {
             ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Vigane sisend!");
         } else {
             try {
-                insertionService.saveInsertion(insertionDTO, principal);
+                List<Duck> ducks = insertionService.saveInsertion(insertionDTO, principal);
+                String duckNumbersJoined = ducks.stream()
+                        .map(Duck::getSerialNumber)
+                        .map(String::valueOf)
+                        .collect(Collectors.joining(", "));
                 ControllerUtil.setFeedback(model, FeedbackType.SUCCESS, "Andmed edukalt sisestatud");
+                ControllerUtil.setFeedback(model, FeedbackType.SUCCESS, "Määratud numbrid: " + duckNumbersJoined);
             } catch (RaceNotFoundException e) {
                 ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Võistlust ei leitud!");
             } catch (MessagingException | MailAuthenticationException | MailSendException e) {

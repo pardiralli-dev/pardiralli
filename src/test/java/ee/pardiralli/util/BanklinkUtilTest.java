@@ -1,6 +1,6 @@
 package ee.pardiralli.util;
 
-import ee.pardiralli.domain.*;
+import ee.pardiralli.model.*;
 import ee.pardiralli.dto.DuckDTO;
 import org.junit.Assert;
 import org.junit.Test;

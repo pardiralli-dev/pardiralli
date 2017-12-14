@@ -1,7 +1,7 @@
 package ee.pardiralli.util;
 
-import ee.pardiralli.domain.Duck;
-import ee.pardiralli.domain.DuckBuyer;
+import ee.pardiralli.model.Duck;
+import ee.pardiralli.model.DuckBuyer;
 import ee.pardiralli.dto.DuckDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;

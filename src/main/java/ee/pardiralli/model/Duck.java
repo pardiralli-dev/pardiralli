@@ -1,4 +1,4 @@
-package ee.pardiralli.domain;
+package ee.pardiralli.model;
 
 import ee.pardiralli.util.BanklinkUtil;
 import lombok.AllArgsConstructor;

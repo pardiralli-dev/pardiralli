@@ -1,4 +1,4 @@
-package ee.pardiralli.web;
+package ee.pardiralli.controller;
 
 import ee.pardiralli.dto.PublicSearchQueryDTO;
 import ee.pardiralli.dto.PublicSearchResultDTO;

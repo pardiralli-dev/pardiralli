@@ -1,6 +1,6 @@
 package ee.pardiralli.db;
 
-import ee.pardiralli.domain.Race;
+import ee.pardiralli.model.Race;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;

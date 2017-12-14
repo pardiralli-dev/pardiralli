@@ -2,8 +2,8 @@ package ee.pardiralli.service;
 
 import ee.pardiralli.banklink.Bank;
 import ee.pardiralli.banklink.ResponseModel;
-import ee.pardiralli.domain.Duck;
-import ee.pardiralli.domain.Transaction;
+import ee.pardiralli.model.Duck;
+import ee.pardiralli.model.Transaction;
 import ee.pardiralli.dto.DonationFormDTO;
 import ee.pardiralli.exceptions.IllegalResponseException;
 import ee.pardiralli.exceptions.IllegalTransactionException;

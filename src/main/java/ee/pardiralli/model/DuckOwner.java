@@ -1,8 +1,7 @@
-package ee.pardiralli.domain;
+package ee.pardiralli.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
@@ -13,15 +12,16 @@ import javax.persistence.Id;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
 @Entity
-public class DuckBuyer {
+public class DuckOwner {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String email;
+    private String firstName;
 
-    private String identificationCode;
+    private String lastName;
+
+    private String phoneNumber;
 }

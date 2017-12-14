@@ -2,7 +2,7 @@ package ee.pardiralli.service;
 
 import ee.pardiralli.db.DuckRepository;
 import ee.pardiralli.db.RaceRepository;
-import ee.pardiralli.domain.Race;
+import ee.pardiralli.model.Race;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

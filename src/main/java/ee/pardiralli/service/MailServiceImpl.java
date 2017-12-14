@@ -3,7 +3,7 @@ package ee.pardiralli.service;
 
 import ee.pardiralli.configuration.MailConfiguration;
 import ee.pardiralli.db.TransactionRepository;
-import ee.pardiralli.domain.Transaction;
+import ee.pardiralli.model.Transaction;
 import ee.pardiralli.dto.EmailSentDTO;
 import ee.pardiralli.dto.PurchaseInfoDTO;
 import ee.pardiralli.dto.TextMsgDTO;

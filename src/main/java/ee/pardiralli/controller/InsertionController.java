@@ -1,7 +1,7 @@
-package ee.pardiralli.web;
+package ee.pardiralli.controller;
 
 
-import ee.pardiralli.domain.Duck;
+import ee.pardiralli.model.Duck;
 import ee.pardiralli.dto.InsertionDTO;
 import ee.pardiralli.exceptions.RaceNotFoundException;
 import ee.pardiralli.feedback.FeedbackType;
@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.mail.MessagingException;
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;

@@ -1,7 +1,7 @@
 package ee.pardiralli;
 
 import ee.pardiralli.db.*;
-import ee.pardiralli.domain.*;
+import ee.pardiralli.model.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

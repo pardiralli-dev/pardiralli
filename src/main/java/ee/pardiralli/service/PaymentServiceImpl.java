@@ -2,7 +2,7 @@ package ee.pardiralli.service;
 
 import ee.pardiralli.banklink.*;
 import ee.pardiralli.db.*;
-import ee.pardiralli.domain.*;
+import ee.pardiralli.model.*;
 import ee.pardiralli.dto.DonationBoxDTO;
 import ee.pardiralli.dto.DonationFormDTO;
 import ee.pardiralli.exceptions.IllegalResponseException;

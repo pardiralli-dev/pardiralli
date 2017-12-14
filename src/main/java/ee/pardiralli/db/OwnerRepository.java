@@ -1,6 +1,6 @@
 package ee.pardiralli.db;
 
-import ee.pardiralli.domain.DuckOwner;
+import ee.pardiralli.model.DuckOwner;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

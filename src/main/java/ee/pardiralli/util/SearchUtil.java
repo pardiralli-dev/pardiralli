@@ -1,6 +1,6 @@
 package ee.pardiralli.util;
 
-import ee.pardiralli.domain.Duck;
+import ee.pardiralli.model.Duck;
 import ee.pardiralli.dto.SearchResultDTO;
 
 import java.time.LocalDateTime;

@@ -1,8 +1,8 @@
-package ee.pardiralli.web;
+package ee.pardiralli.controller;
 
 import ee.pardiralli.banklink.*;
-import ee.pardiralli.domain.Duck;
-import ee.pardiralli.domain.DuckBuyer;
+import ee.pardiralli.model.Duck;
+import ee.pardiralli.model.DuckBuyer;
 import ee.pardiralli.dto.DonationFormDTO;
 import ee.pardiralli.dto.DuckDTO;
 import ee.pardiralli.dto.PurchaseInfoDTO;

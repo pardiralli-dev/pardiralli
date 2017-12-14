@@ -3,7 +3,7 @@ package ee.pardiralli.service;
 import ee.pardiralli.db.DuckRepository;
 import ee.pardiralli.db.OwnerRepository;
 import ee.pardiralli.db.RaceRepository;
-import ee.pardiralli.domain.Duck;
+import ee.pardiralli.model.Duck;
 import ee.pardiralli.dto.PublicSearchQueryDTO;
 import ee.pardiralli.dto.PublicSearchResultDTO;
 import ee.pardiralli.dto.SearchQueryDTO;

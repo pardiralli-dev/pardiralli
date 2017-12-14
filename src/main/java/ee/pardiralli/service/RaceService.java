@@ -1,6 +1,6 @@
 package ee.pardiralli.service;
 
-import ee.pardiralli.domain.Race;
+import ee.pardiralli.model.Race;
 import ee.pardiralli.dto.RaceDTO;
 
 import java.util.List;

@@ -1,17 +1,16 @@
 package ee.pardiralli.service;
 
-import ee.pardiralli.domain.Duck;
+import ee.pardiralli.model.Duck;
 import ee.pardiralli.dto.PublicSearchQueryDTO;
 import ee.pardiralli.dto.PublicSearchResultDTO;
 import ee.pardiralli.dto.SearchQueryDTO;
 import ee.pardiralli.dto.SearchResultDTO;
 
 import java.util.List;
-import java.util.Locale;
 
 public interface SearchService {
     /**
-     * Create instance of {@link SearchQueryDTO} with latest {@link ee.pardiralli.domain.Race} raceBeginningDate assigned
+     * Create instance of {@link SearchQueryDTO} with latest {@link ee.pardiralli.model.Race} raceBeginningDate assigned
      */
     SearchQueryDTO getLatestRaceSearchDTO();
 

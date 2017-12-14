@@ -1,6 +1,6 @@
 package ee.pardiralli.dto;
 
-import ee.pardiralli.domain.Duck;
+import ee.pardiralli.model.Duck;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;

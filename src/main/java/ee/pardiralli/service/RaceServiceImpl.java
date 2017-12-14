@@ -1,7 +1,7 @@
 package ee.pardiralli.service;
 
 import ee.pardiralli.db.RaceRepository;
-import ee.pardiralli.domain.Race;
+import ee.pardiralli.model.Race;
 import ee.pardiralli.dto.RaceDTO;
 import ee.pardiralli.util.BanklinkUtil;
 import lombok.AllArgsConstructor;

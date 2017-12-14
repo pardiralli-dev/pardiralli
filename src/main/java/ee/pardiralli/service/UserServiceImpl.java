@@ -1,6 +1,6 @@
 package ee.pardiralli.service;
 
-import ee.pardiralli.domain.CurrentUser;
+import ee.pardiralli.model.CurrentUser;
 import ee.pardiralli.wp.PrUsers;
 import ee.pardiralli.wp.UsersRepository;
 import lombok.AllArgsConstructor;

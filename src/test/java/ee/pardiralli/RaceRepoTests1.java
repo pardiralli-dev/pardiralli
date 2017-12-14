@@ -1,7 +1,7 @@
 package ee.pardiralli;
 
 import ee.pardiralli.db.RaceRepository;
-import ee.pardiralli.domain.Race;
+import ee.pardiralli.model.Race;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;

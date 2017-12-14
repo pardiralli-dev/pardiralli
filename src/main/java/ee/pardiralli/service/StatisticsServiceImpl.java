@@ -2,7 +2,7 @@ package ee.pardiralli.service;
 
 import ee.pardiralli.db.DuckRepository;
 import ee.pardiralli.db.RaceRepository;
-import ee.pardiralli.domain.Duck;
+import ee.pardiralli.model.Duck;
 import ee.pardiralli.statistics.ExportFile;
 import ee.pardiralli.util.StatisticsUtil;
 import lombok.AllArgsConstructor;

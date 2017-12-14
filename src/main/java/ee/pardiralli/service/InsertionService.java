@@ -1,6 +1,6 @@
 package ee.pardiralli.service;
 
-import ee.pardiralli.domain.Duck;
+import ee.pardiralli.model.Duck;
 import ee.pardiralli.dto.InsertionDTO;
 import ee.pardiralli.exceptions.RaceNotFoundException;
 

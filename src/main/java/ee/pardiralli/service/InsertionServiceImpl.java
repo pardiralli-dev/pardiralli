@@ -1,7 +1,7 @@
 package ee.pardiralli.service;
 
 import ee.pardiralli.db.*;
-import ee.pardiralli.domain.*;
+import ee.pardiralli.model.*;
 import ee.pardiralli.dto.InsertionDTO;
 import ee.pardiralli.dto.PurchaseInfoDTO;
 import ee.pardiralli.exceptions.IllegalTransactionException;

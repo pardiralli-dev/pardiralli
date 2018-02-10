@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class MailServiceImpl implements MailService {
     private final TransactionRepository transactionRepository;
-    private final EmailQueueImpl emailQueue;
+    private final EmailQueue emailQueue;
 
     @Override
     public void sendConfirmationEmail(PurchaseInfoDTO purchaseInfoDTO) {

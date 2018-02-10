@@ -26,7 +26,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Slf4j
 @Component
-public class EmailQueueImpl {
+public class EmailQueue {
     private static final Integer DELAY = 7000;
 
     private final MailConfiguration mailConfiguration;

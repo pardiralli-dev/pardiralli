@@ -18,6 +18,6 @@ public class CounterServiceImpl implements CounterService {
     public CounterDTO queryCounter() {
         return new CounterDTO(
                 BanklinkUtil.centsToEurosWhole(duckRepository.sumDonationsInOpenRace()),
-                String.valueOf(duckRepository.countDucksInOpenRace()));
+                String.valueOf(duckRepository.countDucksByRaceIsOpenTrueAndTransactionIsPaidTrue()));
     }
 }

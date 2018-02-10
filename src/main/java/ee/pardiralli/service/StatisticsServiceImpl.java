@@ -102,7 +102,7 @@ public class StatisticsServiceImpl implements StatisticsService {
         LocalDate startDate = dto.getStartDate();
         LocalDate endDate = dto.getEndDate();
         String niceDate = StatisticsUtil.getDashDate(startDate, endDate);
-        List<Duck> ducks = getDucksByTimePeriod(startDate, endDate);
+        List<Duck> ducks = duckRepository.findAllByDateOfPurchaseIsBetween(startDate, endDate);
 
         sb.append("Müüdud pardid ajavahemikus ").append(niceDate).append("\n");
         sb.append(String.join(CSV_DELIMITER,
@@ -126,15 +126,5 @@ public class StatisticsServiceImpl implements StatisticsService {
         }
         // ISO_8859_1 is for Excel only, UTF-8 will result in encoding problems.
         return sb.toString().getBytes(StandardCharsets.ISO_8859_1);
-    }
-
-
-    @Override
-    public List<Duck> getDucksByTimePeriod(LocalDate startDate, LocalDate endDate) {
-        return IteratorUtils.toList(
-                duckRepository.findAll().iterator()).stream()
-                .filter(d -> d.getDateOfPurchase().isAfter(startDate) && d.getDateOfPurchase().isBefore(endDate) ||
-                        d.getDateOfPurchase().equals(startDate) || d.getDateOfPurchase().equals(endDate))
-                .collect(Collectors.toList());
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 public interface DuckRepository extends CrudRepository<Duck, Integer> {
 
@@ -25,10 +26,11 @@ public interface DuckRepository extends CrudRepository<Duck, Integer> {
                         @Param("phone") String phone,
                         @Param("date") LocalDate date);
 
-    @Query("SELECT COUNT(d) FROM Duck d " +
-            "WHERE d.race.isOpen = true AND d.transaction.isPaid = true")
-    Integer countDucksInOpenRace();
 
+    Integer countDucksByRaceIsOpenTrueAndTransactionIsPaidTrue();
+
+
+    List<Duck> findAllByDateOfPurchaseIsBetween(LocalDate startDate, LocalDate endDate);
 
     /**
      * @return sum of all donations in the open race (0 if there aren't any)
@@ -58,11 +60,10 @@ public interface DuckRepository extends CrudRepository<Duck, Integer> {
     List<Duck> findByTransactionId(Integer transactionId);
 
     /**
-     * @param raceId
      * @return highest serial of duck found in database
      */
-    @Query("SELECT MAX(d.serialNumber) FROM Duck d WHERE d.race.id = :raceId")
-    Integer findMaxSerial(@Param("raceId") Integer raceId);
+    Optional<Duck> findTopByRaceIsOpenTrueOrderBySerialNumberDesc();
+
 
     List<Duck> findByDuckOwner(DuckOwner duckOwner);
 }

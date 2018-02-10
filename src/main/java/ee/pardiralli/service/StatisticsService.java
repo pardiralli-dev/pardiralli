@@ -45,12 +45,4 @@ public interface StatisticsService {
      */
     byte[] createCSVFile(ExportFileDTO exportFileDTO) throws FileNotFoundException;
 
-    /**
-     * Creates a list of ducks, which have been sold during the given time period
-     *
-     * @param startDate start date of the time period
-     * @param endDate end date of the time period
-     * @return a list of ducks sold during this time period
-     */
-    List<Duck> getDucksByTimePeriod(LocalDate startDate, LocalDate endDate);
 }

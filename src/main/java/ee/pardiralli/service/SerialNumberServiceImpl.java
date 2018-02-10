@@ -2,11 +2,13 @@ package ee.pardiralli.service;
 
 import ee.pardiralli.db.DuckRepository;
 import ee.pardiralli.db.RaceRepository;
+import ee.pardiralli.model.Duck;
 import ee.pardiralli.model.Race;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
@@ -45,9 +47,9 @@ public class SerialNumberServiceImpl implements SerialNumberService {
         if (currentRace == null) {
             return 0;
         } else {
-            Integer maxFromDb = duckRepository.findMaxSerial(currentRace.getId());
-            log.info("Found last serial number: {}", maxFromDb);
-            return maxFromDb == null ? 0 : maxFromDb;
+            Optional<Duck> maxDuckFromDb = duckRepository.findTopByRaceIsOpenTrueOrderBySerialNumberDesc();
+            log.info("Found Duck with highest serial number: {}", maxDuckFromDb);
+            return maxDuckFromDb.isPresent() ? maxDuckFromDb.get().getSerialNumber() : 0;
         }
     }
 }

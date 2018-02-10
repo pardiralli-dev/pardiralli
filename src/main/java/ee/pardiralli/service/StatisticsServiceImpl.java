@@ -3,7 +3,7 @@ package ee.pardiralli.service;
 import ee.pardiralli.db.DuckRepository;
 import ee.pardiralli.db.RaceRepository;
 import ee.pardiralli.model.Duck;
-import ee.pardiralli.statistics.ExportFile;
+import ee.pardiralli.statistics.ExportFileDTO;
 import ee.pardiralli.util.StatisticsUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +11,6 @@ import org.apache.commons.collections4.IteratorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.nio.charset.StandardCharsets;
@@ -19,6 +18,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
 public class StatisticsServiceImpl implements StatisticsService {
     private final DuckRepository duckRepository;
     private final RaceRepository raceRepository;
+    public static final String CSV_DELIMITER = ";";
 
 
     @Override
@@ -96,33 +97,37 @@ public class StatisticsServiceImpl implements StatisticsService {
     }
 
     @Override
-    public File createCSVFile(String name, ExportFile exportFile) throws FileNotFoundException {
-        File CSVFile = new File(name);
-        PrintWriter pw = new PrintWriter(new OutputStreamWriter(new FileOutputStream(name), StandardCharsets.ISO_8859_1), true);
-
+    public byte[] createCSVFile(ExportFileDTO dto) {
         StringBuilder sb = new StringBuilder();
-        LocalDate startDate = exportFile.getStartDate();
-        LocalDate endDate = exportFile.getEndDate();
+        LocalDate startDate = dto.getStartDate();
+        LocalDate endDate = dto.getEndDate();
         String niceDate = StatisticsUtil.getDashDate(startDate, endDate);
-        List<Duck> ducks = getDucksByTimePeriod(exportFile.getStartDate(), exportFile.getEndDate());
+        List<Duck> ducks = getDucksByTimePeriod(startDate, endDate);
 
         sb.append("Müüdud pardid ajavahemikus ").append(niceDate).append("\n");
-        sb.append("Ostmise kuupäev;Omaniku eesnimi;Omaniku perenimi;Omaniku telefoninumber;Maksja e-mail;Ralli nimi;Pardi number;Pardi hind\n");
+        sb.append(String.join(CSV_DELIMITER,
+                Arrays.asList("Ostmise kuupäev",
+                        "Omaniku eesnimi",
+                        "Omaniku perenimi",
+                        "Omaniku telefoninumber",
+                        "Maksja e-mail",
+                        "Ralli nimi",
+                        "Pardi number",
+                        "Pardi hind\n")));
         for (Duck duck : ducks) {
-            sb.append(duck.getDateOfPurchase() == null ? "" : duck.getDateOfPurchase().toString()).append(";");
-            sb.append(duck.getDuckOwner().getFirstName() == null ? "" : duck.getDuckOwner().getFirstName()).append(";");
-            sb.append(duck.getDuckOwner().getLastName() == null ? "" : duck.getDuckOwner().getLastName()).append(";");
-            sb.append(duck.getDuckOwner().getPhoneNumber() == null ? "" : duck.getDuckOwner().getPhoneNumber()).append(";");
-            sb.append(duck.getDuckBuyer().getEmail() == null ? "" : duck.getDuckBuyer().getEmail()).append(";");
-            sb.append(duck.getRace().getRaceName() == null ? "" : duck.getRace().getRaceName()).append(";");
-            sb.append(duck.getSerialNumber() == null ? "" : Integer.toString(duck.getSerialNumber())).append(";");
+            sb.append(Objects.toString(duck.getDateOfPurchase(), "")).append(CSV_DELIMITER);
+            sb.append(Objects.toString(duck.getDuckOwner().getFirstName(), "")).append(CSV_DELIMITER);
+            sb.append(Objects.toString(duck.getDuckOwner().getLastName(), "")).append(CSV_DELIMITER);
+            sb.append(Objects.toString(duck.getDuckOwner().getPhoneNumber(), "")).append(CSV_DELIMITER);
+            sb.append(Objects.toString(duck.getDuckBuyer().getEmail(), "")).append(CSV_DELIMITER);
+            sb.append(Objects.toString(duck.getRace().getRaceName(), "")).append(CSV_DELIMITER);
+            sb.append(Objects.toString(duck.getSerialNumber(), "")).append(CSV_DELIMITER);
             sb.append(duck.getPriceCents() == null ? "" : new BigDecimal(duck.getPriceCents()).divide(new BigDecimal("100"), RoundingMode.UNNECESSARY).toPlainString()).append("\n");
         }
-
-        pw.write(sb.toString());
-        pw.close();
-        return CSVFile;
+        // ISO_8859_1 is for Excel only, UTF-8 will result in encoding problems.
+        return sb.toString().getBytes(StandardCharsets.ISO_8859_1);
     }
+
 
     @Override
     public List<Duck> getDucksByTimePeriod(LocalDate startDate, LocalDate endDate) {

@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ExportFile {
+public class ExportFileDTO {
 
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     private LocalDate startDate;

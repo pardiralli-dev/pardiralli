@@ -1,9 +1,8 @@
 package ee.pardiralli.service;
 
 import ee.pardiralli.model.Duck;
-import ee.pardiralli.statistics.ExportFile;
+import ee.pardiralli.statistics.ExportFileDTO;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.util.List;
@@ -41,11 +40,10 @@ public interface StatisticsService {
     /**
      * Creates CSV file of data
      *
-     * @param name       will be the name of the file
-     * @param exportFile is an object that holds the user's choices about what data they want to have
+     * @param exportFileDTO is an object that holds the user's choices about what data they want to have
      * @return the csv file that was created
      */
-    File createCSVFile(String name, ExportFile exportFile) throws FileNotFoundException;
+    byte[] createCSVFile(ExportFileDTO exportFileDTO) throws FileNotFoundException;
 
     /**
      * Creates a list of ducks, which have been sold during the given time period

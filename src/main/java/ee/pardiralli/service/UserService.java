@@ -16,17 +16,16 @@ import javax.servlet.http.HttpServletRequest;
 @Service
 @Slf4j
 @AllArgsConstructor(onConstructor = @__(@Autowired))
-public class UserServiceImpl implements UserDetailsService {
+public class UserService implements UserDetailsService {
     private final UsersRepository usersRepository;
     private final AuthService authService;
-    private final LoginAttemptService loginAttemptService;
     private final HttpServletRequest request;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         // NB! Considers only the last IP in the chain, might cause problems when several users are sitting behind the same IP
         String ip = getClientIP();
-        if (loginAttemptService.isBlocked(ip)) {
+        if (authService.isBlocked(ip)) {
             log.warn("Denied login for user '{}' from IP {}. Is blocked for too many login attempts", username, ip);
             throw new UsernameNotFoundException(String.format("User '%s' is blocked", username));
         }

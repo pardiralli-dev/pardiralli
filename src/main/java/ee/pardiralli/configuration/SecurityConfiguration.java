@@ -1,7 +1,7 @@
 package ee.pardiralli.configuration;
 
 import ee.pardiralli.security.WpPasswordHash;
-import ee.pardiralli.service.LoginAttemptService;
+import ee.pardiralli.service.AuthService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-    private final LoginAttemptService loginAttemptService;
+    private final AuthService authService;
     private UserDetailsService userDetailsService;
 
     /**
@@ -53,7 +53,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     /**
-     * On successful login invalidate login attempts by notifying {@link LoginAttemptService}.
+     * On successful login invalidate login attempts.
      * Log successful login attempts.
      */
     @Component
@@ -62,12 +62,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         public void onApplicationEvent(AuthenticationSuccessEvent event) {
             log.info("User {} logged in successfully", event.getAuthentication().getName());
             WebAuthenticationDetails auth = (WebAuthenticationDetails) event.getAuthentication().getDetails();
-            loginAttemptService.loginSucceeded(auth.getRemoteAddress());
+            authService.loginSucceeded(auth.getRemoteAddress());
         }
     }
 
     /**
-     * On login failure notify {@link LoginAttemptService} of failure to login.
+     * On login failure notify.
      * Log unsuccessful login attempt
      */
     @Component
@@ -76,7 +76,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         public void onApplicationEvent(AuthenticationFailureBadCredentialsEvent event) {
             log.info("Bad login credentials for user {}", event.getAuthentication().getName());
             WebAuthenticationDetails auth = (WebAuthenticationDetails) event.getAuthentication().getDetails();
-            loginAttemptService.loginFailed(auth.getRemoteAddress());
+            authService.loginFailed(auth.getRemoteAddress());
         }
     }
 }

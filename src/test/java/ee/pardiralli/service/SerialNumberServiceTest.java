@@ -21,7 +21,7 @@ import static java.time.Month.JANUARY;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(locations = "classpath:test.properties")
 @RunWith(SpringRunner.class)
-public class SerialNumberServiceImplTest {
+public class SerialNumberServiceTest {
 
     @Autowired
     private SerialNumberService serialNumberService;

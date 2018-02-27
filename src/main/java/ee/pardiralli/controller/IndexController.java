@@ -3,7 +3,7 @@ package ee.pardiralli.controller;
 import ee.pardiralli.dto.DonationBoxDTO;
 import ee.pardiralli.dto.DonationFormDTO;
 import ee.pardiralli.feedback.FeedbackType;
-import ee.pardiralli.service.IndexService;
+import ee.pardiralli.service.RaceService;
 import ee.pardiralli.util.ControllerUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 @Slf4j
 public class IndexController {
-    private final IndexService indexService;
+    private final RaceService raceService;
 
     @GetMapping("/login")
     public String loginPage() {
@@ -35,7 +35,7 @@ public class IndexController {
 
     @GetMapping("/")
     public String donationForm(@ModelAttribute(DonationFormDTO.DONATION_VARIABLE_NAME) DonationFormDTO dto) {
-        if (indexService.isRaceOpened()) {
+        if (raceService.isRaceOpened()) {
             return "donation/donation-form";
         } else {
             return "race_not_opened";

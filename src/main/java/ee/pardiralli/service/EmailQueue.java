@@ -27,8 +27,6 @@ import java.util.concurrent.LinkedBlockingQueue;
 @Slf4j
 @Component
 public class EmailQueue {
-    private static final Integer DELAY = 7000;
-
     private final MailConfiguration mailConfiguration;
     private final TransactionRepository transactionRepository;
     private final SpringTemplateEngine templateEngine;
@@ -41,7 +39,7 @@ public class EmailQueue {
         emailQueue.add(dto);
     }
 
-    @Scheduled(fixedDelay = DELAY, zone = "Europe/Athens")
+    @Scheduled(fixedDelay = 7000, zone = "Europe/Athens")
     private void sendAndRemove() {
         PurchaseInfoDTO dto = emailQueue.poll();
         if (dto != null) {

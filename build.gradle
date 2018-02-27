@@ -47,7 +47,7 @@ dependencies {
     compile('commons-net:commons-net:3.6')
     compile('mysql:mysql-connector-java:6.0.6')
     compile files('lib/pherialize-1.2.1.jar')
-    provided('org.projectlombok:lombok:1.16.18')
+    compileOnly('org.projectlombok:lombok:1.16.18')
     testCompile('org.springframework.boot:spring-boot-starter-test')
     runtime('org.postgresql:postgresql')
 }

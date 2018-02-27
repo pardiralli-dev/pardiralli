@@ -24,8 +24,6 @@ import java.util.List;
 public class RaceRepoTests1 {
     private final int trueCount = 6;
     private final int falseCount = 10;
-    //private final LocalDate startDate = LocalDate.of(2016, Month.JANUARY, 3);
-    //private final LocalDate today = LocalDate.now();
     private List<Race> races;
 
     @Autowired
@@ -34,23 +32,22 @@ public class RaceRepoTests1 {
 
     @Before
     public void setup() throws Exception {
-        raceRepository.deleteAll();
         races = new ArrayList<>();
         for (int i = 0; i < trueCount; i++) {
             LocalDate start = LocalDate.of(2016, Month.JANUARY, i + 1);
             LocalDate finish = LocalDate.of(2016, Month.JANUARY, i + 2);
-            races.add(raceRepository.save(new Race(i, start, finish, "some", true)));
+            races.add(raceRepository.save(new Race(start, finish, "some", true)));
         }
         for (int i = 0; i < falseCount; i++) {
             LocalDate start = LocalDate.of(2016, Month.FEBRUARY, i + 1);
             LocalDate finish = LocalDate.of(2016, Month.FEBRUARY, i + 2);
-            races.add(raceRepository.save(new Race(i, start, finish, "some", false)));
+            races.add(raceRepository.save(new Race(start, finish, "some", false)));
         }
     }
 
     @After
     public void tearDown() throws Exception {
-        races.forEach(r -> raceRepository.delete(r));
+        raceRepository.deleteAll();
     }
 
 

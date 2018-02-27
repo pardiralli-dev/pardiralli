@@ -11,12 +11,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-@SpringBootApplication(exclude = {
-        DataSourceAutoConfiguration.class,
-        HibernateJpaAutoConfiguration.class,
-        DataSourceTransactionManagerAutoConfiguration.class
-})
-@EnableTransactionManagement
+@SpringBootApplication
 @EnableAsync
 @EnableScheduling
 public class PardiralliApplication extends SpringBootServletInitializer {

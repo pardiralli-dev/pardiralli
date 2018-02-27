@@ -115,18 +115,13 @@ public class SerialNumberServiceTest {
         return duckRepository.save(duck).getSerialNumber();
     }
 
-    @SuppressWarnings("Duplicates")
-    @Before
-    public void before() throws Exception {
+    @After
+    public void tearDown() throws Exception {
         raceRepository.deleteAll();
         duckRepository.deleteAll();
-        ownerRepository.deleteAll();
-        buyerRepository.deleteAll();
         transactionRepository.deleteAll();
-    }
+        buyerRepository.deleteAll();
+        ownerRepository.deleteAll();
 
-    @After
-    public void after() throws Exception {
-        before();
     }
 }

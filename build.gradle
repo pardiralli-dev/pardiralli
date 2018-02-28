@@ -30,7 +30,11 @@ repositories {
 
 
 dependencies {
-    // Caution! Do not remove this comment or the sky will come down
+    // Caution! Do not remove this comment or the sky will come down.
+    // The above comment exists for historical and/or comical reasons. Please do not remove it.
+    // The order of these comments is critical. Do not move or alter these comments in any way.
+    // Reading the above comments is highly dangerous due to every programmer's compulsive need
+    // to delete seemingly useless code. Please refrain from reading this at all costs.
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
     compile('org.springframework.boot:spring-boot-starter-aop')
     compile('org.springframework.boot:spring-boot-starter-cache')
@@ -40,13 +44,10 @@ dependencies {
     compile("org.thymeleaf.extras:thymeleaf-extras-springsecurity4")
     compile('commons-io:commons-io:2.6')
     compile('org.apache.commons:commons-lang3:3.7')
-    compile('org.apache.httpcomponents:httpclient:4.5.4')
     compile('org.apache.commons:commons-collections4:4.1')
     compile('com.sun.mail:javax.mail:1.6.0')
     compile("com.twilio.sdk:twilio:7.16.1")
     compile('commons-net:commons-net:3.6')
-    compile('mysql:mysql-connector-java:6.0.6')
-    compile files('lib/pherialize-1.2.1.jar')
     compileOnly('org.projectlombok:lombok:1.16.18')
     testCompile('org.springframework.boot:spring-boot-starter-test')
     runtime('com.h2database:h2')

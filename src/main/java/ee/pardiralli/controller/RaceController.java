@@ -95,10 +95,4 @@ public class RaceController {
         return raceDTO.getId() != null && raceDTO.getIsOpen() != null && raceService.raceExists(raceDTO) &&
                 (raceService.hasNoOpenedRaces() && raceDTO.getIsOpen() || !raceDTO.getIsOpen());
     }
-
-    @InitBinder
-    public void initBinder(WebDataBinder binder) {
-        CustomDateEditor editor = new CustomDateEditor(new SimpleDateFormat("dd-MM-yyyy"), true);
-        binder.registerCustomEditor(Date.class, editor);
-    }
 }

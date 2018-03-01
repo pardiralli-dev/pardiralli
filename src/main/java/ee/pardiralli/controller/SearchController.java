@@ -68,11 +68,4 @@ public class SearchController {
         }
         return "public_search";
     }
-
-
-    @InitBinder
-    public void initBinder(WebDataBinder binder) {
-        CustomDateEditor editor = new CustomDateEditor(new SimpleDateFormat("dd-MM-yyyy"), true);
-        binder.registerCustomEditor(Date.class, editor);
-    }
 }

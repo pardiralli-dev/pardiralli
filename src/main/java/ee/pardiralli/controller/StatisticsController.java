@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -35,15 +34,11 @@ public class StatisticsController {
 
     @GetMapping("/statistics")
     public String statistics(Model model) {
-        List<LocalDate> dates = statisticsService.getDefaultDates();
-        LocalDate startDate = dates.get(0);
-        LocalDate endDate = dates.get(1);
         model.addAttribute(
                 "statistics",
                 new Statistics(
-                        startDate,
-                        endDate
-                )
+                        statisticsService.getLastBeginningDate(),
+                        statisticsService.getLastFinishDate())
         );
 
         LocalDate startDateExp = LocalDate.now();
@@ -65,9 +60,8 @@ public class StatisticsController {
             List<List<Object>> duckData = statisticsService.createDuckData(startDate, endDate);
             return new DonationChart(data, duckData, StatisticsUtil.getDotDate(startDate, endDate));
         } else {
-            List<LocalDate> dates = statisticsService.getDefaultDates();
-            LocalDate startDate = dates.get(0);
-            LocalDate endDate = dates.get(1);
+            LocalDate startDate = statisticsService.getLastBeginningDate();
+            LocalDate endDate = statisticsService.getLastFinishDate();
             List<List<Object>> data = statisticsService.createDonationData(startDate, endDate);
             List<List<Object>> duckData = statisticsService.createDuckData(startDate, endDate);
             String errorMessage = "Viga! Sisestage kuupäevad uuesti!";
@@ -84,7 +78,7 @@ public class StatisticsController {
     // is activated when the user clicks on the Export button on the statistics page
     @GetMapping(value = "/export", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     @ResponseBody
-    public byte[] exportTheFile(ExportFileDTO dto, HttpServletResponse response) throws IOException {
+    public byte[] exportTheFile(ExportFileDTO dto, HttpServletResponse response) {
         response.setHeader("Content-Disposition", String.format("attachment; filename=pardiralli_%s_%s.csv",
                 dto.getStartDate().format(formatter),
                 dto.getEndDate().format(formatter))
@@ -97,6 +91,4 @@ public class StatisticsController {
         CustomDateEditor editor = new CustomDateEditor(new SimpleDateFormat("dd-MM-yyyy"), true);
         binder.registerCustomEditor(Date.class, editor);
     }
-
-
 }

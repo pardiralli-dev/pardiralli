@@ -7,7 +7,6 @@ import ee.pardiralli.statistics.ExportFileDTO;
 import ee.pardiralli.util.StatisticsUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.IteratorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +18,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -31,15 +29,17 @@ public class StatisticsService {
 
 
     /**
-     * Picks the default dates for the donation chart. The default beginning and finish date are
-     * the beginning date and finish date of the last race.
-     *
-     * @return a list containing 1) the beginning date of the last race  2) the finish date of the last race
+     * @return the beginning date of the last race
      */
-    public List<LocalDate> getDefaultDates() {
-        LocalDate lastBeginningDate = raceRepository.findLastBeginningDate();
-        LocalDate lastFinishDate = raceRepository.findLastFinishDate();
-        return Arrays.asList(lastBeginningDate, lastFinishDate);
+    public LocalDate getLastBeginningDate() {
+        return raceRepository.findLastBeginningDate();
+    }
+
+    /**
+     * @return the finish date of the last race
+     */
+    public LocalDate getLastFinishDate() {
+        return raceRepository.findLastFinishDate();
     }
 
     /**
@@ -118,7 +118,7 @@ public class StatisticsService {
     /**
      * Creates CSV file of data
      *
-     * @param exportFileDTO is an object that holds the user's choices about what data they want to have
+     * @param dto is an object that holds the user's choices about what data they want to have
      * @return the csv file that was created
      */
     public byte[] createCSVFile(ExportFileDTO dto) {

@@ -35,11 +35,7 @@ public class IndexController {
 
     @GetMapping("/")
     public String donationForm(@ModelAttribute(DonationFormDTO.DONATION_VARIABLE_NAME) DonationFormDTO dto) {
-        if (raceService.isRaceOpened()) {
-            return "donation/donation-form";
-        } else {
-            return "race_not_opened";
-        }
+        return raceService.isRaceOpened() ? "donation/donation-form" : "race_not_opened";
     }
 
     @PostMapping(value = "/", params = {"addBox"})
@@ -61,7 +57,7 @@ public class IndexController {
     }
 
     @PostMapping("/")
-    public String donationFormSubmit(Model model, HttpServletRequest req,
+    public String donationFormSubmit(Model model,
                                      HttpSession session,
                                      @ModelAttribute(DonationFormDTO.DONATION_VARIABLE_NAME) @Valid DonationFormDTO donation,
                                      BindingResult result) {
@@ -80,10 +76,10 @@ public class IndexController {
             }
 
             if (errorFields.stream().anyMatch(f -> !f.equals("accepts"))) {
-                ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Mõni väli sisaldab vigaseid andmeid.");
+                ControllerUtil.addFeedback(model, FeedbackType.ERROR, "Mõni väli sisaldab vigaseid andmeid.");
             }
             if (errorFields.contains("accepts")) {
-                ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Jätkamiseks peate nõustuma kasutustingimustega.");
+                ControllerUtil.addFeedback(model, FeedbackType.ERROR, "Jätkamiseks peate nõustuma kasutustingimustega.");
             }
 
             return "donation/donation-form";

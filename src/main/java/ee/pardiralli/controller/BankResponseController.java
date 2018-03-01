@@ -81,7 +81,7 @@ public class BankResponseController {
             ResponseModel responseModel = getModelByBank(bank, params);
             paymentService.checkConsistency(params, responseModel, false);
             paymentService.checkUnsuccessfulResponseMAC(params, bank);
-            ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Maksmine ebaõnnestus");
+            ControllerUtil.addFeedback(model, FeedbackType.ERROR, "Maksmine ebaõnnestus");
             return "donation/donation-form";
         } catch (IllegalResponseException | IllegalTransactionException e) {
             log.error("fail unsuccessful", e);

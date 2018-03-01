@@ -38,12 +38,12 @@ public class SearchController {
     @PostMapping("/search")
     public String searchSubmit(@ModelAttribute("search") @Valid SearchQueryDTO userQuery, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Vigane päring!");
+            ControllerUtil.addFeedback(model, FeedbackType.ERROR, "Vigane päring!");
         } else {
             List<SearchResultDTO> results = searchService.findDucksByQuery(userQuery);
             model.addAttribute("result", results);
             if (results.isEmpty()) {
-                ControllerUtil.setFeedback(model, FeedbackType.INFO, "Päringule vastavaid parte ei leitud");
+                ControllerUtil.addFeedback(model, FeedbackType.INFO, "Päringule vastavaid parte ei leitud");
             }
         }
         return "admin/search";
@@ -58,12 +58,12 @@ public class SearchController {
     @PostMapping("/ducks/search")
     public String publicSearchSubmit(@ModelAttribute("query") @Valid PublicSearchQueryDTO query, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Vigane päring! Kontrolli andmeid.");
+            ControllerUtil.addFeedback(model, FeedbackType.ERROR, "Vigane päring! Kontrolli andmeid.");
         } else {
             List<PublicSearchResultDTO> results = searchService.publicQuery(query);
             model.addAttribute("results", results);
             if (results.isEmpty()) {
-                ControllerUtil.setFeedback(model, FeedbackType.INFO, "Sisestatud omanikuga parte ei leitud.");
+                ControllerUtil.addFeedback(model, FeedbackType.INFO, "Sisestatud omanikuga parte ei leitud.");
             }
         }
         return "public_search";

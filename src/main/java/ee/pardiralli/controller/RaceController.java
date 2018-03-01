@@ -64,26 +64,26 @@ public class RaceController {
 
         if (raceDTO.getIsNew()) {
             if (results.hasFieldErrors()) {
-                ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Ebasobiv sisendis!");
+                ControllerUtil.addFeedback(model, FeedbackType.ERROR, "Ebasobiv sisendis!");
             } else if (!raceService.hasNoOpenedRaces()) {
-                ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Korraga saab olla avatud ainult üks Pardiralli!");
+                ControllerUtil.addFeedback(model, FeedbackType.ERROR, "Korraga saab olla avatud ainult üks Pardiralli!");
             } else if (!RaceUtil.raceDatesAreLegal(raceDTO)) {
-                ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Ebasobivad kuupäevad!");
+                ControllerUtil.addFeedback(model, FeedbackType.ERROR, "Ebasobivad kuupäevad!");
             } else if (raceService.overlaps(raceDTO)) {
-                ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Võistlus kattub olemasolevaga!");
+                ControllerUtil.addFeedback(model, FeedbackType.ERROR, "Võistlus kattub olemasolevaga!");
             } else if (!results.hasFieldErrors()) {
                 raceService.saveNewRace(raceDTO);
-                ControllerUtil.setFeedback(model, FeedbackType.SUCCESS, "Uus võistlus avatud!");
+                ControllerUtil.addFeedback(model, FeedbackType.SUCCESS, "Uus võistlus avatud!");
             } else {
-                ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Viga sisendis!");
+                ControllerUtil.addFeedback(model, FeedbackType.ERROR, "Viga sisendis!");
             }
         } else {
             if (checkInput(raceDTO)) {
                 raceService.updateRace(raceDTO);
-                ControllerUtil.setFeedback(model, FeedbackType.SUCCESS,
+                ControllerUtil.addFeedback(model, FeedbackType.SUCCESS,
                         raceDTO.getIsOpen() ? "Pardiralli edukalt avatud" : "Pardiralli edukalt suletud!");
             } else {
-                ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Korraga saab olla avatud ainult üks Pardiralli!");
+                ControllerUtil.addFeedback(model, FeedbackType.ERROR, "Korraga saab olla avatud ainult üks Pardiralli!");
             }
         }
         // Do not move this forward as we need to send updated DTO

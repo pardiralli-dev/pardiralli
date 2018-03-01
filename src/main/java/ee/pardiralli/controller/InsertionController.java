@@ -45,9 +45,9 @@ public class InsertionController {
                              Principal principal) {
 
         if (raceService.hasNoOpenedRaces()) {
-            ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Ükski võistlus ei ole avatud!");
+            ControllerUtil.addFeedback(model, FeedbackType.ERROR, "Ükski võistlus ei ole avatud!");
         } else if (bindingResult.hasErrors()) {
-            ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Vigane sisend!");
+            ControllerUtil.addFeedback(model, FeedbackType.ERROR, "Vigane sisend!");
         } else {
             try {
                 List<Duck> ducks = insertionService.saveInsertion(insertionDTO, principal);
@@ -55,13 +55,13 @@ public class InsertionController {
                         .map(Duck::getSerialNumber)
                         .map(String::valueOf)
                         .collect(Collectors.joining(", "));
-                ControllerUtil.setFeedback(model, FeedbackType.SUCCESS, "Andmed edukalt sisestatud");
-                ControllerUtil.setFeedback(model, FeedbackType.SUCCESS, "Määratud numbrid: " + duckNumbersJoined);
+                ControllerUtil.addFeedback(model, FeedbackType.SUCCESS, "Andmed edukalt sisestatud");
+                ControllerUtil.addFeedback(model, FeedbackType.SUCCESS, "Määratud numbrid: " + duckNumbersJoined);
             } catch (RaceNotFoundException e) {
-                ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Võistlust ei leitud!");
+                ControllerUtil.addFeedback(model, FeedbackType.ERROR, "Võistlust ei leitud!");
             } catch (MessagingException | MailAuthenticationException | MailSendException e) {
                 log.error("Failed to send confirmation email to {}", insertionDTO.getBuyerEmail());
-                ControllerUtil.setFeedback(model, FeedbackType.ERROR, "Kinnitusmeili saatmine ebaõnnestus");
+                ControllerUtil.addFeedback(model, FeedbackType.ERROR, "Kinnitusmeili saatmine ebaõnnestus");
             }
             model.addAttribute("manualAdd", new InsertionDTO());
         }

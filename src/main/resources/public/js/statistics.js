@@ -7,6 +7,7 @@ function parseDate(input) {
     var parts = input.split('-');
     return new Date(parts[2], parts[1] - 1, parts[0]); // Note: months are 0-based
 }
+
 $(document).ready(function () {
         google.charts.load('current', {'packages': ['line']});
         var donationData;
@@ -18,8 +19,6 @@ $(document).ready(function () {
         var csvEndDatePicker = $('#datepicker_exp_end');
         var csvStartDate = parseDate(csvStartDatePicker.val());
         var csvEndDate = parseDate(csvEndDatePicker.val());
-
-        callDrawCharts();
 
         var gifDiv = $("#loadingGif");
 
@@ -61,53 +60,60 @@ $(document).ready(function () {
             data.addColumn('string', 'Päev');
             data.addColumn('number', 'Müüdud parte');
             data.addRows(duckData);
-
             var options = {
-                chart: {
-                    title: "Müüdud pardid",
-                    subtitle: subtitle
-                },
+                chart: {title: "Müüdud pardid", subtitle: subtitle},
                 colors: ["#FF9900"],
-                width: 900,
-                height: 500,
-                vAxis: {viewWindowMode: "explicit", viewWindow: {min: 0}}
+                vAxis: {viewWindow: {min: 0}},
+                height: 500
             };
-            var chart = new google.charts.Line(document.getElementById("linechart_ducks"));
-            chart.draw(data, google.charts.Line.convertOptions(options));
+            new google.charts.Line(document.getElementById("linechart_ducks")).draw(data, google.charts.Line.convertOptions(options));
         }
 
         function drawChart_donations() {
             var data = new google.visualization.DataTable();
-
             data.addColumn('string', 'Päev');
             data.addColumn('number', 'Kogutud raha');
             data.addRows(donationData);
-
             var options = {
-                chart: {
-                    title: "Annetused",
-                    subtitle: subtitle
-                },
-                width: 900,
-                height: 500,
-                vAxis: {viewWindowMode: "explicit", viewWindow: {min: 0}}
+                chart: {title: "Annetused", subtitle: subtitle},
+                vAxis: {viewWindow: {min: 0}},
+                height: 500
             };
-
-            var chart = new google.charts.Line(document.getElementById("linechart_donations"));
-            chart.draw(data, google.charts.Line.convertOptions(options));
+            new google.charts.Line(document.getElementById("linechart_donations")).draw(data, google.charts.Line.convertOptions(options));
         }
+
 
         function checkCSVDates(startDate, endDate) {
             if (startDate > endDate) {
                 $("#submit").attr("disabled", "disabled");
-            }
-            else {
+            } else {
                 $("#submit").removeAttr("disabled");
             }
         }
 
-        $("#datepicker_don_start").datepicker(
-            {
+
+        if ($("#linechart_ducks").length && $("#linechart_donations").length) {
+            // Set a callback to run when the Google Visualization API is loaded.
+            google.charts.setOnLoadCallback(callDrawCharts);
+        }
+
+        function resizeChart() {
+            if ($("#linechart_ducks").length && $("#linechart_donations").length) {
+                // Set a callback to run when the Google Visualization API is loaded.
+                google.charts.setOnLoadCallback(callDrawCharts);
+            }
+        }
+
+        if (document.addEventListener) {
+            window.addEventListener('resize', resizeChart);
+        } else if (document.attachEvent) {
+            window.attachEvent('onresize', resizeChart);
+        } else {
+            window.resize = resizeChart;
+        }
+
+
+        $("#datepicker_don_start").datepicker({
                 dateFormat: "dd-mm-yy",
                 onSelect: function () {
                     gifDiv.append('<div class="loader loadingDiv container-fluid"></div>');
@@ -116,8 +122,7 @@ $(document).ready(function () {
             }
         );
 
-        $("#datepicker_don_end").datepicker(
-            {
+        $("#datepicker_don_end").datepicker({
                 dateFormat: "dd-mm-yy",
                 onSelect: function () {
                     gifDiv.append('<div class="loader loadingDiv container-fluid"></div>');
@@ -126,8 +131,7 @@ $(document).ready(function () {
             }
         );
 
-        csvStartDatePicker.datepicker(
-            {
+        csvStartDatePicker.datepicker({
                 dateFormat: "dd-mm-yy",
                 onSelect: function () {
                     csvStartDate = csvStartDatePicker.datepicker("getDate");
@@ -136,8 +140,7 @@ $(document).ready(function () {
             }
         );
 
-        csvEndDatePicker.datepicker(
-            {
+        csvEndDatePicker.datepicker({
                 dateFormat: "dd-mm-yy",
                 onSelect: function () {
                     csvEndDate = csvEndDatePicker.datepicker("getDate");

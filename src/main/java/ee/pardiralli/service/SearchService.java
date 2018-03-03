@@ -3,15 +3,16 @@ package ee.pardiralli.service;
 import ee.pardiralli.db.DuckRepository;
 import ee.pardiralli.db.OwnerRepository;
 import ee.pardiralli.db.RaceRepository;
-import ee.pardiralli.model.Duck;
 import ee.pardiralli.dto.PublicSearchQueryDTO;
 import ee.pardiralli.dto.PublicSearchResultDTO;
 import ee.pardiralli.dto.SearchQueryDTO;
 import ee.pardiralli.dto.SearchResultDTO;
+import ee.pardiralli.model.Duck;
 import ee.pardiralli.util.SearchUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -43,7 +44,8 @@ public class SearchService {
                 userQuery.getOwnersLastName(),
                 userQuery.getBuyersEmail(),
                 userQuery.getOwnersPhoneNr(),
-                userQuery.getRaceBeginningDate());
+                userQuery.getRaceBeginningDate(),
+                new PageRequest(0, 500));
 
         log.info("Search with query {} found results with {} ducks", userQuery, result.size());
         return result.stream().map(SearchUtil::duckToSearchResultDTO).collect(Collectors.toList());

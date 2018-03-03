@@ -2,6 +2,7 @@ package ee.pardiralli.db;
 
 import ee.pardiralli.model.Duck;
 import ee.pardiralli.model.DuckOwner;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -24,7 +25,8 @@ public interface DuckRepository extends CrudRepository<Duck, Integer> {
                         @Param("ownerLastName") String ownerLastName,
                         @Param("email") String email,
                         @Param("phone") String phone,
-                        @Param("date") LocalDate date);
+                        @Param("date") LocalDate date,
+                        Pageable pageable);
 
 
     Integer countDucksByRaceIsOpenTrueAndTransactionIsPaidTrue();

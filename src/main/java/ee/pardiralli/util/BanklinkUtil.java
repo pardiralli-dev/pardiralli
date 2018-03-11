@@ -191,6 +191,9 @@ public class BanklinkUtil {
 
     private static PrivateKey getPrivateKey(String filename) throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
         try (InputStream keyStream = BanklinkUtil.class.getClassLoader().getResourceAsStream(filename)) {
+            if (keyStream == null) {
+                throw new RuntimeException(String.format("Private key %s not found!", filename));
+            }
             byte[] keyBytes = IOUtils.toByteArray(keyStream);
             PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(keyBytes);
             KeyFactory kf = KeyFactory.getInstance("RSA");

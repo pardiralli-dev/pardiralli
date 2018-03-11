@@ -46,7 +46,11 @@ public class SerialNumberService {
         } else {
             Optional<Duck> maxDuckFromDb = duckRepository.findTopByRaceIsOpenTrueOrderBySerialNumberDesc();
             log.info("Found Duck with highest serial number: {}", maxDuckFromDb);
-            return maxDuckFromDb.isPresent() ? maxDuckFromDb.get().getSerialNumber() : 0;
+            if (maxDuckFromDb.isPresent() && maxDuckFromDb.get().getSerialNumber() != null) {
+                return maxDuckFromDb.get().getSerialNumber();
+            } else {
+                return 0;
+            }
         }
     }
 }

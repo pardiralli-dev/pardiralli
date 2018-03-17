@@ -28,6 +28,7 @@
         </div>
 
         <p th:if="${param.logoutsuccess}" class="alert alert-success">Olete välja loginud!</p>
+        <p th:if="${param.paymentfail}" class="alert alert-danger">Maksmine ebaõnnestus.</p>
 
         <!--/*@thymesVar id="feedbackList" type="java.util.List<ee.pardiralli.feedback.Feedback>"*/-->
         <div th:replace="fragments/feedback :: feedback-messages (feedbackList=${feedbackList})"></div>

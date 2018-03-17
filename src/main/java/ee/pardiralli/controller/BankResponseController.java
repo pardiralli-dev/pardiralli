@@ -1,23 +1,20 @@
 package ee.pardiralli.controller;
 
 import ee.pardiralli.banklink.*;
-import ee.pardiralli.model.Duck;
-import ee.pardiralli.model.DuckBuyer;
 import ee.pardiralli.dto.DonationFormDTO;
 import ee.pardiralli.dto.DuckDTO;
 import ee.pardiralli.dto.PurchaseInfoDTO;
 import ee.pardiralli.exceptions.IllegalResponseException;
 import ee.pardiralli.exceptions.IllegalTransactionException;
-import ee.pardiralli.feedback.FeedbackType;
+import ee.pardiralli.model.Duck;
+import ee.pardiralli.model.DuckBuyer;
 import ee.pardiralli.service.MailService;
 import ee.pardiralli.service.PaymentService;
 import ee.pardiralli.service.SMSService;
 import ee.pardiralli.util.BanklinkUtil;
-import ee.pardiralli.util.ControllerUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -83,18 +80,8 @@ public class BankResponseController {
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST}, value = "/banklink/{bank}/fail")
     public String failResponse(Model model, @RequestParam Map<String, String> params, @PathVariable Bank bank,
                                @ModelAttribute(DonationFormDTO.DONATION_VARIABLE_NAME) DonationFormDTO dto) {
-        try {
-            ResponseModel responseModel = getModelByBank(bank, params);
-            paymentService.checkConsistency(params, responseModel, false);
-            paymentService.checkUnsuccessfulResponseMAC(params, bank);
-            ControllerUtil.addFeedback(model, FeedbackType.ERROR, "Maksmine ebaõnnestus");
-            return "donation/donation-form";
-        } catch (IllegalTransactionException e) {
-            log.error("fail unsuccessful", e);
-            throw new RuntimeException(e);
-        } catch (IllegalResponseException e) {
-            return "redirect:/";
-        }
+
+        return "redirect:/?paymentfail";
     }
 
     private ResponseModel getModelByBank(Bank bank, Map<String, String> params) {

@@ -8,6 +8,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -37,6 +39,8 @@ public class SearchMethodTests {
     private LocalDate purchaseDate2;
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+
+    private Pageable page = new PageRequest(0, 500);
 
 
     @Autowired
@@ -161,31 +165,31 @@ public class SearchMethodTests {
     @Test
     public void findTests() throws Exception {
         // TEST EXACT SEARCH
-        assertEquals(this.duckRepository.findDuck(duck1.getSerialNumber(), "", "", "", "", purchaseDate1).get(0), duck1);
+        assertEquals(this.duckRepository.findDuck(duck1.getSerialNumber(), "", "", "", "", purchaseDate1, page).get(0), duck1);
 
 
         // TEST GENERAL SEARCH: by last name start should return all test items
-        List<Duck> similarItems = this.duckRepository.findDuck(null, "", "kee", "", "", purchaseDate1);
+        List<Duck> similarItems = this.duckRepository.findDuck(null, "", "kee", "", "", purchaseDate1, page);
         assertTrue(similarItems.contains(duck1));
         assertTrue(similarItems.contains(duck2));
         assertTrue(similarItems.contains(duck3));
 
         // TEST GENERAL SEARCH: by last name start that should return 0 test items
-        similarItems = this.duckRepository.findDuck(null, "", "x", "", "", purchaseDate1);
+        similarItems = this.duckRepository.findDuck(null, "", "x", "", "", purchaseDate1, page);
         assertTrue(!similarItems.contains(duck1));
         assertTrue(!similarItems.contains(duck2));
         assertTrue(!similarItems.contains(duck3));
 
 
         // TEST GENERAL SEARCH: by first name should return one test item
-        similarItems = this.duckRepository.findDuck(null, fName1, "", "", "", purchaseDate1);
+        similarItems = this.duckRepository.findDuck(null, fName1, "", "", "", purchaseDate1, page);
         assertTrue(similarItems.contains(duck1));
         assertTrue(!similarItems.contains(duck2));
         assertTrue(!similarItems.contains(duck3));
 
 
         // TEST GENERAL SEARCH: by phone number and last name start should return all
-        similarItems = this.duckRepository.findDuck(null, "", "kee", "", "55", purchaseDate1);
+        similarItems = this.duckRepository.findDuck(null, "", "kee", "", "55", purchaseDate1, page);
         assertTrue(similarItems.contains(duck1));
         assertTrue(similarItems.contains(duck2));
         assertTrue(similarItems.contains(duck3));

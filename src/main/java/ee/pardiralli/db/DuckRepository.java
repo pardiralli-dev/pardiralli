@@ -2,6 +2,7 @@ package ee.pardiralli.db;
 
 import ee.pardiralli.model.Duck;
 import ee.pardiralli.model.DuckOwner;
+import ee.pardiralli.model.Race;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -31,6 +32,7 @@ public interface DuckRepository extends CrudRepository<Duck, Integer> {
 
     Integer countDucksByRaceIsOpenTrueAndTransactionIsPaidTrue();
 
+    Integer countByRaceAndTransaction_IsPaidTrue(Race race);
 
     List<Duck> findAllByDateOfPurchaseIsBetween(LocalDate startDate, LocalDate endDate);
 
@@ -41,6 +43,9 @@ public interface DuckRepository extends CrudRepository<Duck, Integer> {
             "WHERE d.race.isOpen = true AND d.transaction.isPaid = true")
     Integer sumDonationsInOpenRace();
 
+    @Query("SELECT COALESCE(SUM(d.priceCents), 0) FROM Duck d " +
+            "WHERE d.race = :race AND d.transaction.isPaid = true")
+    Integer sumDonationsInRace(@Param("race") Race race);
 
     /**
      * Count the number of bought ducks given a date.

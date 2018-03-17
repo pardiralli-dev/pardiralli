@@ -10,11 +10,17 @@ import java.util.List;
 
 public interface RaceRepository extends CrudRepository<Race, Integer> {
 
+    // TODO: must always be true
     Race findRaceByIsOpen(Boolean isOpen);
 
     List<Race> findByFinish(LocalDate date);
 
     List<Race> findByBeginning(LocalDate date);
+
+    /**
+     * Find latest closed race.
+     */
+    Race findTopByOrderByFinishDesc();
 
     /**
      * Method for getting the beginning date of the latest race.

@@ -24,7 +24,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         http.formLogin().loginPage("/login").failureUrl("/login?error");
         http.logout().logoutUrl("/logout").logoutSuccessUrl("/?logoutsuccess");
-        http.csrf().ignoringAntMatchers("/banklink/**", "/counter_ajax", "/rest/**");
+        http.csrf().ignoringAntMatchers("/", "/banklink/**", "/counter_ajax", "/rest/**");
     }
 
     @Override

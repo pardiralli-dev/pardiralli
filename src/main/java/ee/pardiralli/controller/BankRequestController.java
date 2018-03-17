@@ -8,12 +8,10 @@ import ee.pardiralli.util.BanklinkUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -25,12 +23,11 @@ public class BankRequestController {
     private final PaymentService paymentService;
 
     @GetMapping("/banklink/{bank}/pay")
-    @ResponseStatus(value = HttpStatus.OK)
     public String paymentForm(Model model, HttpServletRequest req, @PathVariable Bank bank, HttpSession session) {
         Object donationObj = session.getAttribute("donation");
         if (donationObj == null) {
-            log.error("donationObj is null");
-            throw new RuntimeException("donationObj is null");
+            log.info("donationObj is null, redirecting to /");
+            return "redirect:/";
         }
 
         DonationFormDTO donationDTO = (DonationFormDTO) donationObj;

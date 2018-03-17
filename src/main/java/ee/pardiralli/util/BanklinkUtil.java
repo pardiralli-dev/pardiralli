@@ -60,21 +60,27 @@ public class BanklinkUtil {
     public static ZonedDateTime currentDateTime() {
         ZoneId helsinki = ZoneId.of("Europe/Helsinki");
         String TIME_SERVER = "pool.ntp.org";
+
+        NTPUDPClient timeClient = new NTPUDPClient();
+
         try {
-            NTPUDPClient timeClient = new NTPUDPClient();
+            timeClient.open();
             InetAddress inetAddress = InetAddress.getByName(TIME_SERVER);
             TimeInfo timeInfo = timeClient.getTime(inetAddress);
 
-            //TODO: maybe we can do it without Date object
             return timeInfo.getMessage()
                     .getReceiveTimeStamp()
                     .getDate()
                     .toInstant()
                     .atZone(helsinki)
                     .truncatedTo(ChronoUnit.SECONDS);
+
         } catch (IOException e) {
-            log.error("Failed to query time info from pool.ntp.org: {}", e);
+            log.error("Failed to query time info from pool.ntp.org: ", e);
             return ZonedDateTime.now(helsinki).truncatedTo(ChronoUnit.SECONDS);
+
+        } finally {
+            timeClient.close();
         }
     }
 

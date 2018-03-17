@@ -2,11 +2,11 @@ package ee.pardiralli.service;
 
 import ee.pardiralli.banklink.*;
 import ee.pardiralli.db.*;
-import ee.pardiralli.model.*;
 import ee.pardiralli.dto.DonationBoxDTO;
 import ee.pardiralli.dto.DonationFormDTO;
 import ee.pardiralli.exceptions.IllegalResponseException;
 import ee.pardiralli.exceptions.IllegalTransactionException;
+import ee.pardiralli.model.*;
 import ee.pardiralli.util.BanklinkUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -87,7 +87,8 @@ public class PaymentService {
             Objects.requireNonNull(responseModel.getSignature());
             Objects.requireNonNull(responseModel.getAutomaticResponse());
         } catch (NullPointerException e) {
-            throw new RuntimeException(e);
+            log.info("Some bank response params are missing", e);
+            throw new IllegalResponseException("Some bank response params are missing.");
         }
 
         switch (responseModel.getBank()) {
@@ -124,11 +125,12 @@ public class PaymentService {
                 Objects.requireNonNull(responseModel.getSenderName());
                 Objects.requireNonNull(responseModel.getPaymentOrderDateTime());
             } catch (NullPointerException e) {
-                throw new RuntimeException(e);
+                log.info("Some bank response params are missing", e);
+                throw new IllegalResponseException("Some bank response params are missing.");
             }
 
-            String expectedPaymentAmount = this.transactionAmount(transactionID);
-            String actualPaymentAmount = responseModel.getPaymentAmount();
+//            String expectedPaymentAmount = this.transactionAmount(transactionID);
+//            String actualPaymentAmount = responseModel.getPaymentAmount();
 //            if (!actualPaymentAmount.equals(expectedPaymentAmount)) {
 //                throw new IllegalResponseException(String.format("Payments not equal, expected %s, got %s",
 //                        expectedPaymentAmount, actualPaymentAmount));

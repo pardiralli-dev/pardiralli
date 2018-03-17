@@ -34,17 +34,24 @@ public class BankResponseController {
     private final SMSService smsService;
 
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST}, value = "/banklink/{bank}/success")
-    @ResponseStatus(value = HttpStatus.OK)
     public String successResponse(Model model, @RequestParam Map<String, String> params, @PathVariable Bank bank) {
+
+        ResponseModel responseModel = getModelByBank(bank, params);
+
         try {
-            ResponseModel responseModel = getModelByBank(bank, params);
             paymentService.checkConsistency(params, responseModel, true);
             paymentService.checkSuccessfulResponseMAC(params, bank);
-            log.info("Legal payment response received");
+        } catch (IllegalResponseException e) {
+            return "redirect:/";
+        } catch (IllegalTransactionException e) {
+            throw new RuntimeException(e);
+        }
 
-            Integer tid = Integer.valueOf(responseModel.getStamp());
-            PurchaseInfoDTO purchaseInfoDTO;
+        log.info("Legal payment response received");
+        Integer tid = Integer.valueOf(responseModel.getStamp());
+        PurchaseInfoDTO purchaseInfoDTO;
 
+        try {
             // If this was the first callback, perform additional tasks & update DTO as well
             if (!paymentService.isTransactionPaid(tid)) {
                 paymentService.setTransactionPaid(tid);
@@ -67,14 +74,13 @@ public class BankResponseController {
             model.addAttribute("purchaseInfo", purchaseInfoDTO);
             return "donation/payment_successful";
 
-        } catch (IllegalResponseException | IllegalTransactionException e) {
+        } catch (IllegalTransactionException e) {
             log.error("successResponse unsuccessful", e);
             throw new RuntimeException(e);
         }
     }
 
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST}, value = "/banklink/{bank}/fail")
-    @ResponseStatus(value = HttpStatus.OK)
     public String failResponse(Model model, @RequestParam Map<String, String> params, @PathVariable Bank bank,
                                @ModelAttribute(DonationFormDTO.DONATION_VARIABLE_NAME) DonationFormDTO dto) {
         try {
@@ -83,9 +89,11 @@ public class BankResponseController {
             paymentService.checkUnsuccessfulResponseMAC(params, bank);
             ControllerUtil.addFeedback(model, FeedbackType.ERROR, "Maksmine ebaõnnestus");
             return "donation/donation-form";
-        } catch (IllegalResponseException | IllegalTransactionException e) {
+        } catch (IllegalTransactionException e) {
             log.error("fail unsuccessful", e);
             throw new RuntimeException(e);
+        } catch (IllegalResponseException e) {
+            return "redirect:/";
         }
     }
 

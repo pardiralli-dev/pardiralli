@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailAuthenticationException;
 import org.springframework.mail.MailSendException;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
@@ -22,6 +23,8 @@ import org.thymeleaf.spring4.SpringTemplateEngine;
 import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.time.Instant;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -32,14 +35,19 @@ public class MailService {
     private final JavaMailSender mailSender;
 
     @Value("${mail.donation.from}")
-    private String FROM;
+    private String DONATION_MAIL_FROM;
+
+    @Value("${mail.sys.from}")
+    private String SYS_MAIL_FROM;
+    @Value("${mail.sys.to}")
+    private String SYS_MAIL_TO;
 
     /**
      * Send confirmation email to duck buyer about the transaction
      */
     @Async
     public void sendConfirmationEmail(PurchaseInfoDTO purchaseInfoDTO) {
-        log.info(FROM);
+        log.info(DONATION_MAIL_FROM);
         final Context ctx = new Context();
         ctx.setVariable("dto", purchaseInfoDTO);
 
@@ -54,7 +62,7 @@ public class MailService {
         try {
             helper.setTo(to);
             helper.setText(htmlContent, true);
-            helper.setFrom(new InternetAddress(FROM));
+            helper.setFrom(new InternetAddress(DONATION_MAIL_FROM));
             helper.setSubject("Pardiralli kinnitus nr " + transaction.getId());
             mailSender.send(message);
             transaction.setEmailSent(true);
@@ -64,8 +72,30 @@ public class MailService {
             log.error("Exception occurred while sending the confirmation email", e);
             transaction.setEmailSent(false);
             transactionRepository.save(transaction);
-            // TODO: notify the authorities
+            sendAdminNotification("Exception while sending a confirmation email: " + e.getMessage());
         }
+    }
+
+    /**
+     * Send a system notification to admin. Can be used for notification of critical or unexpected errors.
+     */
+    @Async
+    public void sendAdminNotification(String message) {
+        String time = Instant.now().toString();
+        String messageId = UUID.randomUUID().toString();
+        log.info("Sending notification with id {} and time {}", messageId, time);
+
+        message = String.format("%s\n%s\n\n%s",
+                time, messageId, message);
+
+        SimpleMailMessage mail = new SimpleMailMessage();
+        mail.setSubject("Pardiralli system notification " + messageId);
+        mail.setText(message);
+        mail.setTo(SYS_MAIL_TO);
+        mail.setFrom(SYS_MAIL_FROM);
+        mailSender.send(mail);
+
+        log.info("Sent notification with id {} and time {}", messageId, time);
     }
 
     /**

@@ -6,8 +6,6 @@
     <meta charset="UTF-8"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta name="_csrf" th:content="${_csrf != null ? _csrf.token : 'testing'}"/>
-    <meta name="_csrf_header" th:content="${_csrf != null ?_csrf.headerName:'testing'}"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Merriweather+Sans:300,400"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/sniglet.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/jquery-ui.css}"/>
@@ -15,7 +13,6 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
     <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/jquery-ui.min.js}"></script>
-    <script type="text/javascript" th:src="@{/js/loader.js}"></script>
     <script type="text/javascript" th:src="@{/js/picker_config.js}"></script>
     <script type="text/javascript" th:src="@{/js/settings.js}"></script>
     <script type="text/javascript" th:src="@{/js/counter_ajax.js}"></script>
@@ -50,12 +47,6 @@
                             <input th:field="*{raceName}" id="name" type="text" class="form-control" placeholder="Võistluse nimi" required="required"/>
                         </div>
                     </div>
-                    <!--/*<div class="form-group">
-                        <label class="col-form-label col-sm-6 col-lg-3" for="desc">Kirjeldus:</label>
-                        <div class="col-sm-6 col-lg-9">
-                            <input th:field="*{description}" id="desc" type="text" class="form-control" placeholder="Võistluse kirjeldus" required="required"/>
-                        </div>
-                    </div>*/-->
                     <div class="form-group">
                         <div class="col-sm-offset-6 col-sm-6 col-lg-offset-3 col-lg-9">
                             <button id="search_long" type="submit" class="btn btn-default" th:text="'Sisesta uus võistlus!'"></button>
@@ -78,9 +69,7 @@
                 <!--/*@thymesVar id="races" type="java.util.List<ee.pardiralli.dto.RaceDTO>"*/-->
                 <form th:each="raceFromLst : ${races}" th:action="@{/settings}" th:object="${race}" method="post">
                     <div class="row">
-                        <div class="race btn btn-default btn-xs col-md-4"
-                             th:attr="data-selector=${raceFromLst.getId()},data-start=${raceFromLst.getBeginning()},data-end=${raceFromLst.getFinish()}"
-                             th:text="${raceFromLst.getRaceName()}"></div>
+                        <div class="col-md-4" th:text="${raceFromLst.getRaceName()}"></div>
                         <div class="col-md-3" th:text="${raceFromLst.getBeginningAsString()}"></div>
                         <div class="col-md-3" th:text="${raceFromLst.getEndAsString()}"></div>
                         <button class="col-md-2 btn btn-xs" th:classappend="${raceFromLst.getIsOpen()} ? 'btn-danger':'btn-default'" type="submit" th:text="${raceFromLst.getIsOpen()} ? 'Sulge':'Ava'"></button>
@@ -88,9 +77,6 @@
                         <input type="hidden" name="isOpen" th:value="${!raceFromLst.getIsOpen()}"/>
                         <input type="hidden" name="isNew" th:value="false"/>
                     </div>
-                    <!--/*<div th:id="'info3'+${raceFromLst.getId()}" class="row"></div>*/-->
-                    <div th:id="'info'+${raceFromLst.getId()}" class="row"></div>
-                    <div th:id="'info2'+${raceFromLst.getId()}" class="row"></div>
                 </form>
             </div>
         </div>

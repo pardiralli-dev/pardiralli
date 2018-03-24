@@ -11,20 +11,6 @@ import java.util.List;
 public class SearchUtil {
 
     /**
-     * Get sublist from the results list
-     *
-     * @param lst  results list
-     * @param from index from
-     * @param to   index to
-     * @return sublist
-     */
-    public static List<SearchResultDTO> getResultsSubLst(List<SearchResultDTO> lst, Integer from, Integer to) {
-        Integer size = lst.size();
-        if (from > size) return Collections.emptyList();
-        return size >= to ? lst.subList(from, to) : lst.subList(from, size);
-    }
-
-    /**
      * Convert {@link Duck} to {@link SearchResultDTO}
      */
     public static SearchResultDTO duckToSearchResultDTO(Duck d) {

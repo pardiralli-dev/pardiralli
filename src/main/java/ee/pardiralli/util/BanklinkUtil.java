@@ -86,7 +86,6 @@ public class BanklinkUtil {
         }
     }
 
-
     /**
      * @return timestamp in the format
      * <pre>yyyy-MM-ddThh:mm:ss+ZONE</pre>
@@ -97,6 +96,16 @@ public class BanklinkUtil {
     public static String currentDateTimeAsString() {
         String dateTime = currentDateTime().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
         return dateTime.substring(0, dateTime.lastIndexOf(":")) + dateTime.substring(dateTime.lastIndexOf(":") + 1, dateTime.length());
+    }
+
+    // TODO: four methods, one goal
+
+    public static LocalDateTime getCurrentTimestamp() {
+        return ZonedDateTime.now(ZoneId.of("Europe/Helsinki")).toLocalDateTime();
+    }
+
+    public static LocalDate getCurrentDate() {
+        return ZonedDateTime.now(ZoneId.of("Europe/Helsinki")).toLocalDate();
     }
 
     /**
@@ -175,14 +184,6 @@ public class BanklinkUtil {
         } catch (NoSuchAlgorithmException | SignatureException | InvalidKeyException | CertificateException | IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public static LocalDateTime getCurrentTimestamp() {
-        return ZonedDateTime.now(ZoneId.of("Europe/Helsinki")).truncatedTo(ChronoUnit.MINUTES).toLocalDateTime();
-    }
-
-    public static LocalDate getCurrentDate() {
-        return ZonedDateTime.now(ZoneId.of("Europe/Helsinki")).toLocalDate();
     }
 
     private static String concParamsToDataRow(List<String> params) {

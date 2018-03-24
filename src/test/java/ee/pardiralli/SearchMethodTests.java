@@ -40,7 +40,7 @@ public class SearchMethodTests {
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 
-    private Pageable page = new PageRequest(0, 500);
+    private Pageable page = PageRequest.of(0, 500);
 
 
     @Autowired

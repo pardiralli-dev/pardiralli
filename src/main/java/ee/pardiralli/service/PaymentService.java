@@ -18,6 +18,7 @@ import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -43,13 +44,12 @@ public class PaymentService {
             throw new IllegalArgumentException("tid == null");
         }
 
-        Transaction tr = transactionRepository.findById(tid);
-        if (tr == null) {
+        if (!transactionRepository.existsById(tid)) {
             throw new IllegalTransactionException("transaction == null");
         }
 
         List<Duck> ducks = duckRepository.findByTransactionId(tid);
-        if (ducks.size() == 0) {
+        if (ducks.isEmpty()) {
             throw new IllegalTransactionException("No ducks associated with this transaction id: " + tid);
         }
 
@@ -109,9 +109,8 @@ public class PaymentService {
         }
 
         int transactionID = Integer.parseInt(responseModel.getStamp());
-        Transaction tr = transactionRepository.findById(transactionID);
-        if (tr == null) {
-            throw new IllegalTransactionException("Transaction with ID " + String.valueOf(transactionID) + " is null");
+        if (!transactionRepository.existsById(transactionID)) {
+            throw new IllegalTransactionException("Transaction with ID " + transactionID + " is null");
         }
 
         if (isSuccessfulResponse) {
@@ -129,6 +128,7 @@ public class PaymentService {
                 throw new IllegalResponseException("Some bank response params are missing.");
             }
 
+            // TODO: include after testing
 //            String expectedPaymentAmount = this.transactionAmount(transactionID);
 //            String actualPaymentAmount = responseModel.getPaymentAmount();
 //            if (!actualPaymentAmount.equals(expectedPaymentAmount)) {
@@ -157,21 +157,6 @@ public class PaymentService {
     public void checkSuccessfulResponseMAC(Map<String, String> params, Bank bank) throws IllegalResponseException {
         String filename = bank.toString() + "-cert.pem";
         boolean isValidMAC = BanklinkUtil.isValidMAC(filename, params, true);
-        if (!isValidMAC) {
-            throw new IllegalResponseException("MAC signature is invalid");
-        }
-    }
-
-    /**
-     * Checks the validity of the MAC signature of an unsuccessful bank's response.
-     *
-     * @param params a map containing parameters received from the bank's response
-     * @param bank
-     * @throws IllegalResponseException if the response's MAC signature is incorrect
-     */
-    public void checkUnsuccessfulResponseMAC(Map<String, String> params, Bank bank) throws IllegalResponseException {
-        String filename = bank.toString() + "-cert.pem";
-        boolean isValidMAC = BanklinkUtil.isValidMAC(filename, params, false);
         if (!isValidMAC) {
             throw new IllegalResponseException("MAC signature is invalid");
         }
@@ -244,17 +229,17 @@ public class PaymentService {
     }
 
     public Transaction setTransactionPaid(Integer tid) {
-        Transaction transaction = transactionRepository.findById(tid);
+        Optional<Transaction> transactionTransaction = transactionRepository.findById(tid);
+        Transaction transaction = transactionTransaction.orElseThrow(() ->
+                new RuntimeException("Transaction not found."));
         log.info("Setting transaction as paid: {}", transaction);
         transaction.setIsPaid(true);
         return transactionRepository.save(transaction);
     }
 
     public Boolean isTransactionPaid(Integer tid) {
-        Transaction transaction = transactionRepository.findById(tid);
-        if (transaction == null) {
-            throw new RuntimeException(String.format("Transaction with tid '%s' not found", tid));
-        }
+        Optional<Transaction> optionalTransaction = transactionRepository.findById(tid);
+        Transaction transaction = optionalTransaction.orElseThrow(() -> new RuntimeException("Transaction not found!"));
         return transaction.getIsPaid();
     }
 

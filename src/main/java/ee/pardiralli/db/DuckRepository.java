@@ -4,15 +4,15 @@ import ee.pardiralli.model.Duck;
 import ee.pardiralli.model.DuckOwner;
 import ee.pardiralli.model.Race;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-public interface DuckRepository extends CrudRepository<Duck, Integer> {
+public interface DuckRepository extends JpaRepository<Duck, Integer> {
 
     @Query("SELECT d FROM Duck d WHERE " +
             "(d.serialNumber = :serial OR :serial IS NULL) AND " +

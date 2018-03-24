@@ -1,6 +1,7 @@
 package ee.pardiralli.configuration;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,8 +18,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+                .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
+                .permitAll();
+        http.authorizeRequests()
                 .antMatchers("/", "/login", "/counter_ajax", "/rest/**", "/ducks/search", "/banklink/**")
-                .permitAll()
+                .permitAll();
+        http.authorizeRequests()
                 .anyRequest()
                 .fullyAuthenticated();
 
@@ -27,8 +32,5 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.csrf().ignoringAntMatchers("/", "/banklink/**", "/counter_ajax", "/rest/**");
     }
 
-    @Override
-    public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().withUser(adminUsername).password(adminPassword).roles("ADMIN");
-    }
+//
 }

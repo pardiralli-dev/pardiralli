@@ -1,11 +1,11 @@
 package ee.pardiralli.service;
 
 import ee.pardiralli.db.*;
-import ee.pardiralli.model.*;
 import ee.pardiralli.dto.InsertionDTO;
 import ee.pardiralli.dto.PurchaseInfoDTO;
 import ee.pardiralli.exceptions.IllegalTransactionException;
 import ee.pardiralli.exceptions.RaceNotFoundException;
+import ee.pardiralli.model.*;
 import ee.pardiralli.util.BanklinkUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +29,6 @@ public class InsertionService {
     private final MailService mailService;
     private final SerialNumberService numberService;
     private final PaymentService paymentService;
-    private final SMSService smsService;
 
     /**
      * Save data provided by dto into the database
@@ -86,8 +85,6 @@ public class InsertionService {
             log.error("Manual insertion of ducks failed with transaction ID {}", transaction.getId());
             throw new RuntimeException(e);
         }
-//        TODO: 15.03.2017 works only with registered numbers
-//        smsService.sendSMSToAllOwners(BanklinkUtil.getMessages(duckList));
 
         return duckList;
     }

@@ -35,7 +35,7 @@ public class RaceService {
      * Update one race in database according to the raceDTO ID
      */
     public Race updateRace(RaceDTO dto) {
-        Race fromDb = raceRepository.findOne(dto.getId());
+        Race fromDb = raceRepository.getOne(dto.getId());
         fromDb.setIsOpen(dto.getIsOpen());
         Race race = raceRepository.save(fromDb);
         serialNumberService.resetSerial();
@@ -68,7 +68,7 @@ public class RaceService {
      * @return <code>true</code> if exists a Race that matches to input dto else <code>false</code>
      */
     public boolean raceExists(RaceDTO raceDTO) {
-        return raceRepository.exists(raceDTO.getId());
+        return raceRepository.existsById(raceDTO.getId());
     }
 
     /**

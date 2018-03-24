@@ -10,7 +10,6 @@ import ee.pardiralli.model.Duck;
 import ee.pardiralli.model.DuckBuyer;
 import ee.pardiralli.service.MailService;
 import ee.pardiralli.service.PaymentService;
-import ee.pardiralli.service.SMSService;
 import ee.pardiralli.util.BanklinkUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +27,6 @@ import java.util.Map;
 public class BankResponseController {
     private final PaymentService paymentService;
     private final MailService mailService;
-    private final SMSService smsService;
 
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST}, value = "/banklink/{bank}/success")
     public String successResponse(Model model, @RequestParam Map<String, String> params, @PathVariable Bank bank) {
@@ -58,7 +56,6 @@ public class BankResponseController {
                 String totalSum = paymentService.transactionAmount(tid);
                 purchaseInfoDTO = new PurchaseInfoDTO(duckDTOs, buyer.getEmail(), totalSum, tid.toString());
                 mailService.sendConfirmationEmail(purchaseInfoDTO);
-                // smsService.sendSMSToAllOwners(BanklinkUtil.getMessages(ducks)); // works only with registered numbers
             } else {
                 List<Duck> ducks = paymentService.getDucks(tid);
                 log.info("{}", ducks);

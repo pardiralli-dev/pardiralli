@@ -18,12 +18,13 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
-import org.thymeleaf.spring4.SpringTemplateEngine;
+import org.thymeleaf.spring5.SpringTemplateEngine;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.time.Instant;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -56,7 +57,11 @@ public class MailService {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
 
-        Transaction transaction = transactionRepository.findById(Integer.valueOf(purchaseInfoDTO.getTransactionID()));
+        Optional<Transaction> optionalTransaction = transactionRepository.findById(
+                Integer.valueOf(purchaseInfoDTO.getTransactionID()));
+        Transaction transaction = optionalTransaction.orElseThrow(() ->
+                new RuntimeException("Transaction not found by id."));
+
         String to = purchaseInfoDTO.getBuyerEmail();
 
         try {
@@ -103,26 +108,14 @@ public class MailService {
      * @return DTO containing info about whether a confirmation email was sent successfully for this transaction
      */
     public EmailSentDTO queryEmailSent(Integer transactionId) {
-        Transaction t = transactionRepository.findById(transactionId);
-        if (t == null) {
+        Optional<Transaction> optionalTransaction = transactionRepository.findById(transactionId);
+        if (optionalTransaction.isPresent()) {
+            Transaction transaction = optionalTransaction.get();
+            return new EmailSentDTO(transaction.getEmailSent());
+        } else {
             log.warn("Transaction with queried ID '{}' does not exist", transactionId);
             return new EmailSentDTO(null);
-        } else {
-            return new EmailSentDTO(t.getEmailSent());
         }
     }
 
-    /**
-     * @param transactionId
-     * @return DTO containing info about whether a text message was sent successfully for this transaction
-     */
-    public TextMsgDTO querySmsSent(Integer transactionId) {
-        Transaction t = transactionRepository.findById(transactionId);
-        if (t == null) {
-            log.warn("Transaction with queried ID '{}' does not exist", transactionId);
-            return new TextMsgDTO(null);
-        } else {
-            return new TextMsgDTO(t.getSmsSent());
-        }
-    }
 }

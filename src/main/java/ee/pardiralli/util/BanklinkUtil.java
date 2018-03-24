@@ -1,10 +1,9 @@
 package ee.pardiralli.util;
 
+import ee.pardiralli.dto.DuckDTO;
 import ee.pardiralli.model.Duck;
 import ee.pardiralli.model.DuckBuyer;
-import ee.pardiralli.dto.DuckDTO;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.net.ntp.NTPUDPClient;
 import org.apache.commons.net.ntp.TimeInfo;
@@ -25,7 +24,10 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Base64;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -132,7 +134,7 @@ public class BanklinkUtil {
             sig.initSign(getPrivateKey(privateKeyFilename));
             sig.update(dataRow.getBytes("UTF-8"));
             byte[] sigBytes = sig.sign();
-            return Base64.encodeBase64String(sigBytes);
+            return Base64.getEncoder().encodeToString(sigBytes);
         } catch (NoSuchAlgorithmException | SignatureException | InvalidKeyException | InvalidKeySpecException | IOException e) {
             throw new RuntimeException(e);
         }
@@ -168,7 +170,7 @@ public class BanklinkUtil {
             Signature sig = Signature.getInstance("SHA1withRSA");
             sig.initVerify(publicKey);
             sig.update(dataRow.getBytes("UTF-8"));
-            byte[] sigToVerify = Base64.decodeBase64(params.get("VK_MAC"));
+            byte[] sigToVerify = Base64.getDecoder().decode(params.get("VK_MAC"));
             return sig.verify(sigToVerify);
         } catch (NoSuchAlgorithmException | SignatureException | InvalidKeyException | CertificateException | IOException e) {
             throw new RuntimeException(e);
@@ -235,17 +237,6 @@ public class BanklinkUtil {
                         d.getSerialNumber().toString(),
                         centsToEuros(d.getPriceCents())
                 )).collect(Collectors.toList());
-    }
-
-    public static Messages getMessages(List<Duck> ducks) {
-        Map<String, List<String>> serialNrMap = new HashMap<>();
-        for (Duck d : ducks) {
-            String phoneNumber = d.getDuckOwner().getPhoneNumber();
-            List<String> serialNumbers = serialNrMap.getOrDefault(phoneNumber, new ArrayList<>());
-            serialNumbers.add(d.getSerialNumber().toString());
-            serialNrMap.put(phoneNumber, serialNumbers);
-        }
-        return new Messages(serialNrMap);
     }
 
     /**

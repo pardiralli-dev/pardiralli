@@ -1,9 +1,7 @@
 package ee.pardiralli.db;
 
 import ee.pardiralli.model.Transaction;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface TransactionRepository extends CrudRepository<Transaction, Integer> {
-
-    Transaction findById(Integer id);
+public interface TransactionRepository extends JpaRepository<Transaction, Integer> {
 }

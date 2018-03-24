@@ -21,9 +21,4 @@ public class RestServicesController {
         return mailService.queryEmailSent(tid);
     }
 
-    @GetMapping("/rest/conf-sms-check")
-    @CrossOrigin(origins = {"http://localhost:8080", "https://www.pardiralli.ee"})
-    public TextMsgDTO smsSent(@RequestParam(name = "tid") int tid) {
-        return mailService.querySmsSent(tid);
-    }
 }

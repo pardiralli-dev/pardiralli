@@ -20,12 +20,6 @@ $(document).ready(function () {
         var csvStartDate = parseDate(csvStartDatePicker.val());
         var csvEndDate = parseDate(csvEndDatePicker.val());
 
-        var gifDiv = $("#loadingGif");
-
-        $(document).ajaxStop(function () {
-            $(".loadingDiv").remove();
-        });
-
         function callDrawCharts() {
             $.ajax({
                 url: window.location.href,
@@ -116,7 +110,6 @@ $(document).ready(function () {
         $("#datepicker_don_start").datepicker({
                 dateFormat: "dd-mm-yy",
                 onSelect: function () {
-                    gifDiv.append('<div class="loader loadingDiv container-fluid"></div>');
                     callDrawCharts()
                 }
             }
@@ -125,7 +118,6 @@ $(document).ready(function () {
         $("#datepicker_don_end").datepicker({
                 dateFormat: "dd-mm-yy",
                 onSelect: function () {
-                    gifDiv.append('<div class="loader loadingDiv container-fluid"></div>');
                     callDrawCharts()
                 }
             }

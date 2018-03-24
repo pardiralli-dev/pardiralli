@@ -1,12 +1,19 @@
 DROP SCHEMA IF EXISTS public CASCADE;
 CREATE SCHEMA public;
 
+
+CREATE TABLE public.admin (
+                username VARCHAR(256) NOT NULL,
+                CONSTRAINT admin_pk PRIMARY KEY (username)
+);
+
+
 CREATE SEQUENCE public.login_attempt_id_seq;
 
 CREATE TABLE public.login_attempt (
                 id INTEGER NOT NULL DEFAULT nextval('public.login_attempt_id_seq'),
                 ip_addr VARCHAR(45),
-                username VARCHAR(100),
+                username VARCHAR(256),
                 time TIMESTAMP,
                 successful BOOLEAN,
                 CONSTRAINT login_attempt_pk PRIMARY KEY (id)
@@ -41,7 +48,6 @@ CREATE TABLE public.race (
                 finish DATE,
                 is_open BOOLEAN,
                 race_name VARCHAR(50),
-                description VARCHAR(2000),
                 CONSTRAINT id PRIMARY KEY (id)
 );
 

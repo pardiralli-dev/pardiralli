@@ -1,19 +1,13 @@
 package ee.pardiralli.configuration;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-    @Value("${admin.password}")
-    private String adminPassword;
-    @Value("${admin.username}")
-    private String adminUsername;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -32,5 +26,4 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.csrf().ignoringAntMatchers("/", "/banklink/**", "/counter_ajax", "/rest/**");
     }
 
-//
 }

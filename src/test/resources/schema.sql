@@ -1,8 +1,14 @@
 
+CREATE TABLE admin (
+                username VARCHAR(256) NOT NULL,
+                CONSTRAINT admin_pk PRIMARY KEY (username)
+);
+
+
 CREATE TABLE login_attempt (
                 id IDENTITY NOT NULL,
                 ip_addr VARCHAR(45),
-                username VARCHAR(100),
+                username VARCHAR(256),
                 time TIMESTAMP,
                 successful BOOLEAN,
                 CONSTRAINT login_attempt_pk PRIMARY KEY (id)
@@ -29,7 +35,6 @@ CREATE TABLE race (
                 finish DATE,
                 is_open BOOLEAN,
                 race_name VARCHAR(50),
-                description VARCHAR(2000),
                 CONSTRAINT id PRIMARY KEY (id)
 );
 

@@ -15,6 +15,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -28,9 +29,11 @@ import java.util.stream.Collectors;
 public class IndexController {
     private final RaceService raceService;
 
-    @GetMapping("/login")
-    public String loginPage() {
-        return "admin/login";
+    @GetMapping("/pr-login")
+    public String loginPage(@RequestParam(value = "error", required = false) String error) {
+        // if param 'error' is null, redirect to login
+        // if param 'error' is present, redirect to / with error
+        return error == null ? "redirect:/oauth2/authorization/google" : "redirect:/?loginerror";
     }
 
     @GetMapping("/")

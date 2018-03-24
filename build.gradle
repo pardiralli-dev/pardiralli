@@ -45,6 +45,9 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-web')
     compile("org.thymeleaf.extras:thymeleaf-extras-springsecurity4")
 
+    compile('org.springframework.security:spring-security-oauth2-client')
+    compile('org.springframework.security:spring-security-oauth2-jose')
+
     compile('commons-io:commons-io:2.6')
     compile('commons-net:commons-net:3.6')
     compile('org.apache.commons:commons-lang3:3.7')

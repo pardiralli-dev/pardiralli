@@ -50,7 +50,7 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <form method="post" th:action="@{/logout}">
-                    <li class="admin-name-header">Administraator <span sec:authentication="name" class="admin-name">[user]</span> <input type="submit" th:value="#{admin_login.logout_link}" class="btn-link admin-logout"/>
+                    <li class="admin-name-header">Administraator <input type="submit" th:value="#{admin_login.logout_link}" class="btn-link admin-logout"/>
                     </li>
                 </form>
             </ul>

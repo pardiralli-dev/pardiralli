@@ -14,7 +14,7 @@
     <footer th:fragment="footer">
         <span>EVLVL (Eesti Vähihaigete Laste Vanemate Liit) | Registrikood: 80096899 | info@vahilapsed.ee</span>
         <div>
-            <a sec:authorize="!isAuthenticated()" th:href="@{/login}" class="admin-login">Sisene administraatorina</a>
+            <a sec:authorize="!isAuthenticated()" th:href="@{/pr-login}" class="admin-login">Sisene administraatorina</a>
             <span sec:authorize="isAuthenticated()" class="admin-login">
                 <form method="post" th:action="@{/logout}">
                 Oled sisenenud kui <span sec:authentication="name">[user]</span> <input type="submit" th:value="#{admin_login.logout_link}" class="btn-link admin-logout"/>

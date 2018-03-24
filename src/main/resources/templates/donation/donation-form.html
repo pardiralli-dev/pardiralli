@@ -28,8 +28,10 @@
         </div>
 
         <p th:if="${param.logoutsuccess}" class="alert alert-success" th:text="#{index.logoutsuccess}"></p>
+        <p th:if="${param.loginerror}" class="alert alert-danger" th:text="#{index.loginerror}"></p>
         <p th:if="${param.paymentfail}" class="alert alert-danger" th:text="#{index.paymentfail}"></p>
         <p th:if="${param.error}" class="alert alert-danger" th:text="#{index.error}"></p>
+
 
         <!--/*@thymesVar id="feedbackList" type="java.util.List<ee.pardiralli.feedback.Feedback>"*/-->
         <div th:replace="fragments/feedback :: feedback-messages (feedbackList=${feedbackList})"></div>

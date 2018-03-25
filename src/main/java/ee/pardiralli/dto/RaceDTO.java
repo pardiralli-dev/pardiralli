@@ -14,7 +14,6 @@ import java.time.format.DateTimeFormatter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RaceDTO implements Comparable<RaceDTO> {
-
     private Integer id;
 
     @DateTimeFormat(pattern = "dd-MM-yyyy")
@@ -29,12 +28,7 @@ public class RaceDTO implements Comparable<RaceDTO> {
     @Size(max = 50)
     private String raceName;
 
-
-    @NotNull
     private Boolean isOpen;
-
-    @NotNull
-    private Boolean isNew;
 
     public String getBeginningAsString() {
         return DateTimeFormatter.ofPattern("dd-MM-yyyy").format(beginning);
@@ -43,7 +37,6 @@ public class RaceDTO implements Comparable<RaceDTO> {
     public String getEndAsString() {
         return DateTimeFormatter.ofPattern("dd-MM-yyyy").format(finish);
     }
-
 
     @Override
     public int compareTo(RaceDTO o) {

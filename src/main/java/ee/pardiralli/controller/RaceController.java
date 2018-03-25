@@ -1,6 +1,7 @@
 package ee.pardiralli.controller;
 
 import ee.pardiralli.dto.RaceDTO;
+import ee.pardiralli.exceptions.TooManyRacesOpenedException;
 import ee.pardiralli.feedback.FeedbackType;
 import ee.pardiralli.service.RaceService;
 import ee.pardiralli.service.StatisticsService;
@@ -55,41 +56,42 @@ public class RaceController {
         }
     }
 
-    @PostMapping("/settings")
-    public String updateExisting(@ModelAttribute("raceDTO") @Valid RaceDTO raceDTO, BindingResult results, Model model) {
-
-        if (raceDTO.getIsNew()) {
-            if (results.hasFieldErrors()) {
-                ControllerUtil.addFeedback(model, FeedbackType.ERROR, "Ebasobiv sisendis!");
-            } else if (!raceService.hasNoOpenedRaces()) {
-                ControllerUtil.addFeedback(model, FeedbackType.ERROR, "Korraga saab olla avatud ainult üks Pardiralli!");
-            } else if (!RaceUtil.raceDatesAreLegal(raceDTO)) {
-                ControllerUtil.addFeedback(model, FeedbackType.ERROR, "Ebasobivad kuupäevad!");
-            } else if (raceService.raceNameInUse(raceDTO.getRaceName())) {
-                ControllerUtil.addFeedback(model, FeedbackType.ERROR, "Võistluse nimi peab olema unikaalne!");
-            } else if (raceService.overlaps(raceDTO)) {
-                ControllerUtil.addFeedback(model, FeedbackType.ERROR, "Võistlus kattub olemasolevaga!");
-            } else if (!results.hasFieldErrors()) {
-                raceService.saveNewRace(raceDTO);
-                ControllerUtil.addFeedback(model, FeedbackType.SUCCESS, "Uus võistlus avatud!");
-            } else {
-                ControllerUtil.addFeedback(model, FeedbackType.ERROR, "Viga sisendis!");
-            }
+    @PostMapping("/settings-new")
+    public String newRace(@ModelAttribute("raceDTO") @Valid RaceDTO raceDTO, BindingResult results, Model model) {
+        if (results.hasFieldErrors()) {
+            ControllerUtil.addFeedback(model, FeedbackType.ERROR, "Ebasobiv sisendis!");
+        } else if (!(raceService.countOpenedRaces() == 0)) {
+            ControllerUtil.addFeedback(model, FeedbackType.ERROR, "Korraga saab olla avatud ainult üks Pardiralli!");
+        } else if (!RaceUtil.raceDatesAreLegal(raceDTO)) {
+            ControllerUtil.addFeedback(model, FeedbackType.ERROR, "Ebasobivad kuupäevad!");
+        } else if (raceService.raceNameInUse(raceDTO.getRaceName())) {
+            ControllerUtil.addFeedback(model, FeedbackType.ERROR, "Võistluse nimi peab olema unikaalne!");
+        } else if (raceService.overlaps(raceDTO)) {
+            ControllerUtil.addFeedback(model, FeedbackType.ERROR, "Võistlus kattub olemasolevaga!");
+        } else if (!results.hasFieldErrors()) {
+            raceService.saveAndOpenNewRace(raceDTO);
+            ControllerUtil.addFeedback(model, FeedbackType.SUCCESS, "Uus võistlus avatud!");
         } else {
-            if (checkInput(raceDTO)) {
-                raceService.updateRace(raceDTO);
-                ControllerUtil.addFeedback(model, FeedbackType.SUCCESS,
-                        raceDTO.getIsOpen() ? "Pardiralli edukalt avatud" : "Pardiralli edukalt suletud!");
-            } else {
-                ControllerUtil.addFeedback(model, FeedbackType.ERROR, "Korraga saab olla avatud ainult üks Pardiralli!");
-            }
+            ControllerUtil.addFeedback(model, FeedbackType.ERROR, "Viga sisendis!");
         }
+
         model.addAttribute("races", raceService.findAllRaces());
         return "admin/settings";
     }
 
-    private Boolean checkInput(RaceDTO raceDTO) {
-        return raceDTO.getId() != null && raceDTO.getIsOpen() != null && raceService.raceExists(raceDTO) &&
-                (raceService.hasNoOpenedRaces() && raceDTO.getIsOpen() || !raceDTO.getIsOpen());
+    @PostMapping("/settings-toggle")
+    public String updateExisting(@RequestParam("id") Integer id, @ModelAttribute("raceDTO") RaceDTO raceDTO, Model model) {
+        if (raceService.raceExists(id)) {
+            try {
+                ControllerUtil.addFeedback(model, FeedbackType.SUCCESS, raceService.toggleRaceOpened(id) ? "Pardiralli edukalt avatud" : "Pardiralli edukalt suletud!");
+            } catch (TooManyRacesOpenedException e) {
+                ControllerUtil.addFeedback(model, FeedbackType.ERROR, "Korraga saab olla avatud ainult üks Pardiralli!");
+            }
+        } else {
+            ControllerUtil.addFeedback(model, FeedbackType.ERROR, "Võistlust ei leitud!");
+        }
+
+        model.addAttribute("races", raceService.findAllRaces());
+        return "admin/settings";
     }
 }

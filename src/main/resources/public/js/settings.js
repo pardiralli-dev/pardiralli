@@ -1,6 +1,6 @@
 $.datepicker.setDefaults($.datepicker.regional['et']);
 
 $(document).ready(function () {
-    $("#start_date").datepicker({dateFormat: "dd-mm-yy"});
-    $("#end_date").datepicker({dateFormat: "dd-mm-yy"});
+    $("#beginning").datepicker({dateFormat: "dd-mm-yy"});
+    $("#finish").datepicker({dateFormat: "dd-mm-yy"});
 });

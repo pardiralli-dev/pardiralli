@@ -1,10 +1,10 @@
 package ee.pardiralli.controller;
 
 
-import ee.pardiralli.model.Duck;
 import ee.pardiralli.dto.InsertionDTO;
 import ee.pardiralli.exceptions.RaceNotFoundException;
 import ee.pardiralli.feedback.FeedbackType;
+import ee.pardiralli.model.Duck;
 import ee.pardiralli.service.InsertionService;
 import ee.pardiralli.service.RaceService;
 import ee.pardiralli.util.ControllerUtil;
@@ -44,7 +44,7 @@ public class InsertionController {
                              Model model,
                              Principal principal) {
 
-        if (raceService.hasNoOpenedRaces()) {
+        if (raceService.countOpenedRaces() == 0) {
             ControllerUtil.addFeedback(model, FeedbackType.ERROR, "Ükski võistlus ei ole avatud!");
         } else if (bindingResult.hasErrors()) {
             ControllerUtil.addFeedback(model, FeedbackType.ERROR, "Vigane sisend!");

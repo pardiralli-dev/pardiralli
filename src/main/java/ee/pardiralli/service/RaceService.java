@@ -2,6 +2,7 @@ package ee.pardiralli.service;
 
 import ee.pardiralli.db.RaceRepository;
 import ee.pardiralli.dto.RaceDTO;
+import ee.pardiralli.exceptions.TooManyRacesOpenedException;
 import ee.pardiralli.model.Race;
 import ee.pardiralli.util.BanklinkUtil;
 import lombok.AllArgsConstructor;
@@ -11,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,24 +34,33 @@ public class RaceService {
     /**
      * Update one race in database according to the raceDTO ID
      */
-    public Race updateRace(RaceDTO dto) {
-        Race fromDb = raceRepository.getOne(dto.getId());
-        fromDb.setIsOpen(dto.getIsOpen());
+    public boolean toggleRaceOpened(Integer raceId) throws TooManyRacesOpenedException {
+        Race fromDb = raceRepository.getOne(raceId);
+
+        if (fromDb.getIsOpen()) {
+            fromDb.setIsOpen(false);
+        } else if (!fromDb.getIsOpen() && countOpenedRaces() == 0) {
+            fromDb.setIsOpen(true);
+        } else {
+            log.warn("Race {} were tried to open, but opened race already exists.", raceId);
+            throw new TooManyRacesOpenedException();
+        }
+
         Race race = raceRepository.save(fromDb);
         serialNumberService.resetSerial();
-        log.info("Race {} was changed", race.toString());
-        return race;
+        log.info("Race {} state was changed to", race.getId(), race.getIsOpen());
+        return race.getIsOpen();
     }
 
     /**
      * Save new race into the database - it opens new race
      */
-    public Race saveNewRace(RaceDTO dto) {
+    public Race saveAndOpenNewRace(RaceDTO dto) {
         Race race = raceRepository.save(
                 new Race(dto.getBeginning(),
                         dto.getFinish(),
                         dto.getRaceName(),
-                        dto.getIsOpen()));
+                        true));
         serialNumberService.resetSerial();
         log.info("New race {} was added.", race.toString());
         return race;
@@ -60,33 +69,28 @@ public class RaceService {
     /**
      * @return <code>true</code> if no opened race exists, else <code>false</code>
      */
-    public boolean hasNoOpenedRaces() {
-        return raceRepository.countOpenedRaces() == 0;
+    public Integer countOpenedRaces() {
+        return raceRepository.countOpenedRaces();
     }
 
-    /**
-     * @return <code>true</code> if exists a Race that matches to input dto else <code>false</code>
-     */
-    public boolean raceExists(RaceDTO raceDTO) {
-        return raceRepository.existsById(raceDTO.getId());
+    public boolean raceExists(Integer id) {
+        return raceRepository.existsById(id);
     }
 
     /**
      * Find and return all {@link RaceDTO} from the database
      */
     public List<RaceDTO> findAllRaces() {
-        List<RaceDTO> races = IteratorUtils.toList(
+        return IteratorUtils.toList(
                 raceRepository.findAll().iterator()).stream()
                 .map(r -> new RaceDTO(
                         r.getId(),
                         r.getBeginning(),
                         r.getFinish(),
                         r.getRaceName(),
-                        r.getIsOpen(),
-                        false))
+                        r.getIsOpen()))
+                .sorted()
                 .collect(Collectors.toList());
-        Collections.sort(races);
-        return races;
     }
 
     /**
@@ -99,7 +103,7 @@ public class RaceService {
     @Scheduled(cron = "5 0 0 * * *", zone = "Europe/Athens")
     private void closePassedRaces() {
         log.info("Checking for races to close");
-        if (!hasNoOpenedRaces()) {
+        if (countOpenedRaces() == 1) {
             Race lastRace = raceRepository.findRaceByIsOpen(true);
             if (lastRace.getFinish().compareTo(BanklinkUtil.getCurrentDate()) < 0) {
                 log.info("found race that needs to be closed: {}", lastRace.toString());

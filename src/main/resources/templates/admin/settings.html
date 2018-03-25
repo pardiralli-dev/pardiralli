@@ -28,32 +28,30 @@
                 <!--/*@thymesVar id="feedbackList" type="java.util.List<ee.pardiralli.feedback.Feedback>"*/-->
                 <div th:replace="fragments/feedback :: feedback-messages (feedbackList=${feedbackList})"></div>
                 <!--/*@thymesVar id="raceDTO" type="ee.pardiralli.dto.RaceDTO"*/-->
-                <form id="insert" class="form-horizontal" th:action="@{/settings}" th:object="${raceDTO}" method="post">
+                <form class="form-horizontal" th:action="@{/settings-new}" th:object="${raceDTO}" method="post">
                     <div class="form-group">
-                        <label class="col-form-label col-sm-6 col-lg-3" for="start_date">Alguskuupäev:</label>
+                        <label class="col-form-label col-sm-6 col-lg-3" th:for="${#fields.idFromName('beginning')}">Alguskuupäev:</label>
                         <div class="col-sm-6 col-lg-9">
-                            <input th:field="*{beginning}" id="start_date" class="form-control" required="required"/>
+                            <input th:field="*{beginning}" class="form-control" required="required"/>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-form-label col-sm-6 col-lg-3" for="end_date">Lõppkuupäev:</label>
+                        <label class="col-form-label col-sm-6 col-lg-3" th:for="${#fields.idFromName('finish')}">Lõppkuupäev:</label>
                         <div class="col-sm-6 col-lg-9">
-                            <input th:field="*{finish}" id="end_date" class="form-control" required="required"/>
+                            <input th:field="*{finish}" class="form-control" required="required"/>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-form-label col-sm-6 col-lg-3" for="name">Nimi:</label>
+                        <label class="col-form-label col-sm-6 col-lg-3" th:for="${#fields.idFromName('raceName')}">Nimi:</label>
                         <div class="col-sm-6 col-lg-9">
-                            <input th:field="*{raceName}" id="name" type="text" class="form-control" placeholder="Võistluse nimi" required="required"/>
+                            <input th:field="*{raceName}" type="text" class="form-control" placeholder="Võistluse nimi" required="required"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-sm-offset-6 col-sm-6 col-lg-offset-3 col-lg-9">
-                            <button id="search_long" type="submit" class="btn btn-default" th:text="'Sisesta uus võistlus!'"></button>
+                            <button type="submit" class="btn btn-default" th:text="'Sisesta uus võistlus!'"></button>
                         </div>
                     </div>
-                    <input type="hidden" name="isNew" th:value="true"/>
-                    <input type="hidden" name="isOpen" th:value="true"/>
                 </form>
             </div>
         </div>
@@ -67,15 +65,13 @@
                 </div>
                 <!--/*@thymesVar id="race" type="ee.pardiralli.dto.RaceDTO"*/-->
                 <!--/*@thymesVar id="races" type="java.util.List<ee.pardiralli.dto.RaceDTO>"*/-->
-                <form th:each="raceFromLst : ${races}" th:action="@{/settings}" th:object="${race}" method="post">
+                <form th:each="raceFromLst : ${races}" th:action="@{/settings-toggle}" th:object="${race}" method="post">
                     <div class="row">
                         <div class="col-md-4" th:text="${raceFromLst.getRaceName()}"></div>
                         <div class="col-md-3" th:text="${raceFromLst.getBeginningAsString()}"></div>
                         <div class="col-md-3" th:text="${raceFromLst.getEndAsString()}"></div>
                         <button class="col-md-2 btn btn-xs" th:classappend="${raceFromLst.getIsOpen()} ? 'btn-danger':'btn-default'" type="submit" th:text="${raceFromLst.getIsOpen()} ? 'Sulge':'Ava'"></button>
                         <input type="hidden" name="id" th:value="${raceFromLst.getId()}"/>
-                        <input type="hidden" name="isOpen" th:value="${!raceFromLst.getIsOpen()}"/>
-                        <input type="hidden" name="isNew" th:value="false"/>
                     </div>
                 </form>
             </div>

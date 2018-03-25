@@ -3,16 +3,18 @@ package ee.pardiralli.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
+import lombok.experimental.Accessors;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Accessors(chain = true)
 public class SearchQueryDTO {
 
     @Min(0)
@@ -31,8 +33,7 @@ public class SearchQueryDTO {
     private String ownersPhoneNr;
 
     @NotNull
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
-    private LocalDate raceBeginningDate;
+    private String raceName;
 
     // The following values are used in search page as default properties what to display
     private Boolean checkSerialNumber = true;
@@ -65,7 +66,5 @@ public class SearchQueryDTO {
 
     private Boolean checkIpAddr = false;
 
-    public SearchQueryDTO(LocalDate lastBeginningDate) {
-        this.raceBeginningDate = lastBeginningDate;
-    }
+    private List<String> allRaceNames = new ArrayList<>();
 }

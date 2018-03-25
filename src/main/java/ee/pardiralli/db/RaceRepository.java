@@ -23,12 +23,11 @@ public interface RaceRepository extends JpaRepository<Race, Integer> {
     Race findTopByOrderByFinishDesc();
 
     /**
-     * Method for getting the beginning date of the latest race.
-     *
-     * @return beginning date
+     * Method for getting the latest race.
      */
-    @Query("SELECT MAX(r.beginning) FROM Race r")
-    LocalDate findLastBeginningDate();
+    Race findFirst1ByOrderByBeginningDesc();
+
+    Boolean existsByRaceName(String raceName);
 
     /**
      * Method for getting the finish date of the latest race.

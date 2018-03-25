@@ -8,6 +8,7 @@ import ee.pardiralli.dto.PublicSearchResultDTO;
 import ee.pardiralli.dto.SearchQueryDTO;
 import ee.pardiralli.dto.SearchResultDTO;
 import ee.pardiralli.model.Duck;
+import ee.pardiralli.model.Race;
 import ee.pardiralli.util.SearchUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +32,15 @@ public class SearchService {
      * Create instance of {@link SearchQueryDTO} with latest {@link ee.pardiralli.model.Race} raceBeginningDate assigned
      */
     public SearchQueryDTO getLatestRaceSearchDTO() {
-        return new SearchQueryDTO(raceRepository.findLastBeginningDate());
+        return new SearchQueryDTO()
+                .setRaceName(raceRepository.findFirst1ByOrderByBeginningDesc().getRaceName())
+                .setAllRaceNames(getAllRaceNames());
+    }
+
+    public List<String> getAllRaceNames() {
+        return raceRepository.findAll().stream()
+                .map(Race::getRaceName)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -44,7 +53,7 @@ public class SearchService {
                 userQuery.getOwnersLastName(),
                 userQuery.getBuyersEmail(),
                 userQuery.getOwnersPhoneNr(),
-                userQuery.getRaceBeginningDate(),
+                userQuery.getRaceName(),
                 PageRequest.of(0, 500));
 
         log.info("Search with query {} found results with {} ducks", userQuery, result.size());

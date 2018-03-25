@@ -10,20 +10,16 @@ import ee.pardiralli.util.RaceUtil;
 import ee.pardiralli.util.StatisticsUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
-import java.util.Date;
 
 @Controller
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -69,6 +65,8 @@ public class RaceController {
                 ControllerUtil.addFeedback(model, FeedbackType.ERROR, "Korraga saab olla avatud ainult üks Pardiralli!");
             } else if (!RaceUtil.raceDatesAreLegal(raceDTO)) {
                 ControllerUtil.addFeedback(model, FeedbackType.ERROR, "Ebasobivad kuupäevad!");
+            } else if (raceService.raceNameInUse(raceDTO.getRaceName())) {
+                ControllerUtil.addFeedback(model, FeedbackType.ERROR, "Võistluse nimi peab olema unikaalne!");
             } else if (raceService.overlaps(raceDTO)) {
                 ControllerUtil.addFeedback(model, FeedbackType.ERROR, "Võistlus kattub olemasolevaga!");
             } else if (!results.hasFieldErrors()) {
@@ -86,7 +84,6 @@ public class RaceController {
                 ControllerUtil.addFeedback(model, FeedbackType.ERROR, "Korraga saab olla avatud ainult üks Pardiralli!");
             }
         }
-        // Do not move this forward as we need to send updated DTO
         model.addAttribute("races", raceService.findAllRaces());
         return "admin/settings";
     }

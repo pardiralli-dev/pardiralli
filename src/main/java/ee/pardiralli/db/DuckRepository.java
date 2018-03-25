@@ -19,14 +19,14 @@ public interface DuckRepository extends JpaRepository<Duck, Integer> {
             "LOWER(d.duckOwner.firstName)   LIKE LOWER(CONCAT(:ownerFirstName,'%')) AND " +
             "LOWER(d.duckOwner.lastName)    LIKE LOWER(CONCAT(:ownerLastName,'%'))  AND " +
             "LOWER(d.duckBuyer.email)       LIKE LOWER(CONCAT(:email,'%'))          AND " +
-            "     (d.race.beginning)       = :date                                  AND " +
+            "     (d.race.raceName)       = :raceName                                  AND " +
             "LOWER(d.duckOwner.phoneNumber) LIKE LOWER(CONCAT(:phone,'%'))")
     List<Duck> findDuck(@Param("serial") Integer serialNumber,
                         @Param("ownerFirstName") String ownerFirstName,
                         @Param("ownerLastName") String ownerLastName,
                         @Param("email") String email,
                         @Param("phone") String phone,
-                        @Param("date") LocalDate date,
+                        @Param("raceName") String raceName,
                         Pageable pageable);
 
 

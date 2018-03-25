@@ -111,4 +111,8 @@ public class RaceService {
             log.info("Found no open race to automatically close.");
         }
     }
+
+    public boolean raceNameInUse(String name) {
+        return raceRepository.existsByRaceName(name);
+    }
 }

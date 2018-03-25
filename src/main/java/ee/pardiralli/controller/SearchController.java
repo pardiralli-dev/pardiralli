@@ -9,19 +9,14 @@ import ee.pardiralli.service.SearchService;
 import ee.pardiralli.util.ControllerUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -46,6 +41,7 @@ public class SearchController {
                 ControllerUtil.addFeedback(model, FeedbackType.INFO, "Päringule vastavaid parte ei leitud");
             }
         }
+        userQuery.setAllRaceNames(searchService.getAllRaceNames());
         return "admin/search";
     }
 

@@ -23,16 +23,15 @@ import java.util.Objects;
 @Slf4j
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class StatisticsService {
+    public static final String CSV_DELIMITER = ";";
     private final DuckRepository duckRepository;
     private final RaceRepository raceRepository;
-    public static final String CSV_DELIMITER = ";";
-
 
     /**
      * @return the beginning date of the last race
      */
     public LocalDate getLastBeginningDate() {
-        return raceRepository.findLastBeginningDate();
+        return raceRepository.findTopByOrderByFinishDesc().getBeginning();
     }
 
     /**

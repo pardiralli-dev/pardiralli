@@ -19,7 +19,6 @@ import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestPropertySource(locations = "classpath:test.properties")
 @RunWith(SpringRunner.class)
 public class RaceRepoTests2 {
     private Race race1;
@@ -37,7 +36,7 @@ public class RaceRepoTests2 {
 
 
     @Before
-    public void setup() throws Exception {
+    public void setup() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         beginning1 = LocalDate.parse("12-02-2399", formatter);
         finish1 = LocalDate.parse("19-12-2400", formatter);
@@ -57,18 +56,18 @@ public class RaceRepoTests2 {
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         raceRepository.deleteAll();
     }
 
     @Test
-    public void findLastTests() throws Exception {
-        assertEquals(this.raceRepository.findLastBeginningDate(), race2.getBeginning());
+    public void findLastTests() {
+        assertEquals(this.raceRepository.findFirst1ByOrderByBeginningDesc().getBeginning(), race2.getBeginning());
         assertEquals(this.raceRepository.findLastFinishDate(), race2.getFinish());
     }
 
     @Test
-    public void findByTests() throws Exception {
+    public void findByTests() {
         List<Race> findByBeginningList = this.raceRepository.findByBeginning(beginning1);
         assertTrue(findByBeginningList.size() == 1 && findByBeginningList.contains(race1));
 

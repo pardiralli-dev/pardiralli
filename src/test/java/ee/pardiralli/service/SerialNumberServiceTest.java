@@ -4,7 +4,6 @@ import ee.pardiralli.db.*;
 import ee.pardiralli.model.*;
 import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,6 @@ import static java.time.Month.JANUARY;
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestPropertySource(locations = "classpath:test.properties")
 @RunWith(SpringRunner.class)
 public class SerialNumberServiceTest {
 
@@ -51,7 +49,7 @@ public class SerialNumberServiceTest {
      * if i % 3 == 2: then open race3 and add duck and check if serial is correct
      */
     @Test
-    public void testSerial() throws Exception {
+    public void testSerial() {
         Race race1 = new Race(1, of(2016, JANUARY, 20), of(2016, JANUARY, 22), "r1", false);
         Race race2 = new Race(2, of(2016, JANUARY, 23), of(2016, JANUARY, 25), "r2", false);
         Race race3 = new Race(3, of(2015, JANUARY, 23), of(2015, JANUARY, 25), "r3", false);
@@ -116,7 +114,7 @@ public class SerialNumberServiceTest {
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         raceRepository.deleteAll();
         duckRepository.deleteAll();
         transactionRepository.deleteAll();

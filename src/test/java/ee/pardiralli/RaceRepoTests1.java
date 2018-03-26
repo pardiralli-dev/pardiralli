@@ -19,7 +19,6 @@ import java.util.List;
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestPropertySource(locations = "classpath:test.properties")
 @RunWith(SpringRunner.class)
 public class RaceRepoTests1 {
     private final int trueCount = 6;
@@ -31,7 +30,7 @@ public class RaceRepoTests1 {
 
 
     @Before
-    public void setup() throws Exception {
+    public void setup() {
         races = new ArrayList<>();
         for (int i = 0; i < trueCount; i++) {
             LocalDate start = LocalDate.of(2016, Month.JANUARY, i + 1);
@@ -46,18 +45,18 @@ public class RaceRepoTests1 {
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         raceRepository.deleteAll();
     }
 
 
     @Test
-    public void countTrue() throws Exception {
+    public void countTrue() {
         Assert.assertEquals(trueCount, (int) raceRepository.countOpenedRaces());
     }
 
     @Test
-    public void falseAndTrueAreBalanced() throws Exception {
+    public void falseAndTrueAreBalanced() {
         Assert.assertEquals(falseCount, raceRepository.count() - raceRepository.countOpenedRaces());
     }
 }

@@ -23,7 +23,6 @@ import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestPropertySource(locations = "classpath:test.properties")
 @RunWith(SpringRunner.class)
 public class SearchMethodTests {
     private Duck duck1;
@@ -37,6 +36,9 @@ public class SearchMethodTests {
 
     private LocalDate purchaseDate1;
     private LocalDate purchaseDate2;
+
+    private Race race1;
+
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 
@@ -59,7 +61,7 @@ public class SearchMethodTests {
     private TransactionRepository transactionRepository;
 
     @Before
-    public void setup() throws Exception {
+    public void setup() {
         fName1 = "Anu";
         fName2 = "Jenny";
         fName3 = "Tambet";
@@ -69,7 +71,7 @@ public class SearchMethodTests {
         String lName3 = "Keemik";
 
         purchaseDate1 = LocalDate.of(2017, Month.JANUARY, 2);
-        Race race = raceRepository.save(new Race(purchaseDate1, LocalDate.now(), "some", true));
+        race1 = raceRepository.save(new Race(purchaseDate1, LocalDate.now(), "some", true));
 
         DuckOwner duckOwner1 = ownerRepository.save(new DuckOwner(1, fName1, lName1, "55764383"));
         DuckOwner duckOwner2 = ownerRepository.save(new DuckOwner(2, fName2, lName2, "55364383"));
@@ -86,7 +88,7 @@ public class SearchMethodTests {
                 1,
                 LocalDateTime.now(),
                 100,
-                race,
+                race1,
                 duckOwner1,
                 duckBuyer1,
                 transaction1
@@ -98,7 +100,7 @@ public class SearchMethodTests {
                 2,
                 LocalDateTime.now(),
                 100,
-                race,
+                race1,
                 duckOwner2,
                 duckBuyer2,
                 transaction1
@@ -110,7 +112,7 @@ public class SearchMethodTests {
                 3,
                 LocalDateTime.now(),
                 100,
-                race,
+                race1,
                 duckOwner3,
                 duckBuyer1,
                 transaction1
@@ -124,7 +126,7 @@ public class SearchMethodTests {
                 4,
                 localDateTime,
                 1001,
-                race,
+                race1,
                 duckOwner1,
                 duckBuyer1,
                 transaction1
@@ -135,7 +137,7 @@ public class SearchMethodTests {
                 5,
                 localDateTime,
                 1002,
-                race,
+                race1,
                 duckOwner2,
                 duckBuyer2,
                 transaction1
@@ -149,7 +151,7 @@ public class SearchMethodTests {
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         transactionRepository.deleteAll();
         duckRepository.deleteAll();
         buyerRepository.deleteAll();
@@ -159,44 +161,42 @@ public class SearchMethodTests {
 
     /**
      * Tests methods findBySerialNumber and findDuck.
-     *
-     * @throws Exception
      */
     @Test
-    public void findTests() throws Exception {
+    public void findTests() {
         // TEST EXACT SEARCH
-        assertEquals(this.duckRepository.findDuck(duck1.getSerialNumber(), "", "", "", "", purchaseDate1, page).get(0), duck1);
+        assertEquals(this.duckRepository.findDuck(duck1.getSerialNumber(), "", "", "", "", race1.getRaceName(), page).get(0), duck1);
 
 
         // TEST GENERAL SEARCH: by last name start should return all test items
-        List<Duck> similarItems = this.duckRepository.findDuck(null, "", "kee", "", "", purchaseDate1, page);
+        List<Duck> similarItems = this.duckRepository.findDuck(null, "", "kee", "", "", race1.getRaceName(), page);
         assertTrue(similarItems.contains(duck1));
         assertTrue(similarItems.contains(duck2));
         assertTrue(similarItems.contains(duck3));
 
         // TEST GENERAL SEARCH: by last name start that should return 0 test items
-        similarItems = this.duckRepository.findDuck(null, "", "x", "", "", purchaseDate1, page);
+        similarItems = this.duckRepository.findDuck(null, "", "x", "", "", race1.getRaceName(), page);
         assertTrue(!similarItems.contains(duck1));
         assertTrue(!similarItems.contains(duck2));
         assertTrue(!similarItems.contains(duck3));
 
 
         // TEST GENERAL SEARCH: by first name should return one test item
-        similarItems = this.duckRepository.findDuck(null, fName1, "", "", "", purchaseDate1, page);
+        similarItems = this.duckRepository.findDuck(null, fName1, "", "", "", race1.getRaceName(), page);
         assertTrue(similarItems.contains(duck1));
         assertTrue(!similarItems.contains(duck2));
         assertTrue(!similarItems.contains(duck3));
 
 
         // TEST GENERAL SEARCH: by phone number and last name start should return all
-        similarItems = this.duckRepository.findDuck(null, "", "kee", "", "55", purchaseDate1, page);
+        similarItems = this.duckRepository.findDuck(null, "", "kee", "", "55", race1.getRaceName(), page);
         assertTrue(similarItems.contains(duck1));
         assertTrue(similarItems.contains(duck2));
         assertTrue(similarItems.contains(duck3));
     }
 
     @Test
-    public void countByDateOfPurchaseTest() throws Exception {
+    public void countByDateOfPurchaseTest() {
         assertEquals(this.duckRepository.countByDateOfPurchase(purchaseDate1), new Integer(3));
         assertEquals(this.duckRepository.countByDateOfPurchase(purchaseDate2), new Integer(2));
         LocalDate purchaseDate3 = LocalDate.parse("12-12-2563", formatter);
@@ -204,7 +204,7 @@ public class SearchMethodTests {
     }
 
     @Test
-    public void donationsByDateOfPurchaseTest() throws Exception {
+    public void donationsByDateOfPurchaseTest() {
         assertEquals(this.duckRepository.donationsByDateOfPurchase(purchaseDate1), 300d);
         assertEquals(this.duckRepository.donationsByDateOfPurchase(purchaseDate2), 2003d);
         LocalDate purchaseDate3 = LocalDate.parse("12-12-2564", formatter);

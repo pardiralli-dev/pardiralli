@@ -1,3 +1,4 @@
+DROP ALL OBJECTS;
 
 CREATE TABLE admin (
                 username VARCHAR(256) NOT NULL,

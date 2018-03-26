@@ -28,7 +28,7 @@
                 <!--/*@thymesVar id="feedbackList" type="java.util.List<ee.pardiralli.feedback.Feedback>"*/-->
                 <div th:replace="fragments/feedback :: feedback-messages (feedbackList=${feedbackList})"></div>
                 <!--/*@thymesVar id="raceDTO" type="ee.pardiralli.dto.RaceDTO"*/-->
-                <form class="form-horizontal" th:action="@{/settings-new}" th:object="${raceDTO}" method="post">
+                <form class="form-horizontal" th:action="@{/settings/new}" th:object="${raceDTO}" method="post">
                     <div class="form-group">
                         <label class="col-form-label col-sm-6 col-lg-3" th:for="${#fields.idFromName('beginning')}">Alguskuupäev:</label>
                         <div class="col-sm-6 col-lg-9">
@@ -65,7 +65,7 @@
                 </div>
                 <!--/*@thymesVar id="race" type="ee.pardiralli.dto.RaceDTO"*/-->
                 <!--/*@thymesVar id="races" type="java.util.List<ee.pardiralli.dto.RaceDTO>"*/-->
-                <form th:each="raceFromLst : ${races}" th:action="@{/settings-toggle}" th:object="${race}" method="post">
+                <form th:each="raceFromLst : ${races}" th:action="@{/settings/toggle}" th:object="${race}" method="post">
                     <div class="row">
                         <div class="col-md-4" th:text="${raceFromLst.getRaceName()}"></div>
                         <div class="col-md-3" th:text="${raceFromLst.getBeginningAsString()}"></div>

@@ -7,7 +7,6 @@ import ee.pardiralli.model.Race;
 import ee.pardiralli.util.BanklinkUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.IteratorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -42,7 +41,7 @@ public class RaceService {
         } else if (!fromDb.getIsOpen() && countOpenedRaces() == 0) {
             fromDb.setIsOpen(true);
         } else {
-            log.warn("Race {} were tried to open, but opened race already exists.", raceId);
+            log.warn("Tried to open race {} but another race is already open.", raceId);
             throw new TooManyRacesOpenedException();
         }
 
@@ -53,7 +52,7 @@ public class RaceService {
     }
 
     /**
-     * Save new race into the database - it opens new race
+     * Save and open new race
      */
     public Race saveAndOpenNewRace(RaceDTO dto) {
         Race race = raceRepository.save(
@@ -81,8 +80,7 @@ public class RaceService {
      * Find and return all {@link RaceDTO} from the database
      */
     public List<RaceDTO> findAllRaces() {
-        return IteratorUtils.toList(
-                raceRepository.findAll().iterator()).stream()
+        return raceRepository.findAll().stream()
                 .map(r -> new RaceDTO(
                         r.getId(),
                         r.getBeginning(),

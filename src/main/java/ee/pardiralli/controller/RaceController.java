@@ -56,7 +56,7 @@ public class RaceController {
         }
     }
 
-    @PostMapping("/settings-new")
+    @PostMapping("/settings/new")
     public String newRace(@ModelAttribute("raceDTO") @Valid RaceDTO raceDTO, BindingResult results, Model model) {
         if (results.hasFieldErrors()) {
             ControllerUtil.addFeedback(model, FeedbackType.ERROR, "Ebasobiv sisendis!");
@@ -79,7 +79,7 @@ public class RaceController {
         return "admin/settings";
     }
 
-    @PostMapping("/settings-toggle")
+    @PostMapping("/settings/toggle")
     public String updateExisting(@RequestParam("id") Integer id, @ModelAttribute("raceDTO") RaceDTO raceDTO, Model model) {
         if (raceService.raceExists(id)) {
             try {

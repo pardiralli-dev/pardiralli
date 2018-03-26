@@ -1,4 +1,4 @@
 package ee.pardiralli.exceptions;
 
-public class RaceNotFoundException extends Throwable {
+public class RaceNotFoundException extends Exception {
 }

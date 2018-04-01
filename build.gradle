@@ -55,7 +55,7 @@ dependencies {
 
     compile('com.sun.mail:javax.mail:1.6.0')
 
-    compileOnly('org.projectlombok:lombok:1.16.18')
+    compileOnly('org.projectlombok:lombok:1.16.20')
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
 

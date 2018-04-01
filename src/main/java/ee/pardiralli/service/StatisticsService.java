@@ -3,6 +3,7 @@ package ee.pardiralli.service;
 import ee.pardiralli.db.DuckRepository;
 import ee.pardiralli.db.RaceRepository;
 import ee.pardiralli.model.Duck;
+import ee.pardiralli.model.Race;
 import ee.pardiralli.statistics.ExportFileDTO;
 import ee.pardiralli.util.StatisticsUtil;
 import lombok.AllArgsConstructor;
@@ -31,14 +32,18 @@ public class StatisticsService {
      * @return the beginning date of the last race
      */
     public LocalDate getLastBeginningDate() {
-        return raceRepository.findTopByOrderByFinishDesc().getBeginning();
+        Race race = raceRepository.findTopByOrderByFinishDesc();
+        //TODO: should use from DateUtil
+        return race == null ? LocalDate.now() : race.getBeginning();
     }
 
     /**
      * @return the finish date of the last race
      */
     public LocalDate getLastFinishDate() {
-        return raceRepository.findLastFinishDate();
+        Race race = raceRepository.findTopByOrderByFinishDesc();
+        //TODO: should use from DateUtil
+        return race == null ? LocalDate.now() : race.getFinish();
     }
 
     /**

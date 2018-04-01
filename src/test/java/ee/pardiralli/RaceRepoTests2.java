@@ -63,7 +63,7 @@ public class RaceRepoTests2 {
     @Test
     public void findLastTests() {
         assertEquals(this.raceRepository.findFirst1ByOrderByBeginningDesc().getBeginning(), race2.getBeginning());
-        assertEquals(this.raceRepository.findLastFinishDate(), race2.getFinish());
+        assertEquals(this.raceRepository.findFirst1ByOrderByBeginningDesc().getFinish(), race2.getFinish());
     }
 
     @Test

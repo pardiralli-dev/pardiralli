@@ -7,23 +7,18 @@ import ee.pardiralli.statistics.Statistics;
 import ee.pardiralli.util.StatisticsUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -34,17 +29,11 @@ public class StatisticsController {
 
     @GetMapping("/statistics")
     public String statistics(Model model) {
-        model.addAttribute(
-                "statistics",
-                new Statistics(
-                        statisticsService.getLastBeginningDate(),
-                        statisticsService.getLastFinishDate())
-        );
+        LocalDate start = statisticsService.getLastBeginningDate();
+        LocalDate end = statisticsService.getLastFinishDate();
 
-        LocalDate startDateExp = LocalDate.now();
-        LocalDate endDateExp = LocalDate.now();
-        model.addAttribute("exportFileDTO", new ExportFileDTO(startDateExp, endDateExp));
-
+        model.addAttribute("statistics", new Statistics(start, end));
+        model.addAttribute("exportFileDTO", new ExportFileDTO(start, end));
         return "admin/statistics";
     }
 

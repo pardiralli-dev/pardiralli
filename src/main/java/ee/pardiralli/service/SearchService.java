@@ -28,14 +28,9 @@ public class SearchService {
     private final OwnerRepository ownerRepository;
     private final RaceRepository raceRepository;
 
-    /**
-     * Create instance of {@link SearchQueryDTO} with latest {@link ee.pardiralli.model.Race} raceBeginningDate assigned
-     */
     public SearchQueryDTO getLatestRaceSearchDTO() {
-        //TODO: what if no race is open?
-        return new SearchQueryDTO()
-                .setRaceName(raceRepository.findFirst1ByOrderByBeginningDesc().getRaceName())
-                .setAllRaceNames(getAllRaceNames());
+        Race race = raceRepository.findFirst1ByOrderByBeginningDesc();
+        return race == null ? new SearchQueryDTO() : new SearchQueryDTO().setRaceName(race.getRaceName()).setAllRaceNames(getAllRaceNames());
     }
 
     public List<String> getAllRaceNames() {

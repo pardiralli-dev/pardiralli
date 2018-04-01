@@ -29,14 +29,6 @@ public interface RaceRepository extends JpaRepository<Race, Integer> {
 
     Boolean existsByRaceName(String raceName);
 
-    /**
-     * Method for getting the finish date of the latest race.
-     *
-     * @return finish date
-     */
-    @Query("SELECT MAX(r.finish) FROM Race r")
-    LocalDate findLastFinishDate();
-
 
     @Query("SELECT COUNT (r) FROM Race r WHERE r.isOpen = true")
     Integer countOpenedRaces();

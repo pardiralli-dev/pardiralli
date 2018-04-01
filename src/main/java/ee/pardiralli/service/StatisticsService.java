@@ -29,7 +29,7 @@ public class StatisticsService {
     private final RaceRepository raceRepository;
 
     /**
-     * @return the beginning date of the last race
+     * @return the beginning date of the last race if race exists. If no race exists, return current time.
      */
     public LocalDate getLastBeginningDate() {
         Race race = raceRepository.findTopByOrderByFinishDesc();
@@ -38,7 +38,7 @@ public class StatisticsService {
     }
 
     /**
-     * @return the finish date of the last race
+     * @return the finish date of the last race, if race exists. If no race exists, return current time.
      */
     public LocalDate getLastFinishDate() {
         Race race = raceRepository.findTopByOrderByFinishDesc();

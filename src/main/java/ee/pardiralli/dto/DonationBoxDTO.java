@@ -2,11 +2,13 @@ package ee.pardiralli.dto;
 
 import ee.pardiralli.model.Duck;
 import lombok.Data;
+import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.*;
 
 @Data
+@Accessors(chain = true)
 public class DonationBoxDTO {
 
     @NotBlank

@@ -1,5 +1,13 @@
 DROP ALL OBJECTS;
 
+
+CREATE TABLE sys_param (
+                id VARCHAR(10) NOT NULL,
+                duck_price INTEGER NOT NULL,
+                CONSTRAINT sys_param_pk PRIMARY KEY (id)
+);
+
+
 CREATE TABLE admin (
                 username VARCHAR(256) NOT NULL,
                 CONSTRAINT admin_pk PRIMARY KEY (username)

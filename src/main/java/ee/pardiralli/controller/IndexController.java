@@ -4,6 +4,7 @@ import ee.pardiralli.dto.DonationBoxDTO;
 import ee.pardiralli.dto.DonationFormDTO;
 import ee.pardiralli.feedback.FeedbackType;
 import ee.pardiralli.service.RaceService;
+import ee.pardiralli.service.SystemPropertyService;
 import ee.pardiralli.util.ControllerUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +29,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class IndexController {
     private final RaceService raceService;
+    private final SystemPropertyService systemPropertyService;
 
     @GetMapping("/pr-login")
     public String loginPage(@RequestParam(value = "error", required = false) String error) {
@@ -38,12 +40,13 @@ public class IndexController {
 
     @GetMapping("/")
     public String donationForm(@ModelAttribute(DonationFormDTO.DONATION_VARIABLE_NAME) DonationFormDTO dto) {
+        dto.getBoxes().get(0).setDuckPrice(systemPropertyService.getDefaultDuckPrice());
         return raceService.isRaceOpened() ? "donation/donation-form" : "race_not_opened";
     }
 
     @PostMapping(value = "/", params = {"addBox"})
     public String donationFormAddBox(@ModelAttribute(DonationFormDTO.DONATION_VARIABLE_NAME) DonationFormDTO donation) {
-        donation.getBoxes().add(new DonationBoxDTO());
+        donation.getBoxes().add(new DonationBoxDTO().setDuckPrice(systemPropertyService.getDefaultDuckPrice()));
         return "donation/donation-form";
     }
 

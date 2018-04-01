@@ -33,19 +33,19 @@
                 <form class="form-horizontal public-search" th:action="@{/ducks/search}" th:object="${query}" method="post">
 
                     <div class="form-group" th:classappend="${#fields.hasErrors('ownersFirstName')} ? 'has-error has-feedback'">
-                        <label class="control-label col-sm-6 col-md-3" for="first_name" th:text="#{publicsearch.form.first_name}"></label>
+                        <label class="control-label col-sm-6 col-md-3" th:text="#{publicsearch.form.first_name}" th:for="${#fields.idFromName('ownersFirstName')}"></label>
                         <div class="col-sm-6 col-md-9">
-                            <input id="first_name" type="text" class="form-control" th:field="*{ownersFirstName}"/>
+                            <input type="text" class="form-control" th:field="*{ownersFirstName}" required="required"/>
                             <span th:if="${#fields.hasErrors('ownersFirstName')}" class="glyphicon glyphicon-remove form-control-feedback"></span>
                             <div th:if="${#fields.hasErrors('ownersFirstName')}" class="err-msg-specific" th:text="#{publicsearch.form.err.too_few_chars}"></div>
                         </div>
                     </div>
-                    <div class="form-group" th:classappend="${#fields.hasErrors('ownersLastName')} ? 'has-error has-feedback'">
-                        <label class="control-label col-sm-6 col-md-3" for="last_name" th:text="#{publicsearch.form.last_name}"></label>
+                    <div class="form-group" th:classappend="${#fields.hasErrors('ownersPhone')} ? 'has-error has-feedback'">
+                        <label class="control-label col-sm-6 col-md-3" th:text="#{publicsearch.form.phone}" th:for="${#fields.idFromName('ownersPhone')}"></label>
                         <div class="col-sm-6 col-md-9">
-                            <input id="last_name" type="text" class="form-control" th:field="*{ownersLastName}"/>
-                            <span th:if="${#fields.hasErrors('ownersLastName')}" class="glyphicon glyphicon-remove form-control-feedback"></span>
-                            <div th:if="${#fields.hasErrors('ownersLastName')}" class="err-msg-specific" th:text="#{publicsearch.form.err.too_few_chars}"></div>
+                            <input type="text" class="form-control" th:field="*{ownersPhone}" required="required"/>
+                            <span th:if="${#fields.hasErrors('ownersPhone')}" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                            <div th:if="${#fields.hasErrors('ownersPhone')}" class="err-msg-specific" th:text="#{publicsearch.form.err.too_few_chars}"></div>
                         </div>
                     </div>
                     <div class="form-group">

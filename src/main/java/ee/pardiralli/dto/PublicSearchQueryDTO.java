@@ -14,7 +14,7 @@ public class PublicSearchQueryDTO {
     @Size(min = 2, max = 100)
     private String ownersFirstName;
 
-    @Size(min = 2, max = 100)
-    private String ownersLastName;
+    @Size(max = 50)
+    private String ownersPhone;
 
 }

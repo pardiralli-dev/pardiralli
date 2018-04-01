@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -57,14 +58,18 @@ public class SearchService {
     }
 
     /**
-     * Fetch all ducks that match query
+     * Fetch all ducks from the latest race that match query
      */
-    public List<PublicSearchResultDTO> publicQuery(PublicSearchQueryDTO query) {
+    public List<PublicSearchResultDTO> publicQueryLatestRace(PublicSearchQueryDTO query) {
+        Race race = raceRepository.findFirst1ByOrderByBeginningDesc();
+        if (race == null) return new ArrayList<>();
+
         return ownerRepository
-                .findByFirstNameContainingAndLastNameContainingAllIgnoreCase(query.getOwnersFirstName(), query.getOwnersLastName())
+                .findByFirstNameIgnoreCaseAndPhoneNumber(query.getOwnersFirstName(), query.getOwnersPhone())
                 .stream()
                 .map(duckRepository::findByDuckOwner)
                 .flatMap(Collection::stream)
+                .filter(d -> d.getRace().getRaceName().equals(race.getRaceName()))
                 .map(d -> new PublicSearchResultDTO(
                         d.getDuckOwner().getFirstName(),
                         d.getDuckOwner().getLastName(),

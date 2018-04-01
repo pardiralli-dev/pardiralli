@@ -56,7 +56,7 @@ public class SearchController {
         if (bindingResult.hasErrors()) {
             ControllerUtil.addFeedback(model, FeedbackType.ERROR, "Vigane päring! Kontrolli andmeid.");
         } else {
-            List<PublicSearchResultDTO> results = searchService.publicQuery(query);
+            List<PublicSearchResultDTO> results = searchService.publicQueryLatestRace(query);
             model.addAttribute("results", results);
             if (results.isEmpty()) {
                 ControllerUtil.addFeedback(model, FeedbackType.INFO, "Sisestatud omanikuga parte ei leitud.");

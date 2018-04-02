@@ -15,7 +15,7 @@ import javax.persistence.Id;
 public class SysParam {
 
     @Id
-    private String id;
+    private String key;
 
-    private Integer duckPrice;
+    private Integer param;
 }

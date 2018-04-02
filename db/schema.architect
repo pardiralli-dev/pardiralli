@@ -222,10 +222,10 @@
   <table id="TAB59" populated="true" UUID="0a2308ae-21ad-4f5b-81e7-223145c1cc50" name="sys_param" objectType="TABLE" physicalName="sys_param" >
    <remarks></remarks>
    <folder id="FOLTAB591" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL60" populated="true" UUID="83b0d314-d59e-4ea7-8f22-cc90384d8493" autoIncrement="false" autoIncrementSequenceName="sys_param_id_seq" defaultValue="" name="id" nullable="0" physicalName="id" precision="10" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL60" populated="true" UUID="83b0d314-d59e-4ea7-8f22-cc90384d8493" autoIncrement="false" autoIncrementSequenceName="sys_param_key_seq" defaultValue="" name="key" nullable="0" physicalName="key" precision="50" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL61" populated="true" UUID="6b439a00-9912-4899-86f9-b458aab4bb0a" autoIncrement="false" autoIncrementSequenceName="sys_param_duck_price_seq" defaultValue="" name="duck_price" nullable="0" physicalName="duck_price" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL61" populated="true" UUID="6b439a00-9912-4899-86f9-b458aab4bb0a" autoIncrement="false" autoIncrementSequenceName="sys_param_param_seq" defaultValue="" name="param" nullable="1" physicalName="param" precision="2000" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
     </folder>
@@ -235,7 +235,7 @@
     </folder>
     <folder id="FOLTAB594" populated="true" name="Indices" physicalName="Indices" type="4">
     <index id="IDX62" populated="true" UUID="ecd312ca-e673-4886-b5a5-968c8f0b3bde" clustered="false" name="sys_param_pk" physicalName="sys_param_pk" primaryKeyIndex="true" unique="false" >
-     <index-column id="IDC63" populated="true" UUID="3adcdfb7-a707-4448-82f7-5e2db01b908b" ascendingOrDescending="UNSPECIFIED" column-ref="COL60" name="id" physicalName="id" />
+     <index-column id="IDC63" populated="true" UUID="3adcdfb7-a707-4448-82f7-5e2db01b908b" ascendingOrDescending="UNSPECIFIED" column-ref="COL60" name="key" physicalName="key" />
     </index>
    </folder>
   </table>
@@ -254,7 +254,7 @@
    </relationship>
   </relationships>
  </target-database>
- <ddl-generator type="ca.sqlpower.architect.ddl.PostgresDDLGenerator" allow-connection="true" target-schema="public"> </ddl-generator>
+ <ddl-generator type="ca.sqlpower.architect.ddl.H2DDLGenerator" allow-connection="false"> </ddl-generator>
  <liquibase-settings useSeparateChangeSets="false" generateId="false" idStart="1"/>
  <create-kettle-job-settings filePath="" jobName="" schemaName="" kettleJoinType="0" savingToFile="true" />
  <play-pen zoom="1.0" viewportX="0" viewportY="0" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">

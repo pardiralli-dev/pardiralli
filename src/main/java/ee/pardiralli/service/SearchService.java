@@ -69,7 +69,7 @@ public class SearchService {
                 .stream()
                 .map(duckRepository::findByDuckOwner)
                 .flatMap(Collection::stream)
-                .filter(d -> d.getRace().getRaceName().equals(race.getRaceName()))
+                .filter(d -> d.getRace().getId() == race.getId())
                 .map(d -> new PublicSearchResultDTO(
                         d.getDuckOwner().getFirstName(),
                         d.getDuckOwner().getLastName(),

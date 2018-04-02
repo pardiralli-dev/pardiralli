@@ -1,12 +1,8 @@
-DROP SCHEMA IF EXISTS public CASCADE;
-CREATE SCHEMA public;
-
-
 
 CREATE TABLE public.sys_param (
-                id VARCHAR(10) NOT NULL,
-                duck_price INTEGER NOT NULL,
-                CONSTRAINT sys_param_pk PRIMARY KEY (id)
+                key VARCHAR(50) NOT NULL,
+                param VARCHAR(2000),
+                CONSTRAINT sys_param_pk PRIMARY KEY (key)
 );
 
 

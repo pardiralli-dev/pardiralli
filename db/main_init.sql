@@ -1,7 +1,7 @@
 
 CREATE TABLE public.sys_param (
                 key VARCHAR(50) NOT NULL,
-                param VARCHAR(2000),
+                value VARCHAR(2000),
                 CONSTRAINT sys_param_pk PRIMARY KEY (key)
 );
 

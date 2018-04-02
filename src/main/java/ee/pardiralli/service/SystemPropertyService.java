@@ -12,15 +12,15 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 @Slf4j
 public class SystemPropertyService {
-    private static final String DEFAULT_PRICE = "sys_param_def_price";
+    private static final String DEFAULT_PRICE = "sys_def_price";
     private final SystemParamRepository paramRepository;
 
     public Integer getDefaultDuckPrice() {
-        return paramRepository.existsById(DEFAULT_PRICE) ? paramRepository.getOne(DEFAULT_PRICE).getParam() : Duck.MINIMUM_PRICE;
+        return paramRepository.existsById(DEFAULT_PRICE) ? Integer.valueOf(paramRepository.getOne(DEFAULT_PRICE).getValue()) : Duck.MINIMUM_PRICE;
     }
 
     public void setDefaultDuckPrice(Integer price) {
         log.info("Setting global duck price to {}", price);
-        paramRepository.save(new SysParam(DEFAULT_PRICE, price));
+        paramRepository.save(new SysParam(DEFAULT_PRICE, String.valueOf(price)));
     }
 }

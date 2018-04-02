@@ -17,5 +17,5 @@ public class SysParam {
     @Id
     private String key;
 
-    private Integer param;
+    private String value;
 }

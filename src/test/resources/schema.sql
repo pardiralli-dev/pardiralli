@@ -1,3 +1,4 @@
+DROP ALL OBJECTS;
 
 CREATE TABLE sys_param (
                 key VARCHAR(50) NOT NULL,

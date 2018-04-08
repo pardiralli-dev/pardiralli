@@ -54,7 +54,10 @@ public class RaceService {
     /**
      * Save and open new race
      */
-    public Race saveAndOpenNewRace(RaceDTO dto) {
+    public void saveAndOpenNewRace(RaceDTO dto) {
+        if (raceNameInUse(dto.getRaceName())) {
+            throw new RuntimeException("Race name must be unique.");
+        }
         Race race = raceRepository.save(
                 new Race(dto.getBeginning(),
                         dto.getFinish(),
@@ -62,7 +65,6 @@ public class RaceService {
                         true));
         serialNumberService.resetSerial();
         log.info("New race {} was added.", race.toString());
-        return race;
     }
 
     /**

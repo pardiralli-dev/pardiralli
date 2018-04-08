@@ -50,8 +50,7 @@ public class SearchService {
                 userQuery.getOwnersLastName(),
                 userQuery.getBuyersEmail(),
                 userQuery.getOwnersPhoneNr(),
-                userQuery.getRaceName(),
-                PageRequest.of(0, 500));
+                userQuery.getRaceName());
 
         log.info("Search with query {} found results with {} ducks", userQuery, result.size());
         return result.stream().map(SearchUtil::duckToSearchResultDTO).collect(Collectors.toList());

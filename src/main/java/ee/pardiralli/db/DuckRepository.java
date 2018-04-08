@@ -26,8 +26,7 @@ public interface DuckRepository extends JpaRepository<Duck, Integer> {
                         @Param("ownerLastName") String ownerLastName,
                         @Param("email") String email,
                         @Param("phone") String phone,
-                        @Param("raceName") String raceName,
-                        Pageable pageable);
+                        @Param("raceName") String raceName);
 
 
     Integer countDucksByRaceIsOpenTrueAndTransactionIsPaidTrue();

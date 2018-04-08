@@ -13,7 +13,6 @@ import ee.pardiralli.util.SearchUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -64,16 +63,19 @@ public class SearchService {
         if (race == null) return new ArrayList<>();
 
         return ownerRepository
-                .findByFirstNameIgnoreCaseAndPhoneNumber(query.getOwnersFirstName(), query.getOwnersPhone())
+                .findByFirstNameIgnoreCaseAndPhoneNumberContaining(query.getOwnersFirstName(), query.getOwnersPhone())
                 .stream()
                 .map(duckRepository::findByDuckOwner)
                 .flatMap(Collection::stream)
                 .filter(d -> d.getRace().getId().equals(race.getId()))
+                .filter(d -> d.getSerialNumber() != null)
                 .map(d -> new PublicSearchResultDTO(
                         d.getDuckOwner().getFirstName(),
-                        d.getDuckOwner().getLastName(),
+                        SearchUtil.anonymizePhoneNumber(d.getDuckOwner().getPhoneNumber()),
                         String.valueOf(d.getSerialNumber())))
                 .collect(Collectors.toList());
     }
+
+
 }
 

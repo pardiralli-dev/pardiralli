@@ -12,6 +12,8 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/jquery-ui.css}"/>
     <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/datatables.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/public-search.js}"></script>
     <script type="text/javascript" th:src="@{/js/counter_ajax.js}"></script>
 </head>
 <body>
@@ -45,7 +47,7 @@
                         <div class="col-sm-6 col-md-9">
                             <input type="text" class="form-control" th:field="*{ownersPhone}" required="required"/>
                             <span th:if="${#fields.hasErrors('ownersPhone')}" class="glyphicon glyphicon-remove form-control-feedback"></span>
-                            <div th:if="${#fields.hasErrors('ownersPhone')}" class="err-msg-specific" th:text="#{publicsearch.form.err.too_few_chars}"></div>
+                            <div th:if="${#fields.hasErrors('ownersPhone')}" class="err-msg-specific" th:text="#{publicsearch.form.err.too_few_numbers}"></div>
                         </div>
                     </div>
                     <div class="form-group">
@@ -60,16 +62,18 @@
         <!--/*@thymesVar id="results" type="java.util.List<ee.pardiralli.dto.PublicSearchResultDTO>"*/-->
         <div th:if="${results?.size() > 0}" class="panel panel-default">
             <div class="panel-body">
-                <table class="table">
+                <table id="public-results" class="table">
                     <thead>
                     <tr>
                         <th th:text="#{publicsearch.table_header.owner}"></th>
+                        <th th:text="#{publicsearch.table_header.phone_suffix}"></th>
                         <th th:text="#{publicsearch.table_header.duck_no}"></th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="res : ${results}">
-                        <td><span th:text="${res.getOwnerFirstName()}"></span> <span th:text="${res.getOwnerLastName()}"></span></td>
+                        <td th:text="${res.getOwnerFirstName()}"></td>
+                        <td th:text="${res.getOwnerPhoneSuffix()}"></td>
                         <td th:text="${res.getSerialNumber()}"></td>
                     </tr>
                     </tbody>

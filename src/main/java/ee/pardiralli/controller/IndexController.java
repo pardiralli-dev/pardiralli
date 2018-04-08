@@ -24,6 +24,8 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static ee.pardiralli.service.SystemPropertyService.SysKey.FRONT_PAGE_INFO;
+
 @Controller
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 @Slf4j
@@ -39,20 +41,31 @@ public class IndexController {
     }
 
     @GetMapping("/")
-    public String donationForm(@ModelAttribute(DonationFormDTO.DONATION_VARIABLE_NAME) DonationFormDTO dto) {
+    public String donationForm(@ModelAttribute(DonationFormDTO.DONATION_VARIABLE_NAME) DonationFormDTO dto, Model model) {
+        // Add front page message
+        systemPropertyService.getProperty(FRONT_PAGE_INFO)
+                .ifPresent(msg -> ControllerUtil.addFeedback(model, FeedbackType.INFO, msg));
+
         dto.getBoxes().get(0).setDuckPrice(systemPropertyService.getDefaultDuckPrice());
         return raceService.isRaceOpened() ? "donation/donation-form" : "race_not_opened";
     }
 
     @PostMapping(value = "/", params = {"addBox"})
-    public String donationFormAddBox(@ModelAttribute(DonationFormDTO.DONATION_VARIABLE_NAME) DonationFormDTO donation) {
+    public String donationFormAddBox(@ModelAttribute(DonationFormDTO.DONATION_VARIABLE_NAME) DonationFormDTO donation, Model model) {
+        // Add front page message
+        systemPropertyService.getProperty(FRONT_PAGE_INFO)
+                .ifPresent(msg -> ControllerUtil.addFeedback(model, FeedbackType.INFO, msg));
         donation.getBoxes().add(new DonationBoxDTO().setDuckPrice(systemPropertyService.getDefaultDuckPrice()));
         return "donation/donation-form";
     }
 
     @PostMapping(value = "/", params = {"removeBox"})
     public String donationFormRemoveBox(@ModelAttribute(DonationFormDTO.DONATION_VARIABLE_NAME) DonationFormDTO donation,
+                                        Model model,
                                         HttpServletRequest req) {
+        // Add front page message
+        systemPropertyService.getProperty(FRONT_PAGE_INFO)
+                .ifPresent(msg -> ControllerUtil.addFeedback(model, FeedbackType.INFO, msg));
         int boxId = Integer.parseInt(req.getParameter("removeBox"));
         donation.getBoxes().remove(boxId);
 

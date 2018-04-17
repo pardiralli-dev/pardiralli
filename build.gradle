@@ -61,4 +61,5 @@ dependencies {
 
     runtime('com.h2database:h2')
     runtime('org.postgresql:postgresql')
+    providedRuntime('org.springframework.boot:spring-boot-starter-tomcat')
 }

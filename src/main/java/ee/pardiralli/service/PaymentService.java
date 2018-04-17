@@ -8,6 +8,7 @@ import ee.pardiralli.exceptions.IllegalResponseException;
 import ee.pardiralli.exceptions.IllegalTransactionException;
 import ee.pardiralli.model.*;
 import ee.pardiralli.util.BanklinkUtil;
+import ee.pardiralli.util.GeneralUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -185,7 +186,7 @@ public class PaymentService {
             DuckOwner duckOwner = new DuckOwner();
             duckOwner.setFirstName(box.getOwnerFirstName());
             duckOwner.setLastName(box.getOwnerLastName());
-            duckOwner.setPhoneNumber(box.getOwnerPhone());
+            duckOwner.setPhoneNumber(GeneralUtil.cleanPhoneNumber(box.getOwnerPhone()));
             log.info("Saving " + duckOwner);
             duckOwner = ownerRepository.save(duckOwner);
 

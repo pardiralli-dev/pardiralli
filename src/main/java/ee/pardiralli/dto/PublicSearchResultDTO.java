@@ -11,7 +11,7 @@ public class PublicSearchResultDTO {
 
     private String ownerFirstName;
 
-    private String ownerLastName;
+    private String ownerPhoneSuffix;
 
     private String serialNumber;
 }

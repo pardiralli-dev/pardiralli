@@ -1,12 +1,10 @@
 package ee.pardiralli.util;
 
-import ee.pardiralli.model.Duck;
 import ee.pardiralli.dto.SearchResultDTO;
+import ee.pardiralli.model.Duck;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Collections;
-import java.util.List;
 
 public class SearchUtil {
 
@@ -55,6 +53,21 @@ public class SearchUtil {
     private static String getDateAsString(LocalDateTime startDate, String pattern) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
         return startDate.format(formatter);
+    }
+
+    public static String anonymizePhoneNumber(String phoneNumber) {
+        if (phoneNumber == null) {
+            return "";
+        }
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = phoneNumber.length() - 1; i >= 0; i--) {
+            if ((phoneNumber.length() - i - 1) % 4 == 0 && i != phoneNumber.length() - 1) {
+                sb.insert(0, " ");
+            }
+            sb.insert(0, i < phoneNumber.length() - 4 ? "*" : phoneNumber.charAt(i));
+        }
+        return sb.toString();
     }
 }
 

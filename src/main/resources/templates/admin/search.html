@@ -88,7 +88,7 @@
                     <div class="row">
                         <div class="col-sm-3">
                             <label>
-                                <input th:id="checkSerialNumber" th:field="*{checkSerialNumber}" type="checkbox"/>
+                                <input th:id="checkSerialNumber" th:field="*{checkSerialNumber}" type="checkbox" disabled="disabled"/>
                                 <span class="search-check-label" th:text="#{search.table_header.duck_serial_no}"></span>
                             </label>
                         </div>
@@ -204,7 +204,7 @@
                             <th th:if="${search.getCheckPrice()}" th:text="#{search.table_header.donation}"></th>
                             <th th:if="${search.getCheckTid()}" th:text="#{search.table_header.transaction_no}"></th>
                             <th th:if="${search.getCheckIsPaid()}" th:text="#{search.table_header.is_paid}"></th>
-                            <th th:if="${search.getCheckTimeOfPayment()}" th:text="#{search.table_header.payment_time}"></th>
+                            <th class="td-time-of-payment" th:if="${search.getCheckTimeOfPayment()}" th:text="#{search.table_header.payment_time}"></th>
                             <th th:if="${search.getCheckBank()}" th:text="#{search.table_header.bank_name}"></th>
                             <th th:if="${search.getCheckEmailSent()}" th:text="#{search.table_header.confirmation_email}"></th>
                             <th th:if="${search.getCheckRace()}" th:text="#{search.table_header.race_name}"></th>

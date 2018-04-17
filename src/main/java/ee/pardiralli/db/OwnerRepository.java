@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface OwnerRepository extends JpaRepository<DuckOwner, Integer> {
 
-    List<DuckOwner> findByFirstNameIgnoreCaseAndPhoneNumber(String firstName, String phoneNumber);
+    List<DuckOwner> findByFirstNameIgnoreCaseAndPhoneNumberContaining(String firstName, String phoneNumber);
 }

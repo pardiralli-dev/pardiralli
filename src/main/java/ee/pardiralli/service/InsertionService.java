@@ -7,6 +7,7 @@ import ee.pardiralli.exceptions.IllegalTransactionException;
 import ee.pardiralli.exceptions.RaceNotFoundException;
 import ee.pardiralli.model.*;
 import ee.pardiralli.util.BanklinkUtil;
+import ee.pardiralli.util.GeneralUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +51,7 @@ public class InsertionService {
         DuckOwner duckOwner = new DuckOwner();
         duckOwner.setFirstName(insertionDTO.getOwnerFirstName());
         duckOwner.setLastName(insertionDTO.getOwnerLastName());
-        duckOwner.setPhoneNumber(insertionDTO.getOwnerPhoneNumber());
+        duckOwner.setPhoneNumber(GeneralUtil.cleanPhoneNumber(insertionDTO.getOwnerPhoneNumber()));
         duckOwner = ownerRepository.save(duckOwner);
 
         Transaction transaction = new Transaction();

@@ -45,5 +45,5 @@ public class SystemPropertyService {
         SysKey(String value) {
             this.value = value;
         }
-        }
+    }
 }

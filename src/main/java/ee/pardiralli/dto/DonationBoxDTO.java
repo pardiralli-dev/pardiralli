@@ -30,7 +30,7 @@ public class DonationBoxDTO {
     private Integer duckQuantity;
 
     @NotNull
-    @Min(5) // Duck.MINIMUM_PRICE
+    @Min(10) // Duck.MINIMUM_PRICE
     private Integer duckPrice;
 
     public DonationBoxDTO() {

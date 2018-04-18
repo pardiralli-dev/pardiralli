@@ -68,7 +68,7 @@ public interface DuckRepository extends JpaRepository<Duck, Integer> {
     /**
      * @return highest serial of duck found in database
      */
-    Optional<Duck> findTopByRaceIsOpenTrueOrderBySerialNumberDesc();
+    Optional<Duck> findTopByRaceIsOpenTrueAndSerialNumberNotNullOrderBySerialNumberDesc();
 
 
     List<Duck> findByDuckOwner(DuckOwner duckOwner);

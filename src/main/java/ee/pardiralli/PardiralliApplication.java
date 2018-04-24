@@ -11,13 +11,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableAsync
 @EnableScheduling
 public class PardiralliApplication extends SpringBootServletInitializer {
-    // TODO: SpringBootSeervletInitializer needed?
-
     public static void main(String[] args) {
         SpringApplication.run(PardiralliApplication.class, args);
     }
 
-    // TODO: needed?
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
         return application.sources(PardiralliApplication.class);

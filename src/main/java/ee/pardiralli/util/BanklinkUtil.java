@@ -5,14 +5,11 @@ import ee.pardiralli.model.Duck;
 import ee.pardiralli.model.DuckBuyer;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.net.ntp.NTPUDPClient;
-import org.apache.commons.net.ntp.TimeInfo;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.net.InetAddress;
 import java.security.*;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
@@ -55,35 +52,11 @@ public class BanklinkUtil {
 
 
     /**
-     * Get current time from pool.ntp.org. If lookup fails, returns local system time.
-     *
      * @return current zoned datetime
      */
     public static ZonedDateTime currentDateTime() {
         ZoneId helsinki = ZoneId.of("Europe/Helsinki");
-        String TIME_SERVER = "pool.ntp.org";
-
-        NTPUDPClient timeClient = new NTPUDPClient();
-
-        try {
-            timeClient.open();
-            InetAddress inetAddress = InetAddress.getByName(TIME_SERVER);
-            TimeInfo timeInfo = timeClient.getTime(inetAddress);
-
-            return timeInfo.getMessage()
-                    .getReceiveTimeStamp()
-                    .getDate()
-                    .toInstant()
-                    .atZone(helsinki)
-                    .truncatedTo(ChronoUnit.SECONDS);
-
-        } catch (IOException e) {
-            log.error("Failed to query time info from pool.ntp.org: ", e);
-            return ZonedDateTime.now(helsinki).truncatedTo(ChronoUnit.SECONDS);
-
-        } finally {
-            timeClient.close();
-        }
+        return ZonedDateTime.now(helsinki).truncatedTo(ChronoUnit.SECONDS);
     }
 
     /**
@@ -98,14 +71,12 @@ public class BanklinkUtil {
         return dateTime.substring(0, dateTime.lastIndexOf(":")) + dateTime.substring(dateTime.lastIndexOf(":") + 1, dateTime.length());
     }
 
-    // TODO: four methods, one goal
-
     public static LocalDateTime getCurrentTimestamp() {
         return ZonedDateTime.now(ZoneId.of("Europe/Helsinki")).toLocalDateTime();
     }
 
     public static LocalDate getCurrentDate() {
-        return ZonedDateTime.now(ZoneId.of("Europe/Helsinki")).toLocalDate();
+        return currentDateTime().toLocalDate();
     }
 
     /**

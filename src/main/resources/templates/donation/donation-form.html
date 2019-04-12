@@ -110,7 +110,7 @@
                                                    th:id="'prc' + ${boxStat.count}"
                                                    class="form-control box-input prc"
                                                    type="number"
-                                                   min="10" max="1000" step="5"/>
+                                                   min="10"/>
                                             <span th:if="${#fields.hasErrors('boxes[__${boxStat.index}__].duckPrice')}"
                                                   class="glyphicon glyphicon-remove form-control-feedback"></span>
                                         </div>
@@ -199,7 +199,7 @@
                                                    th:id="'prc' + ${boxStat.count}"
                                                    class="form-control box-input prc"
                                                    type="number"
-                                                   min="10" max="1000" step="5"/>
+                                                   min="10"/>
                                             <span th:if="${#fields.hasErrors('boxes[__${boxStat.index}__].duckPrice')}"
                                                   class="glyphicon glyphicon-remove form-control-feedback"></span>
                                         </div>

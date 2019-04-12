@@ -104,9 +104,9 @@
 
                                     <div class="input-group"
                                          th:classappend="${#fields.hasErrors('boxes[__${boxStat.index}__].duckPrice')} ? 'has-error has-feedback'">
-                                        <label class="col-xs-8 control-label main-box-form-label">Ühe pardi hind:</label>
+                                        <label class="col-xs-8 control-label main-box-form-label">Vali pardi hind:</label>
                                         <div class="col-xs-4 zero-right-padding">
-                                            <input th:field="*{boxes[__${boxStat.index}__].duckPrice}"
+                                            <input placeholder="10, 20, 50, ..."
                                                    th:id="'prc' + ${boxStat.count}"
                                                    class="form-control box-input prc"
                                                    type="number"
@@ -193,9 +193,9 @@
 
                                     <div class="input-group"
                                          th:classappend="${#fields.hasErrors('boxes[__${boxStat.index}__].duckPrice')} ? 'has-error has-feedback'">
-                                        <label class="col-xs-8 control-label main-box-form-label">Ühe pardi hind:</label>
+                                        <label class="col-xs-8 control-label main-box-form-label">Vali pardi hind:</label>
                                         <div class="col-xs-4 zero-right-padding">
-                                            <input th:field="*{boxes[__${boxStat.index}__].duckPrice}"
+                                            <input placeholder="10, 20, 50, ..."
                                                    th:id="'prc' + ${boxStat.count}"
                                                    class="form-control box-input prc"
                                                    type="number"

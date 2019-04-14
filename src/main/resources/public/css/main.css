@@ -380,6 +380,10 @@ label.main-box-form-label {
     color: #193a80;
 }
 
+label.info-label {
+   text-align: right;
+}
+
 div.terms-check-wrap {
     padding-left: 10px;
 }

@@ -512,7 +512,7 @@ label.invalid-accept-checkbox {
 
 @media (max-width: 425px) {
    label.info-label {
-      width: 90%;
+      width: 80%;
       font-size: 10px;
    }
 }

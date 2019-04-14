@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Entity
 public class Duck {
-    public static final Integer MINIMUM_PRICE = 10;
+    public static final Integer MINIMUM_PRICE = 1;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -110,7 +110,8 @@
                                                    th:id="'prc' + ${boxStat.count}"
                                                    class="form-control box-input prc"
                                                    type="number"
-                                                   min="1" max="1000" step="5"/>
+                                                   min="10" max="1000" step="5"/>
+                                             <label class='info-label'>Hind peab lõppema 0 või 5-ga</label>
                                             <span th:if="${#fields.hasErrors('boxes[__${boxStat.index}__].duckPrice')}"
                                                   class="glyphicon glyphicon-remove form-control-feedback"></span>
                                         </div>

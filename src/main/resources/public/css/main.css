@@ -510,6 +510,13 @@ label.invalid-accept-checkbox {
     }
 }
 
+@media (max-width: 425px) {
+   label.info-label {
+      width: 90%;
+      font-size: 10px;
+   }
+}
+
 .visible-xl-block,
 .visible-xl-inline,
 .visible-xl-inline-block,

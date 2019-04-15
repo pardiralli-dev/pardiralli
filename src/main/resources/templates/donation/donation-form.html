@@ -106,7 +106,8 @@
                                          th:classappend="${#fields.hasErrors('boxes[__${boxStat.index}__].duckPrice')} ? 'has-error has-feedback'">
                                         <label class="col-xs-8 control-label main-box-form-label">Vali pardi hind:</label>
                                         <div class="col-xs-4 zero-right-padding">
-                                            <input th:id="'prc' + ${boxStat.count}"
+                                            <input th:field="*{boxes[__${boxStat.index}__].duckPrice}"
+                                                   th:id="'prc' + ${boxStat.count}"
                                                    class="form-control box-input prc"
                                                    type="number"
                                                    min="10" max="1000" step="5"/>

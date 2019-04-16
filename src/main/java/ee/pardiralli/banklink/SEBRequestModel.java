@@ -17,7 +17,7 @@ public class SEBRequestModel extends RequestModel {
     private String VK_STAMP;
     private String VK_AMOUNT;
     private String VK_CURR = "EUR";
-    private String VK_ACC = "EE171010220252151221";
+    private String VK_ACC = "EE561010220267764221";
     private String VK_NAME = "EESTI VÄHIHAIGETE LASTE VANEMATE LIIT";
     private String VK_REF = "";
     private String VK_MSG;

@@ -19,7 +19,7 @@ public class NordeaRequestModel extends RequestModel {
     private String VK_CURR = "EUR";
     private String VK_ACC = "EE501700017004606286";
     private String VK_NAME = "EESTI VÄHIHAIGETE LASTE VANEMATE LIIT";
-    private String VK_REF = "";
+    private String VK_REF = "1032360190009";
     private String VK_MSG;
     private String VK_RETURN = String.format("https://pardiralli.ee/annetus/banklink/%s/success", Bank.nordea);
     private String VK_CANCEL = String.format("https://pardiralli.ee/annetus/banklink/%s/fail", Bank.nordea);

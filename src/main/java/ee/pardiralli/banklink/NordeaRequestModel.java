@@ -32,7 +32,7 @@ public class NordeaRequestModel extends RequestModel {
         this.VK_AMOUNT = amount;
         this.VK_STAMP = stamp;
         this.VK_MSG = paymentDescription;
-        this.VK_MAC = BanklinkUtil.getMAC("nordea-private.pem",
+        this.VK_MAC = BanklinkUtil.getMAC("nordea-private.der",
                 Arrays.asList(VK_SERVICE, VK_VERSION, VK_SND_ID, VK_STAMP, VK_AMOUNT, VK_CURR, VK_ACC, VK_NAME,
                         VK_REF, VK_MSG, VK_RETURN, VK_CANCEL, VK_DATETIME));
     }

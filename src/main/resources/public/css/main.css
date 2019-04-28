@@ -573,6 +573,10 @@ label.invalid-accept-checkbox {
         width: 25%;
     }
 
+    .col-xl-2-half {
+       width: 20%;
+    }
+
     .col-xl-2 {
         width: 16.66666667%;
     }

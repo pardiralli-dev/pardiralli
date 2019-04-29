@@ -6,6 +6,7 @@
     <meta charset="UTF-8"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Merriweather+Sans:300,400"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/sniglet.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/cabin.css}"/>
@@ -14,6 +15,9 @@
     <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/form-control.js}"></script>
     <script type="text/javascript" th:src="@{/js/counter_ajax.js}"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </head>
 <body>
 
@@ -105,12 +109,64 @@
                                     <div class="input-group"
                                          th:classappend="${#fields.hasErrors('boxes[__${boxStat.index}__].duckPrice')} ? 'has-error has-feedback'">
                                         <label class="col-xs-8 control-label main-box-form-label">Vali pardi hind:</label>
-                                        <div class="col-xs-4 zero-right-padding">
-                                            <input th:field="*{boxes[__${boxStat.index}__].duckPrice}"
-                                                   th:id="'prc' + ${boxStat.count}"
-                                                   class="form-control box-input prc"
-                                                   type="number"
-                                                   min="10" max="1000" step="5"/>
+                                        <div id="price-button-div" class="col-xs-4 zero-right-padding">
+                                            <!--<input th:field="*{boxes[__${boxStat.index}__].duckPrice}"-->
+                                            <!--th:id="'prc' + ${boxStat.count}"-->
+                                            <!--class="form-control box-input prc collapsed"-->
+                                            <!--type="number"-->
+                                            <!--min="10" max="1000" step="5"/>-->
+                                            <div class="btn-group">
+                                                <input  th:id="'prc' + ${boxStat.count}"
+                                                        th:field="*{boxes[__${boxStat.index}__].duckPrice}"
+                                                        type="button"
+                                                        class="box-input prc form-control price-button"
+                                                        data-toggle="collapse"
+                                                        data-target="#dropdown-menu-ul"
+                                                        aria-expanded="true"
+                                                        aria-controls="dropdown-menu-ul"
+                                                />
+                                                <ul id="dropdown-menu-ul"
+                                                    th:aria-labelledby="'prc' + ${boxStat.count}"
+                                                    th:data-parent="price-button-div"
+                                                    class="collapse scrollable-menu" role="menu"
+
+                                                >
+                                                    <li id="drop-down-10" th:onclick="'document.getElementById(\'prc\'' + ${boxStat.count} + ').value = document.getElementById(\'drop-down-10\').value;'"
+                                                        value="10" class="drop-down-element">10</li>
+                                                    <li id="drop-down-15" th:onclick="'document.getElementById(\'prc\'' + ${boxStat.count} + ').value = document.getElementById(\'drop-down-15\').value;'"
+                                                        value="15" class="drop-down-element">15</li>
+                                                    <li id="drop-down-20" th:onclick="'document.getElementById(\'prc\'' + ${boxStat.count} + ').value = document.getElementById(\'drop-down-20\').value;'"
+                                                        value="20" class="drop-down-element">20</li>
+                                                    <li id="drop-down-25" th:onclick="'document.getElementById(\'prc\'' + ${boxStat.count} + ').value = document.getElementById(\'drop-down-25\').value;'"
+                                                        value="25" class="drop-down-element">25</li>
+                                                    <li id="drop-down-50" th:onclick="'document.getElementById(\'prc\'' + ${boxStat.count} + ').value = document.getElementById(\'drop-down-50\').value;'"
+                                                        value="50" class="drop-down-element">50</li>
+                                                    <li id="drop-down-75" th:onclick="'document.getElementById(\'prc\'' + ${boxStat.count} + ').value = document.getElementById(\'drop-down-75\').value;'"
+                                                        value="75" class="drop-down-element">75</li>
+                                                    <li id="drop-down-100" th:onclick="'document.getElementById(\'prc\'' + ${boxStat.count} + ').value = document.getElementById(\'drop-down-100\').value;'"
+                                                        value="100" class="drop-down-element">100</li>
+                                                    <li id="drop-down-150" th:onclick="'document.getElementById(\'prc\'' + ${boxStat.count} + ').value = document.getElementById(\'drop-down-150\').value;'"
+                                                        value="150" class="drop-down-element">150</li>
+                                                    <li id="drop-down-200" th:onclick="'document.getElementById(\'prc\'' + ${boxStat.count} + ').value = document.getElementById(\'drop-down-200\').value;'"
+                                                        value="200" class="drop-down-element">200</li>
+                                                    <li id="drop-down-300" th:onclick="'document.getElementById(\'prc\'' + ${boxStat.count} + ').value = document.getElementById(\'drop-down-300\').value;'"
+                                                        value="300" class="drop-down-element">300</li>
+                                                    <li id="drop-down-400" th:onclick="'document.getElementById(\'prc\'' + ${boxStat.count} + ').value = document.getElementById(\'drop-down-400\').value;'"
+                                                        value="400" class="drop-down-element">400</li>
+                                                    <li id="drop-down-500" th:onclick="'document.getElementById(\'prc\'' + ${boxStat.count} + ').value = document.getElementById(\'drop-down-500\').value;'"
+                                                        value="500" class="drop-down-element">500</li>
+                                                    <li id="drop-down-600" th:onclick="'document.getElementById(\'prc\'' + ${boxStat.count} + ').value = document.getElementById(\'drop-down-600\').value;'"
+                                                        value="600" class="drop-down-element">600</li>
+                                                    <li id="drop-down-700" th:onclick="'document.getElementById(\'prc\'' + ${boxStat.count} + ').value = document.getElementById(\'drop-down-700\').value;'"
+                                                        value="700" class="drop-down-element">700</li>
+                                                    <li id="drop-down-800" th:onclick="'document.getElementById(\'prc\'' + ${boxStat.count} + ').value = document.getElementById(\'drop-down-800\').value;'"
+                                                        value="800" class="drop-down-element">800</li>
+                                                    <li id="drop-down-900" th:onclick="'document.getElementById(\'prc\'' + ${boxStat.count} + ').value = document.getElementById(\'drop-down-900\').value;'"
+                                                        value="900" class="drop-down-element">900</li>
+                                                    <li id="drop-down-1000" th:onclick="'document.getElementById(\'prc\'' + ${boxStat.count} + ').value = document.getElementById(\'drop-down-1000\').value;'"
+                                                        value="1000" class="drop-down-element">1000</li>
+                                                </ul>
+                                            </div>
                                             <span th:if="${#fields.hasErrors('boxes[__${boxStat.index}__].duckPrice')}"
                                                   class="glyphicon glyphicon-remove form-control-feedback"></span>
                                         </div>
@@ -200,6 +256,50 @@
                                                    class="form-control box-input prc"
                                                    type="number"
                                                    min="10" max="1000" step="5"/>
+                                            <!--<div class="btn-group">-->
+                                            <!--<input  th:id="'prc' + ${boxStat.count}"-->
+                                            <!--th:field="*{boxes[__${boxStat.index}__].duckPrice}"-->
+                                            <!--type="button"-->
+                                            <!--class="box-input prc form-control price-button"-->
+                                            <!--data-toggle="dropdown"-->
+                                            <!--&gt;-->
+                                            <!-- <ul class="dropdown-menu scrollable-menu" role="menu">-->
+                                            <!--<li id="drop-down-10-right" th:onclick="'document.getElementById(\'prc\'' + ${boxStat.count} + ').value = document.getElementById(\'drop-down-10-right\').value;'"-->
+                                            <!--value="10" class="drop-down-element">10</li>-->
+                                            <!--<li id="drop-down-15-right" th:onclick="'document.getElementById(\'prc\'' + ${boxStat.count} + ').value = document.getElementById(\'drop-down-15-right\').value;'"-->
+                                            <!--value="15" class="drop-down-element">15</li>-->
+                                            <!--<li id="drop-down-20-right" th:onclick="'document.getElementById(\'prc\'' + ${boxStat.count} + ').value = document.getElementById(\'drop-down-20-right\').value;'"-->
+                                            <!--value="20" class="drop-down-element">20</li>-->
+                                            <!--<li id="drop-down-25-right" th:onclick="'document.getElementById(\'prc\'' + ${boxStat.count} + ').value = document.getElementById(\'drop-down-25-right\').value;'"-->
+                                            <!--value="25" class="drop-down-element">25</li>-->
+                                            <!--<li id="drop-down-50-right" th:onclick="'document.getElementById(\'prc\'' + ${boxStat.count} + ').value = document.getElementById(\'drop-down-50-right\').value;'"-->
+                                            <!--value="50" class="drop-down-element">50</li>-->
+                                            <!--<li id="drop-down-75-right" th:onclick="'document.getElementById(\'prc\'' + ${boxStat.count} + ').value = document.getElementById(\'drop-down-75-right\').value;'"-->
+                                            <!--value="75" class="drop-down-element">75</li>-->
+                                            <!--<li id="drop-down-100-right" th:onclick="'document.getElementById(\'prc\'' + ${boxStat.count} + ').value = document.getElementById(\'drop-down-100-right\').value;'"-->
+                                            <!--value="100" class="drop-down-element">100</li>-->
+                                            <!--<li id="drop-down-150-right" th:onclick="'document.getElementById(\'prc\'' + ${boxStat.count} + ').value = document.getElementById(\'drop-down-150-right\').value;'"-->
+                                            <!--value="150" class="drop-down-element">150</li>-->
+                                            <!--<li id="drop-down-200-right" th:onclick="'document.getElementById(\'prc\'' + ${boxStat.count} + ').value = document.getElementById(\'drop-down-200-right\').value;'"-->
+                                            <!--value="200" class="drop-down-element">200</li>-->
+                                            <!--<li id="drop-down-300-right" th:onclick="'document.getElementById(\'prc\'' + ${boxStat.count} + ').value = document.getElementById(\'drop-down-300-right\').value;'"-->
+                                            <!--value="300" class="drop-down-element">300</li>-->
+                                            <!--<li id="drop-down-400-right" th:onclick="'document.getElementById(\'prc\'' + ${boxStat.count} + ').value = document.getElementById(\'drop-down-400-right\').value;'"-->
+                                            <!--value="400" class="drop-down-element">400</li>-->
+                                            <!--<li id="drop-down-500-right" th:onclick="'document.getElementById(\'prc\'' + ${boxStat.count} + ').value = document.getElementById(\'drop-down-500-right\').value;'"-->
+                                            <!--value="500" class="drop-down-element">500</li>-->
+                                            <!--<li id="drop-down-600-right" th:onclick="'document.getElementById(\'prc\'' + ${boxStat.count} + ').value = document.getElementById(\'drop-down-600-right\').value;'"-->
+                                            <!--value="600" class="drop-down-element">600</li>-->
+                                            <!--<li id="drop-down-700-right" th:onclick="'document.getElementById(\'prc\'' + ${boxStat.count} + ').value = document.getElementById(\'drop-down-700-right\').value;'"-->
+                                            <!--value="700" class="drop-down-element">700</li>-->
+                                            <!--<li id="drop-down-800-right" th:onclick="'document.getElementById(\'prc\'' + ${boxStat.count} + ').value = document.getElementById(\'drop-down-800-right\').value;'"-->
+                                            <!--value="800" class="drop-down-element">800</li>-->
+                                            <!--<li id="drop-down-900-right" th:onclick="'document.getElementById(\'prc\'' + ${boxStat.count} + ').value = document.getElementById(\'drop-down-900-right\').value;'"-->
+                                            <!--value="900" class="drop-down-element">900</li>-->
+                                            <!--<li id="drop-down-1000-right" th:onclick="'document.getElementById(\'prc\'' + ${boxStat.count} + ').value = document.getElementById(\'drop-down-1000-right\').value;'"-->
+                                            <!--value="1000" class="drop-down-element">1000</li>-->
+                                            <!--</ul> -->
+                                            <!--</div>-->
                                             <span th:if="${#fields.hasErrors('boxes[__${boxStat.index}__].duckPrice')}"
                                                   class="glyphicon glyphicon-remove form-control-feedback"></span>
                                         </div>

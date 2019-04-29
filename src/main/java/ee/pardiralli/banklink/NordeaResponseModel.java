@@ -46,7 +46,7 @@ public class NordeaResponseModel extends ResponseModel {
         this.paymentOrderReferenceNo = params.get("VK_REF");
         this.paymentOrderMessage = params.get("VK_MSG");
         this.signature = params.get("VK_MAC");
-        this.encoding = params.get("VK_CHARSET");
+        this.encoding = params.get("VK_ENCODING");
         this.language = params.get("VK_LANG");
         this.automaticResponse = params.get("VK_AUTO");
     }

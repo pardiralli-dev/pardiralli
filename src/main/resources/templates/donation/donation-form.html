@@ -106,13 +106,12 @@
                                          th:classappend="${#fields.hasErrors('boxes[__${boxStat.index}__].duckPrice')} ? 'has-error has-feedback'">
                                         <label class="col-xs-8 control-label main-box-form-label">Vali pardi hind:</label>
                                         <div class="col-xs-4 zero-right-padding">
-                                            <select th:field="*{boxes[__${boxStat.index}__].duckPrice}"
-                                                    th:id="'prc' + ${boxStat.count}"
+                                            <select th:id="'prc' + ${boxStat.count}"
+                                                    th:name="*{boxes[__${boxStat.index}__].duckPrice}"
                                                     class="form-control box-input prc"
                                                     aria-label="Pardi hind"
-                                                    autocomplete="off"
                                             >
-                                                <option selected value="10"> </option>
+                                                <option selected value="10"></option>
                                                 <option value="10">10</option>
                                                 <option value="15">15</option>
                                                 <option value="20">20</option>
@@ -215,13 +214,12 @@
                                          th:classappend="${#fields.hasErrors('boxes[__${boxStat.index}__].duckPrice')} ? 'has-error has-feedback'">
                                         <label class="col-xs-8 control-label main-box-form-label">Vali pardi hind:</label>
                                         <div class="col-xs-4 zero-right-padding">
-                                            <select th:field="*{boxes[__${boxStat.index}__].duckPrice}"
-                                                    th:id="'prc' + ${boxStat.count}"
+                                            <select th:id="'prc' + ${boxStat.count}"
+                                                    th:name="*{boxes[__${boxStat.index}__].duckPrice}"
                                                     class="form-control box-input prc"
                                                     aria-label="Pardi hind"
-                                                    autocomplete="off"
                                             >
-                                                <option selected value="10"> </option>
+                                                <option selected value="10"></option>
                                                 <option value="10">10</option>
                                                 <option value="15">15</option>
                                                 <option value="20">20</option>

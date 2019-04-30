@@ -37,7 +37,7 @@
         <div th:replace="fragments/feedback :: feedback-messages (feedbackList=${feedbackList})"></div>
 
         <!--/*@thymesVar id="donation" type="ee.pardiralli.dto.DonationFormDTO"*/-->
-        <form action="#" th:action="@{/}" th:object="${donation}" method="post" class="form-horizontal">
+        <form action="#" th:action="@{/}" th:object="${donation}" method="post" class="form-horizontal" autocomplete="off">
 
             <!--/* donation box */-->
             <div th:each="box, boxStat : *{boxes}">
@@ -111,7 +111,7 @@
                                                     class="form-control box-input prc"
                                                     aria-label="Pardi hind"
                                             >
-                                                <option value="10"> </option>
+                                                <option selected value="10"> </option>
                                                 <option value="10">10</option>
                                                 <option value="15">15</option>
                                                 <option value="20">20</option>
@@ -219,7 +219,7 @@
                                                     class="form-control box-input prc"
                                                     aria-label="Pardi hind"
                                             >
-                                                <option value="10"> </option>
+                                                <option selected value="10"> </option>
                                                 <option value="10">10</option>
                                                 <option value="15">15</option>
                                                 <option value="20">20</option>

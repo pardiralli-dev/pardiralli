@@ -96,6 +96,9 @@ public class BankResponseController {
             case nordea:
                 model = new NordeaResponseModel(params);
                 break;
+            case coop:
+                model = new CoopResponseModel(params);
+                break;
             default:
                 throw new AssertionError("Illegal bank value");
         }

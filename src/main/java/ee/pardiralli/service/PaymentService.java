@@ -99,6 +99,9 @@ public class PaymentService {
             case nordea:
                 checkRecipientID(responseModel, NordeaRequestModel.senderID);
                 break;
+            case coop:
+                checkRecipientID(responseModel, CoopRequestModel.senderID);
+                break;
             case seb:
                 checkRecipientID(responseModel, SEBRequestModel.senderID);
                 break;

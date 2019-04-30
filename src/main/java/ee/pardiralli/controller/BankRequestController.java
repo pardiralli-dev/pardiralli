@@ -53,6 +53,8 @@ public class BankRequestController {
                 return "banklink/seb_payment_form";
             case nordea:
                 return "banklink/nordea_payment_form";
+            case coop:
+                return "banklink/coop_payment_form";
             default:
                 log.error("Illegal bank value");
                 throw new IllegalArgumentException("bank: " + bank);
@@ -72,6 +74,8 @@ public class BankRequestController {
                 return new SEBRequestModel(amount, stamp, description);
             case nordea:
                 return new NordeaRequestModel(amount, stamp, description);
+            case coop:
+                return new CoopRequestModel(amount, stamp, description);
             default:
                 log.error("Illegal bank value");
                 throw new IllegalArgumentException("bank: " + bank);

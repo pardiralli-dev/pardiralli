@@ -8,8 +8,8 @@ import java.util.Arrays;
 
 @Getter
 @Setter
-public class NordeaRequestModel extends RequestModel {
-    public static final String senderID = "80096899A";
+public class CoopRequestModel extends RequestModel {
+    public static final String senderID = "evlvl";
 
     private String VK_SERVICE = "1011";
     private String VK_VERSION = "008";
@@ -17,22 +17,22 @@ public class NordeaRequestModel extends RequestModel {
     private String VK_STAMP;
     private String VK_AMOUNT;
     private String VK_CURR = "EUR";
-    private String VK_ACC = "EE501700017004606286";
+    private String VK_ACC = "EE294204278609755209";
     private String VK_NAME = "EESTI VÄHIHAIGETE LASTE VANEMATE LIIT";
-    private String VK_REF = "1032360190009";
+    private String VK_REF = "";
     private String VK_MSG;
-    private String VK_RETURN = String.format("https://pardiralli.ee/annetus/banklink/%s/success", Bank.nordea);
-    private String VK_CANCEL = String.format("https://pardiralli.ee/annetus/banklink/%s/fail", Bank.nordea);
+    private String VK_RETURN = String.format("https://www.pardiralli.ee/annetus/banklink/%s/success", Bank.coop);
+    private String VK_CANCEL = String.format("https://www.pardiralli.ee/annetus/banklink/%s/fail", Bank.coop);
     private String VK_DATETIME = BanklinkUtil.currentDateTimeAsString();
     private String VK_MAC;
     private String VK_ENCODING = "UTF-8";
     private String VK_LANG = "EST";
 
-    public NordeaRequestModel(String amount, String stamp, String paymentDescription) {
+    public CoopRequestModel(String amount, String stamp, String paymentDescription) {
         this.VK_AMOUNT = amount;
         this.VK_STAMP = stamp;
         this.VK_MSG = paymentDescription;
-        this.VK_MAC = BanklinkUtil.getMAC("nordea-private.der",
+        this.VK_MAC = BanklinkUtil.getMAC("coop-private.der",
                 Arrays.asList(VK_SERVICE, VK_VERSION, VK_SND_ID, VK_STAMP, VK_AMOUNT, VK_CURR, VK_ACC, VK_NAME,
                         VK_REF, VK_MSG, VK_RETURN, VK_CANCEL, VK_DATETIME));
     }

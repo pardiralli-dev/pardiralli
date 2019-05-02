@@ -118,8 +118,8 @@
                                             >
                                                 <option th:selected="true" value="10"></option>
                                                 <option value="10">10</option>
-                                                <option value="15" th:onclick="*{boxes[__${boxStat.index}__].duckPrice = 15}">15</option>
-                                                <option value="20" th:onclick="*{boxes[__${boxStat.index}__].duckPrice = 20}">20</option>
+                                                <option value="15" th:onclick="boxes[__${boxStat.index}__].setDuckPrice(15)">15</option>
+                                                <option value="20" th:onclick="boxes[__${boxStat.index}__].duckPrice = 20">20</option>
                                                 <option value="25" th:onclick="*{boxes[__${boxStat.index}__].duckPrice = 25}">25</option>
                                                 <option value="50" th:onclick="*{boxes[__${boxStat.index}__].duckPrice = 50}">50</option>
                                                 <option value="75" th:onclick="*{boxes[__${boxStat.index}__].duckPrice = 75}">75</option>

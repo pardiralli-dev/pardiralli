@@ -774,36 +774,8 @@ label.invalid-accept-checkbox {
     }
 }
 
-
-.scrollable-menu {
-    height: auto;
-    max-height: 120px;
-    overflow-x: hidden;
-}
-
-.drop-down-element {
-    padding-left: 1em;
-    cursor: pointer;
-}
-
-.dropdown-menu, .drop-down-element {
-    width: 5em !important;
-    min-width: unset !important;
-}
-
-.drop-down-element:hover,
-.drop-down-element:active,
-.drop-down-element:focus {
-    background-color: #ffd63a;
-}
-
-.price-button {
-    margin-left: 0.3em;
-    width: 5em;
-    background-color: white;
-    border-radius: 0;
-    display: unset;
-    text-align: left;
+.priceSelection {
+    margin-top: -1.7em
 }
 
 /* XL SCREEN SIZE END */

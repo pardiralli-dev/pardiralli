@@ -37,8 +37,4 @@ public class DonationBoxDTO {
         this.duckQuantity = 1;
         this.duckPrice = Duck.MINIMUM_PRICE;
     }
-
-    public void setDuckPrice(int price) {
-        this.duckPrice = price;
-    }
 }

@@ -30,11 +30,11 @@ public class DonationBoxDTO {
     private Integer duckQuantity;
 
     @NotNull
-    @Min(10) // Duck.MINIMUM_PRICE
+    // @Min(10) // Duck.MINIMUM_PRICE
     private Integer duckPrice;
 
     public DonationBoxDTO() {
         this.duckQuantity = 1;
-        this.duckPrice = Duck.MINIMUM_PRICE;
+        // this.duckPrice = Duck.MINIMUM_PRICE;
     }
 }

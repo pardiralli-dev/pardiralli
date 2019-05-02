@@ -107,6 +107,8 @@
                                          th:classappend="${#fields.hasErrors('boxes[__${boxStat.index}__].duckPrice')} ? 'has-error has-feedback'">
                                         <label class="col-xs-8 control-label main-box-form-label">Vali pardi hind:</label>
                                         <div class="col-xs-4 zero-right-padding">
+                                            <!-- DO NOT REMOVE THIS INPUT -->
+                                            <!-- THIS IS A HIDDEN INPUT FIELD TO FETCH DROPDOWN MENU'S VALUE -->
                                             <input th:field="*{boxes[__${boxStat.index}__].duckPrice}"
                                                     id="hiddenInput"
                                                     style="visibility: hidden;"

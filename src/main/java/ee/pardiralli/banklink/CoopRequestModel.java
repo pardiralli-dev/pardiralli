@@ -9,7 +9,7 @@ import java.util.Arrays;
 @Getter
 @Setter
 public class CoopRequestModel extends RequestModel {
-    public static final String senderID = "evlvl";
+    public static final String senderID = "VAHILAPSED";
 
     private String VK_SERVICE = "1011";
     private String VK_VERSION = "008";

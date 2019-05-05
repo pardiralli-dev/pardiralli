@@ -94,7 +94,6 @@
                                             <input th:field="*{boxes[__${boxStat.index}__].duckQuantity}"
                                                    th:id="'qty' + ${boxStat.count}"
                                                    class="form-control box-input qty"
-                                                   style="border-radius: 5px;"
                                                    type="number"
                                                    min="1" max="1000"
                                                    placeholder="1"/>
@@ -107,40 +106,16 @@
                                          th:classappend="${#fields.hasErrors('boxes[__${boxStat.index}__].duckPrice')} ? 'has-error has-feedback'">
                                         <label class="col-xs-8 control-label main-box-form-label">Vali pardi hind:</label>
                                         <div class="col-xs-4 zero-right-padding">
-                                            <!-- DO NOT REMOVE THIS INPUT -->
-                                            <!-- THIS IS A HIDDEN INPUT FIELD TO FETCH DROPDOWN MENU'S VALUE -->
                                             <input th:field="*{boxes[__${boxStat.index}__].duckPrice}"
-                                                    id="hiddenInput"
-                                                    style="visibility: hidden;"
-                                            />
-                                            <select class="form-control box-input prc priceSelection"
-                                                    id="selectedPrice"
-                                                   aria-label="Pardi hind"
-                                                   onchange="document.getElementById('hiddenInput').value = document.getElementById('selectedPrice').value;"
-                                            >
-                                                <option selected disabled value="10"></option>
-                                                <option value="10">10</option>
-                                                <option value="15">15</option>
-                                                <option value="20">20</option>
-                                                <option value="25">25</option>
-                                                <option value="50">50</option>
-                                                <option value="75">75</option>
-                                                <option value="100">100</option>
-                                                <option value="150">150</option>
-                                                <option value="200">200</option>
-                                                <option value="300">300</option>
-                                                <option value="400">400</option>
-                                                <option value="500">500</option>
-                                                <option value="600">600</option>
-                                                <option value="700">700</option>
-                                                <option value="800">800</option>
-                                                <option value="900">900</option>
-                                                <option value="1000">1000</option>
-                                            </select>
+                                                   th:id="'prc' + ${boxStat.count}"
+                                                   class="form-control box-input prc"
+                                                   type="number"
+                                                   min="10" max="1000" step="5"/>
                                             <span th:if="${#fields.hasErrors('boxes[__${boxStat.index}__].duckPrice')}"
                                                   class="glyphicon glyphicon-remove form-control-feedback"></span>
                                         </div>
                                     </div>
+                                    <label class='info-label'>Pardi hinna sisestamisel arvesta, et seda saab teha 5€ sammuga - 10, 15...30, 35...100, 105 € jne. </br>Pardi hind algab 10 €.</label>
                                 </div>
                             </div>
                         </div>
@@ -221,37 +196,15 @@
                                         <label class="col-xs-8 control-label main-box-form-label">Vali pardi hind:</label>
                                         <div class="col-xs-4 zero-right-padding">
                                             <input th:field="*{boxes[__${boxStat.index}__].duckPrice}"
-                                                    id="hiddenInput2"
-                                                    style="visibility: hidden;"
-                                            />
-                                            <select class="form-control box-input prc priceSelection"
-                                                    id="selectedPrice2"
-                                                   aria-label="Pardi hind"
-                                                   onchange="document.getElementById('hiddenInput2').value = document.getElementById('selectedPrice2').value;"
-                                            >
-                                                <option selected value="10"></option>
-                                                <option value="10">10</option>
-                                                <option value="15">15</option>
-                                                <option value="20">20</option>
-                                                <option value="25">25</option>
-                                                <option value="50">50</option>
-                                                <option value="75">75</option>
-                                                <option value="100">100</option>
-                                                <option value="150">150</option>
-                                                <option value="200">200</option>
-                                                <option value="300">300</option>
-                                                <option value="400">400</option>
-                                                <option value="500">500</option>
-                                                <option value="600">600</option>
-                                                <option value="700">700</option>
-                                                <option value="800">800</option>
-                                                <option value="900">900</option>
-                                                <option value="1000">1000</option>
-                                            </select>
+                                                   th:id="'prc' + ${boxStat.count}"
+                                                   class="form-control box-input prc"
+                                                   type="number"
+                                                   min="10" max="1000" step="5"/>
                                             <span th:if="${#fields.hasErrors('boxes[__${boxStat.index}__].duckPrice')}"
                                                   class="glyphicon glyphicon-remove form-control-feedback"></span>
                                         </div>
                                     </div>
+                                    <label class='info-label'>Pardi hinna sisestamisel arvesta, et seda saab teha 5€ sammuga - 10, 15...30, 35...100, 105 € jne. </br>Pardi hind algab 10 €.</label>
                                 </div>
                             </div>
                         </div>

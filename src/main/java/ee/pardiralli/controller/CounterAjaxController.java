@@ -18,7 +18,7 @@ public class CounterAjaxController {
     @GetMapping("/counter_ajax")
     @CrossOrigin
     public CounterDTO getDuckCount() {
-        return counterService.queryCounter();
+      //   return counterService.queryCounter();
     }
 
 }

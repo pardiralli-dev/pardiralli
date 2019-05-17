@@ -1,6 +1,6 @@
 var counter = 0;//set this to what ever you want the start # to be
 // var ducks = data.duckCount;
-	countUP();//call the function once	
+	// countUP();//call the function once	
 	function countUP () {
       counter++;//increment the counter by 1
       if (counter < 4705) {

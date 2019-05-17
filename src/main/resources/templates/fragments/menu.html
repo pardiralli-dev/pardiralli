@@ -8,6 +8,14 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
     <script src="//cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.3/waypoints.min.js"></script>
     <script src="jquery.counterup.min.js"></script>
+    <script>
+    jQuery(document).ready(function($) {
+      $('.counter').counterUp({
+          delay: 10,
+          time: 1000
+      });
+   });
+   </script>
 </head>
 <body>
 <div class="container">

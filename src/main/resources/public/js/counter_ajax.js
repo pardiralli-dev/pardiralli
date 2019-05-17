@@ -4,6 +4,6 @@ var counter = 0;//set this to what ever you want the start # to be
 	function countUP () {
 		counter++;//increment the counter by 1
       setTimeout ( "countUP()", 1000 );//runs itsself after 1000 miliseconds	
-      jQuery( ".counter" ).append( "<p>"+ counter +"</p>" );
+      jQuery( ".counter" ).val(counter);
 		console.log(counter);
 	}

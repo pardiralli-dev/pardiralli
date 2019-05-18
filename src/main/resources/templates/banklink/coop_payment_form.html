@@ -10,7 +10,7 @@
 
 <p>Panka suunamine...</p>
 
-<form id="requestform" action="#" th:action="@{https://i.cooppank.ee/pay}" th:object="${request_model}"
+<form id="requestform" action="#" th:action="@{https://secure.cooppank.ee/pay}" th:object="${request_model}"
       method="post" style="display: none">
 
     <input type="text" th:field="*{VK_SERVICE}" />
